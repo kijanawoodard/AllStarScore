@@ -10,7 +10,6 @@ using AllStarScore.Admin.Controllers;
 using AllStarScore.Admin.Models;
 using Raven.Abstractions.Data;
 using Raven.Client.Document;
-using StackExchange.Profiling;
 
 namespace AllStarScore.Admin
 {
