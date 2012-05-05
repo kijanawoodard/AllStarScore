@@ -29,7 +29,9 @@ namespace AllStarScore.Admin.Controllers
         {
             if (ModelState.IsValid)
             {
-                if (Membership.ValidateUser(model.UserName, model.Password))
+                var user = RavenSession.Query<User>().FirstOrDefault(u => u.UserName == model.UserName);
+
+                if (user != null && user.ValidatePassword(model.Password))
                 {
                     FormsAuthentication.SetAuthCookie(model.UserName, model.RememberMe);
                     return Json(new { success = true, redirect = returnUrl });

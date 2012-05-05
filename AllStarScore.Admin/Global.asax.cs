@@ -10,6 +10,7 @@ using AllStarScore.Admin.Controllers;
 using AllStarScore.Admin.Models;
 using Raven.Abstractions.Data;
 using Raven.Client.Document;
+using StackExchange.Profiling;
 
 namespace AllStarScore.Admin
 {
@@ -59,6 +60,8 @@ namespace AllStarScore.Admin
                 Url = parser.ConnectionStringOptions.Url,
             }.Initialize();
 
+            Raven.Client.MvcIntegration.RavenProfiler.InitializeFor(RavenController.DocumentStore);
+        
             //RavenController.DocumentStore.Conventions.IdentityPartsSeparator = "-";
             HackSecurity();
         }
