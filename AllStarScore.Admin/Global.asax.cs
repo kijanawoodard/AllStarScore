@@ -6,6 +6,10 @@ using System.Web.Http;
 using System.Web.Mvc;
 using System.Web.Optimization;
 using System.Web.Routing;
+using AllStarScore.Admin.Controllers;
+using AllStarScore.Admin.Models;
+using Raven.Abstractions.Data;
+using Raven.Client.Document;
 
 namespace AllStarScore.Admin
 {
@@ -17,6 +21,7 @@ namespace AllStarScore.Admin
         public static void RegisterGlobalFilters(GlobalFilterCollection filters)
         {
             filters.Add(new HandleErrorAttribute());
+            filters.Add(new System.Web.Mvc.AuthorizeAttribute());
         }
 
         public static void RegisterRoutes(RouteCollection routes)
@@ -44,6 +49,35 @@ namespace AllStarScore.Admin
             RegisterRoutes(RouteTable.Routes);
 
             BundleTable.Bundles.RegisterTemplateBundles();
+
+            var parser = ConnectionStringParser<RavenConnectionStringOptions>.FromConnectionStringName("RavenDB");
+            parser.Parse();
+
+            RavenController.DocumentStore = new DocumentStore()
+            {
+                ApiKey = parser.ConnectionStringOptions.ApiKey,
+                Url = parser.ConnectionStringOptions.Url,
+            }.Initialize();
+
+            //RavenController.DocumentStore.Conventions.IdentityPartsSeparator = "-";
+            HackSecurity();
+        }
+
+        //TODO: come up with something better and remove this
+        private void HackSecurity()
+        {
+            var session = RavenController.DocumentStore.OpenSession();
+            if (!session.Query<User>().Any())
+            {
+                var admin = new User();
+                admin.Email = "admin@wyldeye.com";
+                admin.UserName = "administrator";
+                admin.Enabled = true;
+                admin.SetPassword("hello");
+
+                session.Store(admin);
+                session.SaveChanges();
+            }            
         }
     }
 }
