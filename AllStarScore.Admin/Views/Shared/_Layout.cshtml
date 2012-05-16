@@ -10,9 +10,6 @@
         <meta name="viewport" content="width=device-width" />
     </head>
     <body>
-        
-        @Raven.Client.MvcIntegration.RavenProfiler.CurrentRequestSessions()
-
         <header>
             <div class="content-wrapper">
                 <div class="float-left">
@@ -27,6 +24,7 @@
                             <li>@Html.ActionLink("Home", "Index", "Home")</li>
                             <li>@Html.ActionLink("About", "About", "Home")</li>
                             <li>@Html.ActionLink("Contact", "Contact", "Home")</li>
+                            <li>@Html.ActionLink("Competitions", "Index", "Competition")</li>
                         </ul>
                     </nav>
                 </div>
@@ -51,5 +49,7 @@
                 </div>
             </div>
         </footer>
+        @Raven.Client.MvcIntegration.RavenProfiler.CurrentRequestSessions()
+
     </body>
 </html>
