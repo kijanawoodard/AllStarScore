@@ -1,0 +1,54 @@
+﻿@model AllStarScore.Admin.ViewModels.CompetitionCreateInputModel
+
+@*<script src="@Url.Content("~/Scripts/jquery-1.6.2.min.js")"></script>*@
+@*<script src="@Url.Content("~/Scripts/jquery.validate.min.js")"></script>*@
+@*<script src="@Url.Content("~/Scripts/jquery.validate.unobtrusive.min.js")"></script>*@
+@*<script src="http://ajax.aspnetcdn.com/ajax/mvc/3.0/jquery.validate.unobtrusive.min.js" type="text/javascript"></script>*@
+
+@using (Html.BeginForm()) {
+    @Html.ValidationSummary(true)
+
+    <fieldset>
+        <legend>CompetitionCreateInputModel</legend>
+
+        <div class="editor-label">
+            @Html.LabelFor(model => model.Name)
+        </div>
+        <div class="editor-field">
+            @Html.EditorFor(model => model.Name)
+            @Html.ValidationMessageFor(model => model.Name)
+        </div>
+
+        <div class="editor-label">
+            @Html.LabelFor(model => model.Description)
+        </div>
+        <div class="editor-field">
+            @Html.EditorFor(model => model.Description)
+            @Html.ValidationMessageFor(model => model.Description)
+        </div>
+
+        <div class="editor-label">
+            @Html.LabelFor(model => model.FirstDay)
+        </div>
+        <div class="editor-field">
+            @Html.EditorFor(model => model.FirstDay)
+            @Html.ValidationMessageFor(model => model.FirstDay)
+        </div>
+
+        <div class="editor-label">
+            @Html.LabelFor(model => model.LastDay)
+        </div>
+        <div class="editor-field">
+            @Html.EditorFor(model => model.LastDay, new {@class="date"})
+            @Html.ValidationMessageFor(model => model.LastDay)
+        </div>
+
+        <p>
+            <input type="submit" value="Create" />
+        </p>
+    </fieldset>
+}
+
+<div>
+    @Html.ActionLink("Back to List", "Index")
+</div>

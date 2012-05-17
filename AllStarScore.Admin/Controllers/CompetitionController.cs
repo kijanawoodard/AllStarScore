@@ -10,9 +10,6 @@ namespace AllStarScore.Admin.Controllers
 {
     public class CompetitionController : RavenController
     {
-        //
-        // GET: /Competition/
-
         public ActionResult Index()
         {
             return View();
@@ -24,30 +21,23 @@ namespace AllStarScore.Admin.Controllers
             var competitions = RavenSession.Query<Competition>()
                                 .ToList();
 
-            var model = new CompetitionList(competitions);
+            var model = new CompetitionListViewModel(competitions);
             return PartialView(model);
         }
-        //
-        // GET: /Competition/Details/5
 
         public ActionResult Details(int id)
         {
             return View();
         }
 
-        //
-        // GET: /Competition/Create
-
         public ActionResult Create()
         {
-            return View();
+            var model = new CompetitionCreateInputModel();
+            return PartialView(model);
         }
 
-        //
-        // POST: /Competition/Create
-
         [HttpPost]
-        public ActionResult Create(FormCollection collection)
+        public ActionResult Create(CompetitionCreateInputModel input)
         {
             try
             {
@@ -57,7 +47,7 @@ namespace AllStarScore.Admin.Controllers
             }
             catch
             {
-                return View();
+                return View(input);
             }
         }
 

@@ -7,9 +7,9 @@ using AllStarScore.Admin.Models;
 
 namespace AllStarScore.Admin.ViewModels
 {
-    public class CompetitionList
+    public class CompetitionListViewModel
     {
-        public CompetitionList(List<Competition> competitions)
+        public CompetitionListViewModel(List<Competition> competitions)
         {
             Upcoming = competitions.Where(c => c.FirstDay >= DateTime.Today);
             Past = competitions.Except(Upcoming);
