@@ -1,10 +1,5 @@
 ﻿@model AllStarScore.Admin.ViewModels.CompetitionCreateInputModel
 
-@*<script src="@Url.Content("~/Scripts/jquery-1.6.2.min.js")"></script>*@
-@*<script src="@Url.Content("~/Scripts/jquery.validate.min.js")"></script>*@
-@*<script src="@Url.Content("~/Scripts/jquery.validate.unobtrusive.min.js")"></script>*@
-@*<script src="http://ajax.aspnetcdn.com/ajax/mvc/3.0/jquery.validate.unobtrusive.min.js" type="text/javascript"></script>*@
-
 @using (Html.BeginForm()) {
     @Html.ValidationSummary(true)
 
@@ -45,10 +40,7 @@
 
         <p>
             <input type="submit" value="Create" />
+            @Html.ActionLink("Cancel", "Index", "Competition", new {@class = "cancel"})
         </p>
     </fieldset>
 }
-
-<div>
-    @Html.ActionLink("Back to List", "Index")
-</div>

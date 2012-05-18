@@ -1,22 +1,52 @@
-﻿var onSuccess = function (el) {
-    // enable unobtrusive validation for the contents
-    // that was injected into the <div id="create"></div> node
-    $.validator.unobtrusive.parse(el.find('form'));
-    el.find('.datepicker').datepicker();
+﻿$(document).ready(function () {
+    $('#createlink').ajaxLinkInto('#create', '/create/form/loaded');
+    $.subscribe("/form/loaded", validateForm);
+    $.subscribe("/create/form/loaded", competitionCreateFirstBeforeLast);
+
+    $('#create a.cancel').live('click', function (event) {
+        event.preventDefault();
+        $('#create').empty();
+    });
+});
+
+function competitionCreateFirstBeforeLast(event, target) {
+    firstBeforeLast(target, '#FirstDay', '#LastDay');
+}
+
+function firstBeforeLast(target, first, last) {
+    $(first).datepicker({
+        numberOfMonths: 2,
+        onSelect: function (selected) {
+            $(last).datepicker("option", "minDate", selected);
+        }
+    });
+    $(last).datepicker({
+        numberOfMonths: 2,
+        onSelect: function (selected) {
+            $(first).datepicker("option", "maxDate", selected);
+        }
+    });
 };
 
-$(document).ready(function () {
-    $('#createlink').click(function (event) {
+function validateForm(event, target) {
+    $.validator.unobtrusive.parse($(target).find('form'));
+}
+
+
+$.fn.ajaxLinkInto = function (target, topic) {
+    this.click(function (event) {
         event.preventDefault();
         $.ajax({
             url: this.href,
             type: 'get',
             success: function (result) {
-                var el = $('#create');
-                el.html(result);
-                onSuccess(el);
+                $(target).html(result);
+                
+                $.publish('/form/loaded', target);
+                if (topic)
+                    $.publish(topic, target);
             }
         });
         return false;
     });
-});
+};
