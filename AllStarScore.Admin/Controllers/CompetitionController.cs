@@ -1,8 +1,10 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Globalization;
 using System.Linq;
 using System.Web;
 using System.Web.Mvc;
+using AllStarScore.Admin.Infrastructure.AutoMapper;
 using AllStarScore.Admin.Models;
 using AllStarScore.Admin.ViewModels;
 
@@ -15,10 +17,15 @@ namespace AllStarScore.Admin.Controllers
             return View();
         }
 
-        [ChildActionOnly]
+        public ActionResult ListHarness()
+        {
+            return PartialView();
+        }
         public ActionResult List()
         {
-            var competitions = RavenSession.Query<Competition>()
+            var competitions = RavenSession
+                                .Query<Competition>()
+                                .Customize(x => x.WaitForNonStaleResults(TimeSpan.FromSeconds(5)))
                                 .ToList();
 
             var model = new CompetitionListViewModel(competitions);
@@ -30,6 +37,10 @@ namespace AllStarScore.Admin.Controllers
             return View();
         }
 
+        public ActionResult CreateHarness()
+        {
+            return PartialView();
+        }
         public ActionResult Create()
         {
             var model = new CompetitionCreateInputModel();
@@ -41,13 +52,14 @@ namespace AllStarScore.Admin.Controllers
         {
             try
             {
-                // TODO: Add insert logic here
+                var competion = input.MapTo<Competition>();
+                RavenSession.Store(competion);
 
-                return RedirectToAction("Index");
+                return PartialView("CreateSuccessful", input);
             }
             catch
             {
-                return View(input);
+                return PartialView(input);
             }
         }
 

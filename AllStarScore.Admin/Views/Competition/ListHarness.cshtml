@@ -1,0 +1,4 @@
+﻿<div id="competition_list">
+    @{Html.RenderAction("List", "Competition");}
+</div>
+@Html.ActionLink("refresh", "List", "Competition", new { }, new {id = "competition_list_refresh"})

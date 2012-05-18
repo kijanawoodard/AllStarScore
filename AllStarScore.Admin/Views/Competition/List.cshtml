@@ -1,54 +1,41 @@
 ﻿@model AllStarScore.Admin.ViewModels.CompetitionListViewModel
 
-<p>
-    @Html.ActionLink("Create New Competition", "Create", "Competition", new {id="createlink"})
-</p>
-<div id="create"></div>
-
-Upcoming
 <table>
+    <caption>Upcoming</caption>
     <tr>
         <th></th>
     </tr>
 
-@foreach (var item in Model.Upcoming) {
-    <tr>
-        <td>
-            @item.Name 
-        </td>
-        <td>
-            @Html.ActionLink("Edit", "Edit", new { /* id=item.PrimaryKey */ }) |
-            @Html.ActionLink("Details", "Details", new { /* id=item.PrimaryKey */ }) |
-            @Html.ActionLink("Delete", "Delete", new { /* id=item.PrimaryKey */ })
-        </td>
-    </tr>
-}
-    <tr><td>A competition</td><td>edit</td></tr>
-    <tr><td>B competition</td><td>edit</td></tr>
-    <tr><td>C competition</td><td>edit</td></tr>
+    @foreach (var item in Model.Upcoming) {
+        <tr>
+            <td>@Html.DisplayFor(model => item.FirstDay)</td>
+            <td>
+                @item.Name 
+            </td>
+            <td>
+                @Html.ActionLink("Details", "Details", "Competition", new { }, new { id = item.Id })
+            </td>
+        </tr>
+    }
 
 </table>
 
-Past
 <table>
+    <caption>Past</caption>
     <tr>
         <th></th>
     </tr>
 
     @foreach (var item in Model.Past) {
         <tr>
+            <td>@Html.DisplayFor(model => item.FirstDay)</td>
             <td>
                 @item.Name 
             </td>
             <td>
-                @Html.ActionLink("Edit", "Edit", new { /* id=item.PrimaryKey */ }) |
-                @Html.ActionLink("Details", "Details", new { /* id=item.PrimaryKey */ }) |
-                @Html.ActionLink("Delete", "Delete", new { /* id=item.PrimaryKey */ })
+                @Html.ActionLink("Details", "Details", "Competition", new { }, new { id = item.Id })
             </td>
         </tr>
     }
-    <tr><td>1 competition</td><td>edit</td></tr>
-    <tr><td>2 competition</td><td>edit</td></tr>
-    <tr><td>3 competition</td><td>edit</td></tr>
 
 </table>

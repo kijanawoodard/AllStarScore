@@ -7,6 +7,7 @@ using System.Web.Mvc;
 using System.Web.Optimization;
 using System.Web.Routing;
 using AllStarScore.Admin.Controllers;
+using AllStarScore.Admin.Infrastructure.AutoMapper;
 using AllStarScore.Admin.Models;
 using Moth.Core;
 using Moth.Core.Providers;
@@ -57,6 +58,8 @@ namespace AllStarScore.Admin
 
             //BundleTable.Bundles.EnableDefaultBundles();//.RegisterTemplateBundles();
 
+            AutoMapperConfiguration.Configure();
+
             var parser = ConnectionStringParser<RavenConnectionStringOptions>.FromConnectionStringName("RavenDB");
             parser.Parse();
 
@@ -97,18 +100,18 @@ namespace AllStarScore.Admin
             /* tah dah */
         }
 
-//        public override IOutputCacheRestrictions Enable
-//        {
-//            get
-//            {
-//                return new OutputCacheRestrictions()
-//                {
-//                    PageOutput = true, 
-//                    CssTidy = true,   
-//                    ScriptMinification = false,
-//                    CssPreprocessing = true 
-//                };
-//            }
-//        }
+        public override IOutputCacheRestrictions Enable
+        {
+            get
+            {
+                return new OutputCacheRestrictions()
+                {
+                    PageOutput = true, 
+                    CssTidy = false,   
+                    ScriptMinification = false,
+                    CssPreprocessing = true 
+                };
+            }
+        }
     }
 }

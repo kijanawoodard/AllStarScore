@@ -11,8 +11,13 @@ namespace AllStarScore.Admin.ViewModels
     {
         public CompetitionListViewModel(List<Competition> competitions)
         {
-            Upcoming = competitions.Where(c => c.FirstDay >= DateTime.Today);
-            Past = competitions.Except(Upcoming);
+            Upcoming = competitions
+                            .Where(c => c.FirstDay >= DateTime.Today)
+                            .OrderBy(c => c.FirstDay);
+
+            Past = competitions
+                        .Except(Upcoming)
+                        .OrderByDescending(c => c.FirstDay);
         }
 
         public IEnumerable<Competition> Upcoming { get; set; }

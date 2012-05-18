@@ -1,0 +1,8 @@
+﻿@model AllStarScore.Admin.ViewModels.CompetitionCreateInputModel
+
+Successfully created @Model.Name
+
+<script type="text/javascript">
+    console.log('create success');
+    $.publish('/competition/created');
+</script>
