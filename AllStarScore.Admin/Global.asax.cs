@@ -48,7 +48,7 @@ namespace AllStarScore.Admin
             RegisterGlobalFilters(GlobalFilters.Filters);
             RegisterRoutes(RouteTable.Routes);
 
-            BundleTable.Bundles.RegisterTemplateBundles();
+            BundleTable.Bundles.EnableDefaultBundles();//.RegisterTemplateBundles();
 
             var parser = ConnectionStringParser<RavenConnectionStringOptions>.FromConnectionStringName("RavenDB");
             parser.Parse();
