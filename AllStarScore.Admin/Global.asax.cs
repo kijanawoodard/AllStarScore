@@ -8,6 +8,8 @@ using System.Web.Optimization;
 using System.Web.Routing;
 using AllStarScore.Admin.Controllers;
 using AllStarScore.Admin.Models;
+using Moth.Core;
+using Moth.Core.Providers;
 using Raven.Abstractions.Data;
 using Raven.Client.Document;
 
@@ -22,6 +24,7 @@ namespace AllStarScore.Admin
         {
             filters.Add(new HandleErrorAttribute());
             filters.Add(new System.Web.Mvc.AuthorizeAttribute());
+            filters.Add(new MothAction());
         }
 
         public static void RegisterRoutes(RouteCollection routes)
@@ -44,11 +47,15 @@ namespace AllStarScore.Admin
         protected void Application_Start()
         {
             AreaRegistration.RegisterAllAreas();
-
+            
             RegisterGlobalFilters(GlobalFilters.Filters);
+
+            MothAction.Initialize(new CustomMothProvider());
+            MothRouteFactory.RegisterRoutes(RouteTable.Routes);
+            
             RegisterRoutes(RouteTable.Routes);
 
-            BundleTable.Bundles.EnableDefaultBundles();//.RegisterTemplateBundles();
+            //BundleTable.Bundles.EnableDefaultBundles();//.RegisterTemplateBundles();
 
             var parser = ConnectionStringParser<RavenConnectionStringOptions>.FromConnectionStringName("RavenDB");
             parser.Parse();
@@ -81,5 +88,27 @@ namespace AllStarScore.Admin
                 session.SaveChanges();
             }            
         }
+    }
+
+    public class CustomMothProvider : AspNetCacheProvider
+    {
+        public override void Store(string key, object o, TimeSpan duration)
+        {
+            /* tah dah */
+        }
+
+//        public override IOutputCacheRestrictions Enable
+//        {
+//            get
+//            {
+//                return new OutputCacheRestrictions()
+//                {
+//                    PageOutput = true, 
+//                    CssTidy = true,   
+//                    ScriptMinification = false,
+//                    CssPreprocessing = true 
+//                };
+//            }
+//        }
     }
 }
