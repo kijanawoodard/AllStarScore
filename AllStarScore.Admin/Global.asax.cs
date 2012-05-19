@@ -15,6 +15,7 @@ using Moth.Core.Providers;
 using Raven.Abstractions.Data;
 using Raven.Client.Document;
 using RouteMagic;
+using System.Diagnostics;
 
 namespace AllStarScore.Admin
 {
@@ -58,7 +59,7 @@ namespace AllStarScore.Admin
             
             RegisterGlobalFilters(GlobalFilters.Filters);
 
-            MothAction.Initialize(new CustomMothProvider());
+            InitializeMothForDebugging();
             MothRouteFactory.RegisterRoutes(RouteTable.Routes);
             
             RegisterRoutes(RouteTable.Routes);
@@ -82,6 +83,13 @@ namespace AllStarScore.Admin
             //RavenController.DocumentStore.Conventions.IdentityPartsSeparator = "-";
             HackSecurity();
         }
+
+        [Conditional("DEBUG")]
+        private void InitializeMothForDebugging()
+        {
+            MothAction.Initialize(new CustomMothProvider());
+        }
+        
 
         //TODO: come up with something better and remove this
         private void HackSecurity()
