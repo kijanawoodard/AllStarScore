@@ -1,4 +1,4 @@
 All-Star-Score
 ==============
 
-Scoring app
+A Scoring app
