@@ -14,6 +14,7 @@ using Moth.Core;
 using Moth.Core.Providers;
 using Raven.Abstractions.Data;
 using Raven.Client.Document;
+using RouteMagic;
 
 namespace AllStarScore.Admin
 {
@@ -32,6 +33,10 @@ namespace AllStarScore.Admin
         public static void RegisterRoutes(RouteCollection routes)
         {
             routes.IgnoreRoute("{resource}.axd/{*pathInfo}");
+
+            var images = routes.MapRoute("new", "content/images/{file}");
+            routes.Redirect(r => r.MapRoute("old", "resources/images/{file}"))
+                .To(images);
 
             routes.MapHttpRoute(
                 name: "DefaultApi",
@@ -102,19 +107,19 @@ namespace AllStarScore.Admin
             /* tah dah */
         }
 
-//        public override IOutputCacheRestrictions Enable
-//        {
-//            get
-//            {
-//                return new OutputCacheRestrictions()
-//                {
-//                    PageOutput = true, 
-//                    CssTidy = false,   
-//                    ScriptMinification = false,
-//                    CssPreprocessing = true 
-//                };
-//            }
-//        }
+        public override IOutputCacheRestrictions Enable
+        {
+            get
+            {
+                return new OutputCacheRestrictions()
+                {
+                    PageOutput = true, 
+                    CssTidy = false,   
+                    ScriptMinification = false,
+                    CssPreprocessing = false 
+                };
+            }
+        }
     }
 
     public class CustomAuthorizeAttribute : System.Web.Mvc.AuthorizeAttribute
