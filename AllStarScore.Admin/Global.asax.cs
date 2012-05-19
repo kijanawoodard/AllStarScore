@@ -25,7 +25,7 @@ namespace AllStarScore.Admin
         public static void RegisterGlobalFilters(GlobalFilterCollection filters)
         {
             filters.Add(new HandleErrorAttribute());
-            filters.Add(new System.Web.Mvc.AuthorizeAttribute());
+            filters.Add(new CustomAuthorizeAttribute());
             filters.Add(new MothAction());
         }
 
@@ -115,5 +115,14 @@ namespace AllStarScore.Admin
 //                };
 //            }
 //        }
+    }
+
+    public class CustomAuthorizeAttribute : System.Web.Mvc.AuthorizeAttribute
+    {
+        public override void OnAuthorization(AuthorizationContext filterContext)
+        {
+            if (!(filterContext.Controller is ResourcesController))
+                base.OnAuthorization(filterContext);
+        }
     }
 }
