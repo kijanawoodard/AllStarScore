@@ -8,6 +8,7 @@ using System.Web.Optimization;
 using System.Web.Routing;
 using AllStarScore.Admin.Controllers;
 using AllStarScore.Admin.Infrastructure.AutoMapper;
+using AllStarScore.Admin.Infrastructure.Indexes;
 using AllStarScore.Admin.Models;
 using Moth.Core;
 using Moth.Core.Providers;
@@ -70,7 +71,8 @@ namespace AllStarScore.Admin
             }.Initialize();
 
             Raven.Client.MvcIntegration.RavenProfiler.InitializeFor(RavenController.DocumentStore);
-        
+
+            Raven.Client.Indexes.IndexCreation.CreateIndexes(typeof(CompetitionStatsIndex).Assembly, RavenController.DocumentStore);
             //RavenController.DocumentStore.Conventions.IdentityPartsSeparator = "-";
             HackSecurity();
         }

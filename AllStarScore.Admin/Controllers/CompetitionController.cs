@@ -5,6 +5,7 @@ using System.Linq;
 using System.Web;
 using System.Web.Mvc;
 using AllStarScore.Admin.Infrastructure.AutoMapper;
+using AllStarScore.Admin.Infrastructure.Indexes;
 using AllStarScore.Admin.Models;
 using AllStarScore.Admin.ViewModels;
 
@@ -24,7 +25,7 @@ namespace AllStarScore.Admin.Controllers
         public ActionResult List()
         {
             var competitions = RavenSession
-                                .Query<Competition>()
+                                .Query<CompetitionStatsIndex.ReduceResult, CompetitionStatsIndex>()
                                 .Customize(x => x.WaitForNonStaleResults(TimeSpan.FromSeconds(5)))
                                 .ToList();
 

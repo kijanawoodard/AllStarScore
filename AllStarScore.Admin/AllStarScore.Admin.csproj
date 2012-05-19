@@ -157,6 +157,7 @@
     </Compile>
     <Compile Include="Infrastructure\AutoMapper\AutoMapperConfiguration.cs" />
     <Compile Include="Infrastructure\AutoMapper\AutoMapperExtensions.cs" />
+    <Compile Include="Infrastructure\Indexes\CompetitionStatsIndex.cs" />
     <Compile Include="Models\AccountModels.cs" />
     <Compile Include="Models\Competition.cs" />
     <Compile Include="Models\User.cs" />
