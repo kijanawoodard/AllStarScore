@@ -34,8 +34,8 @@ namespace AllStarScore.Admin
         {
             routes.IgnoreRoute("{resource}.axd/{*pathInfo}");
 
-            var images = routes.MapRoute("new", "content/images/{file}");
-            routes.Redirect(r => r.MapRoute("old", "resources/images/{file}"))
+            var images = routes.MapRoute("content_images", "content/images/{file}");
+            routes.Redirect(r => r.MapRoute("moth_images", "resources/images/{file}"))
                 .To(images);
 
             routes.MapHttpRoute(
