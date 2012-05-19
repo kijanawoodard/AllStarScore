@@ -107,19 +107,19 @@ namespace AllStarScore.Admin
             /* tah dah */
         }
 
-        public override IOutputCacheRestrictions Enable
-        {
-            get
-            {
-                return new OutputCacheRestrictions()
-                {
-                    PageOutput = true, 
-                    CssTidy = false,   
-                    ScriptMinification = false,
-                    CssPreprocessing = false 
-                };
-            }
-        }
+//        public override IOutputCacheRestrictions Enable
+//        {
+//            get
+//            {
+//                return new OutputCacheRestrictions()
+//                {
+//                    PageOutput = true, 
+//                    CssTidy = false,   
+//                    ScriptMinification = false,
+//                    CssPreprocessing = false 
+//                };
+//            }
+//        }
     }
 
     public class CustomAuthorizeAttribute : System.Web.Mvc.AuthorizeAttribute
