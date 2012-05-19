@@ -34,6 +34,7 @@ namespace AllStarScore.Admin
         {
             routes.IgnoreRoute("{resource}.axd/{*pathInfo}");
 
+            //http://haacked.com/archive/2011/02/02/redirecting-routes-to-maintain-persistent-urls.aspx
             var images = routes.MapRoute("content_images", "content/images/{file}");
             routes.Redirect(r => r.MapRoute("moth_images", "resources/images/{file}"))
                 .To(images);
