@@ -51,6 +51,8 @@ namespace AllStarScore.Admin.Controllers
         [HttpPost]
         public ActionResult Create(CompetitionCreateInputModel input)
         {
+            if (!ModelState.IsValid) return PartialView(input);
+
             try
             {
                 var competion = input.MapTo<Competition>();

@@ -182,6 +182,8 @@
     <Content Include="Content\images\twitter.png" />
     <Content Include="Content\images\windowsLive.png" />
     <Content Include="Content\scripts\competition.list.js" />
+    <Content Include="Content\scripts\competition.create.js" />
+    <Content Include="Content\scripts\global.ajax.js" />
     <Content Include="Content\scripts\global.tinypubsub.js" />
     <Content Include="Content\styles\site.mobile.css" />
     <Content Include="Content\themes\base\images\ui-bg_flat_0_aaaaaa_40x100.png" />

@@ -1,4 +1,8 @@
-﻿<div id="competition_list">
+﻿@{ Html.RegisterStylesheet("~/content/styles/competition.list.css"); }
+@{ Html.RegisterScript("~/content/scripts/competition.list.js"); }
+
+<div id="competition_list">
     @{Html.RenderAction("List", "Competition");}
 </div>
+
 @Html.ActionLink("refresh", "List", "Competition", new { }, new {id = "competition_list_refresh"})
