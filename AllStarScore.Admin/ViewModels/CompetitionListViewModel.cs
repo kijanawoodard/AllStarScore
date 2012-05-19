@@ -10,7 +10,7 @@ namespace AllStarScore.Admin.ViewModels
 {
     public class CompetitionListViewModel
     {
-        public CompetitionListViewModel(List<CompetitionStatsIndex.ReduceResult> competitions)
+        public CompetitionListViewModel(List<Competition> competitions)
         {
             Upcoming = competitions
                             .Where(c => c.FirstDay >= DateTime.Today)
@@ -21,7 +21,7 @@ namespace AllStarScore.Admin.ViewModels
                         .OrderByDescending(c => c.FirstDay);
         }
 
-        public IEnumerable<CompetitionStatsIndex.ReduceResult> Upcoming { get; set; }
-        public IEnumerable<CompetitionStatsIndex.ReduceResult> Past { get; set; }
+        public IEnumerable<Competition> Upcoming { get; set; }
+        public IEnumerable<Competition> Past { get; set; }
     }
 }

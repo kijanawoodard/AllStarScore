@@ -72,7 +72,7 @@ namespace AllStarScore.Admin
 
             Raven.Client.MvcIntegration.RavenProfiler.InitializeFor(RavenController.DocumentStore);
 
-            Raven.Client.Indexes.IndexCreation.CreateIndexes(typeof(CompetitionStatsIndex).Assembly, RavenController.DocumentStore);
+            //Raven.Client.Indexes.IndexCreation.CreateIndexes(typeof(CompetitionStatsIndex).Assembly, RavenController.DocumentStore);
             //RavenController.DocumentStore.Conventions.IdentityPartsSeparator = "-";
             HackSecurity();
         }
