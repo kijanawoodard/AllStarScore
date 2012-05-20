@@ -35,7 +35,9 @@ namespace AllStarScore.Admin.Controllers
 
         public ActionResult Details(int id)
         {
-            return View();
+            var competition = RavenSession.Load<Competition>(id);
+            var model = new CompetitionDetailsViewModel(competition);
+            return View(model);
         }
 
         public ActionResult CreateHarness()

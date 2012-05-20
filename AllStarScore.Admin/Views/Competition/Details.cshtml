@@ -1,0 +1,11 @@
+﻿@model AllStarScore.Admin.ViewModels.CompetitionDetailsViewModel
+
+@{
+    ViewBag.Title = "Competition Details";
+}
+
+<h2>@ViewBag.Title</h2>
+
+@Model.Competition.Name
+
+@Html.ActionLink("Register Gym", "Register", "Registration", new { id = Model.Competition.Id }, new { })

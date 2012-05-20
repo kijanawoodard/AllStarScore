@@ -1,0 +1,44 @@
+﻿@model AllStarScore.Admin.ViewModels.GymCreateInputModel
+
+@{ Html.RegisterScript("~/content/scripts/gym.create.js"); }
+
+@using (Html.BeginForm()) {
+    @Html.ValidationSummary(true)
+
+    <fieldset>
+        <legend>GymCreateInputModel</legend>
+
+        <div class="editor-label">
+            @Html.LabelFor(model => model.Name)
+        </div>
+        <div class="editor-field">
+            @Html.EditorFor(model => model.Name)
+            @Html.ValidationMessageFor(model => model.Name)
+        </div>
+
+        <div class="editor-label">
+            @Html.LabelFor(model => model.Location)
+        </div>
+        <div class="editor-field">
+            @Html.EditorFor(model => model.Location)
+            @Html.ValidationMessageFor(model => model.Location)
+        </div>
+
+        <div class="editor-label">
+            @Html.LabelFor(model => model.IsSmallGym)
+        </div>
+        <div class="editor-field">
+            @Html.EditorFor(model => model.IsSmallGym)
+            @Html.ValidationMessageFor(model => model.IsSmallGym)
+        </div>
+
+        <p>
+            <input type="submit" value="Create" />
+        </p>
+    </fieldset>
+}
+
+@Html.ActionLink("Search", "Search", "Gym", new { }, new { @id = "gym_search"})
+<script type="text/javascript">
+
+</script>

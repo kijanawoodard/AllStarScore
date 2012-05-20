@@ -47,6 +47,12 @@ namespace AllStarScore.Admin
             );
 
             routes.MapRoute(
+                name: null,
+                url: "gym/search/{query}",
+                defaults: new { controller = "Gym", action = "Search" }
+            );
+
+            routes.MapRoute(
                 name: "Default",
                 url: "{controller}/{action}/{id}",
                 defaults: new { controller = "Home", action = "Index", id = UrlParameter.Optional }

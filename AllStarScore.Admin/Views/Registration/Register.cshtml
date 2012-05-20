@@ -1,0 +1,13 @@
+﻿@model AllStarScore.Admin.ViewModels.RegistrationRegisterViewModel
+
+@{
+    ViewBag.Title = "Register Gym";
+}
+
+<h2>Registration for @Model.CompetitionName</h2>
+
+Gym
+
+@{ Html.RenderAction("Create", "Gym"); }
+    
+
