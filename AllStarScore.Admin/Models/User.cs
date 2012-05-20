@@ -9,7 +9,7 @@ namespace AllStarScore.Admin.Models
 {
     public class User
     {
-        public string Id { get; set; }
+        public int Id { get; set; }
 		public string UserName { get; set; }
 		public string Email { get; set; }
 		public bool Enabled { get; set; }
@@ -41,6 +41,24 @@ namespace AllStarScore.Admin.Models
                 var computedHash = sha.ComputeHash(Encoding.Unicode.GetBytes(PasswordSalt + pwd + ConstantSalt));
                 return Convert.ToBase64String(computedHash);
             }
+        }
+
+        public override bool Equals(object obj)
+        {
+            var target = obj as User;
+            if (target == null) return false;
+
+            return Id.Equals(target.Id);
+        }
+
+        public override int GetHashCode()
+        {
+            return Id.GetHashCode();
+        }
+
+        public override string ToString()
+        {
+            return UserName;
         }
     }
 }

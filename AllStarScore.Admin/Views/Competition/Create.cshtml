@@ -51,7 +51,7 @@
     var form = $('#create_form');
     $('#FirstDay').pickDateBefore('#LastDay');
 
-    $.publish('/create/form/loaded', form.attr('id'));
+    $.publish('/create/form/loaded', '#' + form.attr('id'));
     $.validator.unobtrusive.parse(form);
     
     $('#create_form a.cancel').live('click', function (event) {

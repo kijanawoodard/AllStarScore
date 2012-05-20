@@ -6,19 +6,16 @@ using System.Web;
 
 namespace AllStarScore.Admin.Models
 {
-    public partial class Competition
+    public class Competition
     {
-        public string Id { get; set; }
+        public int Id { get; set; }
         public string Name { get; set; }
         public string Description { get; set; }
         [DataType(DataType.Date)]
         public DateTime FirstDay { get; set; }
         [DataType(DataType.Date)]
         public DateTime LastDay { get; set; }
-    }
-
-    public partial class Competition
-    {
+    
         public override bool Equals(object obj)
         {
             var target = obj as Competition;
