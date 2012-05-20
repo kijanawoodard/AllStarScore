@@ -47,13 +47,15 @@
 
 <script type="text/javascript">
     console.log('create form loaded');
-    $.publish('/create/form/loaded');
-    $.publish('/form/loaded', '#create_form');
-
+    
+    var form = $('#create_form');
     $('#FirstDay').pickDateBefore('#LastDay');
+
+    $.publish('/create/form/loaded', form.attr('id'));
+    $.validator.unobtrusive.parse(form);
     
     $('#create_form a.cancel').live('click', function (event) {
         event.preventDefault();
-        $('#create_form').remove();
+        form.remove();
     });
 </script>

@@ -44,10 +44,3 @@ $.fn.pickDateBefore = function (last) {
         }
     });
 };
-
-$(document).ready(function () {
-    $.subscribe('/form/loaded', function (event, target) {
-        console.log('validating form ' + target);
-        $.validator.unobtrusive.parse($(target));
-    });
-});
