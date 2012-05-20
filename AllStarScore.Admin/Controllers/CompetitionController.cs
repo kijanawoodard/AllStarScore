@@ -26,7 +26,7 @@ namespace AllStarScore.Admin.Controllers
         {
             var competitions = RavenSession
                                 .Query<Competition>()
-                                .Customize(x => x.WaitForNonStaleResults(TimeSpan.FromSeconds(5)))
+                                .Customize(x => x.WaitForNonStaleResultsAsOfNow())
                                 .ToList();
 
             var model = new CompetitionListViewModel(competitions);
