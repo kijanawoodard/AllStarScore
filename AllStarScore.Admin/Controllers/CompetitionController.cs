@@ -57,7 +57,8 @@ namespace AllStarScore.Admin.Controllers
 
             try
             {
-                var competion = command.MapTo<Competition>();
+                var competion = new Competition();
+                competion.Update(command);
                 RavenSession.Store(competion);
 
                 return PartialView("CreateSuccessful", command);
