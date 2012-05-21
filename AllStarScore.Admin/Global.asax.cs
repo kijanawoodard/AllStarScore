@@ -1,14 +1,10 @@
 ﻿using System;
-using System.Collections.Generic;
+using System.Diagnostics;
 using System.Linq;
-using System.Web;
 using System.Web.Http;
 using System.Web.Mvc;
-using System.Web.Optimization;
 using System.Web.Routing;
 using AllStarScore.Admin.Controllers;
-using AllStarScore.Admin.Infrastructure.AutoMapper;
-using AllStarScore.Admin.Infrastructure.Indexes;
 using AllStarScore.Admin.Infrastructure.ModelBinding;
 using AllStarScore.Admin.Models;
 using Moth.Core;
@@ -16,7 +12,6 @@ using Moth.Core.Providers;
 using Raven.Abstractions.Data;
 using Raven.Client.Document;
 using RouteMagic;
-using System.Diagnostics;
 
 namespace AllStarScore.Admin
 {
@@ -74,8 +69,6 @@ namespace AllStarScore.Admin
             ValueProviderFactories.Factories.Add(new CommandValueProviderFactory());
 
             //BundleTable.Bundles.EnableDefaultBundles();//.RegisterTemplateBundles();
-
-            AutoMapperConfiguration.Configure();
 
             var parser = ConnectionStringParser<RavenConnectionStringOptions>.FromConnectionStringName("RavenDB");
             parser.Parse();
