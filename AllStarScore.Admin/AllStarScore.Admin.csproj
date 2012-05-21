@@ -59,9 +59,6 @@
     <Reference Include="Raven.Client.Lightweight, Version=1.0.0.0, Culture=neutral, PublicKeyToken=37f41c7f99471593, processorArchitecture=MSIL">
       <HintPath>..\packages\RavenDB.Client.1.0.888\lib\net40\Raven.Client.Lightweight.dll</HintPath>
     </Reference>
-    <Reference Include="Raven.Client.Lightweight.FSharp, Version=0.0.0.0, Culture=neutral, processorArchitecture=MSIL">
-      <HintPath>..\packages\RavenDB-Client.1.0.888\lib\net40\Raven.Client.Lightweight.FSharp.dll</HintPath>
-    </Reference>
     <Reference Include="Raven.Client.MvcIntegration, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL">
       <HintPath>..\packages\RavenDB.Client.MvcIntegration.1.0.888\lib\net40\Raven.Client.MvcIntegration.dll</HintPath>
     </Reference>
@@ -159,6 +156,7 @@
     </Compile>
     <Compile Include="Infrastructure\Commands\ICommand.cs" />
     <Compile Include="Infrastructure\Indexes\CompetitionStatsIndex.cs" />
+    <Compile Include="Infrastructure\Indexes\GymsByName.cs" />
     <Compile Include="Infrastructure\ModelBinding\CommandValueProviderFactory.cs" />
     <Compile Include="Models\AccountModels.cs" />
     <Compile Include="Models\Competition.cs" />

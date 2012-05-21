@@ -7,11 +7,11 @@
 
 $.subscribe('/gym/create/form/loaded', function () {
 
-    var form =  $('.gym_create .display form');
-    
+    var form = $('.gym_create .display form');
+
     form.onSubmitAjaxInto('.gym_create .display');
     $.validator.unobtrusive.parse(form);
-    
+
     $('#Name').focus();
 
     $('#Name').autocomplete({
@@ -25,7 +25,8 @@ $.subscribe('/gym/create/form/loaded', function () {
                 data: { query: request.term },
                 success: function (data) {
                     response($.map(data, function (item) {
-                        return { label: item.Name + ' from ' + item.Location, value: item.Name, id: item.Id };
+                        //return { label: item.Name + ' from ' + item.Location, value: item.Name, id: item.Id };
+                        return { label: item, value: item };
                     }));
                 }
             });

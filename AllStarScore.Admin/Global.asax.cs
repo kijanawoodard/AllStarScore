@@ -5,6 +5,7 @@ using System.Web.Http;
 using System.Web.Mvc;
 using System.Web.Routing;
 using AllStarScore.Admin.Controllers;
+using AllStarScore.Admin.Infrastructure.Indexes;
 using AllStarScore.Admin.Infrastructure.ModelBinding;
 using AllStarScore.Admin.Models;
 using Moth.Core;
@@ -81,7 +82,7 @@ namespace AllStarScore.Admin
 
             Raven.Client.MvcIntegration.RavenProfiler.InitializeFor(RavenController.DocumentStore);
 
-            //Raven.Client.Indexes.IndexCreation.CreateIndexes(typeof(CompetitionStatsIndex).Assembly, RavenController.DocumentStore);
+            Raven.Client.Indexes.IndexCreation.CreateIndexes(typeof(GymsByName).Assembly, RavenController.DocumentStore);
             //RavenController.DocumentStore.Conventions.IdentityPartsSeparator = "-";
             HackSecurity();
         }

@@ -1,8 +1,14 @@
 ﻿using System.Collections.Generic;
 using System.Linq;
 using System.Web.Mvc;
+using AllStarScore.Admin.Infrastructure.Indexes;
 using AllStarScore.Admin.Models;
 using AllStarScore.Admin.ViewModels;
+using Raven.Abstractions.Indexing;
+using Raven.Client;
+using Raven.Client.Document;
+using Raven.Client.Indexes;
+using Raven.Client.Linq;
 
 namespace AllStarScore.Admin.Controllers
 {
@@ -31,13 +37,10 @@ namespace AllStarScore.Admin.Controllers
         [HttpGet]
         public ActionResult Search(string query)
         {
-            var gyms = new List<Gym>()
-                           {
-                               new Gym() {Name = "High Spirit", Location = "Forney, TX", Id=19},
-                               new Gym() {Name = "Tiger Cheer", Location = "Richardson, TX", Id=55}
-                           };
+            var gyms = RavenSession
+                            .Query<Gym, GymsByName>()
+                            .Where(gym => gym.Name == query);
 
-            var result = gyms.Select(gym => string.Format("{0} from {1}", gym.Name, gym.Location));
             return Json(gyms, JsonRequestBehavior.AllowGet);
         }
     }
