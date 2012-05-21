@@ -1,7 +1,10 @@
 ﻿@{ Html.RegisterScript("~/content/scripts/gym.create.js"); }
 
-<div id="gym">
-    @{Html.RenderAction("Create", "Gym");}
+<div class="gym_create">
+    <span class="control_links">
+        @Html.ActionLink("Create Gym", "Create", "Gym", new { }, new { @class = "gym_create"})
+        @Html.ActionLink("Search", "Search", "Gym", new { }, new { @class = "gym_search"})
+    </span>
+    <div class="display"></div>
 </div>
 
-@Html.ActionLink("Create Gym", "Create", "Gym", new { }, new { @id = "gym_create"})

@@ -237,7 +237,9 @@
     <Content Include="Scripts\knockout-2.0.0.debug.js" />
     <Content Include="Scripts\knockout-2.0.0.js" />
     <Content Include="Scripts\modernizr-2.0.6-development-only.js" />
-    <Content Include="Web.config" />
+    <Content Include="Web.config">
+      <SubType>Designer</SubType>
+    </Content>
     <Content Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
     </Content>
@@ -293,7 +295,9 @@
     <Content Include="Views\Competition\ListHarness.cshtml" />
   </ItemGroup>
   <ItemGroup>
-    <Content Include="Content\Web.config" />
+    <Content Include="Content\Web.config">
+      <SubType>Designer</SubType>
+    </Content>
   </ItemGroup>
   <ItemGroup>
     <Content Include="Views\Competition\Details.cshtml" />

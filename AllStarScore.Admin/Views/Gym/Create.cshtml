@@ -1,10 +1,10 @@
 ﻿@model AllStarScore.Admin.ViewModels.GymCreateInputModel
 
-@using (Html.BeginForm("Create", "Gym", FormMethod.Post, new { id = "gym_create_form"})) {
+@using (Html.BeginForm()) {
     @Html.ValidationSummary(true)
 
     <fieldset>
-        <legend>GymCreateInputModel</legend>
+        <legend>Create a Gym</legend>
 
         <div class="editor-label">
             @Html.LabelFor(model => model.Name)
@@ -36,16 +36,6 @@
     </fieldset>
 }
 
-@Html.ActionLink("Search", "Search", "Gym", new { }, new { @id = "gym_search"})
 <script type="text/javascript">
-//    console.log(jQuery);
-    var f = $.publish('/gym/form/loaded', '#gym_create_form');
-    
-    if (jQuery) {
-        f();
-    } else {
-        $(document).ready(function () {
-            f();
-        });
-    }
+    $.publish('/gym/create/form/loaded');
 </script>
