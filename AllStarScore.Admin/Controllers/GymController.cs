@@ -8,12 +8,20 @@ namespace AllStarScore.Admin.Controllers
 {
     public class GymController : RavenController
     {
+        [HttpGet]
         public ActionResult Create()
         {
             var model = new GymCreateInputModel();
             return PartialView(model);
         }
 
+        [HttpPost]
+        public ActionResult Create(GymCreateInputModel input)
+        {
+            return PartialView(input);
+        }
+
+        [HttpGet]
         public ActionResult Search(string query)
         {
             var gyms = new List<Gym>()

@@ -7,6 +7,13 @@
 
 $.subscribe('/gym/create/form/loaded', function () {
 
+    var form =  $('.gym_create .display form');
+    
+    form.onSubmitAjaxInto('.gym_create .display');
+    $.validator.unobtrusive.parse(form);
+    
+    $('#Name').focus();
+
     $('#Name').autocomplete({
         source: function (request, response) {
             var url = $('.gym_search').attr('href');
@@ -31,7 +38,7 @@ $.subscribe('/gym/create/form/loaded', function () {
         }
     });
 
-    $('#Name').bind('input propertychange', function() {
+    $('#Name').bind('input propertychange', function () {
         console.log($(this).val());
     });
 });

@@ -4,6 +4,11 @@ namespace AllStarScore.Admin.ViewModels
 {
     public class GymCreateInputModel
     {
+        public GymCreateInputModel()
+        {
+            IsSmallGym = true;
+        }
+
         [Required]
         public string Name { get; set; }
 
