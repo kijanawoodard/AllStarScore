@@ -18,12 +18,14 @@ namespace AllStarScore.Admin.Controllers
         [HttpPost]
         public ActionResult Create(GymCreateCommand command)
         {
-            var gym = new Gym();
-            gym.Update(command);
-            //RavenSession.Store(gym);
-
-            return PartialView("CreateSuccessful", command);
-            return PartialView(command);
+            return Execute(
+                action: () => {
+                                 var gym = new Gym();
+                                 gym.Update(command);
+                                 RavenSession.Store(gym);
+                              },
+                onsuccess: () => PartialView("CreateSuccessful", command),
+                onfailure: () => PartialView(command));
         }
 
         [HttpGet]

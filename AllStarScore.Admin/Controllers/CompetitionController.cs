@@ -47,20 +47,14 @@ namespace AllStarScore.Admin.Controllers
         [HttpPost]
         public ActionResult Create(CompetitionCreateCommand command)
         {
-            if (!ModelState.IsValid) return PartialView(command);
-
-            try
-            {
-                var competion = new Competition();
-                competion.Update(command);
-                RavenSession.Store(competion);
-
-                return PartialView("CreateSuccessful", command);
-            }
-            catch
-            {
-                return PartialView(command);
-            }
+            return Execute(
+                action: () => {
+                                var competion = new Competition();
+                                competion.Update(command);
+                                RavenSession.Store(competion);
+                              },
+                onsuccess: () => PartialView("CreateSuccessful", command),
+                onfailure: () => PartialView(command));
         }
 
         //
