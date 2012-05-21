@@ -4,9 +4,9 @@ using AllStarScore.Admin.Infrastructure.Commands;
 
 namespace AllStarScore.Admin.ViewModels
 {
-    public class GymCreateInputModel : ICommand 
+    public class GymCreateCommand : ICommand 
     {
-        public GymCreateInputModel()
+        public GymCreateCommand()
         {
             IsSmallGym = true;
         }

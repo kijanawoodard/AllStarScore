@@ -46,25 +46,25 @@ namespace AllStarScore.Admin.Controllers
         }
         public ActionResult Create()
         {
-            var model = new CompetitionCreateInputModel();
+            var model = new CompetitionCreateCommand();
             return PartialView(model);
         }
 
         [HttpPost]
-        public ActionResult Create(CompetitionCreateInputModel input)
+        public ActionResult Create(CompetitionCreateCommand command)
         {
-            if (!ModelState.IsValid) return PartialView(input);
+            if (!ModelState.IsValid) return PartialView(command);
 
             try
             {
-                var competion = input.MapTo<Competition>();
+                var competion = command.MapTo<Competition>();
                 RavenSession.Store(competion);
 
-                return PartialView("CreateSuccessful", input);
+                return PartialView("CreateSuccessful", command);
             }
             catch
             {
-                return PartialView(input);
+                return PartialView(command);
             }
         }
 

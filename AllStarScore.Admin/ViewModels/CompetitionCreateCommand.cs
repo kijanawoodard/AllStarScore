@@ -3,9 +3,9 @@ using System.ComponentModel.DataAnnotations;
 
 namespace AllStarScore.Admin.ViewModels
 {
-    public class CompetitionCreateInputModel
+    public class CompetitionCreateCommand
     {
-        public CompetitionCreateInputModel()
+        public CompetitionCreateCommand()
         {
             FirstDay = DateTime.Today;
             LastDay = FirstDay;

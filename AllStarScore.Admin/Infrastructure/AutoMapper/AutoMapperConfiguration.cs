@@ -8,7 +8,7 @@ namespace AllStarScore.Admin.Infrastructure.AutoMapper
     {
         public static void Configure()
         {
-            Mapper.CreateMap<CompetitionCreateInputModel, Competition>()
+            Mapper.CreateMap<CompetitionCreateCommand, Competition>()
                 .ForMember(x => x.Id, o => o.Ignore())
                 ;
         }

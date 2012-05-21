@@ -20,7 +20,7 @@ namespace AllStarScore.Admin.Models
             History = new Collection<ICommand>();
         }
 
-        public void Update(GymCreateInputModel command)
+        public void Update(GymCreateCommand command)
         {
             Name = command.Name;
             Location = command.Location;
