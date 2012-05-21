@@ -9,6 +9,7 @@ using System.Web.Routing;
 using AllStarScore.Admin.Controllers;
 using AllStarScore.Admin.Infrastructure.AutoMapper;
 using AllStarScore.Admin.Infrastructure.Indexes;
+using AllStarScore.Admin.Infrastructure.ModelBinding;
 using AllStarScore.Admin.Models;
 using Moth.Core;
 using Moth.Core.Providers;
@@ -69,6 +70,8 @@ namespace AllStarScore.Admin
             MothRouteFactory.RegisterRoutes(RouteTable.Routes);
             
             RegisterRoutes(RouteTable.Routes);
+
+            ValueProviderFactories.Factories.Add(new CommandValueProviderFactory());
 
             //BundleTable.Bundles.EnableDefaultBundles();//.RegisterTemplateBundles();
 

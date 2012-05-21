@@ -118,13 +118,13 @@
 	rvalidtokens = /"[^"\\\n\r]*"|true|false|null|-?\d+(?:\.\d*)?(?:[eE][+\-]?\d+)?/g,
 	rvalidbraces = /(?:^|:|,)(?:\s*\[)+/g,
 
-        // Useragent RegExp
+        // CommandByUseragent RegExp
 	rwebkit = /(webkit)[ \/]([\w.]+)/,
 	ropera = /(opera)(?:.*version)?[ \/]([\w.]+)/,
 	rmsie = /(msie) ([\w.]+)/,
 	rmozilla = /(mozilla)(?:.*? rv:([\w.]+))?/,
 
-        // Keep a UserAgent string for use with jQuery.browser
+        // Keep a CommandByUserAgent string for use with jQuery.browser
 	userAgent = navigator.userAgent,
 
         // For matching the engine and version of the browser

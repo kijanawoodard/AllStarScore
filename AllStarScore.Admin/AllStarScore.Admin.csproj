@@ -162,7 +162,9 @@
     </Compile>
     <Compile Include="Infrastructure\AutoMapper\AutoMapperConfiguration.cs" />
     <Compile Include="Infrastructure\AutoMapper\AutoMapperExtensions.cs" />
+    <Compile Include="Infrastructure\Commands\ICommand.cs" />
     <Compile Include="Infrastructure\Indexes\CompetitionStatsIndex.cs" />
+    <Compile Include="Infrastructure\ModelBinding\CommandValueProviderFactory.cs" />
     <Compile Include="Models\AccountModels.cs" />
     <Compile Include="Models\Competition.cs" />
     <Compile Include="Models\Gym.cs" />
@@ -310,6 +312,9 @@
   </ItemGroup>
   <ItemGroup>
     <Content Include="Views\Shared\GymCreateHarness.cshtml" />
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="Views\Gym\CreateSuccessful.cshtml" />
   </ItemGroup>
   <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
   <Import Project="$(MSBuildExtensionsPath32)\Microsoft\VisualStudio\v10.0\WebApplications\Microsoft.WebApplication.targets" />

@@ -18,6 +18,11 @@ namespace AllStarScore.Admin.Controllers
         [HttpPost]
         public ActionResult Create(GymCreateInputModel input)
         {
+            var gym = new Gym();
+            gym.Update(input);
+            //RavenSession.Store(gym);
+
+            return PartialView("CreateSuccessful", input);
             return PartialView(input);
         }
 
