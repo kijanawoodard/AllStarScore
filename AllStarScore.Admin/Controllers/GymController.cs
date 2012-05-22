@@ -37,9 +37,11 @@ namespace AllStarScore.Admin.Controllers
         [HttpGet]
         public ActionResult Search(string query)
         {
+            //http://daniellang.net/searching-on-string-properties-in-ravendb/ - Did it the *wrong* way ;-)
             var gyms = RavenSession
-                            .Query<Gym, GymsByName>()
-                            .Where(gym => gym.Name == query);
+                        .Advanced.LuceneQuery<Gym, GymsByName>()
+                        .Where("Name: *" + query + "* OR Location: *" + query + "*" )
+                        .ToList();
 
             return Json(gyms, JsonRequestBehavior.AllowGet);
         }

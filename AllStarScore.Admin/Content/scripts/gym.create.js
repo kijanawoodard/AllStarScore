@@ -25,14 +25,19 @@ $.subscribe('/gym/create/form/loaded', function () {
                 data: { query: request.term },
                 success: function (data) {
                     response($.map(data, function (item) {
-                        //return { label: item.Name + ' from ' + item.Location, value: item.Name, id: item.Id };
-                        return { label: item, value: item };
+                        return { label: item.Name + ' from ' + item.Location, value: item.Name, id: item.Id };
+                        //return { label: item, value: item };
                     }));
                 }
             });
         },
         minLength: 1,
         select: function (event, ui) {
+            console.log(ui.item ?
+                    "Selected: " + ui.item.value + " aka " + ui.item.id :
+                    "Nothing selected, input was " + this.value);
+        },
+        change: function (event, ui) {
             console.log(ui.item ?
                     "Selected: " + ui.item.value + " aka " + ui.item.id :
                     "Nothing selected, input was " + this.value);

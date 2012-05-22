@@ -9,10 +9,12 @@ namespace AllStarScore.Admin.Infrastructure.Indexes
     {
         public GymsByName()
         {
-            Map = users => from user in users
-                           select new { user.Name };
+            Map = gyms => from gym in gyms
+                           select new { gym.Name, gym.Location, gym.Id };
 
+            
             Indexes.Add(x => x.Name, FieldIndexing.Analyzed);
+            Indexes.Add(x => x.Location, FieldIndexing.Analyzed);
         }
     }
 }
