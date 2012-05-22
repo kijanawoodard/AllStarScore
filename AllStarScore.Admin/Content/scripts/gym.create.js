@@ -36,15 +36,35 @@ $.subscribe('/gym/create/form/loaded', function () {
             console.log(ui.item ?
                     "Selected: " + ui.item.value + " aka " + ui.item.id :
                     "Nothing selected, input was " + this.value);
-        },
-        change: function (event, ui) {
-            console.log(ui.item ?
-                    "Selected: " + ui.item.value + " aka " + ui.item.id :
-                    "Nothing selected, input was " + this.value);
+            checkname(this.value);
         }
     });
 
     $('#Name').bind('input propertychange', function () {
-        console.log($(this).val());
+        checkname($(this).val());
     });
+
+    function checkname(name) {
+        console.log(name);
+
+        var url = $('.gym_check').attr('href');
+        $.ajax({
+            url: url,
+            type: "GET",
+            dataType: "text",
+
+            data: { name: name },
+            success: function (result) {
+                $('.gym_create .display .availability_check').html(result);
+            }
+        });
+    };
+});
+
+$.subscribe('/gym/name/available', function () {
+    $('.gym_create .display').toggleClass('gym_name_taken', false);
+});
+
+$.subscribe('/gym/name/taken', function () {
+    $('.gym_create .display').toggleClass('gym_name_taken', true);
 });

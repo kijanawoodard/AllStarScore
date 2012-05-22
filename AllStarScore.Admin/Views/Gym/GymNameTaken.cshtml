@@ -1,0 +1,6 @@
+﻿@model int
+
+<span class="name_check">This gym already exists</span>
+<script type="text/javascript">
+    $.publish('/gym/name/taken', @Model);
+</script>

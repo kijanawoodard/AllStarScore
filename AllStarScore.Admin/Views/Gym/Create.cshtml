@@ -10,11 +10,12 @@
             @Html.LabelFor(model => model.Name)
         </div>
         <div class="editor-field">
-            @Html.EditorFor(model => model.Name)
+            @Html.EditorFor(model => model.Name) <span class="availability_check"></span>
             @Html.ValidationMessageFor(model => model.Name)
         </div>
-
-        <div class="editor-label">
+        
+        <span class="for_creation">
+        <div class="editor-label class=">
             @Html.LabelFor(model => model.Location)
         </div>
         <div class="editor-field">
@@ -33,8 +34,11 @@
         <p>
             <input type="submit" value="Create" />
         </p>
+        </span>
     </fieldset>
 }
+
+<button class="for_existing">Use this Gym</button>
 
 <script type="text/javascript">
     $.publish('/gym/create/form/loaded');

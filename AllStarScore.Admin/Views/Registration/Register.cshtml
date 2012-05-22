@@ -1,13 +1,33 @@
 ﻿@model AllStarScore.Admin.ViewModels.RegistrationRegisterViewModel
+@{ Html.RegisterScript("~/content/scripts/registration.register.js"); }
 
 @{
     ViewBag.Title = "Register Gym";
 }
 
-<h2>Registration for @Model.CompetitionName</h2>
+<h2>Registration for @Model.Competition.Name</h2>
 
 Gym
 
 @{ Html.RenderPartial("GymCreateHarness"); }
-    
 
+Teams
+
+<div class="team_registration">
+    <div id="registered"></div>
+    <div class="new">
+@*        @using (Html.BeginForm("Create", "Registration", FormMethod.Get)) {*@
+@*            <input type="hidden" id="CompetitionId" value="@Model.Competition.Name" />*@
+@*            <input type="hidden" id="GymId" value="-1" />*@
+@*        }*@
+    </div>
+    
+    <div class="control_links">
+        @using (Ajax.BeginForm("Teams", "Registration", FormMethod.Get, new AjaxOptions() { InsertionMode= InsertionMode.Replace, UpdateTargetId = "registered"})) {
+            <input type="hidden" id="CompetitionId" value="@Model.Competition.Id" />
+            <input type="hidden" id="GymId" value="-1" />
+            
+            <input type="submit" value="Get Registered"/>
+        }
+    </div>
+</div>

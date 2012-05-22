@@ -1,0 +1,3 @@
+﻿.for_existing { display: none; }
+.gym_name_taken .for_existing { display: inherit; }
+.gym_name_taken .for_creation { display: none; }

@@ -14,11 +14,23 @@ namespace AllStarScore.Admin.ViewModels
 
     public class RegistrationRegisterViewModel
     {
-        public string CompetitionName { get; set; }
+        public Competition Competition { get; set; }
 
-        public RegistrationRegisterViewModel(string competitionName)
+        public RegistrationRegisterViewModel(Competition competition)
         {
-            CompetitionName = competitionName;
+            Competition = competition;
+        }
+    }
+
+    public class RegistrationTeamsViewModel
+    {
+        public int CompetitionId { get; set; }
+        public int GymId { get; set; }
+
+        public RegistrationTeamsViewModel(int competitionid, int gymid)
+        {
+            CompetitionId = competitionid;
+            GymId = gymid;
         }
     }
 }

@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.Linq;
 using System.Web.Mvc;
 using AllStarScore.Admin.Infrastructure.Indexes;
@@ -44,6 +45,22 @@ namespace AllStarScore.Admin.Controllers
                         .ToList();
 
             return Json(gyms, JsonRequestBehavior.AllowGet);
+        }
+
+        [HttpGet]
+        public ActionResult Check(string name)
+        {
+            if (string.IsNullOrWhiteSpace(name)) return Content("");
+
+            var gyms = RavenSession
+                            .Query<Gym, GymsByName>()
+                            .Where(x => x.Name == name) //Index returns matches on each term which isn't what we want here. Exact match below
+                            .ToList();
+
+            var gym = gyms.SingleOrDefault(x => x.Name.Equals(name, StringComparison.InvariantCultureIgnoreCase));
+            var view = gym == null ? "GymNameAvailable" : "GymNameTaken";
+            var model = gym == null ? 0 : gym.Id;
+            return PartialView(view, model);
         }
     }
 }

@@ -8,12 +8,24 @@ namespace AllStarScore.Admin.Controllers
     {
         public ActionResult Register(int id)
         {
-            var competitionName = RavenSession
-                                    .Load<Competition>(id)
-                                    .Name;
+            var competition = RavenSession
+                                    .Load<Competition>(id);
 
-            var model = new RegistrationRegisterViewModel(competitionName);
+            var model = new RegistrationRegisterViewModel(competition);
             return View(model);
         }
+
+        [HttpGet]
+        public ActionResult Teams(Foo foo)
+        {
+            var model = new RegistrationTeamsViewModel(foo.CompetitionId, foo.GymId);
+            return PartialView(model);
+        }
+    }
+
+    public class Foo
+    {
+        public int CompetitionId { get; set; }
+        public int GymId { get; set; }
     }
 }
