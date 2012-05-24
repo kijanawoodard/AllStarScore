@@ -16,9 +16,8 @@ namespace AllStarScore.Admin.Controllers
         }
 
         [HttpGet]
-        public ActionResult Teams(Foo foo)
+        public ActionResult Teams(RegistrationTeamsViewModel model)
         {
-            var model = new RegistrationTeamsViewModel(foo.CompetitionId, foo.GymId);
             return PartialView(model);
         }
     }

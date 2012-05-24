@@ -36,7 +36,7 @@ $.subscribe('/gym/create/form/loaded', function () {
             console.log(ui.item ?
                     "Selected: " + ui.item.value + " aka " + ui.item.id :
                     "Nothing selected, input was " + this.value);
-            checkname(this.value);
+            checkname(ui.item.value);
         }
     });
 
@@ -58,7 +58,13 @@ $.subscribe('/gym/create/form/loaded', function () {
                 $('.gym_create .display .availability_check').html(result);
             }
         });
-    };
+    }
+    
+    $('.gym_create .display .for_existing')
+        .live('click', function (event) {
+            event.preventDefault();
+            $.publish('/gym/selected', $(this).attr('data-val'));
+        });
 });
 
 $.subscribe('/gym/name/available', function () {

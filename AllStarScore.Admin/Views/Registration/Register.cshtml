@@ -14,20 +14,9 @@ Gym
 Teams
 
 <div class="team_registration">
-    <div id="registered"></div>
-    <div class="new">
-@*        @using (Html.BeginForm("Create", "Registration", FormMethod.Get)) {*@
-@*            <input type="hidden" id="CompetitionId" value="@Model.Competition.Name" />*@
-@*            <input type="hidden" id="GymId" value="-1" />*@
-@*        }*@
+    <div class="control_links">
+        @Ajax.ActionLink("Teams",  "Teams", "Registration", new { competitionid = @Model.Competition.Id, gymid = "__gymid__"}, new AjaxOptions() { HttpMethod = "Get", InsertionMode = InsertionMode.Replace, UpdateTargetId = "registered_teams" }, new { @class = "form_get"})
     </div>
     
-    <div class="control_links">
-        @using (Ajax.BeginForm("Teams", "Registration", FormMethod.Get, new AjaxOptions() { InsertionMode= InsertionMode.Replace, UpdateTargetId = "registered"})) {
-            <input type="hidden" id="CompetitionId" value="@Model.Competition.Id" />
-            <input type="hidden" id="GymId" value="-1" />
-            
-            <input type="submit" value="Get Registered"/>
-        }
-    </div>
+    <div id="registered_teams"></div>
 </div>
