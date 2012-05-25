@@ -22,12 +22,13 @@ var GymDetailsModule = (function () {
     };
 
     var reset = function() {
-        $('.gym_details').removeClass('editing_gym');
         $('.gym_details .control_links a.gym_details_get').click();
     };
     
     var onLoad = function () {
         bindEdit();
+
+        $('.gym_details').removeClass('editing_gym');
     };
 
     // Return the object that is assigned to Module

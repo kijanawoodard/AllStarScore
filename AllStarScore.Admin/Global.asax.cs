@@ -67,7 +67,7 @@ namespace AllStarScore.Admin
             
             RegisterRoutes(RouteTable.Routes);
 
-            ValueProviderFactories.Factories.Add(new CommandValueProviderFactory());
+            ValueProviderFactories.Factories.Insert(0, new CommandValueProviderFactory()); //TODO: Blog
 
             //BundleTable.Bundles.EnableDefaultBundles();//.RegisterTemplateBundles();
 
