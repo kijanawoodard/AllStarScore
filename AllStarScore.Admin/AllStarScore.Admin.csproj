@@ -181,12 +181,14 @@
     <Content Include="Content\images\orderedListTwo.png" />
     <Content Include="Content\images\twitter.png" />
     <Content Include="Content\images\windowsLive.png" />
+    <Content Include="Content\scripts\competition.details.js" />
     <Content Include="Content\scripts\competition.list.js" />
     <Content Include="Content\scripts\competition.create.js" />
     <Content Include="Content\scripts\gym.create.js" />
     <Content Include="Content\scripts\global.ajax.js" />
     <Content Include="Content\scripts\global.tinypubsub.js" />
     <Content Include="Content\scripts\registration.register.js" />
+    <Content Include="Content\styles\competition.details.css" />
     <Content Include="Content\styles\competition.list.css" />
     <Content Include="Content\styles\gym.create.css" />
     <Content Include="Content\styles\site.mobile.css" />

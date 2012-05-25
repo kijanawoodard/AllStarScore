@@ -25,13 +25,17 @@ namespace AllStarScore.Admin.Controllers
         [HttpPost]
         public ActionResult Create(GymCreateCommand command)
         {
+            GymCreateSuccessfulViewModel model = null;
+
             return Execute(
                 action: () => {
                                  var gym = new Gym();
                                  gym.Update(command);
                                  RavenSession.Store(gym);
-                              },
-                onsuccess: () => PartialView("CreateSuccessful", command),
+
+                                  model = new GymCreateSuccessfulViewModel(gym.Id, gym.Name);
+                },
+                onsuccess: () => PartialView("CreateSuccessful", model),
                 onfailure: () => PartialView(command));
         }
 

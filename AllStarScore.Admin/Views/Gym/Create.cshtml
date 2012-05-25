@@ -1,6 +1,7 @@
 ﻿@model AllStarScore.Admin.ViewModels.GymCreateCommand
 
-@using (Html.BeginForm()) {
+@using (Ajax.BeginForm("Create", "Gym", new AjaxOptions() { UpdateTargetId = "gym_create_display" }))
+{
     @Html.ValidationSummary(true)
 
     <fieldset>
@@ -15,31 +16,32 @@
         </div>
         
         <span class="for_creation">
-        <div class="editor-label class=">
-            @Html.LabelFor(model => model.Location)
-        </div>
-        <div class="editor-field">
-            @Html.EditorFor(model => model.Location)
-            @Html.ValidationMessageFor(model => model.Location)
-        </div>
+            <div class="editor-label class=">
+                @Html.LabelFor(model => model.Location)
+            </div>
+            <div class="editor-field">
+                @Html.EditorFor(model => model.Location)
+                @Html.ValidationMessageFor(model => model.Location)
+            </div>
 
-        <div class="editor-label">
-            @Html.LabelFor(model => model.IsSmallGym)
-        </div>
-        <div class="editor-field">
-            @Html.EditorFor(model => model.IsSmallGym)
-            @Html.ValidationMessageFor(model => model.IsSmallGym)
-        </div>
+            <div class="editor-label">
+                @Html.LabelFor(model => model.IsSmallGym)
+            </div>
+            <div class="editor-field">
+                @Html.EditorFor(model => model.IsSmallGym)
+                @Html.ValidationMessageFor(model => model.IsSmallGym)
+            </div>
 
-        <p>
-            <input type="submit" value="Create" />
-        </p>
+            <p>
+                <input type="submit" value="Create" />
+                <a href="#" class="cancel">Cancel</a>
+            </p>
         </span>
     </fieldset>
 }
 
-<button class="for_existing">Use this Gym</button>
-
 <script type="text/javascript">
-    $.publish('/gym/create/form/loaded');
+    if (typeof GymModule != 'undefined') {
+        GymModule.onLoad();
+    }
 </script>

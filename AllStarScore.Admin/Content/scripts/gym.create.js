@@ -1,50 +1,45 @@
 ﻿$(document).ready(function () {
-    $('a.gym_create')
-        .onClickAjaxInto('.gym_create .display')
-        .click();
+    GymModule.onLoad();
 });
 
+//http://www.joezimjs.com/javascript/javascript-closures-and-the-module-pattern/
+var GymModule = (function () {
+    var form = $('#gym_create_display form');
 
-$.subscribe('/gym/create/form/loaded', function () {
+    var bindName = function (name) {
+        $('#Name')
+            .focus()
+            .autocomplete({
+                source: function (request, response) {
+                    var url = $('.gym_search').attr('href');
+                    $.ajax({
+                        url: url,
+                        type: "GET",
+                        dataType: "json",
 
-    var form = $('.gym_create .display form');
-
-    form.onSubmitAjaxInto('.gym_create .display');
-    $.validator.unobtrusive.parse(form);
-
-    $('#Name').focus();
-
-    $('#Name').autocomplete({
-        source: function (request, response) {
-            var url = $('.gym_search').attr('href');
-            $.ajax({
-                url: url,
-                type: "GET",
-                dataType: "json",
-
-                data: { query: request.term },
-                success: function (data) {
-                    response($.map(data, function (item) {
-                        return { label: item.Name + ' from ' + item.Location, value: item.Name, id: item.Id };
-                        //return { label: item, value: item };
-                    }));
+                        data: { query: request.term },
+                        success: function (data) {
+                            response($.map(data, function (item) {
+                                return { label: item.Name + ' from ' + item.Location, value: item.Name, id: item.Id };
+                                //return { label: item, value: item };
+                            }));
+                        }
+                    });
+                },
+                minLength: 1,
+                select: function (event, ui) {
+                    console.log(ui.item ?
+                        "Selected: " + ui.item.value + " aka " + ui.item.id :
+                        "Nothing selected, input was " + this.value);
+                    checkname(ui.item.value);
                 }
+            })
+            .on('input propertychange', function () {
+                checkname($(this).val());
             });
-        },
-        minLength: 1,
-        select: function (event, ui) {
-            console.log(ui.item ?
-                    "Selected: " + ui.item.value + " aka " + ui.item.id :
-                    "Nothing selected, input was " + this.value);
-            checkname(ui.item.value);
-        }
-    });
+    };
 
-    $('#Name').bind('input propertychange', function () {
-        checkname($(this).val());
-    });
-
-    function checkname(name) {
+    var checkname = function (name) {
         console.log(name);
 
         var url = $('.gym_check').attr('href');
@@ -58,19 +53,49 @@ $.subscribe('/gym/create/form/loaded', function () {
                 $('.gym_create .display .availability_check').html(result);
             }
         });
-    }
-    
-    $('.gym_create .display .for_existing')
-        .live('click', function (event) {
+    };
+
+    var bindCancel = function () {
+        $('#gym_create_display a.cancel').on('click', function (event) {
             event.preventDefault();
-            $.publish('/gym/selected', $(this).attr('data-val'));
+            $.publish('/gym/create/cancelled');
         });
-});
 
-$.subscribe('/gym/name/available', function () {
-    $('.gym_create .display').toggleClass('gym_name_taken', false);
-});
+        $.subscribe('/gym/create/cancelled', function () {
+            form[0].reset();
+            turnOffTaken();
+        });
+    };
 
-$.subscribe('/gym/name/taken', function () {
-    $('.gym_create .display').toggleClass('gym_name_taken', true);
-});
+    var turnOffTaken = function () {
+        $('.gym_create .display').toggleClass('gym_name_taken', false);
+    };
+    
+    var onLoad = function () {
+        bindName();
+        bindCancel();
+        $.validator.unobtrusive.parse(form);
+    };
+
+    var publishGymNameAvailable = function () {
+        turnOffTaken();
+        $.publish('/gym/name/available');
+    };
+
+    var publishGymNameTaken = function (gymid) {
+        $('.gym_create .display').toggleClass('gym_name_taken', true);
+        $.publish('/gym/name/taken', gymid);
+    };
+
+    var publishGymCreated = function (gymid) {
+        $.publish('/gym/created', gymid);
+    };
+    
+    // Return the object that is assigned to Module
+    return {
+        onLoad: onLoad,
+        publishGymNameAvailable: publishGymNameAvailable,
+        publishGymNameTaken: publishGymNameTaken,
+        publishGymCreated: publishGymCreated
+    };
+} ());

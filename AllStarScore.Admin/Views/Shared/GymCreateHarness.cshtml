@@ -3,10 +3,11 @@
 
 <div class="gym_create">
     <span class="control_links">
-        @Html.ActionLink("Create Gym", "Create", "Gym", new { }, new { @class = "gym_create"})
         @Html.ActionLink("Search", "Search", "Gym", new { }, new { @class = "gym_search"})
         @Html.ActionLink("Check", "Check", "Gym", new { }, new { @class = "gym_check"})
     </span>
-    <div class="display"></div>
+    <div id="gym_create_display" class="display">
+        @{ Html.RenderAction("Create", "Gym"); }
+    </div>
 </div>
 

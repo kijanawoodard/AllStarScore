@@ -1,5 +1,8 @@
 ﻿@model AllStarScore.Admin.ViewModels.RegistrationTeamsViewModel
 
+
+
+
 @using (Ajax.BeginForm("Teams", "Registration", new AjaxOptions() { HttpMethod = "Get", InsertionMode = InsertionMode.Replace, UpdateTargetId = "registered_teams" }))
 {
     <input type="hidden" id="CompetitionId" value="@Model.CompetitionId" />

@@ -4,8 +4,55 @@
     ViewBag.Title = "Competition Details";
 }
 
-<h2>@ViewBag.Title</h2>
+@{ Html.RegisterStylesheet("~/content/styles/competition.details.css"); }
+@{ Html.RegisterScript("~/content/scripts/competition.details.js"); }
 
-@Model.Competition.Name
+<h2>Details for @Model.Competition.Name</h2>
+<h3>@Html.DisplayFor(model => model.Competition.FirstDay)</h3>
 
-@Html.ActionLink("Register Gym", "Register", "Registration", new { id = Model.Competition.Id }, new { })
+<div class="summary">
+    6 Gyms
+    14 Teams
+    125 Participants
+</div>
+<br/><br/><br/><br/>
+<div class="register">
+@*@Html.ActionLink("Register Gym", "Register", "Registration", new { id = Model.Competition.Id }, new { })*@
+    @*    @Ajax.ActionLink("Register Gym", "Create", "Gym", new { }, new AjaxOptions() { UpdateTargetId = "create_gym" }, new { })*@
+    <a href="#" class="start_registration">Register Gym</a>
+    <div class="create_gym">
+        @{ Html.RenderPartial("GymCreateHarness"); }
+    </div>
+    <div class="existing">
+        @using (Html.BeginForm("Register", "Registration", FormMethod.Get)){
+            @Html.Hidden("CompetitionId" ,@Model.Competition.Id)
+            @Html.Hidden("GymId", -1)
+
+            <p>
+                <button type="submit">Register</button>
+                <a href="#" class="cancel">Cancel</a>
+            </p>
+        }
+    </div>
+</div>
+<br/><br/><br/><br/>
+<div class="gyms">
+    <table>
+        <thead>
+            <tr>
+                <th>Gym</th>
+                <th># Teams</th>
+                <th># Participants</th>
+                <th></th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr>
+                <td>High Spirit</td>
+                <td>2</td>
+                <td>17</td>
+                <td><a href="#">edit</a></td>
+            </tr>
+        </tbody>
+    </table>
+</div>

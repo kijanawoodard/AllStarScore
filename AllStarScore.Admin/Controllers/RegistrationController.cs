@@ -6,7 +6,7 @@ namespace AllStarScore.Admin.Controllers
 {
     public class RegistrationController : RavenController
     {
-        public ActionResult Register(int id)
+        public ActionResult Index(int id)
         {
             var competition = RavenSession
                                     .Load<Competition>(id);
@@ -20,11 +20,11 @@ namespace AllStarScore.Admin.Controllers
         {
             return PartialView(model);
         }
-    }
 
-    public class Foo
-    {
-        public int CompetitionId { get; set; }
-        public int GymId { get; set; }
+        [HttpGet]
+        public ActionResult Register(RegistrationRegisterViewModel model)
+        {
+            return PartialView(model);
+        }
     }
 }

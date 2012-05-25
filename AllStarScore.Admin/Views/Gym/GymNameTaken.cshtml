@@ -1,7 +1,7 @@
 ﻿@model int
 
 <span class="name_check">This gym already exists</span>
+
 <script type="text/javascript">
-    $.publish('/gym/name/taken', @Model);
-    $('.gym_create .display .for_existing').attr('data-val', @Model);
+    GymModule.publishGymNameTaken(@Model);
 </script>

@@ -6,11 +6,6 @@ namespace AllStarScore.Admin.ViewModels
 {
     public class GymCreateCommand : ICommand 
     {
-        public GymCreateCommand()
-        {
-            IsSmallGym = true;
-        }
-
         [Required]
         public string Name { get; set; }
 
@@ -20,5 +15,22 @@ namespace AllStarScore.Admin.ViewModels
 
         public string CommandByUser { get; set; }
         public DateTime CommandWhen { get; set; }
+
+        public GymCreateCommand()
+        {
+            IsSmallGym = true;
+        }
+    }
+
+    public class GymCreateSuccessfulViewModel
+    {
+        public int Id { get; set; }
+        public string Name { get; set; }
+
+        public GymCreateSuccessfulViewModel(int id, string name)
+        {
+            Id = id;
+            Name = name;
+        }
     }
 }
