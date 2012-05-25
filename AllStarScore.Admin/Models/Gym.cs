@@ -29,6 +29,15 @@ namespace AllStarScore.Admin.Models
             History.Add(command);
         }
 
+        public void Update(GymEditCommand command)
+        {
+            Name = command.Name;
+            Location = command.Location;
+            IsSmallGym = command.IsSmallGym;
+
+            History.Add(command);
+        }
+
         public override bool Equals(object obj)
         {
             var target = obj as Gym;

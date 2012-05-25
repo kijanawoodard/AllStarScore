@@ -74,6 +74,7 @@ var GymModule = (function () {
     var onLoad = function () {
         bindName();
         bindCancel();
+        form[0].reset();
         $.validator.unobtrusive.parse(form);
     };
 
@@ -90,12 +91,17 @@ var GymModule = (function () {
     var publishGymCreated = function (gymid) {
         $.publish('/gym/created', gymid);
     };
+
+    var publishGymEdited = function (gymid) {
+        $.publish('/gym/edited', gymid);
+    };
     
     // Return the object that is assigned to Module
     return {
         onLoad: onLoad,
         publishGymNameAvailable: publishGymNameAvailable,
         publishGymNameTaken: publishGymNameTaken,
-        publishGymCreated: publishGymCreated
+        publishGymCreated: publishGymCreated,
+        publishGymEdited: publishGymEdited
     };
 } ());

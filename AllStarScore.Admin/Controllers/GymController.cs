@@ -26,7 +26,7 @@ namespace AllStarScore.Admin.Controllers
         public ActionResult Create(GymCreateCommand command)
         {
             GymCreateSuccessfulViewModel model = null;
-
+            ModelState.AddModelError("", "bah");
             return Execute(
                 action: () => {
                                  var gym = new Gym();
@@ -65,6 +65,43 @@ namespace AllStarScore.Admin.Controllers
             var view = gym == null ? "GymNameAvailable" : "GymNameTaken";
             var model = gym == null ? 0 : gym.Id;
             return PartialView(view, model);
+        }
+
+        [HttpGet]
+        public ActionResult Details(int gymid)
+        {
+            var gym = RavenSession
+                            .Load<Gym>(gymid);
+
+            var model = new GymDetailsViewModel(gym);
+            return PartialView(model);
+        }
+
+        [HttpGet]
+        public ActionResult Edit(int gymid)
+        {
+            var gym = RavenSession
+                            .Load<Gym>(gymid);
+
+            var model = new GymEditCommand(gym);
+            return PartialView(model);
+        }
+
+        [HttpPost]
+        public ActionResult Edit(GymEditCommand command)
+        {
+            return Execute(
+                action: () =>
+                {
+                    var gym = RavenSession
+                            .Load<Gym>(command.Id);            
+
+                    gym.Update(command);
+                },
+                onsuccess: () => { ViewBag.Success = true;
+                                     return PartialView(command);
+                }, //PartialView("EditSuccessful", new GymEditSuccessfulViewModel(command.Id)),
+                onfailure: () => PartialView(command));
         }
     }
 }

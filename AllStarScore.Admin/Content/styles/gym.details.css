@@ -1,0 +1,3 @@
+﻿.gym_edit { display: none; }
+.editing_gym .gym_edit { display: inherit; }
+.editing_gym #gym_details_display { display: none; }

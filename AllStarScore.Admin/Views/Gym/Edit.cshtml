@@ -1,0 +1,68 @@
+﻿@model AllStarScore.Admin.ViewModels.GymEditCommand
+
+@using (Ajax.BeginForm("Edit", "Gym", new AjaxOptions() { UpdateTargetId = "gym_edit_display" }))
+{
+    @Html.ValidationSummary(true)
+
+    <fieldset>
+        <legend>GymEditCommand</legend>
+
+        @Html.HiddenFor(model => model.Id)
+
+        <div class="editor-label">
+            @Html.LabelFor(model => model.Name)
+        </div>
+        <div class="editor-field">
+            @Html.EditorFor(model => model.Name)
+            @Html.ValidationMessageFor(model => model.Name)
+        </div>
+
+        <div class="editor-label">
+            @Html.LabelFor(model => model.Location)
+        </div>
+        <div class="editor-field">
+            @Html.EditorFor(model => model.Location)
+            @Html.ValidationMessageFor(model => model.Location)
+        </div>
+
+        <div class="editor-label">
+            @Html.LabelFor(model => model.IsSmallGym)
+        </div>
+        <div class="editor-field">
+            @Html.EditorFor(model => model.IsSmallGym)
+            @Html.ValidationMessageFor(model => model.IsSmallGym)
+        </div>
+
+@*        <div class="editor-label">*@
+@*            @Html.LabelFor(model => model.CommandByUser)*@
+@*        </div>*@
+@*        <div class="editor-field">*@
+@*            @Html.EditorFor(model => model.CommandByUser)*@
+@*            @Html.ValidationMessageFor(model => model.CommandByUser)*@
+@*        </div>*@
+@**@
+@*        <div class="editor-label">*@
+@*            @Html.LabelFor(model => model.CommandWhen)*@
+@*        </div>*@
+@*        <div class="editor-field">*@
+@*            @Html.EditorFor(model => model.CommandWhen)*@
+@*            @Html.ValidationMessageFor(model => model.CommandWhen)*@
+@*        </div>*@
+
+        <p>
+            <input type="submit" value="Save" />
+            <a href="#" class="cancel">Cancel</a>
+        </p>
+    </fieldset>
+}
+
+<script type="text/javascript">
+    if (typeof GymEditModule != 'undefined') {
+        GymEditModule.onLoad();
+        
+        var done = @(ViewBag.Success != null ? "true" : "false");
+        if (done) {
+            GymEditModule.publishGymEdited(@Model.Id);      
+        }
+    }
+</script>

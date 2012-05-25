@@ -1,0 +1,9 @@
+﻿@{ Html.RegisterStylesheet("~/content/styles/gym.details.css"); }
+@{ Html.RegisterScript("~/content/scripts/gym.details.js"); }
+
+<div class="gym_details">
+    <div id="gym_details_display" class="display">
+        @{ Html.RenderAction("Details", "Gym"); }
+    </div>
+    @{ Html.RenderPartial("GymEditHarness"); }
+</div>

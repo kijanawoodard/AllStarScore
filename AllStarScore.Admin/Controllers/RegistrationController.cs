@@ -6,12 +6,12 @@ namespace AllStarScore.Admin.Controllers
 {
     public class RegistrationController : RavenController
     {
-        public ActionResult Index(int id)
+        public ActionResult Index(RegistrationIndexRequestModel request)
         {
             var competition = RavenSession
-                                    .Load<Competition>(id);
+                                    .Load<Competition>(request.CompetitionId);
 
-            var model = new RegistrationRegisterViewModel(competition);
+            var model = new RegistrationIndexViewModel(competition, request.GymId);
             return View(model);
         }
 

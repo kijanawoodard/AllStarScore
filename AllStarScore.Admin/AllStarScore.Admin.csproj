@@ -187,10 +187,14 @@
     <Content Include="Content\scripts\gym.create.js" />
     <Content Include="Content\scripts\global.ajax.js" />
     <Content Include="Content\scripts\global.tinypubsub.js" />
+    <Content Include="Content\scripts\gym.details.js" />
+    <Content Include="Content\scripts\gym.edit.js" />
     <Content Include="Content\scripts\registration.register.js" />
     <Content Include="Content\styles\competition.details.css" />
     <Content Include="Content\styles\competition.list.css" />
+    <Content Include="Content\styles\global.css" />
     <Content Include="Content\styles\gym.create.css" />
+    <Content Include="Content\styles\gym.details.css" />
     <Content Include="Content\styles\site.mobile.css" />
     <Content Include="favicon.ico" />
     <Content Include="Global.asax" />
@@ -265,9 +269,6 @@
     <Content Include="Views\Competition\Details.cshtml" />
   </ItemGroup>
   <ItemGroup>
-    <Content Include="Views\Registration\Register.cshtml" />
-  </ItemGroup>
-  <ItemGroup>
     <Content Include="Views\Gym\Create.cshtml" />
   </ItemGroup>
   <ItemGroup>
@@ -284,6 +285,24 @@
   </ItemGroup>
   <ItemGroup>
     <Content Include="Views\Registration\Teams.cshtml" />
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="Views\Registration\Index.cshtml" />
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="Views\Gym\Details.cshtml" />
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="Views\Shared\GymDetailsHarness.cshtml" />
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="Views\Gym\Edit.cshtml" />
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="Views\Gym\EditSuccessful.cshtml" />
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="Views\Shared\GymEditHarness.cshtml" />
   </ItemGroup>
   <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
   <Import Project="$(MSBuildExtensionsPath32)\Microsoft\VisualStudio\v10.0\WebApplications\Microsoft.WebApplication.targets" />

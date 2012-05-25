@@ -12,6 +12,24 @@ namespace AllStarScore.Admin.ViewModels
         }
     }
 
+    public class RegistrationIndexRequestModel
+    {
+        public int CompetitionId { get; set; }
+        public int GymId { get; set; }
+    }
+
+    public class RegistrationIndexViewModel
+    {
+        public Competition Competition { get; set; }
+        public int GymId { get; set; }
+
+        public RegistrationIndexViewModel(Competition competition, int gymid)
+        {
+            Competition = competition;
+            GymId = gymid;
+        }
+    }
+
     public class RegistrationRegisterViewModel
     {
         public Competition Competition { get; set; }

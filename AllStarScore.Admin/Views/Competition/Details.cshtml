@@ -24,7 +24,7 @@
         @{ Html.RenderPartial("GymCreateHarness"); }
     </div>
     <div class="existing">
-        @using (Html.BeginForm("Register", "Registration", FormMethod.Get)){
+        @using (Html.BeginForm("Index", "Registration", FormMethod.Get)){
             @Html.Hidden("CompetitionId" ,@Model.Competition.Id)
             @Html.Hidden("GymId", -1)
 
