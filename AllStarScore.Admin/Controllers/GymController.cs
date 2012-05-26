@@ -90,7 +90,6 @@ namespace AllStarScore.Admin.Controllers
         [HttpPost]
         public ActionResult Edit(GymEditCommand command)
         {
-            ModelState.AddModelError("", "bah!");
             return Execute(
                 action: () =>
                 {
