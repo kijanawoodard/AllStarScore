@@ -5,7 +5,7 @@
         <title>@ViewBag.Title - AllStar Score</title>
         <link href="~/favicon.ico" rel="shortcut icon" type="image/x-icon" />
         <link rel="stylesheet" href="//ajax.googleapis.com/ajax/libs/jqueryui/1.8.19/themes/base/jquery-ui.css" media="all" />
-        
+        @{ Html.RegisterStylesheet("~/content/styles/normalize.css", "global"); }
         @{ Html.RegisterStylesheet("~/content/styles/site.css", "global"); }
         @{ Html.RegisterStylesheet("~/content/styles/global.css", "global"); }
         <link rel="stylesheet" href="~/content/styles/site.mobile.css" media="all" />
@@ -60,7 +60,9 @@
         <script src="//ajax.aspnetcdn.com/ajax/jquery.validate/1.9/jquery.validate.min.js"></script>
         <script src="//ajax.aspnetcdn.com/ajax/mvc/3.0/jquery.unobtrusive-ajax.min.js"></script>
         <script src="//ajax.aspnetcdn.com/ajax/mvc/3.0/jquery.validate.unobtrusive.min.js"></script>
-
+        
+        @{ Html.RegisterScript("~/content/scripts/knockout-2.1.0.js", "global"); }
+        @{ Html.RegisterScript("~/content/scripts/knockout.mapping-latest.js", "global"); }
         @{ Html.RegisterScript("~/content/scripts/global.tinypubsub.js", "global"); }
         @{ Html.RegisterScript("~/content/scripts/global.ajax.js", "global"); }
         @Html.RenderScripts()

@@ -19,6 +19,6 @@ Teams
         @Ajax.ActionLink("Register", "Register", "Registration", new { competitionid = @Model.Competition.Id, gymid = "__gymid__" }, new AjaxOptions() { HttpMethod = "Get", InsertionMode = InsertionMode.Replace, UpdateTargetId = "team_registration" }, new { @class = "form_get" })
     </div>
     
-    <div id="registered_teams"></div>
+    <div id="registered_teams">@{ Html.RenderAction("Teams", "Registration", new { gymid = @Model.GymId, competitionid = @Model.Competition.Id }); }</div>
     <div id="team_registration"></div>
 </div>

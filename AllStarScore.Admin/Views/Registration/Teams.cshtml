@@ -1,6 +1,7 @@
 ﻿@model AllStarScore.Admin.ViewModels.RegistrationTeamsViewModel
 
-
+@{ Html.RegisterStylesheet("~/content/styles/registration.teams.css"); }
+@{ Html.RegisterScript("~/content/scripts/registration.teams.js"); }
 
 
 @using (Ajax.BeginForm("Teams", "Registration", new AjaxOptions() { HttpMethod = "Get", InsertionMode = InsertionMode.Replace, UpdateTargetId = "registered_teams" }))
@@ -10,3 +11,22 @@
                 
     <input type="submit" value="Register Team"/>
 }
+
+
+<div class='liveExample'> 
+    
+    <div data-bind='simpleGrid: gridViewModel'> </div>
+     
+    <button data-bind='click: addItem'>
+        Add item
+    </button>
+     
+    <button data-bind='click: sortByName'>
+        Sort by name
+    </button>
+     
+    <button data-bind='click: jumpToFirstPage, enable: gridViewModel.currentPageIndex'>
+        Jump to first page
+    </button>
+    
+</div>​
