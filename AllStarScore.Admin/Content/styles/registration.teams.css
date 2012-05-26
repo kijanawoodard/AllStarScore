@@ -16,3 +16,11 @@
 .liveExample { height:20em; overflow:auto } /* Mobile Safari reflows pages slowly, so fix the height to avoid the need for reflows */
 
 li { list-style-type: disc; margin-left: 20px; }
+
+table { border-spacing: 0; width: 35em; margin: 0 0 1em 0; }
+th { text-align:left; padding-left: 0.3em; }
+thead { background-color: #999; color: White; }
+
+tr { vertical-align: top; }
+input.input-validation-error { border: 1px solid red; background-color: #FDC; }
+label.error { display: block; color: Red; font-size: 0.8em; }

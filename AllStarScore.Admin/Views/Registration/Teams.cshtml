@@ -6,27 +6,63 @@
 
 @using (Ajax.BeginForm("Teams", "Registration", new AjaxOptions() { HttpMethod = "Get", InsertionMode = InsertionMode.Replace, UpdateTargetId = "registered_teams" }))
 {
+    <fieldset>
     <input type="hidden" id="CompetitionId" value="@Model.CompetitionId" />
     <input type="hidden" id="GymId" value="@Model.GymId" />
                 
     <input type="submit" value="Register Team"/>
+    </fieldset>
 }
 
 
-<div class='liveExample'> 
+<form action='/someServerSideHandler'>
+    <button data-bind='click: addGift'>Add Gift</button>
+    <button data-bind='enable: gifts().length > 0' type='submit'>Submit</button>
+
+    <p>You have asked for <span data-bind='text: gifts().length'>&nbsp;</span> gift(s)</p>
+    <table data-bind='visible: gifts().length > 0' class="ko-grid">
+        <thead>
+            <tr>
+                <th>Gift name</th>
+                <th>Price</th>
+                <th />
+            </tr>
+        </thead>
+        <tbody data-bind='foreach: gifts'>
+            <tr>
+                <td><input class='required' data-bind='value: name, uniqueName: true' data-val-required="The field is required." data-val="true" /></td>
+                <td><input class='required number' data-bind='value: price, uniqueName: true' data-val-required="The field is required." data-val="true" />
+                </td>
+                <td><a href='#' data-bind='click: $root.removeGift'>Delete</a></td>
+            </tr>
+        </tbody>
+    </table>
+ 
     
-    <div data-bind='simpleGrid: gridViewModel'> </div>
-     
-    <button data-bind='click: addItem'>
-        Add item
-    </button>
-     
-    <button data-bind='click: sortByName'>
-        Sort by name
-    </button>
-     
-    <button data-bind='click: jumpToFirstPage, enable: gridViewModel.currentPageIndex'>
-        Jump to first page
-    </button>
-    
-</div>​
+</form>
+@**@
+@*<form action='/someServerSideHandler'>*@
+@*    <input type="hidden" id="CompetitionId" value="@Model.CompetitionId" />*@
+@*    <input type="hidden" id="GymId" value="@Model.GymId" />*@
+@**@
+@*    <button data-bind='click: addGift'>Add Gift</button>*@
+@*    <button data-bind='enable: gifts().length > 0' type='submit'>Submit</button>*@
+@**@
+@*    <p>You have asked for <span data-bind='text: gifts().length'>&nbsp;</span> gift(s)</p>*@
+@*    <table data-bind='visible: gifts().length > 0' class="ko-grid">*@
+@*        <thead>*@
+@*            <tr>*@
+@*                <th>Gift name</th>*@
+@*                <th>Price</th>*@
+@*                <th />*@
+@*            </tr>*@
+@*        </thead>*@
+@*        <tbody data-bind='foreach: gifts'>*@
+@*            <tr>*@
+@*                <td><input class='required' data-bind='value: name, uniqueName: true' /></td>*@
+@*                <td><input class='required number' data-bind='value: price, uniqueName: true' /></td>*@
+@*                <td><a href='#' data-bind='click: $root.removeGift'>Delete</a></td>*@
+@*            </tr>*@
+@*        </tbody>*@
+@*    </table>*@
+@*</form>*@

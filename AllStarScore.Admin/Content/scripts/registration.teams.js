@@ -1,39 +1,33 @@
-﻿var initialData = [
-    { name: "Well-Travelled Kitten", sales: 352, price: 75.95 },
-    { name: "Speedy Coyote", sales: 89, price: 190.00 },
-    { name: "Furious Lizard", sales: 152, price: 25.00 },
-    { name: "Indifferent Monkey", sales: 1, price: 99.95 },
-    { name: "Brooding Dragon", sales: 0, price: 6350 },
-    { name: "Ingenious Tadpole", sales: 39450, price: 0.35 },
-    { name: "Optimistic Snail", sales: 420, price: 1.50 }
-];
- 
-var PagedGridModel = function(items) {
-    this.items = ko.observableArray(items);
- 
-    this.addItem = function() {
-        this.items.push({ name: "New item", sales: 0, price: 100 });
-    };
- 
-    this.sortByName = function() {
-        this.items.sort(function(a, b) {
-            return a.name < b.name ? -1 : 1;
+﻿var GiftModel = function (gifts) {
+    var self = this;
+    self.gifts = ko.observableArray(gifts);
+
+    self.addGift = function () {
+        self.gifts.push({
+            name: "",
+            price: ""
         });
     };
- 
-    this.jumpToFirstPage = function() {
-        this.gridViewModel.currentPageIndex(0);
+
+    self.removeGift = function (gift) {
+        self.gifts.remove(gift);
     };
- 
-    this.gridViewModel = new ko.simpleGrid.viewModel({
-        data: this.items,
-        columns: [
-            { headerText: "Item Name", rowText: "name" },
-            { headerText: "Sales Count", rowText: "sales" },
-            { headerText: "Price", rowText: function (item) { return "$" + item.price.toFixed(2) } }
-        ],
-        pageSize: 4
-    });
+
+    self.save = function (form) {
+        alert("Could now transmit to server: " + ko.utils.stringifyJson(self.gifts));
+        // To actually transmit to server as a regular form post, write this: ko.utils.postJson($("form")[0], self.gifts);
+    };
 };
 
-ko.applyBindings(new PagedGridModel(initialData));
+var viewModel = new GiftModel([
+    { name: "Tall Hat", price: "39.95" },
+    { name: "Long Cloak", price: "120.00" }
+]);
+ko.applyBindings(viewModel);
+
+
+$(document).ready(function () {
+    // Activate jQuery Validation
+    $.validator.unobtrusive.parse("form");
+    $("form").validate({ submitHandler: function () { viewModel.save(); } });
+});
