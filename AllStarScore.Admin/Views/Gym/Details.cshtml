@@ -1,16 +1,6 @@
 ﻿@model AllStarScore.Admin.ViewModels.GymDetailsViewModel
 
-<span class="control_links">
-    @Ajax.ActionLink("Details", "Details", "Gym", new { gymid = @Model.Gym.Id }, new AjaxOptions() { UpdateTargetId = "gym_details_display" }, new { @class = "gym_details_get" })
-</span>
-
 <div>@Model.Gym.Name</div>
 <div>@Model.Gym.Location</div>
 <div>@(Model.Gym.IsSmallGym ? "Small" : "Large") Gym</div>
 <a href="#" data-val="@Model.Gym.Id" class="edit">Edit</a>
-
-<script type="text/javascript">
-    if (typeof GymDetailsModule != 'undefined') {
-        GymDetailsModule.onLoad();
-    }
-</script>

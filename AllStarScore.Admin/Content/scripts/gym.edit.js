@@ -2,16 +2,11 @@
     GymEditModule.onLoad();
 });
 
-$.subscribe('/gym/edit/requested', function (event, gymid) {
-    //$('.gym_edit .control_links a.get').click();
-});
-
 //http://www.joezimjs.com/javascript/javascript-closures-and-the-module-pattern/
 var GymEditModule = (function () {
-    var form = $('#gym_edit_display form');
 
     var bindCancel = function () {
-        form.parent().on('click', 'form a.cancel', function (event) {
+        $('.gym_details .display').on('click', 'form.edit a.cancel', function (event) {
             event.preventDefault();
             $.publish('/gym/edit/cancelled');
         });
@@ -19,6 +14,11 @@ var GymEditModule = (function () {
 
     var onLoad = function () {
         bindCancel();
+        parseForm();
+    };
+
+    var parseForm = function () {
+        var form = $('.gym_details form.edit');
         $.validator.unobtrusive.parse(form);
     };
 
@@ -29,6 +29,7 @@ var GymEditModule = (function () {
     // Return the object that is assigned to Module
     return {
         onLoad: onLoad,
-        publishGymEdited: publishGymEdited
+        publishGymEdited: publishGymEdited,
+        parseForm: parseForm
     };
 } ());

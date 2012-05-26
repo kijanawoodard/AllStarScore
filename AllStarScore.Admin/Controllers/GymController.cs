@@ -90,6 +90,7 @@ namespace AllStarScore.Admin.Controllers
         [HttpPost]
         public ActionResult Edit(GymEditCommand command)
         {
+            ModelState.AddModelError("", "bah!");
             return Execute(
                 action: () =>
                 {
@@ -98,9 +99,7 @@ namespace AllStarScore.Admin.Controllers
 
                     gym.Update(command);
                 },
-                onsuccess: () => { ViewBag.Success = true;
-                                     return PartialView(command);
-                }, //PartialView("EditSuccessful", new GymEditSuccessfulViewModel(command.Id)),
+                onsuccess: () => PartialView("EditSuccessful", new GymEditSuccessfulViewModel(command.Id)),
                 onfailure: () => PartialView(command));
         }
     }

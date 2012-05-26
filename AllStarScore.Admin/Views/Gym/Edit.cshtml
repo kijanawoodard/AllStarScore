@@ -1,6 +1,6 @@
 ﻿@model AllStarScore.Admin.ViewModels.GymEditCommand
 
-@using (Ajax.BeginForm("Edit", "Gym", new AjaxOptions() { UpdateTargetId = "gym_edit_display" }))
+@using (Ajax.BeginForm("Edit", "Gym", new { }, new AjaxOptions() { OnSuccess = "GymEditModule.parseForm", UpdateTargetId = "gym_details_display" }, new { @class = "edit" }))
 {
     @Html.ValidationSummary(true)
 
@@ -32,21 +32,10 @@
             @Html.EditorFor(model => model.IsSmallGym)
             @Html.ValidationMessageFor(model => model.IsSmallGym)
         </div>
-
+        
         <p>
             <input type="submit" value="Save" />
-            <a href="#" class="cancel">Cancel</a>
+            <a href="#" contextmenu="" class="cancel">Cancel</a>
         </p>
     </fieldset>
 }
-
-<script type="text/javascript">
-    if (typeof GymEditModule != 'undefined') {
-        GymEditModule.onLoad();
-        
-        var done = @(ViewBag.Success != null ? "true" : "false");
-        if (done) {
-            GymEditModule.publishGymEdited(@Model.Id);      
-        }
-    }
-</script>
