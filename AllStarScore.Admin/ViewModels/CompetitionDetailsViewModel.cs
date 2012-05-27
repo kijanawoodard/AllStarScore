@@ -1,3 +1,4 @@
+using System.Collections.Generic;
 using AllStarScore.Admin.Models;
 
 namespace AllStarScore.Admin.ViewModels
@@ -44,6 +45,8 @@ namespace AllStarScore.Admin.ViewModels
     {
         public int CompetitionId { get; set; }
         public int GymId { get; set; }
+
+        public List<TeamRegistration> Teams { get; set; }
 
         public RegistrationTeamsViewModel()
         {
