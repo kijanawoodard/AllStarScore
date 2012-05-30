@@ -19,7 +19,7 @@ var GymEditModule = (function () {
 
     var parseForm = function () {
         var form = $('.gym_details form.edit');
-        $.validator.unobtrusive.parse(form);
+        //$.validator.unobtrusive.parse(form);
     };
 
     var publishGymEdited = function (gymid) {

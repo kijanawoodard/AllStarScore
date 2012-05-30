@@ -56,39 +56,4 @@ namespace AllStarScore.Admin.Models
             return Name;
         }
     }
-
-    public class TeamRegistration
-    {
-        public int CompetitionId { get; set; }
-        public int GymId { get; set; }
-
-        public int Id { get; set; }
-        public string Name { get; set; }
-        public string Division { get; set; }
-        
-        public ICollection<ICommand> History { get; private set; }
-
-        public TeamRegistration()
-        {
-            History = new Collection<ICommand>();
-        }
-
-        public override bool Equals(object obj)
-        {
-            var target = obj as TeamRegistration;
-            if (target == null) return false;
-
-            return Id.Equals(target.Id);
-        }
-
-        public override int GetHashCode()
-        {
-            return Id.GetHashCode();
-        }
-
-        public override string ToString()
-        {
-            return Name;
-        }
-    }
 }

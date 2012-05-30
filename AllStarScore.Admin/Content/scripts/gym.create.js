@@ -75,7 +75,7 @@ var GymModule = (function () {
         bindName();
         bindCancel();
         form[0].reset();
-        $.validator.unobtrusive.parse(form);
+        //$.validator.unobtrusive.parse(form);
     };
 
     var publishGymNameAvailable = function () {
