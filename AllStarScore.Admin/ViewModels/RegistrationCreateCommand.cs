@@ -9,7 +9,7 @@ namespace AllStarScore.Admin.ViewModels
         public int GymId { get; set; }
 
         public string TeamName { get; set; }
-        public int DivisionId { get; set; }
+        public string DivisionId { get; set; }
         public bool IsShowTeam { get; set; }
 
         public string CommandByUser { get; set; }

@@ -53,8 +53,8 @@
             </thead>
             <tbody data-bind='foreach: teams'>
                 <tr>
-                    <td><input class='required division' type="text"/></td>
-                    <td><input data-bind='value: name, uniqueName: true' type="text" /></td>
+                    <td><input data-bind='value: divisionName, uniqueName: true' class='required division' type="text"/></td>
+                    <td><input data-bind='value: teamName, uniqueName: true' type="text" /></td>
                     <td><input data-bind='checked: isShowTeam, uniqueName: true' type="checkbox" /></td>
                     <td>
                         <input type="hidden" name="CompetitionId" data-bind='value: competitionId' />
@@ -71,20 +71,10 @@
 </form>
 
 <script>
-    var d = '@Html.Raw(Model.Teams)';
-    var teams = JSON.parse(d);
-
-    var divisions = [
-			{ label: "Level 1 - Small Tiny", id: "1" },
-			{ label: "Level 1 - Large Tiny", id: "2" },
-			{ label: "Dance - Large Intermediate", id: "3" },
-            { label: "Dance - Small Advanced", id: "4" }
-		];
-
     var data = {
         competitionId: @Model.CompetitionId,
         gymId: @Model.GymId,
-        teams: teams,
-        divisions: divisions
+        teams: JSON.parse('@Html.Raw(Model.Teams.ToJson())'),
+        divisions: JSON.parse('@Html.Raw(Model.Divisions.ToJson())')
     };
 </script>

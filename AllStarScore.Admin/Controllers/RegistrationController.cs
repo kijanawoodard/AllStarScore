@@ -1,10 +1,13 @@
 ﻿using System.Collections.Generic;
+using System.Linq;
 using System.Web.Mvc;
 using System.Web.Script.Serialization;
+using AllStarScore.Admin.Infrastructure.Indexes;
 using AllStarScore.Admin.Models;
 using AllStarScore.Admin.ViewModels;
 using Newtonsoft.Json;
 using Newtonsoft.Json.Serialization;
+using Raven.Client.Linq;
 
 namespace AllStarScore.Admin.Controllers
 {
@@ -22,36 +25,37 @@ namespace AllStarScore.Admin.Controllers
         [HttpGet]
         public ActionResult Teams(RegistrationTeamsViewModel model)
         {
+            var divisions =
+                RavenSession
+                    .Query<Division, DivisionsWithLevels>()
+                    .As<DivisionWithLevelsViewModel>()
+                    .ToList();
+
             var teams = new List<TeamRegistration>()
                             {
                                 new TeamRegistration()
-                                    {CompetitionId = 1, DivisionId = 1, GymId = 1, Id = "d/1", Name = "Furious", IsShowTeam = true},
+                                    {CompetitionId = 1, DivisionId = "1", GymId = 1, Id = "d/1", TeamName = "Furious", IsShowTeam = true},
                                 new TeamRegistration()
-                                    {CompetitionId = 1, DivisionId = 1, GymId = 2, Id = "d/2", Name = "Five", IsShowTeam = false}
+                                    {CompetitionId = 1, DivisionId = "1", GymId = 2, Id = "d/2", TeamName = "Five", IsShowTeam = false}
                             };
 
-            model.Teams = JsonConvert.SerializeObject(teams, Formatting.None, new JsonSerializerSettings() { ContractResolver = new CamelCasePropertyNamesContractResolver() });
+            model.Teams = teams;
+            model.Divisions = divisions;
+
             return PartialView(model);
         }
 
-        [HttpGet]
-        public string TeamRegistrations()
-        {
-            var teams = new List<TeamRegistration>()
-                            {
-                                new TeamRegistration()
-                                    {CompetitionId = 1, DivisionId = 1, GymId = 1, Id = "d/1", Name = "Furious"},
-                                new TeamRegistration()
-                                    {CompetitionId = 1, DivisionId = 2, GymId = 2, Id = "d/2", Name = "Five"}
-                            };
-
-            return new JavaScriptSerializer().Serialize(teams);
-        }
-
         [HttpPost]
-        public JsonResult Create(RegistrationCreateCommand command)
+        public JsonDotNetResult Create(RegistrationCreateCommand command)
         {
-            return Json(command, JsonRequestBehavior.AllowGet);
+            return Execute(() =>
+                               {
+                                   var registration = new TeamRegistration();
+                                   registration.Update(command);
+
+                                   //RavenSession.Store(registration);
+                                   return new JsonDotNetResult(registration);
+                               });
         }
 
         [HttpGet]

@@ -1,5 +1,8 @@
 using System;
+using System.Linq;
 using System.Web.Mvc;
+using AllStarScore.Admin.Infrastructure.Utilities;
+using Newtonsoft.Json;
 using Raven.Client;
 
 namespace AllStarScore.Admin.Controllers
@@ -70,6 +73,30 @@ namespace AllStarScore.Admin.Controllers
             return onfailure();
         }
 
+        protected JsonDotNetResult Execute(Func<JsonDotNetResult> action)
+        {
+            try
+            {
+                if (ModelState.IsValid)
+                {
+                    return action();
+                }
+            }
+            catch (Exception e)
+            {
+                ModelState.AddModelError("", e.Message);
+            }
+
+            var errors = ModelState
+                            .ToDictionary(kvp => kvp.Key,
+                                          kvp => kvp.Value.Errors
+                                                    .Select(e => e.ErrorMessage)
+                                                    .ToArray())
+                            .Where(m => m.Value.Any());
+
+            return new JsonDotNetResult(new { errors });
+        }
+
         protected void CompleteSessionHandler(ActionExecutedContext filterContext)
         {
             using (RavenSession)
@@ -93,5 +120,21 @@ namespace AllStarScore.Admin.Controllers
 //        {
 //            return new XmlResult(xml, etag);
 //        }
+    }
+
+    //http://stackoverflow.com/a/7382312/214073
+    public class JsonDotNetResult : ActionResult
+    {
+        private readonly object _obj;
+        public JsonDotNetResult(object obj)
+        {
+            _obj = obj;
+        }
+
+        public override void ExecuteResult(ControllerContext context)
+        {
+            context.HttpContext.Response.AddHeader("content-type", "application/json");
+            context.HttpContext.Response.Write(_obj.ToJson()); //I'm using this extension method so I get consistent formatting on the property names
+        }
     }
 }

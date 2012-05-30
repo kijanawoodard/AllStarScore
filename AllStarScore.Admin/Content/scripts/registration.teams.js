@@ -1,12 +1,43 @@
 ﻿var TeamRegistrationModel = function (data) {
     var self = this;
     self.data = data;
-    self.teams = ko.observableArray(data.teams);
-    self.divisions = self.data.divisions;
+    self.divisions = data.divisions;
+    self.teams = ko.observableArray();
+
+    self.getDivisionId = function (name) {
+        var result = $.grep(self.divisions, function (item) {
+            return item.label == name;
+        });
+
+        if (result.length > 0) {
+            return result[0].id;
+        } else {
+            return undefined;
+        }
+    };
+
+    self.getDivisionName = function (id) {
+        var result = $.grep(self.divisions, function (item) {
+            return item.id == id;
+        });
+        
+        if (result.length > 0) {
+            return result[0].label;
+        } else {
+            return undefined;
+        }
+    };
 
     self.addTeam = function (team) {
+        team.divisionName = self.getDivisionName(team.divisionId);
+        console.log(team.divisionName);
+        //console.log(ko.toJSON(team));
         self.teams.push(team);
     };
+
+    $.each(self.data.teams, function (index, team) {
+        self.addTeam(team);
+    });
 
     self.removeTeam = function (team) {
         self.teams.remove(team);
@@ -15,16 +46,6 @@
     self.resetCreateForm = function () {
         $('#team_registration form.create')[0].reset();
         //$('#team_registration form.create .division').focus();
-    };
-
-    self.getDivisionId = function (name) {
-        for (var i = 0; self.divisions.length > i; i += 1) {
-            if (self.divisions[i].label === name) {
-                return divisions[i].id;
-            }
-        }
-
-        return undefined;
     };
 
     self.createNew = {
@@ -48,16 +69,28 @@
             type: form.method,
             data: ko.toJS(self.createNew), //$(this).serialize(),
             success: function (result) {
-                //$(target).html(result);
-                alert(ko.toJSON(result));
+                if (result.errors && result.errors.length > 0) {
+                    alert(result.errors[0].Value);
+                } else {
+                    console.log(ko.toJSON(result));
+                    self.addTeam(ko.toJS(result));
+                }
+            },
+            error: function (result) {
+                alert('unknown error');
             }
         });
     };
 };
 
 $(document).ready(function () {
-    var viewModel = new TeamRegistrationModel(data);
+    //format the data for the autocomplete dropdown
+    data.divisions = $.map($.makeArray(data.divisions), function (item) {
+        return { label: item.level + " - " + item.division, id: item.divisionId };
+    });
     
+    var viewModel = new TeamRegistrationModel(data);
+
     //check division field to make sure it's valid
     $.validator.addMethod("validateDivision", function (input, element) {
         return viewModel.getDivisionId(input);
@@ -73,12 +106,12 @@ $(document).ready(function () {
         }
     });
 
-    console.log(teams);
+    console.log(data.teams);
 
     ko.applyBindings(viewModel, document.getElementById("team_registration"));
 
     $("input.division").autocomplete({
-        source: divisions,
+        source: data.divisions,
         minLength: 0,
         select: function (event, ui) {
             $(this)

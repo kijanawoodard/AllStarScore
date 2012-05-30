@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Diagnostics;
 using System.Linq;
 using System.Web.Http;
@@ -85,6 +86,8 @@ namespace AllStarScore.Admin
             Raven.Client.Indexes.IndexCreation.CreateIndexes(typeof(GymsByName).Assembly, RavenController.DocumentStore);
             //RavenController.DocumentStore.Conventions.IdentityPartsSeparator = "-";
             HackSecurity();
+            HackLevels();
+            HackDivisions();
         }
 
         [Conditional("DEBUG")]
@@ -109,6 +112,53 @@ namespace AllStarScore.Admin
                 session.Store(admin);
                 session.SaveChanges();
             }            
+        }
+
+        //TODO: come up with something better and remove this
+        private void HackLevels()
+        {
+            var session = RavenController.DocumentStore.OpenSession();
+            var ok = session.Query<Level>().Any();
+            if (ok) return;
+
+            var levels = new List<Level>()
+                             {
+                                 new Level {Name = "Level 1"},
+                                 new Level {Name = "Level 2"},
+                                 new Level {Name = "Level 3"},
+                                 new Level {Name = "Level 4"},
+                                 new Level {Name = "Level 5"},
+                                 new Level {Name = "Level 6"},
+                                 new Level {Name = "Dance"},
+                                 new Level {Name = "School"},
+                                 new Level {Name = "Individual"}
+                             };
+            
+            levels.ForEach(session.Store);
+            session.SaveChanges();
+        }
+
+        //TODO: come up with something better and remove this
+        private void HackDivisions()
+        {
+            var session = RavenController.DocumentStore.OpenSession();
+            var ok = session.Query<Division>().Any();
+            if (ok) return;
+
+            var levels = session.Query<Level>().ToList();
+
+            var divisions = new List<Division>()
+                             {
+                                 new Division{ Name = "Small Youth", LevelId = levels[0].Id},
+                                 new Division{ Name = "Large Youth", LevelId = levels[1].Id},
+                                 new Division{ Name = "Small Junior", LevelId = levels[2].Id},
+                                 new Division{ Name = "Large Junior", LevelId = levels[3].Id},
+                                 new Division{ Name = "Small Senior", LevelId = levels[4].Id},
+                                 new Division{ Name = "Large Senior", LevelId = levels[5].Id}
+                             };
+
+            divisions.ForEach(session.Store);
+            session.SaveChanges();
         }
     }
 
