@@ -9,7 +9,7 @@ namespace AllStarScore.Admin.Infrastructure.Indexes
         public class Results
         {
             public string CompetitionId { get; set; }
-            public int GymId { get; set; }
+            public string GymId { get; set; }
             public string GymName { get; set; }
             public int ParticipantCount { get; set; }
             public int TeamCount { get; set; }
@@ -40,7 +40,7 @@ namespace AllStarScore.Admin.Infrastructure.Indexes
 
             TransformResults =
                 (database, registrations) => from registration in registrations
-                                             let gym = database.Load<Gym>("gyms/" + registration.GymId)
+                                             let gym = database.Load<Gym>(registration.GymId)
                                              select new
                                                         {
                                                             registration.CompetitionId,

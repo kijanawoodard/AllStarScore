@@ -19,15 +19,15 @@ namespace AllStarScore.Admin.ViewModels
     public class RegistrationIndexRequestModel
     {
         public string CompetitionId { get; set; }
-        public int GymId { get; set; }
+        public string GymId { get; set; }
     }
 
     public class RegistrationIndexViewModel
     {
         public Competition Competition { get; set; }
-        public int GymId { get; set; }
+        public string GymId { get; set; }
 
-        public RegistrationIndexViewModel(Competition competition, int gymid)
+        public RegistrationIndexViewModel(Competition competition, string gymid)
         {
             Competition = competition;
             GymId = gymid;
@@ -47,7 +47,7 @@ namespace AllStarScore.Admin.ViewModels
     public class RegistrationTeamsViewModel
     {
         public string CompetitionId { get; set; }
-        public int GymId { get; set; }
+        public string GymId { get; set; }
 
         public List<TeamRegistrationViewModel> Teams { get; set; }
         public List<DivisionViewModel> Divisions { get; set; } 
@@ -57,7 +57,7 @@ namespace AllStarScore.Admin.ViewModels
             
         }
 
-        public RegistrationTeamsViewModel(string competitionid, int gymid)
+        public RegistrationTeamsViewModel(string competitionid, string gymid)
         {
             CompetitionId = competitionid;
             GymId = gymid;

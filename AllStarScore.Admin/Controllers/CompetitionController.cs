@@ -31,15 +31,14 @@ namespace AllStarScore.Admin.Controllers
             return PartialView(model);
         }
 
-        public ActionResult Details(int id)
+        public ActionResult Details(string id)
         {
             var competition = RavenSession.Load<Competition>(id);
 
-            var identifier = "competitions/" + id;
             var stats =
                 RavenSession
                     .Query<TeamRegistration, TeamRegistrationByGym>()
-                    .Where(x => x.CompetitionId == identifier)
+                    .Where(x => x.CompetitionId == id)
                     .As<TeamRegistrationByGym.Results>()
                     .ToList();
 
@@ -68,58 +67,6 @@ namespace AllStarScore.Admin.Controllers
                               },
                 onsuccess: () => PartialView("CreateSuccessful", command),
                 onfailure: () => PartialView(command));
-        }
-
-        //
-        // GET: /Competition/Edit/5
-
-        public ActionResult Edit(int id)
-        {
-            return View();
-        }
-
-        //
-        // POST: /Competition/Edit/5
-
-        [HttpPost]
-        public ActionResult Edit(int id, FormCollection collection)
-        {
-            try
-            {
-                // TODO: Add update logic here
-
-                return RedirectToAction("Index");
-            }
-            catch
-            {
-                return View();
-            }
-        }
-
-        //
-        // GET: /Competition/Delete/5
-
-        public ActionResult Delete(int id)
-        {
-            return View();
-        }
-
-        //
-        // POST: /Competition/Delete/5
-
-        [HttpPost]
-        public ActionResult Delete(int id, FormCollection collection)
-        {
-            try
-            {
-                // TODO: Add delete logic here
-
-                return RedirectToAction("Index");
-            }
-            catch
-            {
-                return View();
-            }
         }
     }
 }

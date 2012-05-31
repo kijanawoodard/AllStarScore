@@ -25,7 +25,7 @@
     </div>
     <div class="existing">
         @using (Html.BeginForm("Index", "Registration", FormMethod.Get)){
-            @Html.Hidden("CompetitionId" ,@Model.Competition.Id)
+            @Html.Hidden("CompetitionId" , Model.Competition.Id)
             @Html.Hidden("GymId", -1)
 
             <p>

@@ -26,7 +26,7 @@ namespace AllStarScore.Admin.Controllers
         public ActionResult Create(GymCreateCommand command)
         {
             GymCreateSuccessfulViewModel model = null;
-            ModelState.AddModelError("", "bah");
+            
             return Execute(
                 action: () => {
                                  var gym = new Gym();
@@ -68,7 +68,7 @@ namespace AllStarScore.Admin.Controllers
         }
 
         [HttpGet]
-        public ActionResult Details(int gymid)
+        public ActionResult Details(string gymid)
         {
             var gym = RavenSession
                             .Load<Gym>(gymid);
@@ -78,7 +78,7 @@ namespace AllStarScore.Admin.Controllers
         }
 
         [HttpGet]
-        public ActionResult Edit(int gymid)
+        public ActionResult Edit(string gymid)
         {
             var gym = RavenSession
                             .Load<Gym>(gymid);

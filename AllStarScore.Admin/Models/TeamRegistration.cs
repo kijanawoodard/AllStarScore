@@ -8,7 +8,7 @@ namespace AllStarScore.Admin.Models
     public class TeamRegistration
     {
         public string CompetitionId { get; set; }
-        public int GymId { get; set; }
+        public string GymId { get; set; }
 
         public string Id { get; set; }
         public string TeamName { get; set; }
