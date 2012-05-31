@@ -60,9 +60,7 @@ var CreateGymViewModel = (function () {
         form.find('input[name=firstDay]').pickDateBefore('input[name=lastDay]');
     };
 
-    //    hook.removeClass('ready');
     self.reset();
     self.setup();
-    //    hook.addClass('ready');
     return self;
 });
