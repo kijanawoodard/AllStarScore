@@ -63,7 +63,7 @@ namespace AllStarScore.Admin.Controllers
 
             var gym = gyms.SingleOrDefault(x => x.Name.Equals(name, StringComparison.InvariantCultureIgnoreCase));
             var view = gym == null ? "GymNameAvailable" : "GymNameTaken";
-            var model = gym == null ? 0 : gym.Id;
+            var model = gym == null ? string.Empty : gym.Id;
             return PartialView(view, model);
         }
 

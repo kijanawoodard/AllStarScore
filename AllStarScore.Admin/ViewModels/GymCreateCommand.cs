@@ -26,7 +26,7 @@ namespace AllStarScore.Admin.ViewModels
     public class GymEditCommand : ICommand
     {
         [Required]
-        public int Id { get; set; }
+        public string Id { get; set; }
 
         [Required]
         public string Name { get; set; }
@@ -54,10 +54,10 @@ namespace AllStarScore.Admin.ViewModels
 
     public class GymCreateSuccessfulViewModel
     {
-        public int Id { get; set; }
+        public string Id { get; set; }
         public string Name { get; set; }
 
-        public GymCreateSuccessfulViewModel(int id, string name)
+        public GymCreateSuccessfulViewModel(string id, string name)
         {
             Id = id;
             Name = name;
@@ -66,9 +66,9 @@ namespace AllStarScore.Admin.ViewModels
 
     public class GymEditSuccessfulViewModel
     {
-        public int Id { get; set; }
+        public string Id { get; set; }
 
-        public GymEditSuccessfulViewModel(int id)
+        public GymEditSuccessfulViewModel(string id)
         {
             Id = id;
         }

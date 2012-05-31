@@ -79,12 +79,14 @@ namespace AllStarScore.Admin
             {
                 ApiKey = parser.ConnectionStringOptions.ApiKey,
                 Url = parser.ConnectionStringOptions.Url,
-            }.Initialize();
+            };
+            RavenController.DocumentStore.Initialize();
+            RavenController.DocumentStore.Conventions.IdentityPartsSeparator = "-";
 
             Raven.Client.MvcIntegration.RavenProfiler.InitializeFor(RavenController.DocumentStore);
 
             Raven.Client.Indexes.IndexCreation.CreateIndexes(typeof(GymsByName).Assembly, RavenController.DocumentStore);
-            //RavenController.DocumentStore.Conventions.IdentityPartsSeparator = "-";
+            
             HackSecurity();
             HackLevels();
             HackDivisions();
