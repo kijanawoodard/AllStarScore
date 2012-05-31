@@ -15,7 +15,7 @@
     @Model.Stats.Sum(x => x.TeamCount) Teams
     @Model.Stats.Sum(x => x.ParticipantCount) Participants
 </div>
-<br/><br/><br/><br/>
+<br/><br/>
 <div class="register">
 @*@Html.ActionLink("Register Gym", "Register", "Registration", new { id = Model.Competition.Id }, new { })*@
     @*    @Ajax.ActionLink("Register Gym", "Create", "Gym", new { }, new AjaxOptions() { UpdateTargetId = "create_gym" }, new { })*@
@@ -35,7 +35,7 @@
         }
     </div>
 </div>
-<br/><br/><br/><br/>
+<br/><br/>
 <div class="gyms">
     <table>
         <thead>
