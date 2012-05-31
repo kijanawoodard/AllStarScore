@@ -14,7 +14,7 @@
             });
         });
     };
-})(jQuery);
+}(jQuery));
 
 (function ($) {
     $.fn.onSubmitAjaxInto = function(target) {
@@ -35,7 +35,22 @@
             });
         });
     };
-})(jQuery);
+}(jQuery));
+
+(function ($) {
+    $.fn.ajaxClick = function(target) {
+        return this.each(function() {
+            var link = this;
+            $.ajax({
+                url: link.href,
+                type: 'get',
+                success: function(result) {
+                    $(target).html(result);
+                }
+            });
+        });
+    };
+}(jQuery));
 
 (function ($) {
     $.fn.ajaxPost = function(options) {
@@ -77,4 +92,4 @@
             });
         });
     };
-})(jQuery);
+}(jQuery));

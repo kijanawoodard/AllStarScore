@@ -2,7 +2,11 @@
 @{ Html.RegisterScript("~/content/scripts/competition.list.js"); }
 
 <div id="competition_list">
-    @{Html.RenderAction("List", "Competition");}
-</div>
+    <div class="control_links">
+        @Html.ActionLink("refresh", "List", "Competition")    
+    </div>
 
-@Html.ActionLink("refresh", "List", "Competition", new { }, new {id = "competition_list_refresh"})
+    <div class="display">
+        @{ Html.RenderAction("List", "Competition"); }
+    </div>
+</div>
