@@ -17,8 +17,6 @@
 </div>
 <br/><br/>
 <div class="register">
-@*@Html.ActionLink("Register Gym", "Register", "Registration", new { id = Model.Competition.Id }, new { })*@
-    @*    @Ajax.ActionLink("Register Gym", "Create", "Gym", new { }, new AjaxOptions() { UpdateTargetId = "create_gym" }, new { })*@
     <a href="#" class="start_registration">Register Gym</a>
     <div class="create_gym">
         @{ Html.RenderPartial("GymCreateHarness"); }

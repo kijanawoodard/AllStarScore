@@ -211,6 +211,7 @@
     <Content Include="Content\styles\global.css" />
     <Content Include="Content\styles\gym.create.css" />
     <Content Include="Content\styles\gym.details.css" />
+    <Content Include="Content\styles\jquery.notify.css" />
     <Content Include="Content\styles\normalize.css" />
     <Content Include="Content\styles\registration.teams.css" />
     <Content Include="Content\styles\site.mobile.css" />

@@ -1,11 +1,11 @@
 ﻿$(document).ready(function () {
     var viewModel = new CreateGymViewModel();
-    ko.applyBindings(viewModel, document.getElementById('gym_create'));
+    ko.applyBindings(viewModel, document.getElementById('competition_create'));
 });
 
 var CreateGymViewModel = (function () {
     var self = this;
-    var hook = $('#gym_create');
+    var hook = $('#competition_create');
     var form = hook.find('form');
 
     self.post = {
