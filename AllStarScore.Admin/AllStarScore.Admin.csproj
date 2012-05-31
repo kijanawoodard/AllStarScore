@@ -13,7 +13,6 @@
     <RootNamespace>AllStarScore.Admin</RootNamespace>
     <AssemblyName>AllStarScore.Admin</AssemblyName>
     <TargetFrameworkVersion>v4.0</TargetFrameworkVersion>
-    <MvcBuildViews>false</MvcBuildViews>
     <UseIISExpress>false</UseIISExpress>
     <SolutionDir Condition="$(SolutionDir) == '' Or $(SolutionDir) == '*Undefined*'">..\</SolutionDir>
     <RestorePackages>true</RestorePackages>
@@ -34,6 +33,7 @@
     <DefineConstants>TRACE</DefineConstants>
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
+    <MvcBuildViews>true</MvcBuildViews>
   </PropertyGroup>
   <ItemGroup>
     <Reference Include="Microsoft.CSharp" />
@@ -162,7 +162,6 @@
     <Compile Include="Infrastructure\Indexes\TeamRegistrationByGym.cs" />
     <Compile Include="Infrastructure\ModelBinding\CommandValueProviderFactory.cs" />
     <Compile Include="Infrastructure\Utilities\ObjectExtensions.cs" />
-    <Compile Include="Infrastructure\Utilities\RavenIdExtensions.cs" />
     <Compile Include="Models\AccountModels.cs" />
     <Compile Include="Models\Competition.cs" />
     <Compile Include="Models\Gym.cs" />
