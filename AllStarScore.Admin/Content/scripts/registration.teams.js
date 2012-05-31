@@ -68,12 +68,12 @@
         $.ajax({
             url: form.action,
             type: form.method,
-            data: ko.toJS(self.createNew), //$(this).serialize(),
+            data: ko.toJS(self.createNew),
             success: function (result) {
                 if (result.errors && result.errors.length > 0) {
                     alert(result.errors[0].Value);
                 } else {
-                    console.log(ko.toJSON(result));
+                    //console.log(ko.toJSON(result));
                     self.addTeam(ko.toJS(result));
                     self.resetCreateForm();
                 }
