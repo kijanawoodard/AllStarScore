@@ -11,9 +11,9 @@
 <h3>@Html.DisplayFor(model => model.Competition.FirstDay)</h3>
 
 <div class="summary">
-    6 Gyms
-    14 Teams
-    125 Participants
+    @Model.Stats.Count Gyms
+    @Model.Stats.Sum(x => x.TeamCount) Teams
+    @Model.Stats.Sum(x => x.ParticipantCount) Participants
 </div>
 <br/><br/><br/><br/>
 <div class="register">
@@ -47,12 +47,15 @@
             </tr>
         </thead>
         <tbody>
-            <tr>
-                <td>High Spirit</td>
-                <td>2</td>
-                <td>17</td>
-                <td><a href="#">edit</a></td>
-            </tr>
+            @foreach (var gym in Model.Stats)
+            {
+                <tr>
+                    <td>@gym.GymName</td>
+                    <td>@gym.TeamCount</td>
+                    <td>@gym.ParticipantCount</td>
+                    <td>@Html.ActionLink("edit", "Index", "Registration", new { gym.CompetitionId, gym.GymId }, new { })</td>
+                </tr>
+            }
         </tbody>
     </table>
 </div>

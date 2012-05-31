@@ -159,6 +159,7 @@
     <Compile Include="Infrastructure\Indexes\CompetitionStatsIndex.cs" />
     <Compile Include="Infrastructure\Indexes\DivisionsWithLevels.cs" />
     <Compile Include="Infrastructure\Indexes\GymsByName.cs" />
+    <Compile Include="Infrastructure\Indexes\TeamRegistrationByGym.cs" />
     <Compile Include="Infrastructure\ModelBinding\CommandValueProviderFactory.cs" />
     <Compile Include="Infrastructure\Utilities\ObjectExtensions.cs" />
     <Compile Include="Models\AccountModels.cs" />

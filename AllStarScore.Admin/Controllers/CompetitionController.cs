@@ -1,7 +1,9 @@
 ﻿using System.Linq;
 using System.Web.Mvc;
+using AllStarScore.Admin.Infrastructure.Indexes;
 using AllStarScore.Admin.Models;
 using AllStarScore.Admin.ViewModels;
+using Raven.Client.Linq;
 
 namespace AllStarScore.Admin.Controllers
 {
@@ -30,7 +32,14 @@ namespace AllStarScore.Admin.Controllers
         public ActionResult Details(int id)
         {
             var competition = RavenSession.Load<Competition>(id);
-            var model = new CompetitionDetailsViewModel(competition);
+            var stats =
+                RavenSession
+                    .Query<TeamRegistration, TeamRegistrationByGym>()
+                    .Where(x => x.CompetitionId == id)
+                    .As<TeamRegistrationByGym.Results>()
+                    .ToList();
+
+            var model = new CompetitionDetailsViewModel(competition, stats);
             return View(model);
         }
 
