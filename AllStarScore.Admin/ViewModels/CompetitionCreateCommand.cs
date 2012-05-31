@@ -13,9 +13,8 @@ namespace AllStarScore.Admin.ViewModels
         }
 
         [Required]
-        public string Name { get; set; }
+        public string CompetitionName { get; set; }
 
-        [Required]
         public string Description { get; set; }
 
         [Required]

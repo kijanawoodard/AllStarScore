@@ -1,7 +1,48 @@
-﻿
+﻿@{ Html.RegisterStylesheet("~/content/styles/competition.create.css"); }
 @{ Html.RegisterScript("~/content/scripts/competition.create.js"); }
 
-<p>
-    @Html.ActionLink("Create New Competition", "Create", "Competition", new { }, new {id="createlink"})
-</p>
-<div id="create"></div>
+<div id="gym_create">
+    <p>
+        <a href="#" data-bind="click: toggleFormVisibility">Create New Competition</a>
+    </p>
+    <form action='@Url.Action("Create", "Competition")' method="post" data-bind="css: {show: shouldShowForm}">
+        <fieldset>
+            <legend>CompetitionCreateInputModel</legend>
+            
+            <div class="validation-summary-errors"></div>
+
+            <div class="editor-label">
+                <label>Competition Name</label>
+            </div>
+            <div class="editor-field">
+                <input type="text" name="competitionName" class="required" data-bind="value: post.competitionName, hasfocus: focusName" />
+            </div>
+
+            <div class="editor-label">
+                <label>Description</label>
+            </div>
+            <div class="editor-field">
+                <input type="text" name="description" data-bind="value: post.description" />
+            </div>
+
+            <div class="editor-label">
+                <label>First Day</label>
+            </div>
+            <div class="editor-field">
+                <input type="text" name="firstDay" class="required date" data-bind="value: post.firstDay" />
+            </div>
+
+            <div class="editor-label">
+                <label>Last Day</label>
+            </div>
+            <div class="editor-field">
+                <input type="text" name="lastDay" class="required date" data-bind="value: post.lastDay" />
+            </div>
+
+            <p>
+                <input type="submit" value="Create Competition" />
+                <a href="#" data-bind="click: cancelCreation">Cancel</a>
+            </p>
+        </fieldset>
+    </form>
+</div>

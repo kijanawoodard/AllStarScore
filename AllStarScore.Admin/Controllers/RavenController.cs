@@ -94,6 +94,7 @@ namespace AllStarScore.Admin.Controllers
                                                     .ToArray())
                             .Where(m => m.Value.Any());
 
+            HttpContext.Response.StatusCode = 400;
             return new JsonDotNetResult(new { errors });
         }
 

@@ -28,8 +28,8 @@ namespace AllStarScore.Admin.Models
 
         public void Update(CompetitionCreateCommand command)
         {
-            Name = command.Name;
-            Description = command.Description;
+            Name = command.CompetitionName;
+            Description = command.Description ?? string.Empty;
             FirstDay = command.FirstDay;
             LastDay = command.LastDay;
 

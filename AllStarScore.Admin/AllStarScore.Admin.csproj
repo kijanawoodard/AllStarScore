@@ -191,11 +191,13 @@
     <Content Include="Content\scripts\competition.details.js" />
     <Content Include="Content\scripts\competition.list.js" />
     <Content Include="Content\scripts\competition.create.js" />
+    <Content Include="Content\scripts\global.datepicker.js" />
     <Content Include="Content\scripts\gym.create.js" />
     <Content Include="Content\scripts\global.ajax.js" />
     <Content Include="Content\scripts\global.tinypubsub.js" />
     <Content Include="Content\scripts\gym.details.js" />
     <Content Include="Content\scripts\gym.edit.js" />
+    <Content Include="Content\scripts\jquery.notify.js" />
     <Content Include="Content\scripts\knockout-2.1.0.debug.js" />
     <Content Include="Content\scripts\knockout-2.1.0.js" />
     <Content Include="Content\scripts\knockout.mapping-latest.js" />
@@ -205,6 +207,7 @@
     <Content Include="Content\scripts\registration.teams.js" />
     <Content Include="Content\styles\competition.details.css" />
     <Content Include="Content\styles\competition.list.css" />
+    <Content Include="Content\styles\competition.create.css" />
     <Content Include="Content\styles\global.css" />
     <Content Include="Content\styles\gym.create.css" />
     <Content Include="Content\styles\gym.details.css" />

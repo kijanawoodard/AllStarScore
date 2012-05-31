@@ -1,1 +1,4 @@
 ﻿.control_links { display: none; }
+
+.ui-datepicker { margin-top: .8em; }
+input.input-validation-error, input.error { border: 1px solid red !important; background-color: #FDC; }

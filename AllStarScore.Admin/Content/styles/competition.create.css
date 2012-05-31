@@ -1,0 +1,2 @@
+﻿#gym_create form { display: none; }
+#gym_create form.show { display: inherit; }

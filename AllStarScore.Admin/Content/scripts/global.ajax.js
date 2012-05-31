@@ -16,7 +16,7 @@
     };
 })(jQuery);
 
-(function($) {
+(function ($) {
     $.fn.onSubmitAjaxInto = function(target) {
         return this.each(function() {
             $(this).submit(function(event) {
@@ -37,20 +37,42 @@
     };
 })(jQuery);
 
-(function($) {
-    $.fn.pickDateBefore = function(last) {
+(function ($) {
+    $.fn.ajaxPost = function(options) {
         return this.each(function() {
-            var first = $(this);
-            first.datepicker({
-                numberOfMonths: 2,
-                onSelect: function(selected) {
-                    $(last).datepicker("option", "minDate", selected);
-                }
-            });
-            $(last).datepicker({
-                numberOfMonths: 2,
-                onSelect: function(selected) {
-                    first.datepicker("option", "maxDate", selected);
+            var form = this;
+            $.ajax({
+                url: form.action,
+                type: form.method,
+                data: options.data,
+                success: options.success,
+                error: function (xhr) {
+                    var errors = [{ "Key": "General", "Value": ["An Unknown Error Occurred"]}];
+                    if (xhr.status == 400) {
+                        errors = $.parseJSON(xhr.responseText).errors;
+                    } else if (xhr.status == 302) {
+                        alert("redirected");
+                        console.log(xhr.responseText);
+                    }
+                    else {
+                        console.log(xhr.responseText);
+                    }
+
+                    var summary = $(form).find('.validation-summary-errors');
+                    if (summary.length == 0) {
+                        console.log('To see errors on page add this within the form: <div class="validation-summary-errors"></div>');
+                        console.log(xhr.responseText);
+                    }
+                    else {
+                        summary.empty().append($('<ul>'));
+                        $.each(errors, function (x, error) {
+                            $.each(error.Value, function (y, value) {
+                                summary.find('ul').append(
+                                    $('<li>').append(error.Key + ": " + value)
+                                );
+                            });
+                        });
+                    }
                 }
             });
         });

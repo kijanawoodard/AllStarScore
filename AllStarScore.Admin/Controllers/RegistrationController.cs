@@ -47,14 +47,15 @@ namespace AllStarScore.Admin.Controllers
         [HttpPost]
         public JsonDotNetResult Create(RegistrationCreateCommand command)
         {
-            return Execute(() =>
-                               {
-                                   var registration = new TeamRegistration();
-                                   registration.Update(command);
+            return Execute(
+                action: () =>
+                            {
+                                var registration = new TeamRegistration();
+                                registration.Update(command);
 
-                                   RavenSession.Store(registration);
-                                   return new JsonDotNetResult(registration);
-                               });
+                                RavenSession.Store(registration);
+                                return new JsonDotNetResult(registration);
+                            });
         }
 
         [HttpGet]

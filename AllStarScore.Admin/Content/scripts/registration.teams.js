@@ -78,8 +78,10 @@
                     self.resetCreateForm();
                 }
             },
-            error: function (result) {
-                alert('unknown error');
+            error: function (xhr, textStatus, errorThrown) {
+                alert(xhr.status);
+                alert(errorThrown);
+                //alert('unknown error');
             }
         });
     };

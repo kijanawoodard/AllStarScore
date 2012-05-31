@@ -57,16 +57,16 @@ namespace AllStarScore.Admin.Controllers
         }
 
         [HttpPost]
-        public ActionResult Create(CompetitionCreateCommand command)
+        public JsonDotNetResult Create(CompetitionCreateCommand command)
         {
             return Execute(
-                action: () => {
-                                var competion = new Competition();
-                                competion.Update(command);
-                                RavenSession.Store(competion);
-                              },
-                onsuccess: () => PartialView("CreateSuccessful", command),
-                onfailure: () => PartialView(command));
+                action: () =>
+                {
+                    var competition = new Competition();
+                    competition.Update(command);
+                    RavenSession.Store(competition);
+                    return new JsonDotNetResult(competition);
+                });
         }
     }
 }
