@@ -7,7 +7,7 @@ namespace AllStarScore.Admin.Models
 {
     public class TeamRegistration
     {
-        public int CompetitionId { get; set; }
+        public string CompetitionId { get; set; }
         public int GymId { get; set; }
 
         public string Id { get; set; }

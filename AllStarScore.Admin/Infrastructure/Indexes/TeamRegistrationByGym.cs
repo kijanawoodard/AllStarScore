@@ -8,7 +8,7 @@ namespace AllStarScore.Admin.Infrastructure.Indexes
     {
         public class Results
         {
-            public int CompetitionId { get; set; }
+            public string CompetitionId { get; set; }
             public int GymId { get; set; }
             public string GymName { get; set; }
             public int ParticipantCount { get; set; }

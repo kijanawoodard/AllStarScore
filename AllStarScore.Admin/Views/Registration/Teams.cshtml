@@ -81,8 +81,8 @@
 
 <script>
     var data = {
-        competitionId: @Model.CompetitionId,
-        gymId: @Model.GymId,
+        competitionId: '@Model.CompetitionId',
+        gymId: '@Model.GymId',
         teams: JSON.parse('@Html.Raw(Model.Teams.ToJson())'),
         divisions: JSON.parse('@Html.Raw(Model.Divisions.ToJson())')
     };

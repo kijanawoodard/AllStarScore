@@ -162,6 +162,7 @@
     <Compile Include="Infrastructure\Indexes\TeamRegistrationByGym.cs" />
     <Compile Include="Infrastructure\ModelBinding\CommandValueProviderFactory.cs" />
     <Compile Include="Infrastructure\Utilities\ObjectExtensions.cs" />
+    <Compile Include="Infrastructure\Utilities\RavenIdExtensions.cs" />
     <Compile Include="Models\AccountModels.cs" />
     <Compile Include="Models\Competition.cs" />
     <Compile Include="Models\Gym.cs" />
