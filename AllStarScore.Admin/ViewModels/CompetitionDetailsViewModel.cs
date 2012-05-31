@@ -46,8 +46,8 @@ namespace AllStarScore.Admin.ViewModels
         public int CompetitionId { get; set; }
         public int GymId { get; set; }
 
-        public List<TeamRegistration> Teams { get; set; }
-        public List<DivisionWithLevelsViewModel> Divisions { get; set; } 
+        public List<TeamRegistrationViewModel> Teams { get; set; }
+        public List<DivisionViewModel> Divisions { get; set; } 
 
         public RegistrationTeamsViewModel()
         {

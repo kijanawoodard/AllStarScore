@@ -12,6 +12,7 @@ namespace AllStarScore.Admin.Models
 
         public string Id { get; set; }
         public string TeamName { get; set; }
+        public int ParticipantCount { get; set; }
         public string DivisionId { get; set; }
         public bool IsShowTeam { get; set; }
         
@@ -28,6 +29,7 @@ namespace AllStarScore.Admin.Models
             GymId = command.GymId;
             
             TeamName = command.TeamName;
+            ParticipantCount = command.ParticipantCount;
             DivisionId = command.DivisionId;
             IsShowTeam = command.IsShowTeam;
 

@@ -20,7 +20,7 @@
         var result = $.grep(self.divisions, function (item) {
             return item.id == id;
         });
-        
+
         if (result.length > 0) {
             return result[0].label;
         } else {
@@ -30,7 +30,7 @@
 
     self.addTeam = function (team) {
         team.divisionName = self.getDivisionName(team.divisionId);
-        console.log(team.divisionName);
+        //console.log(team.divisionName);
         //console.log(ko.toJSON(team));
         self.teams.push(team);
     };
@@ -51,6 +51,7 @@
     self.createNew = {
         divisionName: ko.observable(),
         teamName: ko.observable(),
+        participantCount: ko.observable(),
         isShowTeam: ko.observable()
     };
 
@@ -74,6 +75,7 @@
                 } else {
                     console.log(ko.toJSON(result));
                     self.addTeam(ko.toJS(result));
+                    self.resetCreateForm();
                 }
             },
             error: function (result) {
@@ -83,35 +85,10 @@
     };
 };
 
-$(document).ready(function () {
-    //format the data for the autocomplete dropdown
-    data.divisions = $.map($.makeArray(data.divisions), function (item) {
-        return { label: item.level + " - " + item.division, id: item.divisionId };
-    });
+var autoComplete = function (element, source) {
     
-    var viewModel = new TeamRegistrationModel(data);
-
-    //check division field to make sure it's valid
-    $.validator.addMethod("validateDivision", function (input, element) {
-        return viewModel.getDivisionId(input);
-    }, "Please choose a valid division");
-
-    $('form.create').validate({
-        debug: true,
-        submitHandler: function () {
-            viewModel.create(this.currentForm);
-        },
-        rules: {
-            division: { validateDivision: true }
-        }
-    });
-
-    console.log(data.teams);
-
-    ko.applyBindings(viewModel, document.getElementById("team_registration"));
-
-    $("input.division").autocomplete({
-        source: data.divisions,
+    $(element).autocomplete({
+        source: source,
         minLength: 0,
         select: function (event, ui) {
             $(this)
@@ -135,4 +112,51 @@ $(document).ready(function () {
                     .append("<a>" + t + "</a>")
                     .appendTo(ul);
     };
-});
+};
+
+var autoCompleteUpdate = function (element, source) {
+    $(element).autocomplete("option", "source", source);
+};
+
+$(document).ready(function () {
+    //format the data for the autocomplete dropdown
+    data.divisions = $.map($.makeArray(data.divisions), function (item) {
+        return { label: item.level + " - " + item.division, id: item.divisionId };
+    });
+
+    var viewModel = new TeamRegistrationModel(data);
+
+    //check division field to make sure it's valid
+    $.validator.addMethod("validateDivision", function (value, element) {
+        return viewModel.getDivisionId(value);
+    }, "Please choose a valid division");
+
+    //http://stackoverflow.com/a/1090408/214073
+    $.validator.addMethod('positiveNumber', function (value) {
+        return Number(value) > 0;
+    }, 'Enter a positive number.');
+    
+    $('form.create').validate({
+        debug: true,
+        submitHandler: function () {
+            viewModel.create(this.currentForm);
+        },
+        rules: {
+            division: { validateDivision: true },
+            participantCount: { positiveNumber: true }
+        }
+    });
+
+    console.log(data.teams);
+
+    ko.bindingHandlers.ko_autocomplete = {
+        init: function (element, params) {
+            autoComplete(element, params().source);
+        },
+        update: function (element, params) {
+            $(element).autocomplete("option", "source", params().source);
+        }
+    };
+
+    ko.applyBindings(viewModel, document.getElementById("team_registration"));
+});

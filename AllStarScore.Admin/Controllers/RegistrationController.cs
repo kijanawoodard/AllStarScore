@@ -28,19 +28,18 @@ namespace AllStarScore.Admin.Controllers
             var divisions =
                 RavenSession
                     .Query<Division, DivisionsWithLevels>()
-                    .As<DivisionWithLevelsViewModel>()
+                    .As<DivisionViewModel>()
+                    .Lazily();
+
+            var teams =
+                RavenSession
+                    .Query<TeamRegistration>()
+                    .Where(t => t.CompetitionId == model.CompetitionId && t.GymId == model.GymId)
+                    .Select(t => new TeamRegistrationViewModel(){ CompetitionId = t.CompetitionId, GymId = t.GymId, Id = t.Id, DivisionId = t.DivisionId, TeamName = t.TeamName, ParticipantCount = t.ParticipantCount, IsShowTeam = t.IsShowTeam})
                     .ToList();
 
-            var teams = new List<TeamRegistration>()
-                            {
-                                new TeamRegistration()
-                                    {CompetitionId = 1, DivisionId = "1", GymId = 1, Id = "d/1", TeamName = "Furious", IsShowTeam = true},
-                                new TeamRegistration()
-                                    {CompetitionId = 1, DivisionId = "1", GymId = 2, Id = "d/2", TeamName = "Five", IsShowTeam = false}
-                            };
-
             model.Teams = teams;
-            model.Divisions = divisions;
+            model.Divisions = divisions.Value.ToList();
 
             return PartialView(model);
         }
@@ -53,7 +52,7 @@ namespace AllStarScore.Admin.Controllers
                                    var registration = new TeamRegistration();
                                    registration.Update(command);
 
-                                   //RavenSession.Store(registration);
+                                   RavenSession.Store(registration);
                                    return new JsonDotNetResult(registration);
                                });
         }

@@ -170,7 +170,7 @@
     <Compile Include="ViewModels\CompetitionCreateCommand.cs" />
     <Compile Include="ViewModels\CompetitionDetailsViewModel.cs" />
     <Compile Include="ViewModels\CompetitionListViewModel.cs" />
-    <Compile Include="ViewModels\DivisionWithLevelsViewModel.cs" />
+    <Compile Include="ViewModels\DivisionViewModel.cs" />
     <Compile Include="ViewModels\GymCreateCommand.cs" />
     <Compile Include="ViewModels\RegistrationCreateCommand.cs" />
   </ItemGroup>
