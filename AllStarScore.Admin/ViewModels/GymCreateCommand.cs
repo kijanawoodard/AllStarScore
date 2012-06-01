@@ -1,6 +1,8 @@
 using System;
+using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using AllStarScore.Admin.Infrastructure.Commands;
+using AllStarScore.Admin.Infrastructure.Indexes;
 using AllStarScore.Admin.Models;
 
 namespace AllStarScore.Admin.ViewModels
@@ -8,7 +10,7 @@ namespace AllStarScore.Admin.ViewModels
     public class GymCreateCommand : ICommand 
     {
         [Required]
-        public string Name { get; set; }
+        public string GymName { get; set; }
 
         [Required]
         public string Location { get; set; }
@@ -20,6 +22,16 @@ namespace AllStarScore.Admin.ViewModels
         public GymCreateCommand()
         {
             IsSmallGym = true;
+        }
+    }
+
+    public class GymCreateDataViewModel
+    {
+        public List<GymsByName.Results> Gyms { get; set; }
+
+        public GymCreateDataViewModel(List<GymsByName.Results> gyms)
+        {
+            Gyms = gyms;
         }
     }
 

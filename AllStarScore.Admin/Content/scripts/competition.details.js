@@ -1,9 +1,4 @@
 ﻿$(document).ready(function () {
-    $('.register .start_registration').on('click', function (event) {
-        event.preventDefault();
-        $('.register').addClass('available');
-    });
-
     $('.register .existing a.cancel').on('click', function (event) {
         event.preventDefault();
         $.publish('/gym/create/cancelled');
@@ -26,6 +21,5 @@ $.subscribe('/gym/name/available', function () {
 
 $.subscribe('/gym/create/cancelled', function () {
     $('.register')
-        .removeClass('available')
         .removeClass('taken');
 });

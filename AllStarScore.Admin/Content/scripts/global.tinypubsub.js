@@ -14,7 +14,7 @@
 
     $.publish = function () {
         o.trigger.apply(o, arguments);
-        console.log('publish');
-        console.dir(arguments);
+        //console.log('publish');
+        //console.dir(arguments);
     };
 } (jQuery));

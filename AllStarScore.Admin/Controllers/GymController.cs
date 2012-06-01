@@ -15,57 +15,67 @@ namespace AllStarScore.Admin.Controllers
 {
     public class GymController : RavenController
     {
+//        [HttpGet]
+//        public ActionResult Create()
+//        {
+//            var model = new GymCreateCommand();
+//            return PartialView(model);
+//        }
+
         [HttpGet]
-        public ActionResult Create()
+        public ActionResult GymCreateData()
         {
-            var model = new GymCreateCommand();
+            var gyms =
+                RavenSession
+                    .Query<Gym, GymsByName>()
+                    .Take(int.MaxValue) //there shouldn't be very many of these in practice
+                    .As<GymsByName.Results>()
+                    .ToList();
+
+            var model = new GymCreateDataViewModel(gyms);
             return PartialView(model);
         }
 
         [HttpPost]
-        public ActionResult Create(GymCreateCommand command)
+        public JsonDotNetResult Create(GymCreateCommand command)
         {
-            GymCreateSuccessfulViewModel model = null;
-            
             return Execute(
-                action: () => {
-                                 var gym = new Gym();
-                                 gym.Update(command);
-                                 RavenSession.Store(gym);
-
-                                  model = new GymCreateSuccessfulViewModel(gym.Id, gym.Name);
-                },
-                onsuccess: () => PartialView("CreateSuccessful", model),
-                onfailure: () => PartialView(command));
+                action: () =>
+                            {
+                                var gym = new Gym();
+                                gym.Update(command);
+                                RavenSession.Store(gym);
+                                return new JsonDotNetResult(gym);
+                            });
         }
 
-        [HttpGet]
-        public ActionResult Search(string query)
-        {
-            //http://daniellang.net/searching-on-string-properties-in-ravendb/ - Did it the *wrong* way ;-)
-            var gyms = RavenSession
-                        .Advanced.LuceneQuery<Gym, GymsByName>()
-                        .Where("Name: *" + query + "* OR Location: *" + query + "*" )
-                        .ToList();
-
-            return Json(gyms, JsonRequestBehavior.AllowGet);
-        }
-
-        [HttpGet]
-        public ActionResult Check(string name)
-        {
-            if (string.IsNullOrWhiteSpace(name)) return Content("");
-
-            var gyms = RavenSession
-                            .Query<Gym, GymsByName>()
-                            .Where(x => x.Name == name) //Index returns matches on each term which isn't what we want here. Exact match below
-                            .ToList();
-
-            var gym = gyms.SingleOrDefault(x => x.Name.Equals(name, StringComparison.InvariantCultureIgnoreCase));
-            var view = gym == null ? "GymNameAvailable" : "GymNameTaken";
-            var model = gym == null ? string.Empty : gym.Id;
-            return PartialView(view, model);
-        }
+//        [HttpGet]
+//        public ActionResult Search(string query)
+//        {
+//            //http://daniellang.net/searching-on-string-properties-in-ravendb/ - Did it the *wrong* way ;-)
+//            var gyms = RavenSession
+//                        .Advanced.LuceneQuery<Gym, GymsByName>()
+//                        .Where("Name: *" + query + "* OR Location: *" + query + "*" )
+//                        .ToList();
+//
+//            return Json(gyms, JsonRequestBehavior.AllowGet);
+//        }
+//
+//        [HttpGet]
+//        public ActionResult Check(string name)
+//        {
+//            if (string.IsNullOrWhiteSpace(name)) return Content("");
+//
+//            var gyms = RavenSession
+//                            .Query<Gym, GymsByName>()
+//                            .Where(x => x.Name == name) //Index returns matches on each term which isn't what we want here. Exact match below
+//                            .ToList();
+//
+//            var gym = gyms.SingleOrDefault(x => x.Name.Equals(name, StringComparison.InvariantCultureIgnoreCase));
+//            var view = gym == null ? "GymNameAvailable" : "GymNameTaken";
+//            var model = gym == null ? string.Empty : gym.Id;
+//            return PartialView(view, model);
+//        }
 
         [HttpGet]
         public ActionResult Details(string gymid)

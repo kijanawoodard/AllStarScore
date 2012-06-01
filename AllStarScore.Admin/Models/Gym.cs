@@ -22,7 +22,7 @@ namespace AllStarScore.Admin.Models
 
         public void Update(GymCreateCommand command)
         {
-            Name = command.Name;
+            Name = command.GymName;
             Location = command.Location;
             IsSmallGym = command.IsSmallGym;
 

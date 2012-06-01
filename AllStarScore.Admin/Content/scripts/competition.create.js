@@ -1,9 +1,9 @@
 ﻿$(document).ready(function () {
-    var viewModel = new CreateGymViewModel();
+    var viewModel = new CreateCompetitionViewModel();
     ko.applyBindings(viewModel, document.getElementById('competition_create'));
 });
 
-var CreateGymViewModel = (function () {
+var CreateCompetitionViewModel = (function () {
     var self = this;
     var hook = $('#competition_create');
     var form = hook.find('form');

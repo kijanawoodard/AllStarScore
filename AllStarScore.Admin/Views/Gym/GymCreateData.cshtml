@@ -1,0 +1,7 @@
+﻿@model AllStarScore.Admin.ViewModels.GymCreateDataViewModel
+
+<script>
+    var gymCreateData = {
+        gyms: JSON.parse('@Html.Raw(Model.Gyms.ToJson())')
+    };
+</script>

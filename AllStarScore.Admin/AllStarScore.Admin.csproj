@@ -288,13 +288,13 @@
     <Content Include="Views\Competition\Details.cshtml" />
   </ItemGroup>
   <ItemGroup>
-    <Content Include="Views\Gym\Create.cshtml" />
+    <Content Include="Views\Gym\Create_deprecated.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="Views\Shared\GymCreateHarness.cshtml" />
   </ItemGroup>
   <ItemGroup>
-    <Content Include="Views\Gym\CreateSuccessful.cshtml" />
+    <Content Include="Views\Gym\CreateSuccessful_deprecated.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="Views\Gym\GymNameAvailable.cshtml" />
@@ -319,6 +319,9 @@
   </ItemGroup>
   <ItemGroup>
     <Content Include="Views\Gym\EditSuccessful.cshtml" />
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="Views\Gym\GymCreateData.cshtml" />
   </ItemGroup>
   <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
   <Import Project="$(MSBuildExtensionsPath32)\Microsoft\VisualStudio\v10.0\WebApplications\Microsoft.WebApplication.targets" />

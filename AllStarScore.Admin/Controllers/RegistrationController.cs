@@ -28,6 +28,7 @@ namespace AllStarScore.Admin.Controllers
             var divisions =
                 RavenSession
                     .Query<Division, DivisionsWithLevels>()
+                    .Take(int.MaxValue) //there shouldn't be very many of these in practice
                     .As<DivisionViewModel>()
                     .Lazily();
 

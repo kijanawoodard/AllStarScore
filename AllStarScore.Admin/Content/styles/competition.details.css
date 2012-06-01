@@ -1,6 +1,2 @@
-﻿.register .create_gym { display: none; }
-.register .existing { display: none; }
-
-.register.available .create_gym { display: inherit; }
-
+﻿.register .existing { display: none; }
 .register.taken .existing { display: inherit; }

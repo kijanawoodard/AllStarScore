@@ -1,13 +1,45 @@
 ﻿@{ Html.RegisterStylesheet("~/content/styles/gym.create.css"); }
 @{ Html.RegisterScript("~/content/scripts/gym.create.js"); }
 
-<div class="gym_create">
-    <span class="control_links">
-        @Html.ActionLink("Search", "Search", "Gym", new { }, new { @class = "gym_search"})
-        @Html.ActionLink("Check", "Check", "Gym", new { }, new { @class = "gym_check"})
-    </span>
-    <div id="gym_create_display" class="display">
-        @{ Html.RenderAction("Create", "Gym"); }
-    </div>
+<div id="gym_create">
+    <p>
+        <a href="#" data-bind="click: toggleFormVisibility">Create Gym</a>
+    </p>
+    <form action='@Url.Action("Create", "Gym")' method="post" data-bind="css: {show: shouldShowForm}">
+        <fieldset>
+            <legend>Create a new Gym</legend>
+            
+            <div class="validation-summary-errors"></div>
+
+            <div class="editor-label">
+                <label>Gym Name</label>
+            </div>
+            <div class="editor-field">
+                <input type="text" name="gymName" class="required" data-bind="value: post.gymName, hasfocus: focusName, autocomplete : { source: gyms, onMatchEval: gymNameMatched }" />
+                <span data-bind="visible: nameIsAvailable">This gym name is available</span>
+                <span data-bind="visible: nameIsTaken">This gym name is taken</span>
+            </div>
+
+            <div class="editor-label" data-bind="visible: shouldAllowCreate">
+                <label>Location</label>
+            </div>
+            <div class="editor-field" data-bind="visible: shouldAllowCreate">
+                <input type="text" name="location" class="required" data-bind="value: post.location" />
+            </div>
+
+            <div class="editor-label" data-bind="visible: shouldAllowCreate">
+                <label>Small Gym?</label>
+            </div>
+            <div class="editor-field" data-bind="visible: shouldAllowCreate">
+                <input type="checkbox" name="isSmallGym" data-bind="checked: post.isSmallGym" />
+            </div>
+
+            <p data-bind="visible: shouldAllowCreate">
+                <input type="submit" value="Create Gym" />
+                <a href="#" data-bind="click: cancelCreation">Cancel</a>
+            </p>
+        </fieldset>
+    </form>
 </div>
 
+@{ Html.RenderAction("GymCreateData", "Gym"); }
