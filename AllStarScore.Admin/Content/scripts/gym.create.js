@@ -7,6 +7,7 @@
     });
 });
 
+//http://stackoverflow.com/questions/7855500/autocomplete-with-knockoutjs
 ko.bindingHandlers.autocomplete = {
     init: function (element, valueAccessor, allBindingsAccessor, viewModel) {
         var options = valueAccessor() || {};
