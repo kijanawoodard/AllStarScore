@@ -3,81 +3,83 @@
 @{ Html.RegisterStylesheet("~/content/styles/registration.teams.css"); }
 @{ Html.RegisterScript("~/content/scripts/registration.teams.js"); }
 
-<form action='@Url.Action("Create", "Registration")' method="post" class="create">
-    <fieldset>
-        <legend>Register New Team</legend>
+<div id="team_registration">
+    <form action='@Url.Action("Create", "Registration")' method="post" class="create">
+        <fieldset>
+            <legend>Register New Team</legend>
 
-        <input type="hidden" name="competitionId" value="@Model.CompetitionId" />
-        <input type="hidden" name="gymId" value="@Model.GymId" />
+            <input type="hidden" name="competitionId" value="@Model.CompetitionId" />
+            <input type="hidden" name="gymId" value="@Model.GymId" />
 
-        <div class="editor-label">
-            <label>Division</label>
-        </div>
-        <div class="editor-field">
-            <input type="text" name="division" class="required" autofocus="autofocus" data-bind='value: createNew.divisionName, ko_autocomplete: { source: divisions }'/>
-        </div>
+            <div class="editor-label">
+                <label>Division</label>
+            </div>
+            <div class="editor-field">
+                <input type="text" name="division" class="required" autofocus="autofocus" data-bind='value: createNew.divisionName, ko_autocomplete: { source: divisions }'/>
+            </div>
 
-        <div class="editor-label">
-            <label>Team Name</label>
-        </div>
-        <div class="editor-field">
-            <input type="text" name="name" data-bind='value: createNew.teamName'/>
-        </div>
+            <div class="editor-label">
+                <label>Team Name</label>
+            </div>
+            <div class="editor-field">
+                <input type="text" name="name" data-bind='value: createNew.teamName'/>
+            </div>
         
-        <div class="editor-label">
-            <label>Number of Participants</label>
-        </div>
-        <div class="editor-field">
-            <input type="text" name="participantCount" class="required number" data-bind='value: createNew.participantCount'/>
-        </div>
+            <div class="editor-label">
+                <label>Number of Participants</label>
+            </div>
+            <div class="editor-field">
+                <input type="text" name="participantCount" class="required number" data-bind='value: createNew.participantCount'/>
+            </div>
         
-        <div class="editor-label">
-            <label>Show?</label>
-        </div>
-        <div class="editor-field">
-            <input type="checkbox" name="isshowteam" data-bind='checked: createNew.isShowTeam'/>
-        </div>
+            <div class="editor-label">
+                <label>Show?</label>
+            </div>
+            <div class="editor-field">
+                <input type="checkbox" name="isshowteam" data-bind='checked: createNew.isShowTeam'/>
+            </div>
 
-        <p>
-            <input type="submit" value="Register Team" />
-            <a href="#" data-bind='click: resetCreateForm'>Reset</a>
-        </p>
-    </fieldset>
-</form>
+            <p>
+                <input type="submit" value="Register Team" />
+                <a href="#" data-bind='click: resetCreateForm'>Reset</a>
+            </p>
+        </fieldset>
+    </form>
 
-<form action='/someServerSideHandler' class="existing">
-    <fieldset>
-        <legend>Registered Teams</legend>
-        <p><span data-bind='text: teams().length'>&nbsp;</span> team(s) registered</p>
-        <table data-bind='visible: teams().length > 0'>
-            <thead>
-                <tr>
-                    <th>Division</th>
-                    <th>Team name</th>
-                    <th># of Participants</th>
-                    <th>Show?</th>
-                    <th />
-                </tr>
-            </thead>
-            <tbody data-bind='foreach: teams'>
-                <tr>
-                    <td><input data-bind='value: divisionName, ko_autocomplete: { source: $root.divisions }, uniqueName: true' name="division" class='required' type="text"/></td>
-                    <td><input data-bind='value: teamName, uniqueName: true' type="text" /></td>
-                    <td><input data-bind='value: participantCount, uniqueName: true' name="participantCount" class="required number" type="text" /></td>
-                    <td><input data-bind='checked: isShowTeam, uniqueName: true' type="checkbox" /></td>
-                    <td>
-@*                        <input type="hidden" name="CompetitionId" data-bind='value: competitionId' />*@
-@*                        <input type="hidden" name="GymId" data-bind='value: gymId' />*@
-@*                        <input type="hidden" name="Id" data-bind='value: id' />*@
-                        <a href='#' data-bind='click: $root.editTeam'>Edit</a>
-@*                        <a href='#' data-bind='click: $root.removeTeam'>Cancel</a>*@
-                    </td>
-                </tr>
-            </tbody>
-        </table>
-        <p data-bind='visible: teams().length == 0'>No teams registered yet</p>
-    </fieldset>
-</form>
+    <form action='/someServerSideHandler' class="existing">
+        <fieldset>
+            <legend>Registered Teams</legend>
+            <p><span data-bind='text: teams().length'>&nbsp;</span> team(s) registered</p>
+            <table data-bind='visible: teams().length > 0'>
+                <thead>
+                    <tr>
+                        <th>Division</th>
+                        <th>Team name</th>
+                        <th># of Participants</th>
+                        <th>Show?</th>
+                        <th />
+                    </tr>
+                </thead>
+                <tbody data-bind='foreach: teams'>
+                    <tr>
+                        <td><input data-bind='value: divisionName, ko_autocomplete: { source: $root.divisions }, uniqueName: true' name="division" class='required' type="text"/></td>
+                        <td><input data-bind='value: teamName, uniqueName: true' type="text" /></td>
+                        <td><input data-bind='value: participantCount, uniqueName: true' name="participantCount" class="required number" type="text" /></td>
+                        <td><input data-bind='checked: isShowTeam, uniqueName: true' type="checkbox" /></td>
+                        <td>
+                            @*                        <input type="hidden" name="CompetitionId" data-bind='value: competitionId' />*@
+                            @*                        <input type="hidden" name="GymId" data-bind='value: gymId' />*@
+                            @*                        <input type="hidden" name="Id" data-bind='value: id' />*@
+                            <a href='#' data-bind='click: $root.editTeam'>Edit</a>
+                            @*                        <a href='#' data-bind='click: $root.removeTeam'>Cancel</a>*@
+                        </td>
+                    </tr>
+                </tbody>
+            </table>
+            <p data-bind='visible: teams().length == 0'>No teams registered yet</p>
+        </fieldset>
+    </form>
+</div>
 
 <script>
     var data = {

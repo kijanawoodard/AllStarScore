@@ -12,13 +12,4 @@ Gym
 
 Teams
 
-<div class="team_registration_harness">
-@*    <div class="control_links">*@
-@*        @Ajax.ActionLink("Teams",  "Teams", "Registration", new { competitionid = @Model.Competition.Id, gymid = "__gymid__"}, new AjaxOptions() { HttpMethod = "Get", InsertionMode = InsertionMode.Replace, UpdateTargetId = "registered_teams" }, new { @class = "list_get"})*@
-@*        @Ajax.ActionLink("Register", "Register", "Registration", new { competitionid = @Model.Competition.Id, gymid = "__gymid__" }, new AjaxOptions() { HttpMethod = "Get", InsertionMode = InsertionMode.Replace, UpdateTargetId = "team_registration" }, new { @class = "form_get" })*@
-@*    </div>*@
-    
-    <div id="team_registration">
-        @{ Html.RenderAction("Teams", "Registration", new { gymid = @Model.GymId, competitionid = @Model.Competition.Id }); }
-    </div>
-</div>
+@{ Html.RenderAction("Teams", "Registration", new { gymid = @Model.GymId, competitionid = @Model.Competition.Id }); }
