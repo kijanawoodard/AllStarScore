@@ -16,10 +16,11 @@ namespace AllStarScore.Admin.Controllers
             return View();
         }
 
-        public ActionResult ListHarness()
-        {
-            return PartialView();
-        }
+//        public ActionResult ListHarness()
+//        {
+//            return PartialView();
+//        }
+
         public ActionResult List()
         {
             var competitions = RavenSession
@@ -46,15 +47,16 @@ namespace AllStarScore.Admin.Controllers
             return View(model);
         }
 
-        public ActionResult CreateHarness()
-        {
-            return PartialView();
-        }
-        public ActionResult Create()
-        {
-            var model = new CompetitionCreateCommand();
-            return PartialView(model);
-        }
+//        public ActionResult CreateHarness()
+//        {
+//            return PartialView();
+//        }
+//
+//        public ActionResult Create()
+//        {
+//            var model = new CompetitionCreateCommand();
+//            return PartialView(model);
+//        }
 
         [HttpPost]
         public JsonDotNetResult Create(CompetitionCreateCommand command)

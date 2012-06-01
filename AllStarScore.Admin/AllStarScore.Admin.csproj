@@ -265,13 +265,10 @@
     <Content Include="Views\Competition\List.cshtml" />
   </ItemGroup>
   <ItemGroup>
-    <Content Include="Views\Competition\Create.cshtml" />
+    <Content Include="Views\Competition\Create_deprected.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="Views\Shared\EditorTemplates\DateTime.cshtml" />
-  </ItemGroup>
-  <ItemGroup>
-    <Content Include="Views\Competition\CreateSuccessful.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="Views\Shared\DisplayTemplates\DateTime.cshtml" />
