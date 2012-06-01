@@ -1,16 +1,18 @@
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using AllStarScore.Admin.Infrastructure.Commands;
+using AllStarScore.Admin.Infrastructure.Utilities;
 using AllStarScore.Admin.ViewModels;
 
 namespace AllStarScore.Admin.Models
 {
     public class TeamRegistration
     {
+        public string Id { get; set; }
+        
         public string CompetitionId { get; set; }
         public string GymId { get; set; }
 
-        public string Id { get; set; }
         public string TeamName { get; set; }
         public int ParticipantCount { get; set; }
         public string DivisionId { get; set; }
@@ -27,8 +29,8 @@ namespace AllStarScore.Admin.Models
         {
             CompetitionId = command.CompetitionId;
             GymId = command.GymId;
-            
-            TeamName = command.TeamName;
+
+            TeamName = command.TeamName.TrimSafely();
             ParticipantCount = command.ParticipantCount;
             DivisionId = command.DivisionId;
             IsShowTeam = command.IsShowTeam;
@@ -38,7 +40,7 @@ namespace AllStarScore.Admin.Models
 
         public void Update(RegistrationEditCommand command)
         {
-            TeamName = command.TeamName;
+            TeamName = command.TeamName.TrimSafely();
             ParticipantCount = command.ParticipantCount;
             DivisionId = command.DivisionId;
             IsShowTeam = command.IsShowTeam;

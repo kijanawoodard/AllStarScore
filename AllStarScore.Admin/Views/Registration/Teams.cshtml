@@ -9,6 +9,9 @@
             <legend>Register New Team</legend>
             
             <p>Register a new team for the competition</p>
+            
+            <div class="validation-summary-errors"></div>
+
             <table data-bind='visible: teams().length > 0'>
                 <thead>
                     <tr>
@@ -41,6 +44,8 @@
             <legend>Registered Teams</legend>
             <p><span data-bind='text: teams().length'>&nbsp;</span> team(s) registered</p>
             
+            <div class="validation-summary-errors"></div>
+
             <table data-bind='visible: teams().length > 0'>
                 <thead>
                     <tr>

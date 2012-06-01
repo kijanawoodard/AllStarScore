@@ -35,9 +35,12 @@
     var saveOriginalTeam = undefined;
 
     self.addTeam = function (team) {
+        //add any new properties to team before mapping
         team.divisionName = self.getDivisionName(team.divisionId);
-        team.editing = ko.observable(false);
-        //console.log(team.divisionName);
+        team.editing = false;
+
+        team = ko.mapping.fromJS(team);
+
         //console.log(ko.toJSON(team));
         self.teams.push(team);
     };
@@ -47,23 +50,24 @@
     });
 
     self.editTeam = function (team) {
-        saveOriginalTeam = ko.toJSON(team);
+        saveOriginalTeam = ko.mapping.toJSON(team);
         team.editing(true);
         self.editing(true);
     };
 
     self.cancelEdit = function (team) {
-
+        console.log(team);
+        console.log(saveOriginalTeam);
         console.log(ko.toJSON(team));
-        var k = ko.mapping.fromJSON(saveOriginalTeam);
-        team.divisionName(k.divisionName);
-        console.log(ko.toJSON(team));
+        //        var k = ko.mapping.fromJSON(saveOriginalTeam);
+        //        team.divisionName = k.divisionName;
+        ko.mapping.fromJSON(saveOriginalTeam, team);
 
         team.editing(false);
         self.editing(false); //compute?
 
-
         editForm.data('validator').resetForm();
+        editForm.find('td input').removeClass('error'); //HACK: reset not clearing class; not sure why just now
     };
 
     self.removeTeam = function (team) {
@@ -89,9 +93,17 @@
         var ok = editForm.valid();
         if (!ok) return;
 
-        console.log(ko.toJSON(team));
-        team.editing(false);
-        self.editing(false); //compute?
+        team.divisionId(self.getDivisionId(team.divisionName()));
+        console.log(ko.mapping.toJSON(team));
+
+        editForm.ajaxPost({
+            data: ko.toJS(team),
+            success: function (result) {
+                //console.log(ko.toJSON(result));
+                team.editing(false);
+                self.editing(false); //compute?
+            }
+        });
     };
 
     self.create = function () {
@@ -180,7 +192,7 @@ $(document).ready(function () {
         }
     });
 
-    console.log(data.teams);
+    //console.log(data.teams);
 
     ko.bindingHandlers.ko_autocomplete = {
         init: function (element, params) {

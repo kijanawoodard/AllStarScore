@@ -37,10 +37,20 @@ namespace AllStarScore.Admin.Controllers
                     .Query<TeamRegistration>()
                     .Where(t => t.CompetitionId == model.CompetitionId && t.GymId == model.GymId)
                     .Take(int.MaxValue) //there shouldn't be very many of these in practice
-                    .Select(t => new TeamRegistrationViewModel(){ CompetitionId = t.CompetitionId, GymId = t.GymId, Id = t.Id, DivisionId = t.DivisionId, TeamName = t.TeamName, ParticipantCount = t.ParticipantCount, IsShowTeam = t.IsShowTeam})
                     .ToList();
 
-            model.Teams = teams;
+            model.Teams =
+                teams.Select(
+                    t =>
+                    new TeamRegistrationViewModel()
+                        {
+                            RegistrationId = t.Id,
+                            DivisionId = t.DivisionId,
+                            TeamName = t.TeamName,
+                            ParticipantCount = t.ParticipantCount,
+                            IsShowTeam = t.IsShowTeam
+                        }).ToList();
+
             model.Divisions = divisions.Value.ToList();
 
             return PartialView(model);
@@ -67,10 +77,9 @@ namespace AllStarScore.Admin.Controllers
                 action: () =>
                 {
                     var registration = RavenSession.Load<TeamRegistration>(command.RegistrationId);
-                    registration.Update(command);
+                    registration.Update(command); //fyi; the registration has Id instead of RegistrationId, but we're not using this class on the client
 
-                    RavenSession.Store(registration);
-                    return new JsonDotNetResult(registration);
+                    return new JsonDotNetResult(true); 
                 });
         }
     }
