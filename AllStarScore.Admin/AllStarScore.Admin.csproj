@@ -311,7 +311,7 @@
     <Content Include="Views\Gym\Details_deprecated.cshtml" />
   </ItemGroup>
   <ItemGroup>
-    <Content Include="Views\Shared\GymDetailsHarness.cshtml" />
+    <Content Include="Views\Shared\GymDetailsHarness_deprecated.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="Views\Gym\Edit.cshtml" />
