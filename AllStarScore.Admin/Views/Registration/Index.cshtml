@@ -6,10 +6,5 @@
 
 <h2>Registration for @Model.Competition.Name</h2>
 
-Gym
-
 @{ Html.RenderAction("Edit", "Gym", new { gymid = @Model.GymId }); }
-
-Teams
-
 @{ Html.RenderAction("Teams", "Registration", new { gymid = @Model.GymId, competitionid = @Model.Competition.Id }); }

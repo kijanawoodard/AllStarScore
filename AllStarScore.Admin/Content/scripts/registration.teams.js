@@ -30,6 +30,7 @@
 
     self.addTeam = function (team) {
         team.divisionName = self.getDivisionName(team.divisionId);
+        team.editing = ko.observable(false);
         //console.log(team.divisionName);
         //console.log(ko.toJSON(team));
         self.teams.push(team);
@@ -38,6 +39,15 @@
     $.each(self.data.teams, function (index, team) {
         self.addTeam(team);
     });
+
+    self.editTeam = function (team) {
+        team.editing(true);
+    };
+
+    self.cancelEdit = function (team) {
+        console.log(ko.toJSON(team));
+        team.editing(false);
+    };
 
     self.removeTeam = function (team) {
         self.teams.remove(team);
@@ -121,6 +131,8 @@ var autoCompleteUpdate = function (element, source) {
 };
 
 $(document).ready(function () {
+    var data = window.registrationTeamsData;
+    
     //format the data for the autocomplete dropdown
     data.divisions = $.map($.makeArray(data.divisions), function (item) {
         return { label: item.level + " - " + item.division, id: item.divisionId };
@@ -137,7 +149,7 @@ $(document).ready(function () {
     $.validator.addMethod('positiveNumber', function (value) {
         return Number(value) > 0;
     }, 'Enter a positive number.');
-    
+
     $('form.create').validate({
         debug: true,
         submitHandler: function () {
