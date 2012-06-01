@@ -1,41 +1,63 @@
 ﻿@model AllStarScore.Admin.ViewModels.GymEditCommand
 
-@using (Ajax.BeginForm("Edit", "Gym", new { }, new AjaxOptions() { OnSuccess = "GymEditModule.parseForm", UpdateTargetId = "gym_details_display" }, new { @class = "edit" }))
-{
-    @Html.ValidationSummary(true)
+@{ Html.RegisterStylesheet("~/content/styles/gym.edit.css"); }
+@{ Html.RegisterScript("~/content/scripts/gym.edit.js"); }
 
-    <fieldset>
-        <legend>GymEditCommand</legend>
+<div id="gym_edit">
+    <form action='@Url.Action("Edit", "Gym")' method="post" data-bind="css: {show: shouldShowForm}">
+        <fieldset data-bind="visible: editing">
+            <legend>Edit a Gym</legend>
+            
+            <div class="validation-summary-errors"></div>
 
-        @Html.HiddenFor(model => model.Id)
+            <input type="hidden" data-bind="value: post.gymId" />
 
-        <div class="editor-label">
-            @Html.LabelFor(model => model.Name)
-        </div>
-        <div class="editor-field">
-            @Html.EditorFor(model => model.Name)
-            @Html.ValidationMessageFor(model => model.Name)
-        </div>
+            <div class="editor-label">
+                <label>Gym Name</label>
+            </div>
+            <div class="editor-field">
+                <input type="text" name="gymName" class="required" data-bind="value: post.gymName, hasfocus: focusName, autocomplete : { source: gyms, onMatchEval: gymNameMatched }" />
+                <span data-bind="visible: nameIsAvailable">This gym name is available</span>
+                <span data-bind="visible: nameIsTaken">This gym name is taken</span>
+            </div>
 
-        <div class="editor-label">
-            @Html.LabelFor(model => model.Location)
-        </div>
-        <div class="editor-field">
-            @Html.EditorFor(model => model.Location)
-            @Html.ValidationMessageFor(model => model.Location)
-        </div>
+            <div class="editor-label">
+                <label>Location</label>
+            </div>
+            <div class="editor-field">
+                <input type="text" name="location" class="required" data-bind="value: post.location" />
+            </div>
 
-        <div class="editor-label">
-            @Html.LabelFor(model => model.IsSmallGym)
-        </div>
-        <div class="editor-field">
-            @Html.EditorFor(model => model.IsSmallGym)
-            @Html.ValidationMessageFor(model => model.IsSmallGym)
-        </div>
+            <div class="editor-label">
+                <label>Small Gym?</label>
+            </div>
+            <div class="editor-field">
+                
+                <input type="checkbox" name="isSmallGym" data-bind="checked: post.isSmallGym" />
+            </div>
+
+            <p>
+                <input type="submit" value="Save" data-bind="enable: shouldAllowName" />
+                <a href="#" data-bind="click: cancel">Cancel</a>
+            </p>
+        </fieldset>
         
-        <p>
-            <input type="submit" value="Save" />
-            <a href="#" contextmenu="" class="cancel">Cancel</a>
+        <p data-bind="visible: !editing()">
+            <span data-bind="text: post.gymName"></span> from
+            <span data-bind="text: post.location"></span> (
+            <span data-bind="visible: post.isSmallGym">Small Gym</span>
+            <span data-bind="visible: !post.isSmallGym()">Large Gym</span>
+             ) 
+            <a href="#" data-bind="click: edit">Edit</a>
         </p>
-    </fieldset>
-}
+    </form>
+    
+</div>
+
+@{ Html.RenderAction("GymCreateData", "Gym"); }
+
+<script>
+    var gymEditData = {
+        gym: '@Html.Raw(Model.ToJson())'
+    };
+</script>

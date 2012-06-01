@@ -31,7 +31,8 @@ namespace AllStarScore.Admin.Models
 
         public void Update(GymEditCommand command)
         {
-            Name = command.Name;
+            command.GymName = command.GymName.Trim(); //did it this way to send trimmed data back to client...a bit hacky, but....meh
+            Name = command.GymName;
             Location = command.Location;
             IsSmallGym = command.IsSmallGym;
 

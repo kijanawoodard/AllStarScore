@@ -77,15 +77,15 @@ namespace AllStarScore.Admin.Controllers
 //            return PartialView(view, model);
 //        }
 
-        [HttpGet]
-        public ActionResult Details(string gymid)
-        {
-            var gym = RavenSession
-                            .Load<Gym>(gymid);
-
-            var model = new GymDetailsViewModel(gym);
-            return PartialView(model);
-        }
+//        [HttpGet]
+//        public ActionResult Details(string gymid)
+//        {
+//            var gym = RavenSession
+//                            .Load<Gym>(gymid);
+//
+//            var model = new GymDetailsViewModel(gym);
+//            return PartialView(model);
+//        }
 
         [HttpGet]
         public ActionResult Edit(string gymid)
@@ -98,18 +98,15 @@ namespace AllStarScore.Admin.Controllers
         }
 
         [HttpPost]
-        public ActionResult Edit(GymEditCommand command)
+        public JsonDotNetResult Edit(GymEditCommand command)
         {
             return Execute(
                 action: () =>
-                {
-                    var gym = RavenSession
-                            .Load<Gym>(command.Id);            
-
-                    gym.Update(command);
-                },
-                onsuccess: () => PartialView("EditSuccessful", new GymEditSuccessfulViewModel(command.Id)),
-                onfailure: () => PartialView(command));
+                            {
+                                var gym = RavenSession.Load<Gym>(command.GymId);
+                                gym.Update(command);
+                                return new JsonDotNetResult(command);
+                            });
         }
     }
 }

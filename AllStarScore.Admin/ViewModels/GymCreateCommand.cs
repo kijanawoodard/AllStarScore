@@ -38,10 +38,10 @@ namespace AllStarScore.Admin.ViewModels
     public class GymEditCommand : ICommand
     {
         [Required]
-        public string Id { get; set; }
+        public string GymId { get; set; }
 
         [Required]
-        public string Name { get; set; }
+        public string GymName { get; set; }
 
         [Required]
         public string Location { get; set; }
@@ -57,8 +57,8 @@ namespace AllStarScore.Admin.ViewModels
 
         public GymEditCommand(Gym gym)
         {
-            Id = gym.Id;
-            Name = gym.Name;
+            GymId = gym.Id;
+            GymName = gym.Name;
             Location = gym.Location;
             IsSmallGym = gym.IsSmallGym;
         }

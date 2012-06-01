@@ -9,7 +9,8 @@
 
 Gym
 
-@{ Html.RenderPartial("GymDetailsHarness", @Model.GymId); }
+@*@{ Html.RenderPartial("GymDetailsHarness", @Model.GymId); }*@
+@{ Html.RenderAction("Edit", "Gym"); }
 
 Teams
 
