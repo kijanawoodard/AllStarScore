@@ -15,15 +15,8 @@ namespace AllStarScore.Admin.Controllers
 {
     public class GymController : RavenController
     {
-//        [HttpGet]
-//        public ActionResult Create()
-//        {
-//            var model = new GymCreateCommand();
-//            return PartialView(model);
-//        }
-
         [HttpGet]
-        public ActionResult GymCreateData()
+        public ActionResult GymList()
         {
             var gyms =
                 RavenSession
@@ -32,9 +25,17 @@ namespace AllStarScore.Admin.Controllers
                     .As<GymsByName.Results>()
                     .ToList();
 
-            var model = new GymCreateDataViewModel(gyms);
+            var model = new GymListViewModel(gyms);
             return PartialView(model);
         }
+
+        //        [HttpGet]
+        //        public ActionResult Create()
+        //        {
+        //            var model = new GymCreateCommand();
+        //            return PartialView(model);
+        //        }
+
 
         [HttpPost]
         public JsonDotNetResult Create(GymCreateCommand command)
@@ -48,6 +49,33 @@ namespace AllStarScore.Admin.Controllers
                                 return new JsonDotNetResult(gym);
                             });
         }
+
+        [HttpGet]
+        public ActionResult Edit(string gymid)
+        {
+            var gym = RavenSession
+                            .Load<Gym>(gymid);
+
+            var model = new GymEditCommand(gym);
+            return PartialView(model);
+        }
+
+        [HttpPost]
+        public JsonDotNetResult Edit(GymEditCommand command)
+        {
+            return Execute(
+                action: () =>
+                            {
+                                var gym = RavenSession.Load<Gym>(command.GymId);
+                                gym.Update(command);
+                                return new JsonDotNetResult(command);
+                            });
+        }
+    }
+}
+
+//Left this here as an example to myself of how to do full text search with RavenDB
+
 
 //        [HttpGet]
 //        public ActionResult Search(string query)
@@ -76,37 +104,3 @@ namespace AllStarScore.Admin.Controllers
 //            var model = gym == null ? string.Empty : gym.Id;
 //            return PartialView(view, model);
 //        }
-
-//        [HttpGet]
-//        public ActionResult Details(string gymid)
-//        {
-//            var gym = RavenSession
-//                            .Load<Gym>(gymid);
-//
-//            var model = new GymDetailsViewModel(gym);
-//            return PartialView(model);
-//        }
-
-        [HttpGet]
-        public ActionResult Edit(string gymid)
-        {
-            var gym = RavenSession
-                            .Load<Gym>(gymid);
-
-            var model = new GymEditCommand(gym);
-            return PartialView(model);
-        }
-
-        [HttpPost]
-        public JsonDotNetResult Edit(GymEditCommand command)
-        {
-            return Execute(
-                action: () =>
-                            {
-                                var gym = RavenSession.Load<Gym>(command.GymId);
-                                gym.Update(command);
-                                return new JsonDotNetResult(command);
-                            });
-        }
-    }
-}

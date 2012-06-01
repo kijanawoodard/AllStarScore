@@ -36,6 +36,7 @@ namespace AllStarScore.Admin.Controllers
                 RavenSession
                     .Query<TeamRegistration>()
                     .Where(t => t.CompetitionId == model.CompetitionId && t.GymId == model.GymId)
+                    .Take(int.MaxValue) //there shouldn't be very many of these in practice
                     .Select(t => new TeamRegistrationViewModel(){ CompetitionId = t.CompetitionId, GymId = t.GymId, Id = t.Id, DivisionId = t.DivisionId, TeamName = t.TeamName, ParticipantCount = t.ParticipantCount, IsShowTeam = t.IsShowTeam})
                     .ToList();
 
@@ -57,12 +58,6 @@ namespace AllStarScore.Admin.Controllers
                                 RavenSession.Store(registration);
                                 return new JsonDotNetResult(registration);
                             });
-        }
-
-        [HttpGet]
-        public ActionResult Register(RegistrationRegisterViewModel model)
-        {
-            return PartialView(model);
         }
     }
 }
