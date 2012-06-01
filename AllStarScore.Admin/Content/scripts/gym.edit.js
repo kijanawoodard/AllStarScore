@@ -8,8 +8,7 @@
 //http://www.joezimjs.com/javascript/javascript-closures-and-the-module-pattern/
 var EditGymViewModel = (function (data) {
     var self = this;
-    var hook = $('#gym_edit');
-    var form = hook.find('form');
+    var form = $('#gym_edit form');
 
     self.data = data;
 

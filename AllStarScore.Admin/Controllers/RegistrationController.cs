@@ -59,5 +59,19 @@ namespace AllStarScore.Admin.Controllers
                                 return new JsonDotNetResult(registration);
                             });
         }
+
+        [HttpPost]
+        public JsonDotNetResult Edit(RegistrationEditCommand command)
+        {
+            return Execute(
+                action: () =>
+                {
+                    var registration = RavenSession.Load<TeamRegistration>(command.RegistrationId);
+                    registration.Update(command);
+
+                    RavenSession.Store(registration);
+                    return new JsonDotNetResult(registration);
+                });
+        }
     }
 }

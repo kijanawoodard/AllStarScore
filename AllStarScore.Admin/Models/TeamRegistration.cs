@@ -36,6 +36,16 @@ namespace AllStarScore.Admin.Models
             History.Add(command);
         }
 
+        public void Update(RegistrationEditCommand command)
+        {
+            TeamName = command.TeamName;
+            ParticipantCount = command.ParticipantCount;
+            DivisionId = command.DivisionId;
+            IsShowTeam = command.IsShowTeam;
+
+            History.Add(command);
+        }
+
         public override bool Equals(object obj)
         {
             var target = obj as TeamRegistration;

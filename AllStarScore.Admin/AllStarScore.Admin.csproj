@@ -176,6 +176,7 @@
     <Compile Include="ViewModels\GymEditCommand.cs" />
     <Compile Include="ViewModels\GymListViewModel.cs" />
     <Compile Include="ViewModels\RegistrationCreateCommand.cs" />
+    <Compile Include="ViewModels\RegistrationEditCommand.cs" />
     <Compile Include="ViewModels\RegistrationIndexRequestModel.cs" />
     <Compile Include="ViewModels\RegistrationIndexViewModel.cs" />
     <Compile Include="ViewModels\RegistrationTeamsViewModel.cs" />

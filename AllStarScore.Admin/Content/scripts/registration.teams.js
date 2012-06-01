@@ -1,5 +1,8 @@
 ﻿var TeamRegistrationModel = function (data) {
     var self = this;
+    var form = $('#team_registration form.create');
+    var editForm = $('#team_registration form.teams');
+
     self.data = data;
     self.divisions = data.divisions;
     self.teams = ko.observableArray();
@@ -28,6 +31,9 @@
         }
     };
 
+    self.editing = ko.observable(false);
+    var saveOriginalTeam = undefined;
+
     self.addTeam = function (team) {
         team.divisionName = self.getDivisionName(team.divisionId);
         team.editing = ko.observable(false);
@@ -41,21 +47,27 @@
     });
 
     self.editTeam = function (team) {
+        saveOriginalTeam = ko.toJSON(team);
         team.editing(true);
+        self.editing(true);
     };
 
     self.cancelEdit = function (team) {
+
         console.log(ko.toJSON(team));
+        var k = ko.mapping.fromJSON(saveOriginalTeam);
+        team.divisionName(k.divisionName);
+        console.log(ko.toJSON(team));
+
         team.editing(false);
+        self.editing(false); //compute?
+
+
+        editForm.data('validator').resetForm();
     };
 
     self.removeTeam = function (team) {
         self.teams.remove(team);
-    };
-
-    self.resetCreateForm = function () {
-        $('#team_registration form.create')[0].reset();
-        //$('#team_registration form.create .division').focus();
     };
 
     self.createNew = {
@@ -65,33 +77,34 @@
         isShowTeam: ko.observable()
     };
 
-    self.save = function (form) {
-        alert("Could now transmit to server: " + ko.utils.stringifyJson(self.teams));
-        // To actually transmit to server as a regular form post, write this: ko.utils.postJson($("form")[0], self.gifts);
+    self.resetCreateForm = function () {
+        self.createNew.divisionName('');
+        self.createNew.teamName('');
+        self.createNew.participantCount('');
+        self.createNew.isShowTeam(false);
+        form.data('validator').resetForm(); //http://stackoverflow.com/a/2060530/214073
     };
 
-    self.create = function (form) {
+    self.save = function (team) {
+        var ok = editForm.valid();
+        if (!ok) return;
+
+        console.log(ko.toJSON(team));
+        team.editing(false);
+        self.editing(false); //compute?
+    };
+
+    self.create = function () {
         self.createNew.divisionId = self.getDivisionId(self.createNew.divisionName());
         self.createNew.competitionId = self.data.competitionId;
         self.createNew.gymId = self.data.gymId;
 
-        $.ajax({
-            url: form.action,
-            type: form.method,
+        form.ajaxPost({
             data: ko.toJS(self.createNew),
             success: function (result) {
-                if (result.errors && result.errors.length > 0) {
-                    alert(result.errors[0].Value);
-                } else {
-                    //console.log(ko.toJSON(result));
-                    self.addTeam(ko.toJS(result));
-                    self.resetCreateForm();
-                }
-            },
-            error: function (xhr, textStatus, errorThrown) {
-                alert(xhr.status);
-                alert(errorThrown);
-                //alert('unknown error');
+                //console.log(ko.toJSON(result));
+                self.addTeam(ko.toJS(result));
+                self.resetCreateForm();
             }
         });
     };
@@ -151,10 +164,16 @@ $(document).ready(function () {
     }, 'Enter a positive number.');
 
     $('form.create').validate({
-        debug: true,
         submitHandler: function () {
             viewModel.create(this.currentForm);
         },
+        rules: {
+            division: { validateDivision: true },
+            participantCount: { positiveNumber: true }
+        }
+    });
+
+    $('form.teams').validate({
         rules: {
             division: { validateDivision: true },
             participantCount: { positiveNumber: true }
