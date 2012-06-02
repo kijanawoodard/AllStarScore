@@ -42,7 +42,7 @@
     <form action='@Url.Action("Edit", "Registration")' method="post" class="edit">
         <fieldset>
             <legend>Registered Teams</legend>
-            <p><span data-bind='text: teams().length'>&nbsp;</span> team(s) registered</p>
+            <p><span data-bind='text: teams().length'>&nbsp;</span> team(s) registered with <span data-bind="text: totalParticipants"></span> participants</p>
             
             <div class="validation-summary-errors"></div>
 

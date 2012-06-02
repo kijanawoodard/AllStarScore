@@ -7,15 +7,6 @@
     self.divisions = data.divisions;
     self.teams = ko.observableArray();
 
-    self.sortedTeams = ko.dependentObservable(function () {
-        return this.teams.slice().sort(function (a, b) {
-            return a.divisionName().toLowerCase() > b.divisionName().toLowerCase() ? 1 : 
-                   a.divisionName().toLowerCase() < b.divisionName().toLowerCase() ? -1 :
-                   a.teamName().toLowerCase() > b.teamName().toLowerCase() ? 1 :
-                   a.teamName().toLowerCase() < b.teamName().toLowerCase() ? -1 : 0;
-        });
-    }, self);
-
     self.getDivisionId = function (name) {
         var result = $.grep(self.divisions, function (item) {
             return item.label == name;
@@ -58,6 +49,23 @@
         self.addTeam(team);
     });
 
+    self.sortedTeams = ko.computed(function () {
+        return self.teams.slice().sort(function (a, b) {
+            return a.divisionName().toLowerCase() > b.divisionName().toLowerCase() ? 1 :
+                   a.divisionName().toLowerCase() < b.divisionName().toLowerCase() ? -1 :
+                   a.teamName().toLowerCase() > b.teamName().toLowerCase() ? 1 :
+                   a.teamName().toLowerCase() < b.teamName().toLowerCase() ? -1 : 0;
+        });
+    }, self);
+
+    self.totalParticipants = ko.computed(function () {
+        var result = 0;
+        for (var i = 0; i < self.teams().length; i++) {
+            result += self.teams()[i].participantCount();
+        }
+        return result;
+    }, self);
+
     self.editTeam = function (team) {
         saveOriginalTeam = ko.mapping.toJSON(team);
         team.editing(true);
@@ -99,9 +107,9 @@
     self.save = function (team) {
         var ok = editForm.valid();
         if (!ok) return;
-        
+
         team.divisionId(self.getDivisionId(team.divisionName()));
-        console.log(ko.mapping.toJSON(team));
+        //console.log(ko.mapping.toJSON(team));
 
         editForm.ajaxPost({
             data: ko.toJS(team),
