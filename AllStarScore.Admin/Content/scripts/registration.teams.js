@@ -207,6 +207,13 @@ $(document).ready(function () {
         event.preventDefault();
     });
 
+    //http://blogs.mscommunity.net/blogs/borissevo/archive/2008/12/11/using-jquery-to-prevent-form-submit-when-enter-is-pressed.aspx
+    $("form").on("keypress", function (e) {
+        if (e.keyCode == 13) {
+            return false;
+        }
+    });
+
     //console.log(data.teams);
 
     ko.bindingHandlers.ko_autocomplete = {
