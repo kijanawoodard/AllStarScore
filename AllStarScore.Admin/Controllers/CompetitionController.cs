@@ -16,25 +16,20 @@ namespace AllStarScore.Admin.Controllers
             return View();
         }
 
-//        public ActionResult ListHarness()
-//        {
-//            return PartialView();
-//        }
-
         public ActionResult List()
         {
             var competitions = RavenSession
                                 .Query<Competition>()
                                 .Customize(x => x.WaitForNonStaleResultsAsOfNow())
-                                .ToList();
+                                .Lazily();
 
-            var model = new CompetitionListViewModel(competitions);
+            var model = new CompetitionListViewModel(competitions.Value.ToList());
             return PartialView(model);
         }
 
         public ActionResult Details(string id)
         {
-            var competition = RavenSession.Load<Competition>(id);
+            var competition = RavenSession.Advanced.Lazily.Load<Competition>(id);
 
             var stats =
                 RavenSession
@@ -43,20 +38,9 @@ namespace AllStarScore.Admin.Controllers
                     .As<TeamRegistrationByGym.Results>()
                     .ToList();
 
-            var model = new CompetitionDetailsViewModel(competition, stats);
+            var model = new CompetitionDetailsViewModel(competition.Value, stats);
             return View(model);
         }
-
-//        public ActionResult CreateHarness()
-//        {
-//            return PartialView();
-//        }
-//
-//        public ActionResult Create()
-//        {
-//            var model = new CompetitionCreateCommand();
-//            return PartialView(model);
-//        }
 
         [HttpPost]
         public JsonDotNetResult Create(CompetitionCreateCommand command)
