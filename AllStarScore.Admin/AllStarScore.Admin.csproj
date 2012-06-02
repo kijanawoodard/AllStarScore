@@ -165,7 +165,9 @@
     <Compile Include="Infrastructure\Utilities\StringExtensions.cs" />
     <Compile Include="Models\AccountModels.cs" />
     <Compile Include="Models\Competition.cs" />
+    <Compile Include="Models\Division.cs" />
     <Compile Include="Models\Gym.cs" />
+    <Compile Include="Models\Level.cs" />
     <Compile Include="Models\TeamRegistration.cs" />
     <Compile Include="Models\User.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
@@ -181,6 +183,7 @@
     <Compile Include="ViewModels\RegistrationIndexRequestModel.cs" />
     <Compile Include="ViewModels\RegistrationIndexViewModel.cs" />
     <Compile Include="ViewModels\RegistrationTeamsViewModel.cs" />
+    <Compile Include="ViewModels\TeamRegistrationViewModel.cs" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="Content\images\accent.png" />

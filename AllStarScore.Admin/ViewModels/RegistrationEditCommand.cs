@@ -7,7 +7,7 @@ namespace AllStarScore.Admin.ViewModels
     public class RegistrationEditCommand : ICommand
     {
         [Required]
-        public string RegistrationId { get; set; }
+        public string Id { get; set; }
 
         public string TeamName { get; set; }
 
