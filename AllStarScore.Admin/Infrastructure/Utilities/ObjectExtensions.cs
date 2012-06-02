@@ -13,5 +13,11 @@ namespace AllStarScore.Admin.Infrastructure.Utilities
         {
             return JsonConvert.SerializeObject(o, Formatting.None, new JsonSerializerSettings() { ContractResolver = new CamelCasePropertyNamesContractResolver() });
         }
+
+        public static TResult NullOr<T, TResult>(this T foo, Func<T, TResult> func) where T : class
+        {
+            if (foo == null) return default(TResult);
+            return func(foo);
+        }
     }
 }

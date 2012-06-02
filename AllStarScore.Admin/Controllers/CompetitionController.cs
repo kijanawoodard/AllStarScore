@@ -23,7 +23,31 @@ namespace AllStarScore.Admin.Controllers
                                 .Customize(x => x.WaitForNonStaleResultsAsOfNow())
                                 .Lazily();
 
-            var model = new CompetitionListViewModel(competitions.Value.ToList());
+            var stats =
+                RavenSession
+                    .Query<TeamRegistration, TeamRegistrationByCompetition>()
+                    .As<TeamRegistrationByCompetition.Results>()
+                    .ToList();
+
+            var have = stats.Select(s => s.CompetitionId).ToList();
+            var converted =
+                competitions.Value
+                    .Select(competition => new TeamRegistrationByCompetition.Results
+                                               {
+                                                   CompetitionId = competition.Id,
+                                                   CompetitionName = competition.Name,
+                                                   CompetitionFirstDay = competition.FirstDay,
+                                                   GymCount = 0,
+                                                   TeamCount = 0,
+                                                   ParticipantCount = 0
+                                               })
+                    .Except(stats) //if we have stats, frop it
+                    .ToList();
+
+            stats.AddRange(converted);
+
+
+            var model = new CompetitionListViewModel(stats);
             return PartialView(model);
         }
 

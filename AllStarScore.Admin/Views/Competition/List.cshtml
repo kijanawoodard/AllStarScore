@@ -1,40 +1,9 @@
 ﻿@model AllStarScore.Admin.ViewModels.CompetitionListViewModel
 
-<table>
-    <caption>Upcoming</caption>
-    <tr>
-        <th></th>
-    </tr>
-
-    @foreach (var item in Model.Upcoming) {
-        <tr>
-            <td>@Html.DisplayFor(model => item.FirstDay)</td>
-            <td>
-                @item.Name 
-            </td>
-            <td>
-                @Html.ActionLink("Details", "Details", "Competition", new { id = item.Id }, new { })
-            </td>
-        </tr>
-    }
-
-</table>
-
-<table>
-    <caption>Past</caption>
-    <tr>
-        <th></th>
-    </tr>
-
-    @foreach (var item in Model.Past) {
-        <tr>
-            <td>@Html.DisplayFor(model => item.FirstDay)</td>
-            <td>
-                @item.Name 
-            </td>
-            <td>
-                @Html.ActionLink("Details", "Details", "Competition", new { id = item.Id }, new { })
-            </td>
-        </tr>
-    }
-</table>
+<div id="competition_list">
+    <p>Upcoming</p>
+    @{ Html.RenderPartial("CompetitionListTable", @Model.Upcoming); }
+    
+    <p>Past</p>
+    @{ Html.RenderPartial("CompetitionListTable", @Model.Past); }
+</div>
