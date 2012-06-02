@@ -39,7 +39,7 @@
         </fieldset>
     </form>
 
-    <form action='@Url.Action("Edit", "Registration")' method="post" class="teams">
+    <form action='@Url.Action("Edit", "Registration")' method="post" class="edit">
         <fieldset>
             <legend>Registered Teams</legend>
             <p><span data-bind='text: teams().length'>&nbsp;</span> team(s) registered</p>
@@ -56,7 +56,7 @@
                         <th />
                     </tr>
                 </thead>
-                <tbody data-bind='foreach: teams'>
+                <tbody data-bind='foreach: sortedTeams'>
                     <tr>
                         <td><input data-bind='value: divisionName, ko_autocomplete: { source: $root.divisions }, enable: $data.editing' name="division" class='required' type="text"/></td>
                         <td><input data-bind='value: teamName, enable: $data.editing' type="text" /></td>

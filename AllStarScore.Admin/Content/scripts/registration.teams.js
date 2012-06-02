@@ -1,11 +1,20 @@
 ﻿var TeamRegistrationModel = function (data) {
     var self = this;
     var form = $('#team_registration form.create');
-    var editForm = $('#team_registration form.teams');
+    var editForm = $('#team_registration form.edit');
 
     self.data = data;
     self.divisions = data.divisions;
     self.teams = ko.observableArray();
+
+    self.sortedTeams = ko.dependentObservable(function () {
+        return this.teams.slice().sort(function (a, b) {
+            return a.divisionName().toLowerCase() > b.divisionName().toLowerCase() ? 1 : 
+                   a.divisionName().toLowerCase() < b.divisionName().toLowerCase() ? -1 :
+                   a.teamName().toLowerCase() > b.teamName().toLowerCase() ? 1 :
+                   a.teamName().toLowerCase() < b.teamName().toLowerCase() ? -1 : 0;
+        });
+    }, self);
 
     self.getDivisionId = function (name) {
         var result = $.grep(self.divisions, function (item) {
@@ -56,11 +65,9 @@
     };
 
     self.cancelEdit = function (team) {
-        console.log(team);
-        console.log(saveOriginalTeam);
-        console.log(ko.toJSON(team));
-        //        var k = ko.mapping.fromJSON(saveOriginalTeam);
-        //        team.divisionName = k.divisionName;
+        //        console.log(team);
+        //        console.log(saveOriginalTeam);
+        //        console.log(ko.toJSON(team));
         ko.mapping.fromJSON(saveOriginalTeam, team);
 
         team.editing(false);
@@ -92,7 +99,7 @@
     self.save = function (team) {
         var ok = editForm.valid();
         if (!ok) return;
-
+        
         team.divisionId(self.getDivisionId(team.divisionName()));
         console.log(ko.mapping.toJSON(team));
 
@@ -157,7 +164,7 @@ var autoCompleteUpdate = function (element, source) {
 
 $(document).ready(function () {
     var data = window.registrationTeamsData;
-    
+
     //format the data for the autocomplete dropdown
     data.divisions = $.map($.makeArray(data.divisions), function (item) {
         return { label: item.level + " - " + item.division, id: item.divisionId };
@@ -185,11 +192,19 @@ $(document).ready(function () {
         }
     });
 
-    $('form.teams').validate({
+    $('form.edit').validate({
+        submitHandler: function () {
+            //do nothing
+            return false;
+        },
         rules: {
             division: { validateDivision: true },
             participantCount: { positiveNumber: true }
         }
+    });
+
+    $('form.edit').submit(function (event) {
+        event.preventDefault();
     });
 
     //console.log(data.teams);
