@@ -18,7 +18,7 @@ namespace AllStarScore.Admin.Infrastructure.Utilities
                                                    ContractResolver = new CamelCasePropertyNamesContractResolver(), 
                                                    Converters = new List<JsonConverter>
                                                                 {
-                                                                    new IsoDateTimeConverter() //tODO: Blog - for knockout
+                                                                    new IsoDateTimeConverter() //tODO: Blog - for knockout http://james.newtonking.com/archive/2009/02/20/good-date-times-with-json-net.aspx
                                                                 }
                                                });
         }
