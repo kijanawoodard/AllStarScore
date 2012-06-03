@@ -10,8 +10,13 @@ namespace AllStarScore.Admin.ViewModels
 {
     public class CompetitionListViewModel
     {
+        public List<TeamRegistrationByCompetition.Results> Competitions { get; set; }
+        public IEnumerable<TeamRegistrationByCompetition.Results> Upcoming { get; set; }
+        public IEnumerable<TeamRegistrationByCompetition.Results> Past { get; set; }
+
         public CompetitionListViewModel(List<TeamRegistrationByCompetition.Results> competitions)
         {
+            Competitions = competitions;
             Upcoming = competitions
                             .Where(c => c.CompetitionFirstDay >= DateTime.Today)
                             .OrderBy(c => c.CompetitionFirstDay);
@@ -20,8 +25,5 @@ namespace AllStarScore.Admin.ViewModels
                         .Except(Upcoming)
                         .OrderByDescending(c => c.CompetitionFirstDay);
         }
-
-        public IEnumerable<TeamRegistrationByCompetition.Results> Upcoming { get; set; }
-        public IEnumerable<TeamRegistrationByCompetition.Results> Past { get; set; }
     }
 }

@@ -1,34 +1,41 @@
 ﻿@model IEnumerable<AllStarScore.Admin.Infrastructure.Indexes.TeamRegistrationByCompetition.Results>
-<table>
-    <caption></caption>
-    <tr>
-        <th></th>
-        <th></th>
-        <th># Gyms</th>
-        <th># Teams</th>
-        <th># Participants</th>
-        <th></th>
-    </tr>
 
-    @foreach (var item in Model) {
+@if (Model.Any())
+{
+    <table>
+        <caption></caption>
         <tr>
-            <td>@Html.DisplayFor(model => item.CompetitionFirstDay, "Day")</td>
-            <td>
-                @item.CompetitionName 
-            </td>
-            <td class="numeric">
-                @item.GymCount 
-            </td>
-            <td class="numeric">
-                @item.TeamCount
-            </td>
-            <td class="numeric">
-                @item.ParticipantCount
-            </td>
-            <td>
-                @Html.ActionLink("Details", "Details", "Competition", new { id = item.CompetitionId }, new { })
-            </td>
+            <th></th>
+            <th></th>
+            <th># Gyms</th>
+            <th># Teams</th>
+            <th># Participants</th>
+            <th></th>
         </tr>
-    }
 
-</table>
+        @foreach (var item in Model)
+        {
+            <tr>
+                <td>@Html.DisplayFor(model => item.CompetitionFirstDay, "Day")</td>
+                <td>
+                    @item.CompetitionName 
+                </td>
+                <td class="numeric">
+                    @item.GymCount 
+                </td>
+                <td class="numeric">
+                    @item.TeamCount
+                </td>
+                <td class="numeric">
+                    @item.ParticipantCount
+                </td>
+                <td>
+                    @Html.ActionLink("Details", "Details", "Competition", new {id = item.CompetitionId}, new {})
+                </td>
+            </tr>
+        }
+
+    </table>
+} else{
+    <p>none</p>
+}

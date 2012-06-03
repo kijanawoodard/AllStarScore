@@ -54,3 +54,13 @@ ko.bindingHandlers.autocomplete = {
         $(element).autocomplete("option", "source", options.source);
     }
 };
+
+ko.bindingHandlers.dateString = {
+    init: function (element, valueAccessor, allBindingsAccessor, viewModel) {
+        var value = valueAccessor(),
+            allBindings = allBindingsAccessor();
+        var valueUnwrapped = ko.utils.unwrapObservable(value);
+        var pattern = allBindings.datePattern || 'MM/dd/yyyy';
+        $(element).text(valueUnwrapped.toString(pattern));
+    }
+};

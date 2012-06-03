@@ -7,6 +7,9 @@
         <link rel="stylesheet" href="//ajax.googleapis.com/ajax/libs/jqueryui/1.8.19/themes/base/jquery-ui.css" media="all" />
         @{ Html.RegisterStylesheet("~/content/styles/normalize.css", "global"); }
         @{ Html.RegisterStylesheet("~/content/styles/jquery.notify.css", "global"); }
+        @{ Html.RegisterStylesheet("~/content/styles/tablesorter.themes/blue/style.css", "global"); }
+        
+        @*my stuff below*@
         @{ Html.RegisterStylesheet("~/content/styles/site.css", "global"); }
         @{ Html.RegisterStylesheet("~/content/styles/global.css", "global"); }
         <link rel="stylesheet" href="~/content/styles/site.mobile.css" media="all" />
@@ -65,10 +68,15 @@
         @{ Html.RegisterScript("~/content/scripts/jquery.notify.js", "global"); }
         @{ Html.RegisterScript("~/content/scripts/knockout-2.1.0.debug.js", "global"); }
         @{ Html.RegisterScript("~/content/scripts/knockout.mapping-latest.js", "global"); }
+        @{ Html.RegisterScript("~/content/scripts/jquery.tablesorter.min.js", "global"); }
+        @{ Html.RegisterScript("~/content/scripts/date.js", "global"); }
+        
+        @*my stuff below*@
         @{ Html.RegisterScript("~/content/scripts/global.knockout.bindings.js", "global"); }
         @{ Html.RegisterScript("~/content/scripts/global.tinypubsub.js", "global"); }
         @{ Html.RegisterScript("~/content/scripts/global.ajax.js", "global"); }
         @{ Html.RegisterScript("~/content/scripts/global.datepicker.js", "global"); }
+        
         @Html.RenderScripts()
     </body>
 </html>
