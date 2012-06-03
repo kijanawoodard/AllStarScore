@@ -43,40 +43,40 @@ namespace AllStarScore.Tests
             DocumentStore.Dispose();
         }
 
-        [Fact]
-        public void ShouldBeAbleToProjectIdOntoAnotherName()
-        {
-            var foos = 
-                Session
-                    .Query<Foo>()
-                    .Where(foo => foo.Data > 1)
-                    .Select(foo => new FooWithFooId
-                                       {
-                                           FooId = foo.Id,
-                                           Data = foo.Data
-                                       })
-                    .ToList();
-                
-            Assert.NotNull(foos[0].FooId);
-        }
+//        [Fact]
+//        public void ShouldBeAbleToProjectIdOntoAnotherName()
+//        {
+//            var foos = 
+//                Session
+//                    .Query<Foo>()
+//                    .Where(foo => foo.Data > 1)
+//                    .Select(foo => new FooWithFooId
+//                                       {
+//                                           FooId = foo.Id,
+//                                           Data = foo.Data
+//                                       })
+//                    .ToList();
+//                
+//            Assert.NotNull(foos[0].FooId);
+//        }
 
-        [Fact]
-        public void ShouldBeAbleToProjectIdOntoAnotherName_AndAnotherFieldNamedIdShouldNotBeAffected()
-        {
-            var foos =
-                Session
-                    .Query<Foo>()
-                    .Where(foo => foo.Data > 1)
-                    .Select(foo => new FooWithFooIdAndId
-                    {
-                        FooId = foo.Id,
-                        Data = foo.Data
-                    })
-                    .ToList();
-
-            Assert.Null(foos[0].Id); 
-            Assert.NotNull(foos[0].FooId);
-        }
+//        [Fact]
+//        public void ShouldBeAbleToProjectIdOntoAnotherName_AndAnotherFieldNamedIdShouldNotBeAffected()
+//        {
+//            var foos =
+//                Session
+//                    .Query<Foo>()
+//                    .Where(foo => foo.Data > 1)
+//                    .Select(foo => new FooWithFooIdAndId
+//                    {
+//                        FooId = foo.Id,
+//                        Data = foo.Data
+//                    })
+//                    .ToList();
+//
+//            Assert.Null(foos[0].Id); 
+//            Assert.NotNull(foos[0].FooId);
+//        }
 
         [Fact]
         public void ShouldBeAbleToProjectIdOntoAnotherFieldCalledId()
