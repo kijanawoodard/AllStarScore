@@ -193,6 +193,9 @@
     <Content Include="Content\images\orderedListOne.png" />
     <Content Include="Content\images\orderedListThree.png" />
     <Content Include="Content\images\orderedListTwo.png" />
+    <Content Include="Content\images\asc.gif" />
+    <Content Include="Content\images\bg.gif" />
+    <Content Include="Content\images\desc.gif" />
     <Content Include="Content\images\twitter.png" />
     <Content Include="Content\images\windowsLive.png" />
     <Content Include="Content\scripts\competition.details.js" />

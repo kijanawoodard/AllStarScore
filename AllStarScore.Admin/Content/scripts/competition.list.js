@@ -2,6 +2,10 @@
     $('#competition_list .control_links a').ajaxClick('#competition_list .display');
 });
 
+$(document).ready(function () {
+    $('#competition_list table').tablesorter();
+});
+
 //$(document).ready(function () {
 //    var viewModel = new ListCompetitionViewModel(window.competitionListData);
 //    ko.applyBindings(viewModel, document.getElementById('competition_list'));

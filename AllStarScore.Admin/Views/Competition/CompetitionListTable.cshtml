@@ -2,17 +2,19 @@
 
 @if (Model.Any())
 {
-    <table>
+    <table class="tablesorter">
         <caption></caption>
-        <tr>
-            <th>First Day</th>
-            <th>Name</th>
-            <th># Gyms</th>
-            <th># Teams</th>
-            <th># Participants</th>
-            <th></th>
-        </tr>
-
+        <thead>
+            <tr>
+                <th>First Day</th>
+                <th>Name</th>
+                <th># Gyms</th>
+                <th># Teams</th>
+                <th># Participants</th>
+                <th></th>
+            </tr>
+        </thead>
+        <tbody>
         @foreach (var item in Model)
         {
             <tr>
@@ -34,7 +36,7 @@
                 </td>
             </tr>
         }
-
+        </tbody>
     </table>
 } else{
     <p>none</p>
