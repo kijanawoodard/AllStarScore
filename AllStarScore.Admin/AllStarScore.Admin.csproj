@@ -184,8 +184,11 @@
   </ItemGroup>
   <ItemGroup>
     <Content Include="Content\images\accent.png" />
+    <Content Include="Content\images\asc.gif" />
     <Content Include="Content\images\aspNetHome.png" />
+    <Content Include="Content\images\bg.gif" />
     <Content Include="Content\images\bullet.png" />
+    <Content Include="Content\images\desc.gif" />
     <Content Include="Content\images\facebook.png" />
     <Content Include="Content\images\findHosting.png" />
     <Content Include="Content\images\heroAccent.png" />
@@ -193,9 +196,6 @@
     <Content Include="Content\images\orderedListOne.png" />
     <Content Include="Content\images\orderedListThree.png" />
     <Content Include="Content\images\orderedListTwo.png" />
-    <Content Include="Content\images\asc.gif" />
-    <Content Include="Content\images\bg.gif" />
-    <Content Include="Content\images\desc.gif" />
     <Content Include="Content\images\twitter.png" />
     <Content Include="Content\images\windowsLive.png" />
     <Content Include="Content\scripts\competition.details.js" />
@@ -233,6 +233,9 @@
     <Content Include="Content\styles\tablesorter.themes\blue\bg.gif" />
     <Content Include="Content\styles\tablesorter.themes\blue\desc.gif" />
     <Content Include="Content\styles\tablesorter.themes\blue\style.css" />
+    <Content Include="Content\images\asc.png" />
+    <Content Include="Content\images\bg.png" />
+    <Content Include="Content\images\desc.png" />
     <Content Include="Content\styles\tablesorter.themes\green\asc.png" />
     <Content Include="Content\styles\tablesorter.themes\green\bg.png" />
     <Content Include="Content\styles\tablesorter.themes\green\desc.png" />
