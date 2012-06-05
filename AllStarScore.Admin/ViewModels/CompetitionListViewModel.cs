@@ -10,11 +10,11 @@ namespace AllStarScore.Admin.ViewModels
 {
     public class CompetitionListViewModel
     {
-        public List<TeamRegistrationByCompetition.Results> Competitions { get; set; }
-        public IEnumerable<TeamRegistrationByCompetition.Results> Upcoming { get; set; }
-        public IEnumerable<TeamRegistrationByCompetition.Results> Past { get; set; }
+        public List<TeamRegistrationStatsByCompetition.Results> Competitions { get; set; }
+        public IEnumerable<TeamRegistrationStatsByCompetition.Results> Upcoming { get; set; }
+        public IEnumerable<TeamRegistrationStatsByCompetition.Results> Past { get; set; }
 
-        public CompetitionListViewModel(List<TeamRegistrationByCompetition.Results> competitions)
+        public CompetitionListViewModel(List<TeamRegistrationStatsByCompetition.Results> competitions)
         {
             Competitions = competitions;
             Upcoming = competitions

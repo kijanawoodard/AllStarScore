@@ -7,9 +7,9 @@ namespace AllStarScore.Admin.ViewModels
     public class CompetitionDetailsViewModel
     {
         public Competition Competition { get; set; }
-        public List<TeamRegistrationByGym.Results> Stats { get; set; }
+        public List<TeamRegistrationStatsByGym.Results> Stats { get; set; }
 
-        public CompetitionDetailsViewModel(Competition competition, List<TeamRegistrationByGym.Results> stats)
+        public CompetitionDetailsViewModel(Competition competition, List<TeamRegistrationStatsByGym.Results> stats)
         {
             Competition = competition;
             Stats = stats;

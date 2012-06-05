@@ -61,13 +61,15 @@
 
         <script src="//ajax.googleapis.com/ajax/libs/jquery/1.7.2/jquery.min.js"></script>
         <script src="//ajax.googleapis.com/ajax/libs/jqueryui/1.8.19/jquery-ui.min.js"></script>
-        <script src="//ajax.aspnetcdn.com/ajax/jquery.validate/1.9/jquery.validate.min.js"></script>
+@*        <script src="//ajax.aspnetcdn.com/ajax/jquery.validate/1.9/jquery.validate.min.js"></script>*@
 @*        <script src="//ajax.aspnetcdn.com/ajax/mvc/3.0/jquery.unobtrusive-ajax.min.js"></script>*@
 @*        <script src="//ajax.aspnetcdn.com/ajax/mvc/3.0/jquery.validate.unobtrusive.min.js"></script>*@
         
+        @{ Html.RegisterScript("~/content/scripts/lib/jquery.validate.min.js", "global"); }
         @{ Html.RegisterScript("~/content/scripts/lib/jquery.notify.js", "global"); }
         @{ Html.RegisterScript("~/content/scripts/lib/knockout-2.1.0.debug.js", "global"); }
         @{ Html.RegisterScript("~/content/scripts/lib/knockout.mapping-latest.js", "global"); }
+        @{ Html.RegisterScript("~/content/scripts/lib/knockout-sortable.js", "global"); }
         @{ Html.RegisterScript("~/content/scripts/lib/jquery.tablesorter.min.js", "global"); }
         @{ Html.RegisterScript("~/content/scripts/lib/date.js", "global"); }
         

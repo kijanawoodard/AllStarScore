@@ -55,8 +55,9 @@ ko.bindingHandlers.autocomplete = {
     }
 };
 
+//http://www.aaronkjackson.com/2012/04/formatting-dates-with-knockoutjs/
 ko.bindingHandlers.dateString = {
-    init: function (element, valueAccessor, allBindingsAccessor, viewModel) {
+    update: function (element, valueAccessor, allBindingsAccessor, viewModel) {
         var value = valueAccessor(),
             allBindings = allBindingsAccessor();
         var valueUnwrapped = ko.utils.unwrapObservable(value);

@@ -147,12 +147,12 @@ namespace AllStarScore.Admin
 
             var levels = new List<Level>()
                              {
-                                 new Level {Id = "levels-level1", Name = "Level 1", DefaultScoringDefinition = "scoring-level1"},
-                                 new Level {Id = "levels-level2", Name = "Level 2", DefaultScoringDefinition = "scoring-level2"},
-                                 new Level {Id = "levels-level3", Name = "Level 3", DefaultScoringDefinition = "scoring-level3"},
-                                 new Level {Id = "levels-level4", Name = "Level 4", DefaultScoringDefinition = "scoring-level4"},
-                                 new Level {Id = "levels-level5", Name = "Level 5", DefaultScoringDefinition = "scoring-level5"},
-                                 new Level {Id = "levels-level6", Name = "Level 6", DefaultScoringDefinition = "scoring-level6"},
+                                 new Level {Id = "levels-level1", Name = "All-Star Level 1", DefaultScoringDefinition = "scoring-level1"},
+                                 new Level {Id = "levels-level2", Name = "All-Star Level 2", DefaultScoringDefinition = "scoring-level2"},
+                                 new Level {Id = "levels-level3", Name = "All-Star Level 3", DefaultScoringDefinition = "scoring-level3"},
+                                 new Level {Id = "levels-level4", Name = "All-Star Level 4", DefaultScoringDefinition = "scoring-level4"},
+                                 new Level {Id = "levels-level5", Name = "All-Star Level 5", DefaultScoringDefinition = "scoring-level5"},
+                                 new Level {Id = "levels-level6", Name = "All-Star Level 6", DefaultScoringDefinition = "scoring-level6"},
                                  new Level {Id = "levels-dance", Name = "Dance", DefaultScoringDefinition = "scoring-dance"},
                                  new Level {Id = "levels-school", Name = "School", DefaultScoringDefinition = "scoring-school"},
                                  new Level {Id = "levels-individual", Name = "Individual", DefaultScoringDefinition = "scoring-individual"}

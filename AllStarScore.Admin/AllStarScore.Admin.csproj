@@ -157,7 +157,9 @@
     <Compile Include="Infrastructure\Indexes\CompetitionStatsIndex.cs" />
     <Compile Include="Infrastructure\Indexes\DivisionsWithLevels.cs" />
     <Compile Include="Infrastructure\Indexes\GymsByName.cs" />
-    <Compile Include="Infrastructure\Indexes\TeamRegistrationByGym.cs" />
+    <Compile Include="Infrastructure\Indexes\TeamRegistrationByCompetition.cs" />
+    <Compile Include="Infrastructure\Indexes\TeamRegistrationStatsByCompetition.cs" />
+    <Compile Include="Infrastructure\Indexes\TeamRegistrationStatsByGym.cs" />
     <Compile Include="Infrastructure\ModelBinding\CommandValueProviderFactory.cs" />
     <Compile Include="Infrastructure\Utilities\ObjectExtensions.cs" />
     <Compile Include="Infrastructure\Utilities\StringExtensions.cs" />
@@ -208,6 +210,7 @@
     <Content Include="Content\scripts\global.knockout.bindings.js" />
     <Content Include="Content\scripts\lib\jquery.tablesorter.min.js" />
     <Content Include="Content\scripts\lib\jquery.tablesorter.pager.js" />
+    <Content Include="Content\scripts\lib\knockout-sortable.js" />
     <Content Include="Content\scripts\scheduling.edit.js" />
     <Content Include="Content\styles\gym.edit.css" />
     <Content Include="Content\scripts\gym.create.js" />

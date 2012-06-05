@@ -25,14 +25,14 @@ namespace AllStarScore.Admin.Controllers
 
             var stats =
                 RavenSession
-                    .Query<TeamRegistration, TeamRegistrationByCompetition>()
-                    .As<TeamRegistrationByCompetition.Results>()
+                    .Query<TeamRegistration, TeamRegistrationStatsByCompetition>()
+                    .As<TeamRegistrationStatsByCompetition.Results>()
                     .ToList();
 
             var have = stats.Select(s => s.CompetitionId).ToList();
             var converted =
                 competitions.Value
-                    .Select(competition => new TeamRegistrationByCompetition.Results
+                    .Select(competition => new TeamRegistrationStatsByCompetition.Results
                                                {
                                                    CompetitionId = competition.Id,
                                                    CompetitionName = competition.Name,
@@ -57,9 +57,9 @@ namespace AllStarScore.Admin.Controllers
 
             var stats =
                 RavenSession
-                    .Query<TeamRegistration, TeamRegistrationByGym>()
+                    .Query<TeamRegistration, TeamRegistrationStatsByGym>()
                     .Where(x => x.CompetitionId == id)
-                    .As<TeamRegistrationByGym.Results>()
+                    .As<TeamRegistrationStatsByGym.Results>()
                     .ToList();
 
             var model = new CompetitionDetailsViewModel(competition.Value, stats);
