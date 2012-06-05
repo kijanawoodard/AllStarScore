@@ -6,14 +6,9 @@
     //console.log(ko.toJSON(window.editScheduleData));
     //console.log(ko.toJSON(schedule));
 
-
-    //clean up datetimes
-    $.each(window.editScheduleData.schedule, function (index, item) {
-        item.day = new Date(item.day);
-    });
-
     var data = {
-        schedule: window.editScheduleData.schedule
+        schedule: window.editScheduleData.schedule,
+        registrations: window.editScheduleData.registrations
     };
 
     data.schedule[0].items.push.apply(data.schedule[0].items, registrations);
@@ -26,13 +21,28 @@
 
     //http://stackoverflow.com/a/9993099/214073 sortable and selectable
     $('#scheduling_edit .sortable').disableSelection();
+    
 });
 
 var EditScheduleViewModel = (function (data) {
     var self = this;
     var hook = $('#scheduling_edit');
 
+    //clean up datetimes
+    $.each(data.schedule, function (index, item) {
+        item.day = new Date(item.day);
+    });
+
+    self.registrations = data.registrations;
     self.schedule = ko.mapping.fromJS(data.schedule);
+    self.unscheduled = ko.mapping.fromJS(function () {
+        return $.grep(data.registrations, function (registration) {
+            var schedules = $.map(data.schedule, function(item) { return item.items; });
+            return $.grep(schedules, function (day) {
+                return registration.id == day.id;
+            }).length == 0;
+        });
+    });
 
     //recalculate time when we move items around
     $.each(self.schedule(), function (index, unit) {
@@ -52,7 +62,7 @@ var EditScheduleViewModel = (function (data) {
     });
 
 
-    $.each(self.schedule(), function(index, unit) {
+    $.each(self.schedule(), function (index, unit) {
         unit.items.valueHasMutated(); //we loaded the items before subscribe, so force subscribe function now
     });
     return self;
