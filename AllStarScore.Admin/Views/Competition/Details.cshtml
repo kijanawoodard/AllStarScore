@@ -8,7 +8,7 @@
 @{ Html.RegisterScript("~/content/scripts/competition.details.js"); }
 
 <h2>Details for @Model.Competition.Name</h2>
-<h3>@Html.DisplayFor(model => model.Competition.FirstDay)</h3>
+<h3>@Html.DisplayFor(model => model.Competition.FirstDay, "Day")</h3>
 
 <div class="summary">
     @Model.Stats.Count Gyms
