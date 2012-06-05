@@ -149,6 +149,7 @@
     <Compile Include="Controllers\HomeController.cs" />
     <Compile Include="Controllers\RavenController.cs" />
     <Compile Include="Controllers\RegistrationController.cs" />
+    <Compile Include="Controllers\SchedulingController.cs" />
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
@@ -180,6 +181,7 @@
     <Compile Include="ViewModels\RegistrationIndexRequestModel.cs" />
     <Compile Include="ViewModels\RegistrationIndexViewModel.cs" />
     <Compile Include="ViewModels\RegistrationTeamsViewModel.cs" />
+    <Compile Include="ViewModels\SchedulingEditViewModel.cs" />
     <Compile Include="ViewModels\TeamRegistrationViewModel.cs" />
   </ItemGroup>
   <ItemGroup>
@@ -201,23 +203,24 @@
     <Content Include="Content\scripts\competition.details.js" />
     <Content Include="Content\scripts\competition.list.js" />
     <Content Include="Content\scripts\competition.create.js" />
-    <Content Include="Content\scripts\date.js" />
+    <Content Include="Content\scripts\lib\date.js" />
     <Content Include="Content\scripts\global.datepicker.js" />
     <Content Include="Content\scripts\global.knockout.bindings.js" />
-    <Content Include="Content\scripts\jquery.tablesorter.min.js" />
-    <Content Include="Content\scripts\jquery.tablesorter.pager.js" />
+    <Content Include="Content\scripts\lib\jquery.tablesorter.min.js" />
+    <Content Include="Content\scripts\lib\jquery.tablesorter.pager.js" />
+    <Content Include="Content\scripts\scheduling.edit.js" />
     <Content Include="Content\styles\gym.edit.css" />
     <Content Include="Content\scripts\gym.create.js" />
     <Content Include="Content\scripts\global.ajax.js" />
     <Content Include="Content\scripts\global.tinypubsub.js" />
     <Content Include="Content\scripts\gym.details.js" />
     <Content Include="Content\scripts\gym.edit.js" />
-    <Content Include="Content\scripts\jquery.notify.js" />
-    <Content Include="Content\scripts\knockout-2.1.0.debug.js" />
-    <Content Include="Content\scripts\knockout-2.1.0.js" />
-    <Content Include="Content\scripts\knockout.mapping-latest.js" />
-    <Content Include="Content\scripts\knockout.simpleGrid.1.3.js" />
-    <Content Include="Content\scripts\modernizr-2.5.3.js" />
+    <Content Include="Content\scripts\lib\jquery.notify.js" />
+    <Content Include="Content\scripts\lib\knockout-2.1.0.debug.js" />
+    <Content Include="Content\scripts\lib\knockout-2.1.0.js" />
+    <Content Include="Content\scripts\lib\knockout.mapping-latest.js" />
+    <Content Include="Content\scripts\lib\knockout.simpleGrid.1.3.js" />
+    <Content Include="Content\scripts\lib\modernizr-2.5.3.js" />
     <Content Include="Content\scripts\registration.teams.js" />
     <Content Include="Content\styles\competition.details.css" />
     <Content Include="Content\styles\competition.list.css" />
@@ -228,6 +231,7 @@
     <Content Include="Content\styles\jquery.notify.css" />
     <Content Include="Content\styles\normalize.css" />
     <Content Include="Content\styles\registration.teams.css" />
+    <Content Include="Content\styles\scheduling.edit.css" />
     <Content Include="Content\styles\site.mobile.css" />
     <Content Include="Content\styles\tablesorter.themes\blue\asc.gif" />
     <Content Include="Content\styles\tablesorter.themes\blue\bg.gif" />
@@ -329,6 +333,9 @@
   </ItemGroup>
   <ItemGroup>
     <Content Include="Views\Competition\CompetitionListTable.cshtml" />
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="Views\Scheduling\Edit.cshtml" />
   </ItemGroup>
   <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
   <Import Project="$(MSBuildExtensionsPath32)\Microsoft\VisualStudio\v10.0\WebApplications\Microsoft.WebApplication.targets" />

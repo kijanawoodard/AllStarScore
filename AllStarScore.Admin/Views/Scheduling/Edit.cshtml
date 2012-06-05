@@ -1,0 +1,27 @@
+﻿@model AllStarScore.Admin.ViewModels.SchedulingEditViewModel
+
+@{ Html.RegisterStylesheet("~/content/styles/scheduling.edit.css"); }
+@{ Html.RegisterScript("~/content/scripts/scheduling.edit.js"); }
+
+<div id="scheduling_edit">
+    <p>This is a schedule</p>
+
+    <ol class="sortable">
+        <li>First Team</li>
+        <li>Second Team</li>
+        <li>Break</li>
+        <li>Third Team</li>
+        <li>Fourth Team</li>
+    </ol>
+    
+    <br/><br/>
+    hello
+    <ol class="sortable" data-bind="foreach: items">
+        <li>
+            <span data-bind="text: $index, syncIndex: order($index())"></span><span data-bind="text: text"></span>
+        </li>
+    </ol>
+    
+    there
+    <div data-bind="text: ko.toJSON($root)"></div>
+</div>
