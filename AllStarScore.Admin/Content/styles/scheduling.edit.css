@@ -1,16 +1,24 @@
-﻿.sortable { list-style-typex: none; margin: 0; padding: 0; xwidth: 60%; }
-.sortable li  
-{
-	margin: 0 3px 3px 3px; 
-    position: relative; padding: 0.4em; 
-    padding-left: 36px; 
-    font-size: 1.4em; 
-    height: 18px; 
-    border: 1px solid #D3D3D3;
-    cursor: pointer;
-    line-height: 15px; }
+﻿.sortable { list-style-type: none; margin: 0; padding: 0; width: 100%; }
 
-li .handle { background: #f8f8f8; position: absolute; left: 0; top: 0; bottom: 0; padding:8px; }
+.sortable li { position: relative; font-size: 1.4em; height: 36px;margin-bottom: 3px;line-height: 15px;}
+
+.sortable li .wrap
+{
+    position: absolute; 
+    left: 20px; top: 0; bottom: 0;
+    
+    padding: 0.4em; 
+    padding-left: 36px; 
+    
+    border: 1px solid #D3D3D3;
+    
+    height: 18px;
+    
+	width: 100%;
+}
+
+li .handle { background: #f8f8f8; position: absolute; left: 0; top: 0; bottom: 0; padding:8px; cursor: pointer;  }
+li .index { left: 0; top: 0; bottom: 0;padding: .4em 0; }
 .ui-selecting { background: #eee; }
 .ui-selecting .handle { background: #ddd; }
 .ui-selected { background: #def; }
