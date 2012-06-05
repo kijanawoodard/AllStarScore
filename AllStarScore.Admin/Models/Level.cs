@@ -8,6 +8,7 @@ namespace AllStarScore.Admin.Models
     {
         public string Id { get; set; }
         public string Name { get; set; }
+        public string DefaultScoringDefinition { get; set; }
 
         public ICollection<ICommand> History { get; private set; }
 
