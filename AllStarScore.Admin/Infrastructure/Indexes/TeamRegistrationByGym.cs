@@ -53,7 +53,7 @@ namespace AllStarScore.Admin.Infrastructure.Indexes
                                                         };
         }
     }
-
+    
     public class TeamRegistrationByCompetition : AbstractIndexCreationTask<TeamRegistration, TeamRegistrationByCompetition.Results>
     {
         public class Results

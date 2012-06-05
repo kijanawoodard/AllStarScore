@@ -1,7 +1,9 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.ComponentModel.Composition.Hosting;
 using System.Diagnostics;
 using System.Linq;
+using System.Reflection;
 using System.Web.Http;
 using System.Web.Mvc;
 using System.Web.Routing;
@@ -12,7 +14,9 @@ using AllStarScore.Admin.Models;
 using Moth.Core;
 using Moth.Core.Providers;
 using Raven.Abstractions.Data;
+using Raven.Client;
 using Raven.Client.Document;
+using Raven.Client.Indexes;
 using RouteMagic;
 
 namespace AllStarScore.Admin
@@ -91,11 +95,23 @@ namespace AllStarScore.Admin
 
             Raven.Client.MvcIntegration.RavenProfiler.InitializeFor(RavenController.DocumentStore);
 
-            Raven.Client.Indexes.IndexCreation.CreateIndexes(typeof(GymsByName).Assembly, RavenController.DocumentStore);
+            CreateIndexesForDatabases(typeof (GymsByName).Assembly, RavenController.DocumentStore,
+                                      new string[] {"scoring-development"}); //TODO: robustify
             
-            HackSecurity();
-            HackLevels();
-            HackDivisions();
+        }
+
+        //http://stackoverflow.com/a/8755565/214073
+        public void CreateIndexesForDatabases(Assembly assemblyToScanForIndexingTasks, IDocumentStore documentStore, string[] databases)
+        {
+            var catalog = new CompositionContainer(new AssemblyCatalog(assemblyToScanForIndexingTasks));
+            foreach (var database in databases)
+            {
+                IndexCreation.CreateIndexes(catalog, documentStore.DatabaseCommands.ForDatabase(database), documentStore.Conventions);
+
+                HackSecurity(database);
+                HackLevels(database);
+                HackDivisions(database);
+            }
         }
 
         [Conditional("DEBUG")]
@@ -106,9 +122,9 @@ namespace AllStarScore.Admin
         
 
         //TODO: come up with something better and remove this
-        private void HackSecurity()
+        private void HackSecurity(string database)
         {
-            var session = RavenController.DocumentStore.OpenSession();
+            var session = RavenController.DocumentStore.OpenSession(database);
             if (!session.Query<User>().Any())
             {
                 var admin = new User();
@@ -123,23 +139,23 @@ namespace AllStarScore.Admin
         }
 
         //TODO: come up with something better and remove this
-        private void HackLevels()
+        private void HackLevels(string database)
         {
-            var session = RavenController.DocumentStore.OpenSession();
+            var session = RavenController.DocumentStore.OpenSession(database);
             var ok = session.Query<Level>().Any();
             if (ok) return;
 
             var levels = new List<Level>()
                              {
-                                 new Level {Name = "Level 1"},
-                                 new Level {Name = "Level 2"},
-                                 new Level {Name = "Level 3"},
-                                 new Level {Name = "Level 4"},
-                                 new Level {Name = "Level 5"},
-                                 new Level {Name = "Level 6"},
-                                 new Level {Name = "Dance"},
-                                 new Level {Name = "School"},
-                                 new Level {Name = "Individual"}
+                                 new Level {Id = "levels-level1", Name = "Level 1", DefaultScoringDefinition = "scoring-level1"},
+                                 new Level {Id = "levels-level2", Name = "Level 2", DefaultScoringDefinition = "scoring-level2"},
+                                 new Level {Id = "levels-level3", Name = "Level 3", DefaultScoringDefinition = "scoring-level3"},
+                                 new Level {Id = "levels-level4", Name = "Level 4", DefaultScoringDefinition = "scoring-level4"},
+                                 new Level {Id = "levels-level5", Name = "Level 5", DefaultScoringDefinition = "scoring-level5"},
+                                 new Level {Id = "levels-level6", Name = "Level 6", DefaultScoringDefinition = "scoring-level6"},
+                                 new Level {Id = "levels-dance", Name = "Dance", DefaultScoringDefinition = "scoring-dance"},
+                                 new Level {Id = "levels-school", Name = "School", DefaultScoringDefinition = "scoring-school"},
+                                 new Level {Id = "levels-individual", Name = "Individual", DefaultScoringDefinition = "scoring-individual"}
                              };
             
             levels.ForEach(session.Store);
@@ -147,9 +163,9 @@ namespace AllStarScore.Admin
         }
 
         //TODO: come up with something better and remove this
-        private void HackDivisions()
+        private void HackDivisions(string database)
         {
-            var session = RavenController.DocumentStore.OpenSession();
+            var session = RavenController.DocumentStore.OpenSession(database);
             var ok = session.Query<Division>().Any();
             if (ok) return;
 
@@ -157,12 +173,12 @@ namespace AllStarScore.Admin
 
             var divisions = new List<Division>()
                              {
-                                 new Division{ Name = "Small Youth", LevelId = levels[0].Id},
-                                 new Division{ Name = "Large Youth", LevelId = levels[1].Id},
-                                 new Division{ Name = "Small Junior", LevelId = levels[2].Id},
-                                 new Division{ Name = "Large Junior", LevelId = levels[3].Id},
-                                 new Division{ Name = "Small Senior", LevelId = levels[4].Id},
-                                 new Division{ Name = "Large Senior", LevelId = levels[5].Id}
+                                 new Division{ Name = "Small Youth", LevelId = "levels-level1"},
+                                 new Division{ Name = "Large Youth", LevelId = "levels-level2"},
+                                 new Division{ Name = "Small Junior", LevelId = "levels-level3"},
+                                 new Division{ Name = "Large Junior", LevelId = "levels-level4"},
+                                 new Division{ Name = "Small Senior", LevelId = "levels-level5"},
+                                 new Division{ Name = "Large Senior", LevelId = "levels-level6"}
                              };
 
             divisions.ForEach(session.Store);

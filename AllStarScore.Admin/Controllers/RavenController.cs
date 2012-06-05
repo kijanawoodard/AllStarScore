@@ -4,6 +4,7 @@ using System.Web.Mvc;
 using AllStarScore.Admin.Infrastructure.Utilities;
 using Newtonsoft.Json;
 using Raven.Client;
+using Raven.Client.Extensions;
 
 namespace AllStarScore.Admin.Controllers
 {
@@ -27,7 +28,9 @@ namespace AllStarScore.Admin.Controllers
 
         protected override void OnActionExecuting(ActionExecutingContext filterContext)
         {
-            RavenSession = _documentStore.OpenSession();
+            DocumentStore.DatabaseCommands.EnsureDatabaseExists("scoring-development"); //TODO: make this dynamic based on ip
+            RavenSession = DocumentStore.OpenSession("scoring-development");
+            //RavenSession = _documentStore.OpenSession();
         }
 
         // TODO: Consider re-applying https://github.com/ayende/RaccoonBlog/commit/ff954e563e6996d44eb59a28f0abb2d3d9305ffe
