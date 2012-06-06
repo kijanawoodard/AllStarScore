@@ -112,15 +112,12 @@ ko.bindingHandlers.ko_slider = {
                 value(ui.value);
             }
         };
-        
+
         $.extend(options, boundOptions);
 
-        console.log(ko.toJSON(options));
         slider.slider(options);
     },
     update: function (element, valueAccessor, allBindingsAccessor, viewModel) {
-        var el = $(element);
-
 
     }
 };

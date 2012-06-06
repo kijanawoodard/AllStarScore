@@ -56,13 +56,44 @@ var EditScheduleViewModel = (function (data) {
                     id: ko.observable(r.id()),
                     time: ko.observable(''),
                     index: ko.observable(-1),
-                    duration: ko.observable(15),
+                    duration: ko.observable(self.schedule.defaultDuration()),
                     template: ko.observable('registration-template')
                 };
 
                 node.entries.push(json);
             }
         });
+    };
+
+    var prototype = function () {
+        return {
+            data: { text: ko.observable('') },
+            id: ko.observable(''),
+            time: ko.observable(''),
+            index: ko.observable(-1),
+            duration: ko.observable(20),
+            template: ko.observable('block-template')
+        };
+    };
+
+    self.addBreak = function (day) {
+        var item = prototype();
+        item.data.text('Break');
+        console.log(item);
+        day.entries.push(item);
+    };
+
+    self.addAwards = function (day) {
+        var item = prototype();
+        item.data.text('Awards');
+        day.entries.push(item);
+    };
+
+    self.addOpen = function (day) {
+        var item = prototype();
+        item.data.text('Open');
+        item.duration(self.schedule.defaultDuration());
+        day.entries.push(item);
     };
     //recalculate time when we move items around
     $.each(self.schedule.days(), function (index, unit) {

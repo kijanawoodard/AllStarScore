@@ -13,7 +13,7 @@ namespace AllStarScore.Admin.Models
         public Schedule(IEnumerable<DateTime> competitionDays)
         {
             Days = competitionDays.Select(x => new ScheduleDay(x)).ToList();
-            DefaultDuration = 15;
+            DefaultDuration = 3;
             NumberOfPanels = 2;
         }
         public class ScheduleDay

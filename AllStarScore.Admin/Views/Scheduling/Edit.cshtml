@@ -12,22 +12,25 @@
         </ul>
         
         <div class="setup">
-            <p>
-                <span>Which panels do you want? <span data-bind="text: panels"></span></span>
+            <div>
+                <div>How many panels do you want? <span data-bind="text: panels().length"></span>: <span data-bind="text: panels"></span></div>
                 <div data-bind="ko_slider: { source: schedule.numberOfPanels, options: { step: 1}}" class="slider"></div>
-            </p>
-            
-            
+            </div>
         </div>
+        <br/>
         <div class="controls">
             <span data-bind="foreach: schedule.days">
                 <a href="#" data-bind="click: $root.scheduleTeam">Put selected teams on <span data-bind="dateString: day, datePattern: 'dddd'"></span></a><br/>
             </span>
         </div>
     </div>
-
-    <div data-bind="foreach: schedule">
-        <p data-bind="dateString: day, datePattern: 'dddd MMM dd, yyyy'"></p>
+    
+    <div data-bind="foreach: schedule.days">
+        <br/><br/>
+        <span data-bind="dateString: day, datePattern: 'dddd MMM dd, yyyy'"></span>
+        <a href="#" data-bind="click: $root.addBreak">Add Break</a>
+        <a href="#" data-bind="click: $root.addAwards">Add Awards</a>
+        <a href="#" data-bind="click: $root.addOpen">Add Open</a>
         <ol data-bind="sortable: { template: 'scheduled-template', data: entries, options: { handle: '.handle' } }" class="sortable"></ol>
     </div>
 
