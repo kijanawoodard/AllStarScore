@@ -12,9 +12,12 @@
         </ul>
         
         <div class="setup">
-            <p>How many panels do you want?</p>
-            <span data-bind="text: panels"></span>
-            <div data-bind="ko_slider: { source: schedule.numberOfPanels, options: { step: 1}}" class="slider"></div>
+            <p>
+                <span>Which panels do you want? <span data-bind="text: panels"></span></span>
+                <div data-bind="ko_slider: { source: schedule.numberOfPanels, options: { step: 1}}" class="slider"></div>
+            </p>
+            
+            
         </div>
         <div class="controls">
             <span data-bind="foreach: schedule.days">
