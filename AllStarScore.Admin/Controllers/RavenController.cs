@@ -28,9 +28,7 @@ namespace AllStarScore.Admin.Controllers
 
         protected override void OnActionExecuting(ActionExecutingContext filterContext)
         {
-            DocumentStore.DatabaseCommands.EnsureDatabaseExists("scoring-development"); //TODO: make this dynamic based on ip
-            RavenSession = DocumentStore.OpenSession("scoring-development");
-            //RavenSession = _documentStore.OpenSession();
+            RavenSession = _documentStore.OpenSession(); //TODO: make this dynamic based on ip
         }
 
         // TODO: Consider re-applying https://github.com/ayende/RaccoonBlog/commit/ff954e563e6996d44eb59a28f0abb2d3d9305ffe

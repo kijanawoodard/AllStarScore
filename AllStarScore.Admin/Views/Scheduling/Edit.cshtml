@@ -11,6 +11,9 @@
             <li data-bind="template: 'registration-template', css: {'ui-selected' : selected }, selectableItem: selected"></li> 
         </ul>
         
+        <div class="setup">
+            <p>How many panels do you want?</p>
+        </div>
         <div class="controls">
             <span data-bind="foreach: schedule">
                 <a href="#" data-bind="click: $root.scheduleTeam">Put selected teams on <span data-bind="dateString: day, datePattern: 'dddd'"></span></a><br/>

@@ -95,9 +95,10 @@ namespace AllStarScore.Admin
 
             InitializeRavenProfiler();
 
-            CreateIndexesForDatabases(typeof (GymsByName).Assembly, RavenController.DocumentStore,
-                                      new string[] {"scoring-development"}); //TODO: robustify
-            
+            IndexCreation.CreateIndexes(typeof (GymsByName).Assembly, RavenController.DocumentStore);
+//            CreateIndexesForDatabases(typeof (GymsByName).Assembly, RavenController.DocumentStore,
+//                                      new string[] {(RavenController.DocumentStore as DocumentStore).DefaultDatabase}); //TODO: robustify
+
         }
 
         //http://stackoverflow.com/a/8755565/214073
