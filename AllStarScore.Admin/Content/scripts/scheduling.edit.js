@@ -1,27 +1,21 @@
 ﻿$(document).ready(function () {
-    var registrations = $.map(window.editScheduleData.registrations, function (item) {
-        return { data: item, time: '', index: -1, duration: 15, template: 'registration-template' };
-    });
-        
     //console.log(ko.toJSON(window.editScheduleData));
-    //console.log(ko.toJSON(schedule));
 
     var data = {
         schedule: window.editScheduleData.schedule,
         registrations: window.editScheduleData.registrations
     };
 
-//    data.schedule[0].items.push.apply(data.schedule[0].items, registrations);
     data.schedule[0].items.push({ data: { text: 'Break', id: '' }, time: '', index: -1, duration: 20, template: 'block-template' });
     data.schedule[1].items.push({ data: { text: 'Awards', id: '' }, time: '', index: -1, duration: 20, template: 'block-template' });
 
-
+    $('#scheduling_edit .selectable').selectable({ filter: "li" });
+    
     var viewModel = new EditScheduleViewModel(data);
     ko.applyBindings(viewModel, document.getElementById('scheduling_edit'));
 
     //http://stackoverflow.com/a/9993099/214073 sortable and selectable
     $('#scheduling_edit .sortable').disableSelection();
-    
 });
 
 var EditScheduleViewModel = (function (data) {
@@ -36,6 +30,7 @@ var EditScheduleViewModel = (function (data) {
     //add tracking flag
     $.each(data.registrations, function (index, item) {
         item.scheduled = false;
+        item.selected = true;
     });
 
     self.registrations = ko.mapping.fromJS(data.registrations);
@@ -46,6 +41,21 @@ var EditScheduleViewModel = (function (data) {
         });
     }, self);
 
+    self.scheduleTeam = function (node) {
+        ko.utils.arrayForEach(self.unscheduled(), function (r) {
+            if (r.selected()) {
+                var json = {
+                    data: r,
+                    time: ko.observable(''),
+                    index: ko.observable(-1),
+                    duration: ko.observable(15),
+                    template: ko.observable('registration-template')
+                };
+                
+                node.items.push(json);
+            }
+        });
+    };
     //recalculate time when we move items around
     $.each(self.schedule(), function (index, unit) {
         unit.items.subscribe(function () {
@@ -76,5 +86,6 @@ var EditScheduleViewModel = (function (data) {
     $.each(self.schedule(), function (index, unit) {
         unit.items.valueHasMutated(); //we loaded the items before subscribe, so force subscribe function now
     });
+
     return self;
 });

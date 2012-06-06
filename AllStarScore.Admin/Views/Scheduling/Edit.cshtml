@@ -4,12 +4,17 @@
 @{ Html.RegisterScript("~/content/scripts/scheduling.edit.js"); }
 
 <div id="scheduling_edit">
-    <p>This is a schedule</p>
+    <p>These teams haven't been scheduled</p>
     
-    <ul data-bind="foreach: unscheduled">
-       <li><span data-bind="template: 'registration-template'"></span></li> 
+    <ul data-bind="foreach: unscheduled" class="selectable">
+        <li data-bind="template: 'registration-template', css: {'ui-selected' : selected }, selectableItem: selected"></li> 
     </ul>
     
+    <div class="controls">
+        <span data-bind="foreach: schedule">
+            <a href="#" data-bind="click: $root.scheduleTeam">Put selected teams on <span data-bind="dateString: day, datePattern: 'dddd'"></span></a><br/>
+        </span>
+    </div>
 
     <div data-bind="foreach: schedule">
         <p data-bind="dateString: day, datePattern: 'dddd MMM dd, yyyy'"></p>

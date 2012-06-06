@@ -14,7 +14,7 @@
     
     height: 18px;
     
-	width: 100%;
+	width: 896px;
 }
 
 li .handle { background: #f8f8f8; position: absolute; left: 0; top: 0; bottom: 0; padding:8px; cursor: pointer;  }
