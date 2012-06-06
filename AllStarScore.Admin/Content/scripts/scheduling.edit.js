@@ -1,6 +1,6 @@
 ﻿$(document).ready(function () {
     var registrations = $.map(window.editScheduleData.registrations, function (item) {
-        return { item: item, time: '', index: -1, duration: 15, template: 'registration-template' };
+        return { data: item, time: '', index: -1, duration: 15, template: 'registration-template' };
     });
         
     //console.log(ko.toJSON(window.editScheduleData));
@@ -11,9 +11,9 @@
         registrations: window.editScheduleData.registrations
     };
 
-    data.schedule[0].items.push.apply(data.schedule[0].items, registrations);
-    data.schedule[0].items.push({ item: { text: 'Break' }, time: '', index: -1, duration: 20, template: 'block-template' });
-    data.schedule[1].items.push({ item: { text: 'Awards' }, time: '', index: -1, duration: 20, template: 'block-template' });
+//    data.schedule[0].items.push.apply(data.schedule[0].items, registrations);
+    data.schedule[0].items.push({ data: { text: 'Break', id: '' }, time: '', index: -1, duration: 20, template: 'block-template' });
+    data.schedule[1].items.push({ data: { text: 'Awards', id: '' }, time: '', index: -1, duration: 20, template: 'block-template' });
 
 
     var viewModel = new EditScheduleViewModel(data);
@@ -33,26 +33,18 @@ var EditScheduleViewModel = (function (data) {
         item.day = new Date(item.day);
     });
 
-    self.registrations = data.registrations;
-    self.schedule = ko.mapping.fromJS(data.schedule);
-    self.unscheduled = ko.mapping.fromJS(function () {
-        return $.grep(data.registrations, function (registration) {
-            var schedules = $.map(data.schedule, function (item) { return item.items; });
-            return $.grep(schedules, function (day) {
-                return registration.id == day.id;
-            }).length == 0;
-        });
+    //add tracking flag
+    $.each(data.registrations, function (index, item) {
+        item.scheduled = false;
     });
 
-    self.temp = (function () {
-        var schedules = $.map(data.schedule, function (item) { return item.items; });
-        return $.grep(data.registrations, function (registration) {
-            
-            return $.grep(schedules, function (day) {
-                return registration.id == day.id;
-            }).length == 0;
+    self.registrations = ko.mapping.fromJS(data.registrations);
+    self.schedule = ko.mapping.fromJS(data.schedule);
+    self.unscheduled = ko.computed(function () {
+        return $.grep(self.registrations(), function (item) {
+            return item.scheduled() == false;
         });
-    })();
+    }, self);
 
     //recalculate time when we move items around
     $.each(self.schedule(), function (index, unit) {
@@ -66,6 +58,15 @@ var EditScheduleViewModel = (function (data) {
                 else {
                     var prev = items[i - 1];
                     item.time(new Date(prev.time().getTime() + prev.duration() * 60 * 1000));
+                }
+
+                //flag this item as scheduled
+                var registrations = self.registrations();
+                for (var key in registrations) {
+                    if (registrations[key].id() == item.data.id()) {
+                        registrations[key].scheduled(true);
+                        break;
+                    }
                 }
             }
         }, unit.items);

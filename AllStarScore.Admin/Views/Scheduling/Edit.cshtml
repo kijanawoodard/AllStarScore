@@ -6,6 +6,11 @@
 <div id="scheduling_edit">
     <p>This is a schedule</p>
     
+    <ul data-bind="foreach: unscheduled">
+       <li><span data-bind="template: 'registration-template'"></span></li> 
+    </ul>
+    
+
     <div data-bind="foreach: schedule">
         <p data-bind="dateString: day, datePattern: 'dddd MMM dd, yyyy'"></p>
         <ol data-bind="sortable: { template: 'scheduled-template', data: items, options: { handle: '.handle' } }" class="sortable"></ol>
@@ -25,7 +30,7 @@
             <div class='handle'><span class='ui-icon ui-icon-carat-2-n-s'></span></div>
             <div class="display">
                 <span data-bind="dateString: time, datePattern: 'ddd h:mm tt', syncIndex: index($index())"></span>
-                <span data-bind="template: { name: template(), data: item }"></span>
+                <span data-bind="template: { name: template(), data: data }"></span>
             </div>
         </div>
     </li>
