@@ -23,7 +23,7 @@ var EditScheduleViewModel = (function (data) {
     var hook = $('#scheduling_edit');
 
     //clean up datetimes
-    $.each(data.schedule, function (index, item) {
+    $.each(data.schedule.days, function (index, item) {
         item.day = new Date(item.day);
     });
 
@@ -58,7 +58,7 @@ var EditScheduleViewModel = (function (data) {
         });
     };
     //recalculate time when we move items around
-    $.each(self.schedule(), function (index, unit) {
+    $.each(self.schedule.days(), function (index, unit) {
         unit.entries.subscribe(function () {
             var entries = unit.entries();
             for (var i = 0, j = entries.length; i < j; i++) {
@@ -84,7 +84,7 @@ var EditScheduleViewModel = (function (data) {
     });
 
 
-    $.each(self.schedule(), function (index, unit) {
+    $.each(self.schedule.days(), function (index, unit) {
         unit.entries.valueHasMutated(); //we loaded the items before subscribe, so force subscribe function now
     });
 

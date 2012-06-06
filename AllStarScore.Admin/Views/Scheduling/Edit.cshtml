@@ -13,9 +13,10 @@
         
         <div class="setup">
             <p>How many panels do you want?</p>
+            <span data-bind="text: schedule.numberOfPanels"></span>
         </div>
         <div class="controls">
-            <span data-bind="foreach: schedule">
+            <span data-bind="foreach: schedule.days">
                 <a href="#" data-bind="click: $root.scheduleTeam">Put selected teams on <span data-bind="dateString: day, datePattern: 'dddd'"></span></a><br/>
             </span>
         </div>
