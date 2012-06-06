@@ -93,7 +93,7 @@ namespace AllStarScore.Admin
             RavenController.DocumentStore.Initialize();
             RavenController.DocumentStore.Conventions.IdentityPartsSeparator = "-";
 
-            Raven.Client.MvcIntegration.RavenProfiler.InitializeFor(RavenController.DocumentStore);
+            InitializeRavenProfiler();
 
             CreateIndexesForDatabases(typeof (GymsByName).Assembly, RavenController.DocumentStore,
                                       new string[] {"scoring-development"}); //TODO: robustify
@@ -118,6 +118,12 @@ namespace AllStarScore.Admin
         private void InitializeMothForDebugging()
         {
             MothAction.Initialize(new CustomMothProvider());
+        }
+
+        [Conditional("DEBUG")]
+        private void InitializeRavenProfiler()
+        {
+            Raven.Client.MvcIntegration.RavenProfiler.InitializeFor(RavenController.DocumentStore);
         }
         
 

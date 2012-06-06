@@ -37,12 +37,22 @@ var EditScheduleViewModel = (function (data) {
     self.schedule = ko.mapping.fromJS(data.schedule);
     self.unscheduled = ko.mapping.fromJS(function () {
         return $.grep(data.registrations, function (registration) {
-            var schedules = $.map(data.schedule, function(item) { return item.items; });
+            var schedules = $.map(data.schedule, function (item) { return item.items; });
             return $.grep(schedules, function (day) {
                 return registration.id == day.id;
             }).length == 0;
         });
     });
+
+    self.temp = (function () {
+        var schedules = $.map(data.schedule, function (item) { return item.items; });
+        return $.grep(data.registrations, function (registration) {
+            
+            return $.grep(schedules, function (day) {
+                return registration.id == day.id;
+            }).length == 0;
+        });
+    })();
 
     //recalculate time when we move items around
     $.each(self.schedule(), function (index, unit) {
