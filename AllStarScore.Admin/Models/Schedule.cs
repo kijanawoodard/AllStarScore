@@ -17,17 +17,18 @@ namespace AllStarScore.Admin.Models
         public class ScheduleDay
         {
             public DateTime Day { get; set; }
-            public List<ScheduleItem> Items { get; set; }
+            public List<ScheduleEntries> Entries { get; set; }
 
             public ScheduleDay(DateTime day)
             {
                 Day = day.AddHours(8);
-                Items = new List<ScheduleItem>();
+                Entries = new List<ScheduleEntries>();
             }
         }
 
-        public class ScheduleItem
+        public class ScheduleEntries
         {
+            public string RegistrationId { get; set; }
             public DateTime Time { get; set; }
             public int Index { get; set; }
             public int Duration { get; set; } //in minutes

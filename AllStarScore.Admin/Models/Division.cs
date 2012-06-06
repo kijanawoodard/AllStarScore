@@ -45,12 +45,11 @@ namespace AllStarScore.Admin.Models
 
     public class PanelJudge : IJudge
     {
-        public string Designator { get { return "P"; } }
-        public int Ordinal { get; private set; }
+        public string Designator { get; private set; }
 
-        public PanelJudge(int ordinal)
+        public PanelJudge(int designator)
         {
-            Ordinal = ordinal;
+            Designator = designator.ToString(CultureInfo.InvariantCulture);
         }
     }
 
@@ -66,12 +65,20 @@ namespace AllStarScore.Admin.Models
 
     public interface IJudgePanel
     {
+        string Id { get; }
         string Designator { get; }
         IEnumerable<IJudge> Judges { get; }
     }
 
+    public class JudgingPanels
+    {
+        
+    }
+
     public class FiveJudgePanel : IJudgePanel
     {
+        public string Id { get { return "panels-fivejudge"; } }
+
         public string Designator { get; private set; }
 
         public PanelJudge PanelJudge1 { get; set; }

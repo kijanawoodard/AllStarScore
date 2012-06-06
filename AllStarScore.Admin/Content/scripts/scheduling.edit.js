@@ -6,8 +6,8 @@
         registrations: window.editScheduleData.registrations
     };
 
-    data.schedule[0].items.push({ data: { text: 'Break', id: '' }, time: '', index: -1, duration: 20, template: 'block-template' });
-    data.schedule[1].items.push({ data: { text: 'Awards', id: '' }, time: '', index: -1, duration: 20, template: 'block-template' });
+//    data.schedule[0].items.push({ data: { text: 'Break', id: '' }, time: '', index: -1, duration: 20, template: 'block-template' });
+//    data.schedule[1].items.push({ data: { text: 'Awards', id: '' }, time: '', index: -1, duration: 20, template: 'block-template' });
 
     $('#scheduling_edit .selectable').selectable({ filter: "li" });
     
@@ -46,45 +46,46 @@ var EditScheduleViewModel = (function (data) {
             if (r.selected()) {
                 var json = {
                     data: r,
+                    id : ko.observable(r.id()),
                     time: ko.observable(''),
                     index: ko.observable(-1),
                     duration: ko.observable(15),
                     template: ko.observable('registration-template')
                 };
-                
-                node.items.push(json);
+
+                node.entries.push(json);
             }
         });
     };
     //recalculate time when we move items around
     $.each(self.schedule(), function (index, unit) {
-        unit.items.subscribe(function () {
-            var items = unit.items();
-            for (var i = 0, j = items.length; i < j; i++) {
-                var item = items[i];
+        unit.entries.subscribe(function () {
+            var entries = unit.entries();
+            for (var i = 0, j = entries.length; i < j; i++) {
+                var entry = entries[i];
                 if (i == 0) {
-                    item.time(unit.day());
+                    entry.time(unit.day());
                 }
                 else {
-                    var prev = items[i - 1];
-                    item.time(new Date(prev.time().getTime() + prev.duration() * 60 * 1000));
+                    var prev = entries[i - 1];
+                    entry.time(new Date(prev.time().getTime() + prev.duration() * 60 * 1000));
                 }
 
                 //flag this item as scheduled
                 var registrations = self.registrations();
                 for (var key in registrations) {
-                    if (registrations[key].id() == item.data.id()) {
+                    if (registrations[key].id() == entry.id()) {
                         registrations[key].scheduled(true);
                         break;
                     }
                 }
             }
-        }, unit.items);
+        }, unit.entries);
     });
 
 
     $.each(self.schedule(), function (index, unit) {
-        unit.items.valueHasMutated(); //we loaded the items before subscribe, so force subscribe function now
+        unit.entries.valueHasMutated(); //we loaded the items before subscribe, so force subscribe function now
     });
 
     return self;

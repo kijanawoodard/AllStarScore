@@ -20,7 +20,7 @@
 
     <div data-bind="foreach: schedule">
         <p data-bind="dateString: day, datePattern: 'dddd MMM dd, yyyy'"></p>
-        <ol data-bind="sortable: { template: 'scheduled-template', data: items, options: { handle: '.handle' } }" class="sortable"></ol>
+        <ol data-bind="sortable: { template: 'scheduled-template', data: entries, options: { handle: '.handle' } }" class="sortable"></ol>
     </div>
 
     <pre data-bind="text: ko.toJSON($root, null, 2)"></pre>
