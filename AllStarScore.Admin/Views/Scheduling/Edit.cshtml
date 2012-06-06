@@ -26,10 +26,6 @@
     <pre data-bind="text: ko.toJSON($root, null, 2)"></pre>
 </div>
 
-<script>
-    var editScheduleData = JSON.parse('@Html.Raw(Model.ToJson())');
-</script>
-
 <script type="text/html" id="scheduled-template">
     <li>
         <div class="index" data-bind="text: $index() + 1 + '.'"></div>
@@ -54,4 +50,8 @@
 
 <script type="text/html" id="block-template">
     <span data-bind="text: text"></span>
+</script>
+
+<script>
+    var editScheduleData = JSON.parse('@Html.Raw(Model.ToJson())');
 </script>
