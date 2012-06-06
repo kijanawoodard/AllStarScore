@@ -16,8 +16,10 @@ namespace AllStarScore.Admin.Infrastructure.Indexes
             
             public string TeamName { get; set; }
             public int ParticipantCount { get; set; }
+            public bool IsShowTeam { get; set; }
             public string GymName { get; set; }
             public string GymLocation { get; set; }
+            public bool IsSmallGym { get; set; }
             public string DivisionName { get; set; }
             public string LevelName { get; set; }
         }
@@ -46,8 +48,10 @@ namespace AllStarScore.Admin.Infrastructure.Indexes
                                                         registration.GymId,
                                                         registration.TeamName,
                                                         registration.ParticipantCount,
+                                                        registration.IsShowTeam,
                                                         GymName = gym.Name,
                                                         GymLocation = gym.Location,
+                                                        gym.IsSmallGym,
                                                         registration.DivisionId,
                                                         division.LevelId,
                                                         DivisionName = division.Name,

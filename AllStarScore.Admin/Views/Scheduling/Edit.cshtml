@@ -55,8 +55,10 @@
     <span data-bind="text: teamName"></span>
     <span data-bind="text: levelName"></span>
     <span data-bind="text: divisionName"></span>
-    <span data-bind="text: gymLocation"></span>
+    <span data-bind="text: isShowTeam() ? 'Show' : ''"></span>
     <span data-bind="text: participantCount"></span>
+    <span data-bind="text: gymLocation"></span>
+    <span data-bind="text: isSmallGym() ? 'Small' : 'Large'"></span>
 </script>
 
 <script type="text/html" id="block-template">
