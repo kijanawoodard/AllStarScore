@@ -29,3 +29,5 @@ li .index { left: 0; top: 0; bottom: 0;padding: .4em 0; }
 .ui-selected .handle { background: #cde; }
 
 .sortable li .display span { margin-right: .5em; }
+
+#scheduling_edit .slider { width: 20%; }

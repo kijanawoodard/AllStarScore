@@ -1,16 +1,16 @@
 ﻿$(document).ready(function () {
     //console.log(ko.toJSON(window.editScheduleData));
-
+    
     var data = {
         schedule: window.editScheduleData.schedule,
         registrations: window.editScheduleData.registrations
     };
 
-//    data.schedule[0].items.push({ data: { text: 'Break', id: '' }, time: '', index: -1, duration: 20, template: 'block-template' });
-//    data.schedule[1].items.push({ data: { text: 'Awards', id: '' }, time: '', index: -1, duration: 20, template: 'block-template' });
+    //    data.schedule[0].items.push({ data: { text: 'Break', id: '' }, time: '', index: -1, duration: 20, template: 'block-template' });
+    //    data.schedule[1].items.push({ data: { text: 'Awards', id: '' }, time: '', index: -1, duration: 20, template: 'block-template' });
 
     $('#scheduling_edit .selectable').selectable({ filter: "li" });
-    
+
     var viewModel = new EditScheduleViewModel(data);
     ko.applyBindings(viewModel, document.getElementById('scheduling_edit'));
 
@@ -40,13 +40,20 @@ var EditScheduleViewModel = (function (data) {
             return item.scheduled() == false;
         });
     }, self);
+    self.panels = ko.computed(function () {
+        var result = [];
+        for (var i = 0; i < self.schedule.numberOfPanels(); i++) {
+            result.push(String.fromCharCode(65 + i));
+        }
+        return result;
+    });
 
     self.scheduleTeam = function (node) {
         ko.utils.arrayForEach(self.unscheduled(), function (r) {
             if (r.selected()) {
                 var json = {
                     data: r,
-                    id : ko.observable(r.id()),
+                    id: ko.observable(r.id()),
                     time: ko.observable(''),
                     index: ko.observable(-1),
                     duration: ko.observable(15),

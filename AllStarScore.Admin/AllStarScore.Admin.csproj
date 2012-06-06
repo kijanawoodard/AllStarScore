@@ -210,6 +210,7 @@
     <Content Include="Content\scripts\lib\date.js" />
     <Content Include="Content\scripts\global.datepicker.js" />
     <Content Include="Content\scripts\global.knockout.bindings.js" />
+    <Content Include="Content\scripts\lib\jquery-ui-timepicker-addon.js" />
     <Content Include="Content\scripts\lib\jquery.tablesorter.min.js" />
     <Content Include="Content\scripts\lib\jquery.tablesorter.pager.js" />
     <Content Include="Content\scripts\lib\jquery.validate.min.js" />
@@ -235,6 +236,7 @@
     <Content Include="Content\styles\global.css" />
     <Content Include="Content\styles\gym.create.css" />
     <Content Include="Content\styles\gym.details.css" />
+    <Content Include="Content\styles\jquery-ui-timepicker-addon.css" />
     <Content Include="Content\styles\jquery.notify.css" />
     <Content Include="Content\styles\normalize.css" />
     <Content Include="Content\styles\registration.teams.css" />

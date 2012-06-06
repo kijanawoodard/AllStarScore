@@ -98,3 +98,29 @@ ko.bindingHandlers.selectableItem = {
         }
     }
 };
+
+ko.bindingHandlers.ko_slider = {
+    init: function (element, valueAccessor, allBindingsAccessor) {
+        var slider = $(element);
+        var value = valueAccessor().source;
+        var boundOptions = valueAccessor().options;
+        var options = {
+            min: 1,
+            max: 6,
+            value: value(),
+            slide: function (event, ui) {
+                value(ui.value);
+            }
+        };
+        
+        $.extend(options, boundOptions);
+
+        console.log(ko.toJSON(options));
+        slider.slider(options);
+    },
+    update: function (element, valueAccessor, allBindingsAccessor, viewModel) {
+        var el = $(element);
+
+
+    }
+};
