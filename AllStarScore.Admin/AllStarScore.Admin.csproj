@@ -157,6 +157,7 @@
     <Compile Include="Infrastructure\Indexes\CompetitionStatsIndex.cs" />
     <Compile Include="Infrastructure\Indexes\DivisionsWithLevels.cs" />
     <Compile Include="Infrastructure\Indexes\GymsByName.cs" />
+    <Compile Include="Infrastructure\Indexes\ScheduleByCompetition.cs" />
     <Compile Include="Infrastructure\Indexes\TeamRegistrationByCompetition.cs" />
     <Compile Include="Infrastructure\Indexes\TeamRegistrationStatsByCompetition.cs" />
     <Compile Include="Infrastructure\Indexes\TeamRegistrationStatsByGym.cs" />
@@ -185,6 +186,7 @@
     <Compile Include="ViewModels\RegistrationIndexRequestModel.cs" />
     <Compile Include="ViewModels\RegistrationIndexViewModel.cs" />
     <Compile Include="ViewModels\RegistrationTeamsViewModel.cs" />
+    <Compile Include="ViewModels\SchedulingEditCommand.cs" />
     <Compile Include="ViewModels\SchedulingEditViewModel.cs" />
     <Compile Include="ViewModels\TeamRegistrationViewModel.cs" />
   </ItemGroup>

@@ -72,7 +72,7 @@ var EditScheduleViewModel = (function (data) {
     self.calculateWarmup = function (node) {
         return new Date(node.time().getTime() - node.warmupTime() * 60 * 1000);
     };
-    
+
     self.scheduleTeam = function (node) {
         self.scheduleTeams(node, self.unscheduled);
     };
@@ -186,6 +186,17 @@ var EditScheduleViewModel = (function (data) {
             });
 
         return [, '1st', '2nd', '3rd', '4th', '5th'][result];
+    };
+
+
+    self.save = function () {
+        $('#scheduling_edit form').ajaxPost({
+            data: { schedule: ko.toJS(self.schedule) },
+            success: function (result) {
+                //console.log(ko.toJSON(result));
+                console.log('saved');
+            }
+        });
     };
 
     return self;

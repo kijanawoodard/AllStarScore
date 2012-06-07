@@ -4,7 +4,6 @@ using System.Linq;
 using System.Web;
 using System.Web.Mvc;
 using AllStarScore.Admin.Infrastructure.Indexes;
-using AllStarScore.Admin.Infrastructure.Utilities;
 using AllStarScore.Admin.Models;
 using AllStarScore.Admin.ViewModels;
 using Raven.Client.Linq;
@@ -30,9 +29,20 @@ namespace AllStarScore.Admin.Controllers
                    .Lazily();
 
             var competition =
-                RavenSession.Load<Competition>(id);
+                RavenSession
+                    .Advanced.Lazily
+                    .Load<Competition>(id);
+            
+            var schedule =
+                RavenSession
+                    .Query<Schedule, ScheduleByCompetition>()
+                    .FirstOrDefault(x => x.CompetitionId == id);
 
-            var schedule = new Schedule(competition.FirstDay.GetDateRange(competition.LastDay));
+            if (schedule == null)
+            {
+                schedule = new Schedule(competition.Value);   
+                RavenSession.Store(schedule);
+            }
 
             var model = new SchedulingEditViewModel();
             model.Schedule = schedule;
@@ -42,5 +52,17 @@ namespace AllStarScore.Admin.Controllers
             return View(model);
         }
 
+        [HttpPost]
+        public JsonDotNetResult Edit(SchedulingEditCommand command)
+        {
+            return Execute(
+                action: () =>
+                {
+                    var schedule = RavenSession.Load<Schedule>(command.Schedule.Id) ?? new Schedule();
+                    schedule.Update(command);
+
+                    return new JsonDotNetResult(true);
+                });
+        }
     }
 }

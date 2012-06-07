@@ -33,6 +33,18 @@
         <a href="#" data-bind="click: $root.addOpen">Add Open</a>
         <ol data-bind="sortable: { template: 'scheduled-template', data: entries, options: { handle: '.handle' } }" class="sortable"></ol>
     </div>
+    
+    <form action='@Url.Action("Edit", "Scheduling")' method="post">
+        <fieldset>
+            <legend>Save Schedule</legend>
+            
+            <div class="validation-summary-errors"></div>
+
+            <p>
+                <button data-bind="click: save">Save</button>
+            </p>
+        </fieldset>
+    </form>
 
     <pre data-bind="text: ko.toJSON($root, null, 2)"></pre>
 </div>
