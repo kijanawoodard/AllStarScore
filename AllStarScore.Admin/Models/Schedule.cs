@@ -6,16 +6,19 @@ namespace AllStarScore.Admin.Models
 {
     public class Schedule
     {
-        public List<ScheduleDay> Days { get; set; }
-        public int DefaultDuration { get; set; }
+        public int DefaultDuration { get; set; } //in minutes
         public int NumberOfPanels { get; set; }
-
+        public List<ScheduleDay> Days { get; set; }
+        public List<DivisionPanelAssignments> DivisionPanels { get; set; }
+        
         public Schedule(IEnumerable<DateTime> competitionDays)
         {
-            Days = competitionDays.Select(x => new ScheduleDay(x)).ToList();
             DefaultDuration = 3;
             NumberOfPanels = 2;
+            Days = competitionDays.Select(x => new ScheduleDay(x)).ToList();
+            DivisionPanels = new List<DivisionPanelAssignments>();
         }
+
         public class ScheduleDay
         {
             public DateTime Day { get; set; }
@@ -34,6 +37,12 @@ namespace AllStarScore.Admin.Models
             public DateTime Time { get; set; }
             public int Index { get; set; }
             public int Duration { get; set; } //in minutes
+            public string Panel { get; set; }
+        }
+
+        public class DivisionPanelAssignments
+        {
+            public string DivisionId { get; set; }
             public string Panel { get; set; }
         }
     }

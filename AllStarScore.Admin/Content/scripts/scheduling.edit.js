@@ -17,15 +17,24 @@ var EditScheduleViewModel = (function (data) {
         item.day = new Date(item.day);
     });
 
+    //flatten divisions 
+    data.divisions = _.map(data.divisions, function (item) {
+        return item.divisionId;
+    });
+
+    //sort registrations in the division order
+    data.registrations = _.sortBy(data.registrations, function (item) {
+        return _.indexOf(data.divisions, item.divisionId);
+    });
+
     //add tracking flag
     $.each(data.registrations, function (index, item) {
         item.scheduled = false;
         item.selected = true;
     });
 
-    self.divisions = ko.mapping.fromJS(data.divisions);
-    self.registrations = ko.mapping.fromJS(data.registrations);
     self.schedule = ko.mapping.fromJS(data.schedule);
+    self.registrations = ko.mapping.fromJS(data.registrations);
     self.unscheduled = ko.computed(function () {
         return $.grep(self.registrations(), function (item) {
             return item.scheduled() == false;
@@ -40,42 +49,54 @@ var EditScheduleViewModel = (function (data) {
         return result;
     });
 
-    self.calcPanel = function (node) {
-        var index = _.indexOf(self.registeredDivisions(), node.divisionId());
-        var panelIndex = index % self.panels().length;
-        return self.panels()[panelIndex];
+    self.panels = ko.computed(function () {
+        return _.map(_.range(self.schedule.numberOfPanels()), function (i) {
+            return String.fromCharCode(65 + i);
+        });
+    });
+
+    self.divisions = data.divisions;
+
+    var getDivisionPanel = function (node) {
+        node = ko.toJS(node);
+        return ko.utils.arrayFirst(self.schedule.divisionPanels(), function (dp) {
+            return dp.divisionId() == node.data.divisionId;
+        });
     };
 
-    self.registeredDivisions = ko.computed(function () {
-        //http://documentcloud.github.com/underscore/#chaining
-        var unique = _.chain(ko.toJS(self.registrations))
-                        .pluck('divisionId')
-                        .uniq()
-                        .value();
+    self.getPanel = function (node) {
+        return (getDivisionPanel(node) || {}).panel;
+    };
+    self.shiftPanel = function (node) {
+        var dp = getDivisionPanel(node);
 
-        var result = [];
-        //go through the divisions in order
-        var orderedDivisions = self.divisions();
-        for (var i = 0; i < orderedDivisions.length; i++) {
-            var index = _.indexOf(unique, orderedDivisions[i].divisionId());
-            if (index >= 0) {
-                result.push(unique[index]);
-            }
-        }
-        return result;
-    });
+        var panels = ko.toJS(self.panels);
+        var index = _.indexOf(panels, dp.panel()) + 1;
+        var result = panels[index] || panels[0]; //get the next one or the first one
+
+        dp.panel(result);
+    };
 
     self.scheduleTeam = function (node) {
         ko.utils.arrayForEach(self.unscheduled(), function (r) {
             if (r.selected()) {
-                var json = {
-                    data: r,
-                    id: ko.observable(r.id()),
-                    time: ko.observable(''),
-                    index: ko.observable(-1),
-                    duration: ko.observable(self.schedule.defaultDuration()),
-                    template: ko.observable('registration-template')
-                };
+                var json = prototype();
+                json.data = r;
+                json.id(r.id());
+                json.panel = ko.computed(function () {
+                    return self.getPanel(this);
+                }, json);
+
+                json.duration(self.schedule.defaultDuration());
+                json.template('registration-template');
+
+                //if undfined, push the first panel in for this division
+                self.getPanel(json) || 
+                    self.schedule.divisionPanels.push({ divisionId: json.data.divisionId, panel: ko.observable(self.panels()[0]) });
+
+                if (!self.getPanel(json)) {
+                    self.schedule.divisionPanels.push({ divisionId: json.data.divisionId, panel: ko.observable(self.panels()[0]) });
+                }
 
                 node.entries.push(json);
             }
@@ -96,7 +117,6 @@ var EditScheduleViewModel = (function (data) {
     self.addBreak = function (day) {
         var item = prototype();
         item.data.text('Break');
-        console.log(item);
         day.entries.push(item);
     };
 

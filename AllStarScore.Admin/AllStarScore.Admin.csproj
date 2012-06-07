@@ -216,6 +216,7 @@
     <Content Include="Content\scripts\lib\jquery.validate.min.js" />
     <Content Include="Content\scripts\lib\knockout-sortable.js" />
     <Content Include="Content\scripts\lib\knockout-sortable.min.js" />
+    <Content Include="Content\scripts\lib\underscore-min.js" />
     <Content Include="Content\scripts\scheduling.edit.js" />
     <Content Include="Content\styles\gym.edit.css" />
     <Content Include="Content\scripts\gym.create.js" />
