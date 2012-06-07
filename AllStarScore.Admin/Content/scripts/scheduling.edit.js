@@ -42,14 +42,6 @@ var EditScheduleViewModel = (function (data) {
     }, self);
 
     self.panels = ko.computed(function () {
-        var result = [];
-        for (var i = 0; i < self.schedule.numberOfPanels(); i++) {
-            result.push(String.fromCharCode(65 + i));
-        }
-        return result;
-    });
-
-    self.panels = ko.computed(function () {
         return _.map(_.range(self.schedule.numberOfPanels()), function (i) {
             return String.fromCharCode(65 + i);
         });
@@ -78,7 +70,11 @@ var EditScheduleViewModel = (function (data) {
     };
 
     self.scheduleTeam = function (node) {
-        ko.utils.arrayForEach(self.unscheduled(), function (r) {
+        self.scheduleTeams(node, self.unscheduled);
+    };
+
+    self.scheduleTeams = function (node, registrations) {
+        ko.utils.arrayForEach(registrations, function (r) {
             if (r.selected()) {
                 var json = prototype();
                 json.data = r;
@@ -90,13 +86,9 @@ var EditScheduleViewModel = (function (data) {
                 json.duration(self.schedule.defaultDuration());
                 json.template('registration-template');
 
-                //if undfined, push the first panel in for this division
-                self.getPanel(json) || 
+                //if panel undefined for the division, push the first panel in for this division
+                self.getPanel(json) ||
                     self.schedule.divisionPanels.push({ divisionId: json.data.divisionId, panel: ko.observable(self.panels()[0]) });
-
-                if (!self.getPanel(json)) {
-                    self.schedule.divisionPanels.push({ divisionId: json.data.divisionId, panel: ko.observable(self.panels()[0]) });
-                }
 
                 node.entries.push(json);
             }
@@ -132,6 +124,7 @@ var EditScheduleViewModel = (function (data) {
         item.duration(self.schedule.defaultDuration());
         day.entries.push(item);
     };
+
     //recalculate time when we move items around
     $.each(self.schedule.days(), function (index, unit) {
         unit.entries.subscribe(function () {
@@ -162,6 +155,30 @@ var EditScheduleViewModel = (function (data) {
     $.each(self.schedule.days(), function (index, unit) {
         unit.entries.valueHasMutated(); //we loaded the items before subscribe, so force subscribe function now
     });
+
+    var r = self.unscheduled().slice();
+    _.each(self.schedule.days(), function (day) {
+        self.scheduleTeams(day, r);
+    });
+
+    self.calculatePerformancePosition = function (target) {
+        var result = 0;
+
+        _.chain(self.schedule.days())
+            .map(function (day) {
+                 return day.entries();
+            })
+            .flatten()
+            .find(function (entry) {
+                if (target.id() == entry.id()) {
+                    result++;
+                }
+                
+                return target == entry;
+            });
+               
+        return [,'1st', '2nd', '3rd', '4th', '5th'][result];
+    };
 
     return self;
 });

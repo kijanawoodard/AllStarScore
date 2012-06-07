@@ -1,5 +1,8 @@
+using System;
+using System.Globalization;
 using System.Linq;
 using AllStarScore.Admin.Models;
+using Raven.Abstractions.Indexing;
 using Raven.Client.Indexes;
 
 namespace AllStarScore.Admin.Infrastructure.Indexes
@@ -22,6 +25,8 @@ namespace AllStarScore.Admin.Infrastructure.Indexes
             public bool IsSmallGym { get; set; }
             public string DivisionName { get; set; }
             public string LevelName { get; set; }
+
+            public DateTime RegistrationDate { get; set; }
         }
 
         public TeamRegistrationByCompetition()
@@ -33,11 +38,13 @@ namespace AllStarScore.Admin.Infrastructure.Indexes
                                            registration.Id, 
                                            registration.CompetitionId,
                                            registration.GymId,
-                                           registration.DivisionId
+                                           registration.DivisionId,
+                                           RegistrationDate = registration.History.First().CommandWhen
                                        };
             
             TransformResults =
                 (database, registrations) => from registration in registrations
+                                             let tr = database.Load<TeamRegistration>(registration.Id)
                                              let gym = database.Load<Gym>(registration.GymId)
                                              let division = database.Load<Division>(registration.DivisionId)
                                              let level = database.Load<Level>(division.LevelId)
@@ -55,7 +62,8 @@ namespace AllStarScore.Admin.Infrastructure.Indexes
                                                         registration.DivisionId,
                                                         division.LevelId,
                                                         DivisionName = division.Name,
-                                                        LevelName = level.Name
+                                                        LevelName = level.Name,
+                                                        RegistrationDate = tr.History.First().CommandWhen
                                                     };
         }
     }

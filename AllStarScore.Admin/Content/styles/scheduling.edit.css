@@ -1,4 +1,4 @@
-﻿.sortable, .selectable { list-style-type: none; margin: 0; padding: 0; width: 100%; }
+﻿.sortable, .selectable { list-style-type: none; margin: 0; padding: 2px; width: 100%; }
 
 .sortable li, .selectable li { font-size: 1.4em; height: 36px;margin-bottom: 3px;line-height: 15px;}
 .sortable li { position: relative; }

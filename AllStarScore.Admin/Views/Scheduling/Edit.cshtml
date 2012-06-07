@@ -60,6 +60,7 @@
     <span data-bind="text: participantCount"></span>
     <span data-bind="text: gymLocation"></span>
     <span data-bind="text: isSmallGym() ? 'Small' : 'Large'"></span>
+    <span data-bind="text: $root.calculatePerformancePosition($parent)"></span>
 </script>
 
 <script type="text/html" id="block-template">
