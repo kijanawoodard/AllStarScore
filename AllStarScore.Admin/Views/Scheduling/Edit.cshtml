@@ -51,6 +51,7 @@
 </script>
 
 <script type="text/html" id="registration-template">
+    <span data-bind="text: $root.calcPanel($data)"></span>
     <span data-bind="text: gymName"></span>
     <span data-bind="text: teamName"></span>
     <span data-bind="text: levelName"></span>

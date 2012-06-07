@@ -34,6 +34,7 @@ namespace AllStarScore.Admin.Models
             public DateTime Time { get; set; }
             public int Index { get; set; }
             public int Duration { get; set; } //in minutes
+            public string Panel { get; set; }
         }
     }
 }

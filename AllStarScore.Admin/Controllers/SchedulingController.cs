@@ -15,18 +15,29 @@ namespace AllStarScore.Admin.Controllers
     {
         public ActionResult Edit(string id)
         {
-            var competition =
-                RavenSession.Load<Competition>(id);
-
             var registrations =
                 RavenSession
                     .Query<TeamRegistration, TeamRegistrationByCompetition>()
                     .As<TeamRegistrationByCompetition.Results>()
-                    .ToList();
+                    .Lazily();
+
+            var divisions =
+               RavenSession
+                   .Query<Division, DivisionsWithLevels>()
+                   .Take(int.MaxValue) //there shouldn't be very many of these in practice
+                   .As<DivisionViewModel>()
+                   .Lazily();
+
+            var competition =
+                RavenSession.Load<Competition>(id);
 
             var schedule = new Schedule(competition.FirstDay.GetDateRange(competition.LastDay));
 
-            var model = new SchedulingEditViewModel(schedule, registrations);
+            var model = new SchedulingEditViewModel();
+            model.Schedule = schedule;
+            model.Registrations = registrations.Value.ToList();
+            model.Divisions = divisions.Value.ToList();
+
             return View(model);
         }
 

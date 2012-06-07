@@ -49,9 +49,7 @@ namespace AllStarScore.Admin.Controllers
                     .Take(int.MaxValue) //there shouldn't be very many of these in practice
                     .ToList();
 
-            model.Teams =
-                teams;
-
+            model.Teams = teams;
             model.Divisions = divisions.Value.ToList();
 
             return PartialView(model);

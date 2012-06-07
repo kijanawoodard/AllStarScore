@@ -8,11 +8,6 @@ namespace AllStarScore.Admin.ViewModels
     {
         public Schedule Schedule { get; set; }
         public List<TeamRegistrationByCompetition.Results> Registrations { get; set; }
-
-        public SchedulingEditViewModel(Schedule schedule, List<TeamRegistrationByCompetition.Results> registrations)
-        {
-            Schedule = schedule;
-            Registrations = registrations;
-        }
+        public List<DivisionViewModel> Divisions { get; set; }
     }
 }

@@ -1,21 +1,11 @@
 ﻿$(document).ready(function () {
-    //console.log(ko.toJSON(window.editScheduleData));
     
-    var data = {
-        schedule: window.editScheduleData.schedule,
-        registrations: window.editScheduleData.registrations
-    };
-
-    //    data.schedule[0].items.push({ data: { text: 'Break', id: '' }, time: '', index: -1, duration: 20, template: 'block-template' });
-    //    data.schedule[1].items.push({ data: { text: 'Awards', id: '' }, time: '', index: -1, duration: 20, template: 'block-template' });
-
     $('#scheduling_edit .selectable').selectable({ filter: "li" });
 
-    var viewModel = new EditScheduleViewModel(data);
+    var viewModel = new EditScheduleViewModel(window.editScheduleData);
     ko.applyBindings(viewModel, document.getElementById('scheduling_edit'));
 
-    //http://stackoverflow.com/a/9993099/214073 sortable and selectable
-    $('#scheduling_edit .sortable').disableSelection();
+    $('#scheduling_edit .sortable').disableSelection(); //http://stackoverflow.com/a/9993099/214073 sortable and selectable
 });
 
 var EditScheduleViewModel = (function (data) {
@@ -33,6 +23,7 @@ var EditScheduleViewModel = (function (data) {
         item.selected = true;
     });
 
+    self.divisions = ko.mapping.fromJS(data.divisions);
     self.registrations = ko.mapping.fromJS(data.registrations);
     self.schedule = ko.mapping.fromJS(data.schedule);
     self.unscheduled = ko.computed(function () {
@@ -40,10 +31,36 @@ var EditScheduleViewModel = (function (data) {
             return item.scheduled() == false;
         });
     }, self);
+
     self.panels = ko.computed(function () {
         var result = [];
         for (var i = 0; i < self.schedule.numberOfPanels(); i++) {
             result.push(String.fromCharCode(65 + i));
+        }
+        return result;
+    });
+
+    self.calcPanel = function (node) {
+        var index = _.indexOf(self.registeredDivisions(), node.divisionId());
+        var panelIndex = index % self.panels().length;
+        return self.panels()[panelIndex];
+    };
+
+    self.registeredDivisions = ko.computed(function () {
+        //http://documentcloud.github.com/underscore/#chaining
+        var unique = _.chain(ko.toJS(self.registrations))
+                        .pluck('divisionId')
+                        .uniq()
+                        .value();
+
+        var result = [];
+        //go through the divisions in order
+        var orderedDivisions = self.divisions();
+        for (var i = 0; i < orderedDivisions.length; i++) {
+            var index = _.indexOf(unique, orderedDivisions[i].divisionId());
+            if (index >= 0) {
+                result.push(unique[index]);
+            }
         }
         return result;
     });
