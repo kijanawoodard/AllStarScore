@@ -31,3 +31,5 @@ li .index { left: 0; top: 0; bottom: 0;padding: .4em 0; }
 .sortable li .display span { margin-right: .5em; }
 
 #scheduling_edit .slider { width: 20%; }
+.shift-panel {border: 1px solid transparent;padding: 2px;padding-bottom: 5px;cursor: pointer; }
+.shift-panel:hover { border: 1px solid #ccccff; }
