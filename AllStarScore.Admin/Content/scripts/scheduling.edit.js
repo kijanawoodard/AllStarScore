@@ -69,6 +69,10 @@ var EditScheduleViewModel = (function (data) {
         dp.panel(result);
     };
 
+    self.calculateWarmup = function (node) {
+        return new Date(node.time().getTime() - node.warmupTime() * 60 * 1000);
+    };
+    
     self.scheduleTeam = function (node) {
         self.scheduleTeams(node, self.unscheduled);
     };
@@ -102,24 +106,28 @@ var EditScheduleViewModel = (function (data) {
             time: ko.observable(''),
             index: ko.observable(-1),
             duration: ko.observable(20),
+            warmupTime: ko.observable(self.schedule.defaultWarmupTime()),
             template: ko.observable('block-template')
         };
     };
 
     self.addBreak = function (day) {
         var item = prototype();
+        item.data.id('break');
         item.data.text('Break');
         day.entries.push(item);
     };
 
     self.addAwards = function (day) {
         var item = prototype();
+        item.data.id('awards');
         item.data.text('Awards');
         day.entries.push(item);
     };
 
     self.addOpen = function (day) {
         var item = prototype();
+        item.data.id('open');
         item.data.text('Open');
         item.duration(self.schedule.defaultDuration());
         day.entries.push(item);
@@ -166,18 +174,18 @@ var EditScheduleViewModel = (function (data) {
 
         _.chain(self.schedule.days())
             .map(function (day) {
-                 return day.entries();
+                return day.entries();
             })
             .flatten()
             .find(function (entry) {
                 if (target.id() == entry.id()) {
                     result++;
                 }
-                
+
                 return target == entry;
             });
-               
-        return [,'1st', '2nd', '3rd', '4th', '5th'][result];
+
+        return [, '1st', '2nd', '3rd', '4th', '5th'][result];
     };
 
     return self;
