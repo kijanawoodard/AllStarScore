@@ -60,6 +60,8 @@
                 url: form.action,
                 type: form.method,
                 data: options.data,
+                dataType: "json",
+                contentType: 'application/json, charset=utf-8',
                 success: options.success,
                 error: function (xhr) {
                     var errors = [{ "Key": "General", "Value": ["An Unknown Error Occurred"]}];

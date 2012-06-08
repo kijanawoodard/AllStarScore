@@ -19,8 +19,8 @@
         </div>
         <br/>
         <div class="controls">
-            <span data-bind="foreach: schedule.days">
-                <a href="#" data-bind="click: $root.scheduleTeam">Put selected teams on <span data-bind="dateString: day, datePattern: 'dddd'"></span></a><br/>
+            <span data-bind="foreach: days">
+                <a href="#" data-bind="click: $root.scheduleTeam">Put selected teams on <span data-bind="dateString: $data, datePattern: 'dddd'"></span></a><br/>
             </span>
         </div>
     </div>
@@ -74,7 +74,7 @@
     <span data-bind="text: participantCount"></span>
     <span data-bind="text: gymLocation"></span>
     <span data-bind="text: isSmallGym() ? 'Small' : 'Large'"></span>
-    <span data-bind="text: $root.calculatePerformancePosition($parent)"></span>
+    <span data-bind="text: $root.calculatePerformancePosition($data)"></span>
 </script>
 
 <script type="text/html" id="block-template">

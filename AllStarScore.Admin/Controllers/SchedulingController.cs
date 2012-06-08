@@ -4,6 +4,7 @@ using System.Linq;
 using System.Web;
 using System.Web.Mvc;
 using AllStarScore.Admin.Infrastructure.Indexes;
+using AllStarScore.Admin.Infrastructure.Utilities;
 using AllStarScore.Admin.Models;
 using AllStarScore.Admin.ViewModels;
 using Raven.Client.Linq;
@@ -38,14 +39,15 @@ namespace AllStarScore.Admin.Controllers
                     .Query<Schedule, ScheduleByCompetition>()
                     .FirstOrDefault(x => x.CompetitionId == id);
 
-            if (schedule == null)
-            {
+//            if (schedule == null)
+//            {
                 schedule = new Schedule(competition.Value);   
-                RavenSession.Store(schedule);
-            }
+//                RavenSession.Store(schedule);
+//            }
 
             var model = new SchedulingEditViewModel();
             model.Schedule = schedule;
+            
             model.Registrations = registrations.Value.ToList();
             model.Divisions = divisions.Value.ToList();
 
@@ -58,8 +60,8 @@ namespace AllStarScore.Admin.Controllers
             return Execute(
                 action: () =>
                 {
-                    var schedule = RavenSession.Load<Schedule>(command.Schedule.Id) ?? new Schedule();
-                    schedule.Update(command);
+                    var schedule = RavenSession.Load<Schedule>(command.Id);
+                    //schedule.Update(command);
 
                     return new JsonDotNetResult(true);
                 });

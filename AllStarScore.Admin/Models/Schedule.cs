@@ -17,9 +17,10 @@ namespace AllStarScore.Admin.Models
         public int DefaultDuration { get; set; } //in minutes
         public int DefaultWarmupTime { get; set; } //in minutes
         public int NumberOfPanels { get; set; }
-        public List<ScheduleDay> Days { get; set; }
+        public List<ScheduleEntry> Entries { get; set; }
+        public List<DateTime> Days { get; set; }
         public List<DivisionPanelAssignments> DivisionPanels { get; set; }
-
+        
         public ICollection<ICommand> History { get; private set; }
 
         public Schedule()
@@ -27,7 +28,10 @@ namespace AllStarScore.Admin.Models
             DefaultDuration = 3;
             DefaultWarmupTime = 40;
             NumberOfPanels = 2;
+            Entries = new List<ScheduleEntry>();
+            Days = new List<DateTime>();
             DivisionPanels = new List<DivisionPanelAssignments>();
+            
             History = new Collection<ICommand>();
         }
 
@@ -37,34 +41,21 @@ namespace AllStarScore.Admin.Models
             Days = competition
                         .FirstDay
                         .GetDateRange(competition.LastDay)
-                        .Select(x => new ScheduleDay(x)).ToList();   
+                        .ToList();   
         }
 
         public void Update(SchedulingEditCommand command)
         {
-            DefaultDuration = command.Schedule.DefaultDuration;
-            DefaultWarmupTime = command.Schedule.DefaultWarmupTime;
-            NumberOfPanels = command.Schedule.NumberOfPanels;
-            Days = command.Schedule.Days;
-            DivisionPanels = command.Schedule.DivisionPanels;
+            DefaultDuration = command.DefaultDuration;
+            DefaultWarmupTime = command.DefaultWarmupTime;
+            NumberOfPanels = command.NumberOfPanels;
+            Days = command.Days;
+            DivisionPanels = command.DivisionPanels;
 
-            command.Schedule = null; //blank out history; this data will probably thrash a lot without meaning. When we publish for the competitions is significant.
             History.Add(command);
         }
 
-        public class ScheduleDay
-        {
-            public DateTime Day { get; set; }
-            public List<ScheduleEntries> Entries { get; set; }
-
-            public ScheduleDay(DateTime day)
-            {
-                Day = day.AddHours(8);
-                Entries = new List<ScheduleEntries>();
-            }
-        }
-
-        public class ScheduleEntries
+        public class ScheduleEntry
         {
             public string RegistrationId { get; set; }
             public DateTime Time { get; set; }
@@ -72,6 +63,7 @@ namespace AllStarScore.Admin.Models
             public int Duration { get; set; } //in minutes
             public int WarmupTime { get; set; } //in minutes
             public string Panel { get; set; }
+            public string Template { get; set; }
         }
 
         public class DivisionPanelAssignments

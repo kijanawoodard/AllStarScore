@@ -13,8 +13,8 @@ var EditScheduleViewModel = (function (data) {
     var hook = $('#scheduling_edit');
 
     //clean up datetimes
-    $.each(data.schedule.days, function (index, item) {
-        item.day = new Date(item.day);
+    data.schedule.days = _.map(data.schedule.days, function (day) {
+        return new Date(day);
     });
 
     //flatten divisions 
@@ -34,6 +34,7 @@ var EditScheduleViewModel = (function (data) {
     });
 
     self.schedule = ko.mapping.fromJS(data.schedule);
+    self.days = ko.mapping.fromJS(data.days);
     self.registrations = ko.mapping.fromJS(data.registrations);
     self.unscheduled = ko.computed(function () {
         return $.grep(self.registrations(), function (item) {
@@ -51,6 +52,7 @@ var EditScheduleViewModel = (function (data) {
 
     var getDivisionPanel = function (node) {
         node = ko.toJS(node);
+        return 'A';
         return ko.utils.arrayFirst(self.schedule.divisionPanels(), function (dp) {
             return dp.divisionId() == node.data.divisionId;
         });
@@ -74,7 +76,7 @@ var EditScheduleViewModel = (function (data) {
     };
 
     self.scheduleTeam = function (node) {
-        self.scheduleTeams(node, self.unscheduled);
+        self.scheduleTeams(node, self.unscheduled());
     };
 
     self.scheduleTeams = function (node, registrations) {
@@ -82,7 +84,7 @@ var EditScheduleViewModel = (function (data) {
             if (r.selected()) {
                 var json = prototype();
                 json.data = r;
-                json.id(r.id());
+                json.registrationId(r.id());
                 json.panel = ko.computed(function () {
                     return self.getPanel(this);
                 }, json);
@@ -102,7 +104,7 @@ var EditScheduleViewModel = (function (data) {
     var prototype = function () {
         return {
             data: { text: ko.observable('') },
-            id: ko.observable(''),
+            registrationId: ko.observable(''),
             time: ko.observable(''),
             index: ko.observable(-1),
             duration: ko.observable(20),
@@ -113,21 +115,21 @@ var EditScheduleViewModel = (function (data) {
 
     self.addBreak = function (day) {
         var item = prototype();
-        item.data.id('break');
+        item.data.registrationId('break');
         item.data.text('Break');
         day.entries.push(item);
     };
 
     self.addAwards = function (day) {
         var item = prototype();
-        item.data.id('awards');
+        item.data.registrationId('awards');
         item.data.text('Awards');
         day.entries.push(item);
     };
 
     self.addOpen = function (day) {
         var item = prototype();
-        item.data.id('open');
+        item.data.registrationId('open');
         item.data.text('Open');
         item.duration(self.schedule.defaultDuration());
         day.entries.push(item);
@@ -150,7 +152,7 @@ var EditScheduleViewModel = (function (data) {
                 //flag this item as scheduled
                 var registrations = self.registrations();
                 for (var key in registrations) {
-                    if (registrations[key].id() == entry.id()) {
+                    if (registrations[key].id() == entry.registrationId()) {
                         registrations[key].scheduled(true);
                         break;
                     }
@@ -166,7 +168,7 @@ var EditScheduleViewModel = (function (data) {
 
     var r = self.unscheduled().slice();
     _.each(self.schedule.days(), function (day) {
-        self.scheduleTeams(day, r);
+        //self.scheduleTeams(day, r);
     });
 
     self.calculatePerformancePosition = function (target) {
@@ -178,7 +180,7 @@ var EditScheduleViewModel = (function (data) {
             })
             .flatten()
             .find(function (entry) {
-                if (target.id() == entry.id()) {
+                if (target.id() == entry.registrationId()) {
                     result++;
                 }
 
@@ -191,7 +193,7 @@ var EditScheduleViewModel = (function (data) {
 
     self.save = function () {
         $('#scheduling_edit form').ajaxPost({
-            data: { schedule: ko.toJS(self.schedule) },
+            data: ko.toJSON(self.schedule),
             success: function (result) {
                 //console.log(ko.toJSON(result));
                 console.log('saved');

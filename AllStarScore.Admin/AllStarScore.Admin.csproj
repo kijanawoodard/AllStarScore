@@ -154,7 +154,7 @@
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
     <Compile Include="Infrastructure\Commands\ICommand.cs" />
-    <Compile Include="Infrastructure\Indexes\CompetitionStatsIndex.cs" />
+    <Compile Include="Infrastructure\Indexes\CompetitionSearch.cs" />
     <Compile Include="Infrastructure\Indexes\DivisionsWithLevels.cs" />
     <Compile Include="Infrastructure\Indexes\GymsByName.cs" />
     <Compile Include="Infrastructure\Indexes\ScheduleByCompetition.cs" />
