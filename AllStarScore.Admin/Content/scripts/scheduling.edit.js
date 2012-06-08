@@ -34,7 +34,6 @@ var EditScheduleViewModel = (function (data) {
     });
 
     self.schedule = ko.mapping.fromJS(data.schedule);
-    self.days = ko.mapping.fromJS(data.days);
     self.registrations = ko.mapping.fromJS(data.registrations);
     self.unscheduled = ko.computed(function () {
         return $.grep(self.registrations(), function (item) {
@@ -75,16 +74,17 @@ var EditScheduleViewModel = (function (data) {
         return new Date(node.time().getTime() - node.warmupTime() * 60 * 1000);
     };
 
-    self.scheduleTeam = function (node) {
-        self.scheduleTeams(node, self.unscheduled());
+    self.scheduleTeam = function (day) {
+        self.scheduleTeams(day, self.unscheduled());
     };
 
-    self.scheduleTeams = function (node, registrations) {
-        ko.utils.arrayForEach(registrations, function (r) {
-            if (r.selected()) {
+    self.scheduleTeams = function (day, registrations) {
+        ko.utils.arrayForEach(registrations, function (registration) {
+            if (registration.selected()) {
                 var json = prototype();
-                json.data = r;
-                json.registrationId(r.id());
+                json.data = registration;
+                json.registrationId(registration.id());
+                json.time(day);
                 json.panel = ko.computed(function () {
                     return self.getPanel(this);
                 }, json);
@@ -96,7 +96,7 @@ var EditScheduleViewModel = (function (data) {
                 self.getPanel(json) ||
                     self.schedule.divisionPanels.push({ divisionId: json.data.divisionId, panel: ko.observable(self.panels()[0]) });
 
-                node.entries.push(json);
+                self.schedule.entries.push(json);
             }
         });
     };
@@ -136,49 +136,42 @@ var EditScheduleViewModel = (function (data) {
     };
 
     //recalculate time when we move items around
-    $.each(self.schedule.days(), function (index, unit) {
-        unit.entries.subscribe(function () {
-            var entries = unit.entries();
-            for (var i = 0, j = entries.length; i < j; i++) {
-                var entry = entries[i];
-                if (i == 0) {
-                    entry.time(unit.day());
-                }
-                else {
-                    var prev = entries[i - 1];
-                    entry.time(new Date(prev.time().getTime() + prev.duration() * 60 * 1000));
-                }
+    self.schedule.entries.subscribe(function () {
+        var entries = self.schedule.entries();
+        for (var i = 0, j = entries.length; i < j; i++) {
+            var entry = entries[i];
+            if (i == 0) {
+                var day = entry.time();
+                entry.time(new Date(day.getFullYear(), day.getMonth(), day.getDate()));
+            }
+            else {
+                var prev = entries[i - 1];
+                entry.time(new Date(prev.time().getTime() + prev.duration() * 60 * 1000));
+            }
 
-                //flag this item as scheduled
-                var registrations = self.registrations();
-                for (var key in registrations) {
-                    if (registrations[key].id() == entry.registrationId()) {
-                        registrations[key].scheduled(true);
-                        break;
-                    }
+            //flag this item as scheduled
+            var registrations = self.registrations();
+            for (var key in registrations) {
+                if (registrations[key].id() == entry.registrationId()) {
+                    registrations[key].scheduled(true);
+                    break;
                 }
             }
-        }, unit.entries);
-    });
+        }
+    }, self.schedule.entries);
 
 
-    $.each(self.schedule.days(), function (index, unit) {
-        unit.entries.valueHasMutated(); //we loaded the items before subscribe, so force subscribe function now
-    });
+    self.schedule.entries.valueHasMutated(); //we loaded the items before subscribe, so force subscribe function now
 
     var r = self.unscheduled().slice();
-    _.each(self.schedule.days(), function (day) {
+    _.each(self.schedule.days, function (day) {
         //self.scheduleTeams(day, r);
     });
 
     self.calculatePerformancePosition = function (target) {
         var result = 0;
 
-        _.chain(self.schedule.days())
-            .map(function (day) {
-                return day.entries();
-            })
-            .flatten()
+        _.chain(self.schedule.entries())
             .find(function (entry) {
                 if (target.id() == entry.registrationId()) {
                     result++;

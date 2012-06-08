@@ -19,7 +19,7 @@
         </div>
         <br/>
         <div class="controls">
-            <span data-bind="foreach: days">
+            <span data-bind="foreach: schedule.days">
                 <a href="#" data-bind="click: $root.scheduleTeam">Put selected teams on <span data-bind="dateString: $data, datePattern: 'dddd'"></span></a><br/>
             </span>
         </div>
@@ -27,11 +27,11 @@
     
     <div data-bind="foreach: schedule.days">
         <br/><br/>
-        <span data-bind="dateString: day, datePattern: 'dddd MMM dd, yyyy'"></span>
+        <span data-bind="dateString: $data, datePattern: 'dddd MMM dd, yyyy'"></span>
         <a href="#" data-bind="click: $root.addBreak">Add Break</a>
         <a href="#" data-bind="click: $root.addAwards">Add Awards</a>
         <a href="#" data-bind="click: $root.addOpen">Add Open</a>
-        <ol data-bind="sortable: { template: 'scheduled-template', data: entries, options: { handle: '.handle' } }" class="sortable"></ol>
+        <ol data-bind="sortable: { template: 'scheduled-template', data: $root.schedule.entries, options: { handle: '.handle' } }" class="sortable"></ol>
     </div>
     
     <form action='@Url.Action("Edit", "Scheduling")' method="post">
