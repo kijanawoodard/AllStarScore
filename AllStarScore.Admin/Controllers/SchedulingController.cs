@@ -39,17 +39,18 @@ namespace AllStarScore.Admin.Controllers
                     .Query<Schedule, ScheduleByCompetition>()
                     .FirstOrDefault(x => x.CompetitionId == id);
 
-//            if (schedule == null)
-//            {
+            if (schedule == null)
+            {
                 schedule = new Schedule(competition.Value);   
-//                RavenSession.Store(schedule);
-//            }
+                RavenSession.Store(schedule);
+            }
 
             var model = new SchedulingEditViewModel();
             model.Schedule = schedule;
             
             model.Registrations = registrations.Value.ToList();
             model.Divisions = divisions.Value.ToList();
+            model.CompetitionDays = competition.Value.Days;
 
             return View(model);
         }
@@ -61,7 +62,7 @@ namespace AllStarScore.Admin.Controllers
                 action: () =>
                 {
                     var schedule = RavenSession.Load<Schedule>(command.Id);
-                    //schedule.Update(command);
+                    schedule.Update(command);
 
                     return new JsonDotNetResult(true);
                 });

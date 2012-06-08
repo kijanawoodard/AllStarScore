@@ -5,6 +5,7 @@ using System.ComponentModel.DataAnnotations;
 using System.Linq;
 using System.Web;
 using AllStarScore.Admin.Infrastructure.Commands;
+using AllStarScore.Admin.Infrastructure.Utilities;
 using AllStarScore.Admin.ViewModels;
 
 namespace AllStarScore.Admin.Models
@@ -16,7 +17,12 @@ namespace AllStarScore.Admin.Models
         public string Description { get; set; }
         public DateTime FirstDay { get; set; }
         public DateTime LastDay { get; set; }
-    
+
+        public IEnumerable<DateTime> Days
+        {
+            get { return FirstDay.GetDateRange(LastDay); }
+        }
+
         public ICollection<ICommand> History { get; private set; }
 
         public Competition()

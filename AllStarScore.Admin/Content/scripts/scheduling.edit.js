@@ -12,10 +12,35 @@ var EditScheduleViewModel = (function (data) {
     var self = this;
     var hook = $('#scheduling_edit');
 
-    //clean up datetimes
-    _.each(data.schedule.days, function (day) {
+    var areSameDay = function (a, b) {
+        return a.clone().clearTime().equals(b.clone().clearTime()); //have to clone otherwise original is modified
+    };
+
+    //clean up datetimes and check to see that competition days haven't changed on us
+    var competitionDaysAreTheSame = true;
+    $.each(data.schedule.days, function (index, day) {
         day.day = new Date(day.day);
+
+        if (competitionDaysAreTheSame) { //once this is false, leave it false
+            var comp = new Date(data.competitionDays[index]);
+            competitionDaysAreTheSame = areSameDay(day.day, comp);
+
+            //fix up the entry times
+            _.each(day.entries, function (entry) {
+                entry.time = new Date(entry.time);
+            });
+        }
     });
+
+    if (!competitionDaysAreTheSame) {
+        //hmmm this shouldn't happen much, but the competition days were changed on us. sync to new days. notify user?
+        console.log('competition days changed. clearing schedule.');
+        data.schedule.days = _.map(data.competitionDays, function (day) {
+            return { day: new Date(day), entries: [] };
+        });
+    }
+
+    //console.log(competitionDaysAreTheSame);
 
     //map divisions to just id
     data.divisions = _.map(data.divisions, function (item) {
@@ -53,10 +78,6 @@ var EditScheduleViewModel = (function (data) {
         });
     };
 
-    var areSameDay = function (a, b) {
-        return a.clone().clearTime().equals(b.clone().clearTime()); //have to clone otherwise original is modified
-    };
-
     self.schedule = ko.mapping.fromJS(data.schedule);
     self.registrations = ko.mapping.fromJS(data.registrations);
     self.unscheduled = ko.computed(function () {
@@ -64,6 +85,13 @@ var EditScheduleViewModel = (function (data) {
             return !registrationIsScheduled(item.id());
         });
     }, self);
+
+    //load registration data onto entries for quick lookup in templates
+    _.each(getAllEntries(), function (entry) {
+        entry.data = _.find(self.registrations(), function (registration) {
+            return registration.id() == entry.registrationId();
+        });
+    });
 
     self.panels = ko.computed(function () {
         return _.map(_.range(self.schedule.numberOfPanels()), function (i) {
@@ -116,16 +144,15 @@ var EditScheduleViewModel = (function (data) {
             json.data = registration;
             json.registrationId(registration.id());
             json.time(day.day().clone().clearTime());
-            json.panel = ko.computed(function () {
-                return self.getPanel(this);
-            }, json);
-
+            json.panel(self.getPanel(json));
             json.duration(self.schedule.defaultDuration());
             json.template('registration-template');
 
             //if panel undefined for the division, push the first panel in for this division
-            self.getPanel(json) ||
+            if (!json.panel()) {
                 self.schedule.divisionPanels.push({ divisionId: json.data.divisionId, panel: ko.observable(self.panels()[0]) });
+                json.panel(self.panels()[0]);
+            }
 
             day.entries.push(json);
         });
@@ -136,6 +163,7 @@ var EditScheduleViewModel = (function (data) {
             data: { text: ko.observable('') },
             registrationId: ko.observable(''),
             time: ko.observable(''),
+            panel: ko.observable(''),
             index: ko.observable(-1),
             duration: ko.observable(20),
             warmupTime: ko.observable(self.schedule.defaultWarmupTime()),
@@ -184,9 +212,13 @@ var EditScheduleViewModel = (function (data) {
 
     self.schedule.days.valueHasMutated(); //we loaded the items before subscribe, so force subscribe function now
 
+    self.schedule.divisionPanels.subscribe(function () {
+        console.log('hi');
+    });
+
     var r = self.unscheduled().slice();
     _.each(self.schedule.days(), function (day) {
-        self.scheduleTeams(day, r);
+        //self.scheduleTeams(day, r);
     });
 
 
@@ -206,6 +238,11 @@ var EditScheduleViewModel = (function (data) {
 
 
     self.save = function () {
+        //fix up panels; didn't want to get updating it live for no reason
+        _.each(getAllEntries(), function (entry) {
+            entry.panel(self.getPanel(entry));
+        });
+
         $('#scheduling_edit form').ajaxPost({
             data: ko.toJSON(self.schedule),
             success: function (result) {

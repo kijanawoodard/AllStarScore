@@ -12,7 +12,7 @@ namespace AllStarScore.Admin.ViewModels
         public int DefaultDuration { get; set; } //in minutes
         public int DefaultWarmupTime { get; set; } //in minutes
         public int NumberOfPanels { get; set; }
-        public List<DateTime> Days { get; set; }
+        public List<Schedule.ScheduleDay> Days { get; set; }
         public List<Schedule.DivisionPanelAssignments> DivisionPanels { get; set; }
 
         public string CommandByUser { get; set; }

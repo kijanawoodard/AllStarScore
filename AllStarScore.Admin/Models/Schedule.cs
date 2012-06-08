@@ -37,8 +37,7 @@ namespace AllStarScore.Admin.Models
         {
             CompetitionId = competition.Id;
             Days = competition
-                        .FirstDay
-                        .GetDateRange(competition.LastDay)
+                        .Days
                         .Select(x => new ScheduleDay(x.AddHours(8))) //start at 8 am
                         .ToList();   
         }
@@ -49,8 +48,10 @@ namespace AllStarScore.Admin.Models
             DefaultWarmupTime = command.DefaultWarmupTime;
             NumberOfPanels = command.NumberOfPanels;
             DivisionPanels = command.DivisionPanels;
+            Days = command.Days;
 
-            History.Add(command);
+            //removing history for a bit
+            //History.Add(command);
         }
 
         public class ScheduleDay

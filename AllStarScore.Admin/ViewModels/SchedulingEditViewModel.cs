@@ -10,5 +10,6 @@ namespace AllStarScore.Admin.ViewModels
         public Schedule Schedule { get; set; }
         public List<TeamRegistrationByCompetition.Results> Registrations { get; set; }
         public List<DivisionViewModel> Divisions { get; set; }
+        public IEnumerable<DateTime> CompetitionDays { get; set; } 
     }
 }
