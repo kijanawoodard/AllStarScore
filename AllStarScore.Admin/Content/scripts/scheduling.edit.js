@@ -11,7 +11,8 @@
 var EditScheduleViewModel = (function (data) {
     var self = this;
     var hook = $('#scheduling_edit');
-
+    var form = hook.find('form');
+    
     var areSameDay = function (a, b) {
         return a.clone().clearTime().equals(b.clone().clearTime()); //have to clone otherwise original is modified
     };
@@ -90,7 +91,7 @@ var EditScheduleViewModel = (function (data) {
     _.each(getAllEntries(), function (entry) {
         entry.data = _.find(self.registrations(), function (registration) {
             return registration.id() == entry.registrationId();
-        });
+        }) || { text: entry.registrationId };
     });
 
     self.panels = ko.computed(function () {
@@ -124,10 +125,6 @@ var EditScheduleViewModel = (function (data) {
 
     self.calculateWarmup = function (node) {
         return new Date(node.time().getTime() - node.warmupTime() * 60 * 1000);
-    };
-
-    var indexOfDay = function (day) {
-        return _.indexOf(self.schedule.days(), day);
     };
 
     self.scheduleTeam = function (day) {
@@ -173,22 +170,22 @@ var EditScheduleViewModel = (function (data) {
 
     self.addBreak = function (day) {
         var item = prototype();
-        item.data.registrationId('break');
-        item.data.text('Break');
+        item.registrationId('Break');
+        item.data.text(item.registrationId());
         day.entries.push(item);
     };
 
     self.addAwards = function (day) {
         var item = prototype();
-        item.data.registrationId('awards');
-        item.data.text('Awards');
+        item.registrationId('Awards');
+        item.data.text(item.registrationId());
         day.entries.push(item);
     };
 
     self.addOpen = function (day) {
         var item = prototype();
-        item.data.registrationId('open');
-        item.data.text('Open');
+        item.registrationId('Open');
+        item.data.text(item.registrationId());
         item.duration(self.schedule.defaultDuration());
         day.entries.push(item);
     };
@@ -243,7 +240,7 @@ var EditScheduleViewModel = (function (data) {
             entry.panel(self.getPanel(entry));
         });
 
-        $('#scheduling_edit form').ajaxPost({
+        form.ajaxPost({
             data: ko.toJSON(self.schedule),
             success: function (result) {
                 //console.log(ko.toJSON(result));
