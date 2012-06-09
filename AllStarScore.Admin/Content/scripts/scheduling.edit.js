@@ -1,35 +1,89 @@
 ﻿$(document).ready(function () {
-    
+    var dict = {};
+    dict['hi'] = 'low';
+    dict['go'] = { foo: 'bar', bar: 3 };
+
+//    console.log(dict[0]);
+});
+$(document).ready(function () {
+
     $('#scheduling_edit .selectable').selectable({ filter: "li" });
 
     var viewModel = new EditScheduleViewModel(window.editScheduleData);
     ko.applyBindings(viewModel, document.getElementById('scheduling_edit'));
 
     $('#scheduling_edit .sortable').disableSelection(); //http://stackoverflow.com/a/9993099/214073 sortable and selectable
+
+    viewModel.experiment.schedule.divisionPanels["divisions-67"]("ZZZ");
 });
+
+var EntryModel = function (data) {
+    data.time = new Date(data.time);
+    ko.mapping.fromJS(data, {}, this);
+};
+
+var DayModel = function (data) {
+    data.day = new Date(data.day);
+    ko.mapping.fromJS(data, mapping, this);
+    
+    if (!competitionDaysAreTheSame) {
+        this.entries.removeAll();
+    }
+};
+
+var mapping = {
+    'registrations': {
+        key: function (item) {
+            return ko.utils.unwrapObservable(item.id);
+        }
+    },
+    'days': {
+        create: function (options) {
+            return new DayModel(options.data);
+        }
+    },
+    'entries': {
+        create: function (options) {
+            return new EntryModel(options.data);
+        }
+    }
+    
+};
+var mapping2 = {
+    'schedule': {
+        create: function (options) {
+            console.log(options.data);
+            var result = {};
+            result.divisionPanels = {};
+            for (var z in options.data.divisionPanels) {
+                console.log(options.data.divisionPanels[z]);
+                result.divisionPanels[options.data.divisionPanels[z].divisionId] = ko.observable(options.data.divisionPanels[z].panel);
+            }
+            //            var result = {};
+            //            result[options.data.divisionId] = options.data.panel;
+            //            console.log(result);
+            return result;
+        }
+    }
+};
+
+var competitionDaysAreTheSame = true; //look out for this edge case
 
 var EditScheduleViewModel = (function (data) {
     var self = this;
     var hook = $('#scheduling_edit');
     var form = hook.find('form');
-    
+
     var areSameDay = function (a, b) {
         return a.clone().clearTime().equals(b.clone().clearTime()); //have to clone otherwise original is modified
     };
 
     //clean up datetimes and check to see that competition days haven't changed on us
-    var competitionDaysAreTheSame = true;
-    $.each(data.schedule.days, function (index, day) {
-        day.day = new Date(day.day);
 
+    $.each(data.schedule.days, function (index, day) {
         if (competitionDaysAreTheSame) { //once this is false, leave it false
             var comp = new Date(data.competitionDays[index]);
-            competitionDaysAreTheSame = areSameDay(day.day, comp);
-
-            //fix up the entry times
-            _.each(day.entries, function (entry) {
-                entry.time = new Date(entry.time);
-            });
+            competitionDaysAreTheSame = areSameDay(new Date(day.day), comp);
         }
     });
 
@@ -40,8 +94,6 @@ var EditScheduleViewModel = (function (data) {
             return { day: new Date(day), entries: [] };
         });
     }
-
-    //console.log(competitionDaysAreTheSame);
 
     //map divisions to just id
     data.divisions = _.map(data.divisions, function (item) {
@@ -79,13 +131,21 @@ var EditScheduleViewModel = (function (data) {
         });
     };
 
-    self.schedule = ko.mapping.fromJS(data.schedule);
-    self.registrations = ko.mapping.fromJS(data.registrations);
+    self.experiment = ko.mapping.fromJS({ schedule: data.schedule }, mapping2);
+    self.getDPanel = function (item) {
+        var result = self.experiment.schedule.divisionPanels[item.divisionId()]; ;
+        console.log(result);
+        return result;
+    };
+    self.schedule = ko.mapping.fromJS(data.schedule, mapping);
+    self.registrations = ko.mapping.fromJS(data.registrations, mapping);
     self.unscheduled = ko.computed(function () {
         return _.filter(self.registrations(), function (item) {
             return !registrationIsScheduled(item.id());
         });
     }, self);
+
+    self.competitionDays = data.competitionDays;
 
     //load registration data onto entries for quick lookup in templates
     _.each(getAllEntries(), function (entry) {
