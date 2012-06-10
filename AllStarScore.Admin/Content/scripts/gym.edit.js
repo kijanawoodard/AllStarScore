@@ -63,7 +63,7 @@ var EditGymViewModel = (function (data) {
     self.save = function () {
         //console.log(ko.toJSON(self.post));
         form.ajaxPost({
-            data: ko.toJS(self.post),
+            data: ko.toJSON(self.post),
             success: function (result) {
                 //console.log(ko.toJSON(result));
                 self.data.gym = ko.toJSON(result); //reset our original data with what we just stored; reset will make sure the form is up to date; string trimming is done server side

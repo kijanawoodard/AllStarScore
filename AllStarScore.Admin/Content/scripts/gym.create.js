@@ -69,7 +69,7 @@ var CreateGymViewModel = (function (data) {
     self.create = function () {
         //console.log(ko.toJSON(self.post));
         form.ajaxPost({
-            data: ko.toJS(self.post),
+            data: ko.toJSON(self.post),
             success: function (result) {
                 //console.log(ko.toJSON(result));
                 var gym = ko.toJS(result);

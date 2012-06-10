@@ -112,7 +112,7 @@
         //console.log(ko.mapping.toJSON(team));
 
         editForm.ajaxPost({
-            data: ko.toJS(team),
+            data: ko.toJSON(team),
             success: function (result) {
                 //console.log(ko.toJSON(result));
                 team.editing(false);
@@ -127,7 +127,7 @@
         self.createNew.gymId = self.data.gymId;
 
         form.ajaxPost({
-            data: ko.toJS(self.createNew),
+            data: ko.toJSON(self.createNew),
             success: function (result) {
                 //console.log(ko.toJSON(result));
                 self.addTeam(ko.toJS(result));
