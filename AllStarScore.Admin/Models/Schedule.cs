@@ -51,7 +51,7 @@ namespace AllStarScore.Admin.Models
         {
             public ScheduleDay()
             {
-                Entries = new List<ScheduleEntry>();
+                Entries = new List<Dictionary<string, string>>();
             }
 
             public ScheduleDay(DateTime day) : this()
@@ -60,7 +60,7 @@ namespace AllStarScore.Admin.Models
             }
 
             public DateTime Day { get; set; }
-            public List<ScheduleEntry> Entries { get; set; }
+            public List<Dictionary<string, string>> Entries { get; set; }
         }
 
         public class ScheduleEntry
@@ -73,11 +73,5 @@ namespace AllStarScore.Admin.Models
             public string Panel { get; set; }
             public string Template { get; set; }
         }
-
-//        public class DivisionPanelAssignments
-//        {
-//            public string DivisionId { get; set; }
-//            public string Panel { get; set; }
-//        }
     }
 }

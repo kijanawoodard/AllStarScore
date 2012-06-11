@@ -14,7 +14,7 @@ $(document).ready(function () {
 var DayModel = function (data) {
     data.day = new Date(data.day);
     ko.mapping.fromJS(data, mapping, this);
-    
+
     if (!competitionDaysAreTheSame) {
         this.entries.removeAll();
     }
@@ -26,12 +26,15 @@ var EntryModel = function (data) {
 
     var self = this;
     this.registration = ko.computed(function () {
+        if (!this.registrationId)
+            return undefined;
+        
         var id = getRegistrationId(this.registrationId());
         return viewModel.registrations[id];
     }, self);
 
     this.panel = ko.computed(function () {
-        return viewModel.getPanel(self.registration().divisionId())();
+        return self.registration() ? viewModel.getPanel(self.registration().divisionId())() : '';
     }, self);
 };
 
@@ -88,7 +91,7 @@ var EditScheduleViewModel = (function (data) {
 
     var registrationIsScheduled = function (id) {
         return _.any(getAllEntries(), function (entry) {
-            return entry.registrationId() == id;
+            return entry.registrationId && entry.registrationId() == id;
         });
     };
 
@@ -99,7 +102,7 @@ var EditScheduleViewModel = (function (data) {
         var list = _.filter(self.registrations, function (item) {
             return item.id && !registrationIsScheduled(item.id());
         });
-        
+
         return _.sortBy(list.slice(), function (item) {
             return _.indexOf(data.divisions, item.divisionId());
         });
@@ -163,36 +166,36 @@ var EditScheduleViewModel = (function (data) {
     };
 
     var prototype = function () {
-        return {
-            data: { text: ko.observable('') },
-            registrationId: ko.observable(''),
-            time: ko.observable(''),
-            panel: ko.observable(''),
-            index: ko.observable(-1),
-            duration: ko.observable(20),
-            warmupTime: ko.observable(self.schedule.defaultWarmupTime()),
-            template: ko.observable('block-template')
-        };
+        return new EntryModel({
+            type: '',
+            time: '',
+            text: '',
+            panel: '',
+            index: -1,
+            duration: 20,
+            warmupTime: self.schedule.defaultWarmupTime(),
+            template: 'block-template'
+        }, self);
     };
 
     self.addBreak = function (day) {
         var item = prototype();
-        item.registrationId('Break');
-        item.data.text(item.registrationId());
+        item.type('Break');
+        item.text(item.type());
         day.entries.push(item);
     };
 
     self.addAwards = function (day) {
         var item = prototype();
-        item.registrationId('Awards');
-        item.data.text(item.registrationId());
+        item.type('Awards');
+        item.text(item.type());
         day.entries.push(item);
     };
 
     self.addOpen = function (day) {
         var item = prototype();
-        item.registrationId('Open');
-        item.data.text(item.registrationId());
+        item.type('Open');
+        item.text(item.type());
         item.duration(self.schedule.defaultDuration());
         day.entries.push(item);
     };
@@ -224,10 +227,14 @@ var EditScheduleViewModel = (function (data) {
 
     self.calculatePerformancePosition = function (target) {
         var result = 0;
-
+        if (!target.registration)
+            return '';
+        
         _.chain(getAllEntries())
             .find(function (entry) {
-                if (target.registrationId() == entry.registrationId()) {
+                if (target.registrationId &&
+                    entry.registrationId && 
+                    target.registrationId() == entry.registrationId()) {
                     result++;
                 }
                 return target == entry;
@@ -241,7 +248,6 @@ var EditScheduleViewModel = (function (data) {
         form.ajaxPost({
             data: ko.mapping.toJSON(self.schedule),
             success: function (result) {
-                //console.log(ko.toJSON(result));
                 console.log('saved');
             }
         });
