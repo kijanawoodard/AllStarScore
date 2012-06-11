@@ -83,11 +83,5 @@
         @{ Html.RegisterScript("~/content/scripts/global.datepicker.js", "global"); }
         
         @Html.RenderScripts()
-        
-        <script>
-            $(document).ready(function() {
-                ko.applyBindings({foo: "hello world"});
-            });
-        </script>
     </body>
 </html>

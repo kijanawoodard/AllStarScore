@@ -1,25 +1,19 @@
-﻿$(document).ready(function () {
-    var dict = {};
-    dict['hi'] = 'low';
-    dict['go'] = { foo: 'bar', bar: 3 };
+﻿var viewModel;
 
-//    console.log(dict[0]);
-});
 $(document).ready(function () {
 
     $('#scheduling_edit .selectable').selectable({ filter: "li" });
 
-    var viewModel = new EditScheduleViewModel(window.editScheduleData);
+    viewModel = new EditScheduleViewModel(window.editScheduleData);
     ko.applyBindings(viewModel, document.getElementById('scheduling_edit'));
 
     $('#scheduling_edit .sortable').disableSelection(); //http://stackoverflow.com/a/9993099/214073 sortable and selectable
-
-    viewModel.experiment.schedule.divisionPanels["divisions-67"]("ZZZ");
 });
 
-var EntryModel = function (data) {
-    data.time = new Date(data.time);
-    ko.mapping.fromJS(data, {}, this);
+var competitionDaysAreTheSame = true; //look out for this edge case
+
+var ScheduleModel = function (data) {
+    ko.mapping.fromJS(data, mapping, this);
 };
 
 var DayModel = function (data) {
@@ -31,10 +25,28 @@ var DayModel = function (data) {
     }
 };
 
+var EntryModel = function (data) {
+    data.time = new Date(data.time);
+    ko.mapping.fromJS(data, {}, this);
+
+        this.panel = ko.computed(function () {
+            return viewModel.getPanel(this.data.divisionId())();
+        }, this);
+};
+
+var DivisionPanelModel = function (data) {
+    ko.mapping.fromJS(data, {}, this);
+};
+
 var mapping = {
     'registrations': {
         key: function (item) {
             return ko.utils.unwrapObservable(item.id);
+        }
+    },
+    'schedule': {
+        create: function (options) {
+            return new ScheduleModel(options.data);
         }
     },
     'days': {
@@ -46,28 +58,14 @@ var mapping = {
         create: function (options) {
             return new EntryModel(options.data);
         }
-    }
-    
-};
-var mapping2 = {
-    'schedule': {
+    },
+    'divisionPanels': {
         create: function (options) {
-            console.log(options.data);
-            var result = {};
-            result.divisionPanels = {};
-            for (var z in options.data.divisionPanels) {
-                console.log(options.data.divisionPanels[z]);
-                result.divisionPanels[options.data.divisionPanels[z].divisionId] = ko.observable(options.data.divisionPanels[z].panel);
-            }
-            //            var result = {};
-            //            result[options.data.divisionId] = options.data.panel;
-            //            console.log(result);
-            return result;
+            return new DivisionPanelModel(options.data);
         }
     }
-};
 
-var competitionDaysAreTheSame = true; //look out for this edge case
+};
 
 var EditScheduleViewModel = (function (data) {
     var self = this;
@@ -110,12 +108,6 @@ var EditScheduleViewModel = (function (data) {
         item.selected = true;
     });
 
-    var findRegistrationById = function (id) {
-        return _.find(self.registrations(), function (registration) {
-            return registration.id() == id;
-        });
-    };
-
     var getAllEntries = function () {
         return _.chain(self.schedule.days())
             .map(function (day) {
@@ -131,12 +123,6 @@ var EditScheduleViewModel = (function (data) {
         });
     };
 
-    self.experiment = ko.mapping.fromJS({ schedule: data.schedule }, mapping2);
-    self.getDPanel = function (item) {
-        var result = self.experiment.schedule.divisionPanels[item.divisionId()]; ;
-        console.log(result);
-        return result;
-    };
     self.schedule = ko.mapping.fromJS(data.schedule, mapping);
     self.registrations = ko.mapping.fromJS(data.registrations, mapping);
     self.unscheduled = ko.computed(function () {
@@ -162,25 +148,23 @@ var EditScheduleViewModel = (function (data) {
 
     self.divisions = data.divisions;
 
-    var getDivisionPanel = function (node) {
-        node = ko.toJS(node);
-        return ko.utils.arrayFirst(self.schedule.divisionPanels(), function (dp) {
-            return dp.divisionId() == node.data.divisionId;
-        });
-    };
+    self.getPanel = function (divisionId) {
+        var result =
+            self.schedule.divisionPanels[divisionId] ?
+            self.schedule.divisionPanels[divisionId] :
+            self.schedule.divisionPanels[divisionId] = ko.observable(self.panels()[0]);
 
-    self.getPanel = function (node) {
-        return (getDivisionPanel(node) || {}).panel;
+        return result;
     };
 
     self.shiftPanel = function (node) {
-        var dp = getDivisionPanel(node);
+        var dp = self.getPanel(node.data.divisionId());
 
         var panels = ko.toJS(self.panels);
-        var index = _.indexOf(panels, dp.panel()) + 1;
+        var index = _.indexOf(panels, dp()) + 1;
         var result = panels[index] || panels[0]; //get the next one or the first one
 
-        dp.panel(result);
+        dp(result);
     };
 
     self.calculateWarmup = function (node) {
@@ -197,19 +181,16 @@ var EditScheduleViewModel = (function (data) {
 
     self.scheduleTeams = function (day, registrations) {
         ko.utils.arrayForEach(registrations, function (registration) {
-            var json = prototype();
-            json.data = registration;
-            json.registrationId(registration.id());
-            json.time(day.day().clone().clearTime());
-            json.panel(self.getPanel(json));
-            json.duration(self.schedule.defaultDuration());
-            json.template('registration-template');
+            var json = {}; // prototype();
+            json.data = ko.toJS(registration);
+            json.registrationId = registration.id();
+            json.time = day.day().clone().clearTime();
+            json.duration = self.schedule.defaultDuration();
+            json.warmupTime = self.schedule.defaultWarmupTime(),
+            json.index = -1,
+            json.template = 'registration-template';
 
-            //if panel undefined for the division, push the first panel in for this division
-            if (!json.panel()) {
-                self.schedule.divisionPanels.push({ divisionId: json.data.divisionId, panel: ko.observable(self.panels()[0]) });
-                json.panel(self.panels()[0]);
-            }
+            json = new EntryModel(json, self);
 
             day.entries.push(json);
         });
@@ -269,10 +250,6 @@ var EditScheduleViewModel = (function (data) {
 
     self.schedule.days.valueHasMutated(); //we loaded the items before subscribe, so force subscribe function now
 
-    self.schedule.divisionPanels.subscribe(function () {
-        console.log('hi');
-    });
-
     var r = self.unscheduled().slice();
     _.each(self.schedule.days(), function (day) {
         //self.scheduleTeams(day, r);
@@ -295,13 +272,8 @@ var EditScheduleViewModel = (function (data) {
 
 
     self.save = function () {
-        //fix up panels; didn't want to get updating it live for no reason
-        _.each(getAllEntries(), function (entry) {
-            entry.panel(self.getPanel(entry));
-        });
-
         form.ajaxPost({
-            data: ko.toJSON(self.schedule),
+            data: ko.mapping.toJSON(self.schedule),
             success: function (result) {
                 //console.log(ko.toJSON(result));
                 console.log('saved');
