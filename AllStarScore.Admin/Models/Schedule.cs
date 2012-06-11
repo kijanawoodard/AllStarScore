@@ -62,16 +62,5 @@ namespace AllStarScore.Admin.Models
             public DateTime Day { get; set; }
             public List<Dictionary<string, string>> Entries { get; set; }
         }
-
-        public class ScheduleEntry
-        {
-            public string RegistrationId { get; set; }
-            public DateTime Time { get; set; }
-            public int Index { get; set; }
-            public int Duration { get; set; } //in minutes
-            public int WarmupTime { get; set; } //in minutes
-            public string Panel { get; set; }
-            public string Template { get; set; }
-        }
     }
 }
