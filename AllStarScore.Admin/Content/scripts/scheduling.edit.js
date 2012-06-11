@@ -1,4 +1,5 @@
 ﻿var viewModel;
+var competitionDaysAreTheSame = true; //look out for this edge case; //TODO: need to recreate days; server?
 
 $(document).ready(function () {
 
@@ -9,12 +10,6 @@ $(document).ready(function () {
 
     $('#scheduling_edit .sortable').disableSelection(); //http://stackoverflow.com/a/9993099/214073 sortable and selectable
 });
-
-var competitionDaysAreTheSame = true; //look out for this edge case
-
-var ScheduleModel = function (data) {
-    ko.mapping.fromJS(data, mapping, this);
-};
 
 var DayModel = function (data) {
     data.day = new Date(data.day);
@@ -29,24 +24,23 @@ var EntryModel = function (data) {
     data.time = new Date(data.time);
     ko.mapping.fromJS(data, {}, this);
 
-        this.panel = ko.computed(function () {
-            return viewModel.getPanel(this.data.divisionId())();
-        }, this);
-};
+    var self = this;
+    this.registration = ko.computed(function () {
+        var id = this.registrationId().charAt(0).toLowerCase() + this.registrationId().slice(1); //might change name of registration class in raven to avoid this
+        return viewModel.experiment[id];
+    }, self);
 
-var DivisionPanelModel = function (data) {
-    ko.mapping.fromJS(data, {}, this);
+    this.panel = ko.computed(function () {
+        return viewModel.getPanel(self.registration().divisionId)();
+    }, self);
+
+    
 };
 
 var mapping = {
     'registrations': {
         key: function (item) {
             return ko.utils.unwrapObservable(item.id);
-        }
-    },
-    'schedule': {
-        create: function (options) {
-            return new ScheduleModel(options.data);
         }
     },
     'days': {
@@ -58,13 +52,7 @@ var mapping = {
         create: function (options) {
             return new EntryModel(options.data);
         }
-    },
-    'divisionPanels': {
-        create: function (options) {
-            return new DivisionPanelModel(options.data);
-        }
     }
-
 };
 
 var EditScheduleViewModel = (function (data) {
@@ -76,8 +64,7 @@ var EditScheduleViewModel = (function (data) {
         return a.clone().clearTime().equals(b.clone().clearTime()); //have to clone otherwise original is modified
     };
 
-    //clean up datetimes and check to see that competition days haven't changed on us
-
+    //check to see that competition days haven't changed on us
     $.each(data.schedule.days, function (index, day) {
         if (competitionDaysAreTheSame) { //once this is false, leave it false
             var comp = new Date(data.competitionDays[index]);
@@ -85,18 +72,8 @@ var EditScheduleViewModel = (function (data) {
         }
     });
 
-    if (!competitionDaysAreTheSame) {
-        //hmmm this shouldn't happen much, but the competition days were changed on us. sync to new days. notify user?
-        console.log('competition days changed. clearing schedule.');
-        data.schedule.days = _.map(data.competitionDays, function (day) {
-            return { day: new Date(day), entries: [] };
-        });
-    }
-
     //map divisions to just id
-    data.divisions = _.map(data.divisions, function (item) {
-        return item.divisionId;
-    });
+    data.divisions = _.pluck(data.divisions, 'divisionId');
 
     //sort registrations in the division order
     data.registrations = _.sortBy(data.registrations, function (item) {
@@ -110,11 +87,11 @@ var EditScheduleViewModel = (function (data) {
 
     var getAllEntries = function () {
         return _.chain(self.schedule.days())
-            .map(function (day) {
-                return day.entries();
-            })
-            .flatten()
-            .value();
+                    .map(function (day) {
+                        return day.entries();
+                    })
+                    .flatten()
+                    .value();
     };
 
     var registrationIsScheduled = function (id) {
@@ -123,6 +100,7 @@ var EditScheduleViewModel = (function (data) {
         });
     };
 
+    self.experiment = data.registrations2;
     self.schedule = ko.mapping.fromJS(data.schedule, mapping);
     self.registrations = ko.mapping.fromJS(data.registrations, mapping);
     self.unscheduled = ko.computed(function () {
@@ -132,13 +110,6 @@ var EditScheduleViewModel = (function (data) {
     }, self);
 
     self.competitionDays = data.competitionDays;
-
-    //load registration data onto entries for quick lookup in templates
-    _.each(getAllEntries(), function (entry) {
-        entry.data = _.find(self.registrations(), function (registration) {
-            return registration.id() == entry.registrationId();
-        }) || { text: entry.registrationId };
-    });
 
     self.panels = ko.computed(function () {
         return _.map(_.range(self.schedule.numberOfPanels()), function (i) {
@@ -158,7 +129,7 @@ var EditScheduleViewModel = (function (data) {
     };
 
     self.shiftPanel = function (node) {
-        var dp = self.getPanel(node.data.divisionId());
+        var dp = self.getPanel(node.registration().divisionId);
 
         var panels = ko.toJS(self.panels);
         var index = _.indexOf(panels, dp()) + 1;
@@ -182,7 +153,7 @@ var EditScheduleViewModel = (function (data) {
     self.scheduleTeams = function (day, registrations) {
         ko.utils.arrayForEach(registrations, function (registration) {
             var json = {}; // prototype();
-            json.data = ko.toJS(registration);
+            //            json.data = ko.toJS(registration);
             json.registrationId = registration.id();
             json.time = day.day().clone().clearTime();
             json.duration = self.schedule.defaultDuration();

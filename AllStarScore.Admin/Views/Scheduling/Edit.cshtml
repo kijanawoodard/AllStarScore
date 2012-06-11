@@ -58,7 +58,7 @@
                 <span data-bind="dateString: $root.calculateWarmup($data), datePattern : 'ddd h:mm tt'"></span>
                 <span data-bind="dateString: time, datePattern: 'ddd h:mm tt'"></span>
                 <span data-bind="text: panel, click: $root.shiftPanel" class="shift-panel"></span>
-                <span data-bind="template: { name: template(), data: data }"></span>
+                <span data-bind="template: { name: template(), data: $data.registration }"></span>
                 <span data-bind="text: $root.calculatePerformancePosition($data)"></span>
                 <span data-bind="text: duration"></span>
             </div>
@@ -71,10 +71,10 @@
     <span data-bind="text: teamName"></span>
     <span data-bind="text: levelName"></span>
     <span data-bind="text: divisionName"></span>
-    <span data-bind="text: isShowTeam() ? 'Show' : ''"></span>
+    <span data-bind="text: isShowTeam ? 'Show' : ''"></span>
     <span data-bind="text: participantCount"></span>
     <span data-bind="text: gymLocation"></span>
-    <span data-bind="text: isSmallGym() ? 'Small' : 'Large'"></span>
+    <span data-bind="text: isSmallGym ? 'Small' : 'Large'"></span>
 </script>
 
 <script type="text/html" id="block-template">

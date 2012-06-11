@@ -45,7 +45,7 @@ namespace AllStarScore.Admin.Controllers
                 RavenSession.Store(schedule);
             }
 
-            var model = new SchedulingEditViewModel();
+            var model = new SchedulingEditViewModel(registrations.Value);
             model.Schedule = schedule;
             
             model.Registrations = registrations.Value.ToList();
