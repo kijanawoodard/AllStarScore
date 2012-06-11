@@ -1,0 +1,46 @@
+﻿@model AllStarScore.Admin.ViewModels.ScoreSheetsDetailsViewModel
+
+@{
+    ViewBag.Title = "Score Sheets";
+}
+
+@{ Html.RegisterStylesheet("~/content/styles/scoresheets.details.css"); }
+@{ Html.RegisterScript("~/content/scripts/scoresheets.details.js"); }
+
+<h2>Score Sheets</h2>
+
+
+<div id="scoresheets_details">
+    
+    <div data-bind="foreach: schedule.panels()">
+        <span data-bind="text: $data"></span>
+        <div data-bind="foreach: $root.schedule.days">
+            <div data-bind="foreach: $data.entries">
+                x<span data-bind="text: ko.toJSON($data.panel)"></span>
+                <span data-bind="text: ko.toJSON($parentContext.$parent)"></span>
+                <!-- ko if: $data.registrationId --> 
+                <!-- ko if: ($data.panel == $parentContext.$parent) --> 
+                h
+                i<span data-bind="text: ko.toJSON($parentContext.$parent)"></span>
+                <div>
+                    <span data-bind="text: registration().gymName"></span>
+                    <span data-bind="text: registration().teamName"></span>
+                
+                    <span data-bind="text: registration().divisionName"></span>
+                    <span>Judge </span>
+                    <span data-bind="dateString: time, datePattern: 'ddd h:mm tt'"></span>        
+                </div>
+                <!-- /ko -->
+                <!-- /ko -->
+            </div>
+        </div>
+    </div>
+    <pre data-bind="text: ko.toJSON($root, null, 2)"></pre>
+</div>
+
+
+
+
+<script>
+    var detailsScoreSheetsData = JSON.parse('@Html.Raw(Model.ToJson())');
+</script>
