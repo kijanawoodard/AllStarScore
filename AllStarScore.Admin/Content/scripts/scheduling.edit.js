@@ -26,23 +26,20 @@ var EntryModel = function (data) {
 
     var self = this;
     this.registration = ko.computed(function () {
-        var id = this.registrationId().charAt(0).toLowerCase() + this.registrationId().slice(1); //might change name of registration class in raven to avoid this
-        return viewModel.experiment[id];
+        var id = getRegistrationId(this.registrationId());
+        return viewModel.registrations[id];
     }, self);
 
     this.panel = ko.computed(function () {
-        return viewModel.getPanel(self.registration().divisionId)();
+        return viewModel.getPanel(self.registration().divisionId())();
     }, self);
+};
 
-    
+var getRegistrationId = function(id) {
+    return id.charAt(0).toLowerCase() + id.slice(1); //might change name of registration class in raven to avoid this
 };
 
 var mapping = {
-    'registrations': {
-        key: function (item) {
-            return ko.utils.unwrapObservable(item.id);
-        }
-    },
     'days': {
         create: function (options) {
             return new DayModel(options.data);
@@ -75,11 +72,6 @@ var EditScheduleViewModel = (function (data) {
     //map divisions to just id
     data.divisions = _.pluck(data.divisions, 'divisionId');
 
-    //sort registrations in the division order
-    data.registrations = _.sortBy(data.registrations, function (item) {
-        return _.indexOf(data.divisions, item.divisionId);
-    });
-
     //add tracking flag
     $.each(data.registrations, function (index, item) {
         item.selected = true;
@@ -100,12 +92,16 @@ var EditScheduleViewModel = (function (data) {
         });
     };
 
-    self.experiment = data.registrations2;
     self.schedule = ko.mapping.fromJS(data.schedule, mapping);
-    self.registrations = ko.mapping.fromJS(data.registrations, mapping);
+    self.registrations = ko.mapping.fromJS(data.registrations);
+
     self.unscheduled = ko.computed(function () {
-        return _.filter(self.registrations(), function (item) {
-            return !registrationIsScheduled(item.id());
+        var list = _.filter(self.registrations, function (item) {
+            return item.id && !registrationIsScheduled(item.id());
+        });
+        
+        return _.sortBy(list.slice(), function (item) {
+            return _.indexOf(data.divisions, item.divisionId());
         });
     }, self);
 
@@ -129,7 +125,7 @@ var EditScheduleViewModel = (function (data) {
     };
 
     self.shiftPanel = function (node) {
-        var dp = self.getPanel(node.registration().divisionId);
+        var dp = self.getPanel(node.registration().divisionId());
 
         var panels = ko.toJS(self.panels);
         var index = _.indexOf(panels, dp()) + 1;
@@ -143,7 +139,7 @@ var EditScheduleViewModel = (function (data) {
     };
 
     self.scheduleTeam = function (day) {
-        var selected = _.filter(self.unscheduled(), function (registration) {
+        var selected = _.filter(self.unscheduled().slice(), function (registration) {
             return registration.selected();
         });
 
@@ -153,7 +149,6 @@ var EditScheduleViewModel = (function (data) {
     self.scheduleTeams = function (day, registrations) {
         ko.utils.arrayForEach(registrations, function (registration) {
             var json = {}; // prototype();
-            //            json.data = ko.toJS(registration);
             json.registrationId = registration.id();
             json.time = day.day().clone().clearTime();
             json.duration = self.schedule.defaultDuration();

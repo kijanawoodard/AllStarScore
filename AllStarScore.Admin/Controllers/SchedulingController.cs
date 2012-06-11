@@ -48,7 +48,6 @@ namespace AllStarScore.Admin.Controllers
             var model = new SchedulingEditViewModel(registrations.Value);
             model.Schedule = schedule;
             
-            model.Registrations = registrations.Value.ToList();
             model.Divisions = divisions.Value.ToList();
             model.CompetitionDays = competition.Value.Days;
 
