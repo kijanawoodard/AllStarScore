@@ -85,12 +85,12 @@ namespace AllStarScore.Admin.Models
 
         public string Designator { get; private set; }
 
-        public PanelJudge PanelJudge1 { get; set; }
-        public PanelJudge PanelJudge2 { get; set; }
-        public PanelJudge PanelJudge3 { get; set; }
+        private PanelJudge PanelJudge1 { get; set; }
+        private PanelJudge PanelJudge2 { get; set; }
+        private PanelJudge PanelJudge3 { get; set; }
 
-        public DeductionsJudge DeductionsJudge { get; set; }
-        public LegalitiesJudge LegalitiesJudge { get; set; }
+        private DeductionsJudge DeductionsJudge { get; set; }
+        private LegalitiesJudge LegalitiesJudge { get; set; }
 
         public IEnumerable<IJudge> Judges
         {
@@ -199,6 +199,13 @@ namespace AllStarScore.Admin.Models
         public Level2ScoringDefinition() : base(4, 6) { }
     }
 
+    public class Level3ScoringDefinition : AllStarScoringDefinition
+    {
+        //        public override string Key { get { return "scoring-level2"; } }
+
+        public Level3ScoringDefinition() : base(5, 7) { }
+    }
+
     public class Foo
     {
         public string Template { get; set; }
@@ -215,7 +222,18 @@ namespace AllStarScore.Admin.Models
                        {
                            {
                                "levels-level1",
-                               new Foo { Template = "rough", ScoringDefinition = new Level1ScoringDefinition() }
+                               new Foo
+                               {Template = "allstar-template", ScoringDefinition = new Level1ScoringDefinition()}
+                               },
+                           {
+                               "levels-level2",
+                               new Foo
+                               {Template = "allstar-template", ScoringDefinition = new Level2ScoringDefinition()}
+                               },
+                           {
+                               "levels-level3",
+                               new Foo
+                               {Template = "allstar-template", ScoringDefinition = new Level3ScoringDefinition()}
                                }
                        };
             }

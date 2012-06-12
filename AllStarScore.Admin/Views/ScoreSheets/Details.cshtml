@@ -9,25 +9,36 @@
 
 <h2>Score Sheets</h2>
 
-
 <div id="scoresheets_details">
+    <span data-bind="text: scoringMap['levels-level1']['template']"></span>
+    <span data-bind="text: scoringMap['levels-level1']['scoringDefinition']['stunts']['max']"></span>
+    <div data-bind="foreach: judgePanel.judges">
+        <span data-bind="text: id"></span>
+        <span data-bind="text: designator"></span>
+    </div>
+    <div data-bind="foreach: scoringMap['levels-level1']['scoringDefinition']['scoringCategories']">
+        <span data-bind="text: min"></span>
+    </div>
     
     <div data-bind="foreach: schedule.panels()">
-        <span data-bind="text: $data"></span>
-        <div data-bind="foreach: $root.schedule.days">
-            <div data-bind="foreach: $data.entries">
-                <!-- ko if: $data.registrationId --> 
-                <!-- ko if: isMyPanel($parentContext.$parent) --> 
-                <div>
-                    <span data-bind="text: registration().gymName"></span>
-                    <span data-bind="text: registration().teamName"></span>
+        <div data-bind="foreach: $root.judgePanel.judges">
+            <div data-bind="foreach: $root.schedule.days">
+                <div data-bind="foreach: $data.entries">
+                    <!-- ko if: $data.registrationId --> 
+                    <!-- ko if: isMyPanel($parents[2]) --> 
+                    <div>
+                        <span data-bind="text: registration().gymName"></span>
+                        <span data-bind="text: registration().teamName"></span>
                 
-                    <span data-bind="text: registration().divisionName"></span>
-                    <span>Judge </span>
-                    <span data-bind="dateString: time, datePattern: 'ddd h:mm tt'"></span>        
+                        <span data-bind="text: registration().levelName"></span>
+                        <span data-bind="text: registration().divisionName"></span>
+                        <span>Judge <span data-bind="text: $parents[2] + $parents[1].designator()"></span></span>
+                        <span data-bind="dateString: time, datePattern: 'ddd h:mm tt'"></span>     
+                        <span data-bind="template: { name: getTemplate($parents[1].id()), data: getTemplateData($parents[1].id()) }"></span>   
+                    </div>
+                    <!-- /ko -->
+                    <!-- /ko -->
                 </div>
-                <!-- /ko -->
-                <!-- /ko -->
             </div>
         </div>
     </div>
@@ -36,6 +47,8 @@
 
 
 
+<script type="text/html" id="allstar-template">
+    <table class="scoresheet">        <thead>            <tr>                <th class="skills">Skills</th>                <th class="base">Base<br />Score</th>                <th class="execution">Execution/<br />Technique<br />0 - 1.0</th>                <th class="max">Max<br />Score</th>                <th class="comments">Comments</th>            </tr>        </thead>        <tbody>            <tr>                <td class="section">Stunts</td>                <td class="section"></td>                <td class="section"></td>                <td class="section" data-bind="text: $data['stunts']['max']"></td>                <td class="section comments" rowspan="12"></td>            </tr>            <tr>                <td>Pyramids</td>                <td></td>                <td></td>                <td>5</td>            </tr>            <tr>                <td>Tosses</td>                <td></td>                <td></td>                <td>5</td>            </tr>            <tr>                <td class="section">Standing Tumbling</td>                <td class="section"></td>                <td class="section"></td>                <td class="section">5</td>            </tr>            <tr>                <td>Running Tumbling</td>                <td></td>                <td></td>                <td>5</td>            </tr>            <tr>                <td>Jumps</td>                <td></td>                <td></td>                <td>5</td>            </tr>            <tr>                <td class="section">Motions / Dance</td>                <td class="section"></td>                <td class="section"></td>                <td class="section">5</td>            </tr>            <tr>                <td>Formations / Transitions</td>                <td></td>                <td></td>                <td>5</td>            </tr>            <tr>                <td>Performance</td>                <td></td>                <td class="void"></td>                <td>5</td>            </tr>            <tr>                <td class="section">Skills Creativity</td>                <td class="section"></td>                <td class="section void"></td>                <td class="section">5</td>            </tr>            <tr>                <td>Routine Creativity</td>                <td></td>                <td class="void"></td>                <td>5</td>            </tr>            <tr>                <th class="section" colspan="2">Total</th>                <th class="section"></th>                <th class="section">55</th>            </tr>        </tbody>    </table></script>
 
 <script>
     var detailsScoreSheetsData = JSON.parse('@Html.Raw(Model.ToJson())');
