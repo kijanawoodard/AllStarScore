@@ -40,11 +40,13 @@ namespace AllStarScore.Admin.Models
 
     public interface IJudge
     {
+        string Id { get; }
         string Designator { get; }
     }
 
     public class PanelJudge : IJudge
     {
+        public string Id { get { return "judges-panel"; } }
         public string Designator { get; private set; }
 
         public PanelJudge(int designator)
@@ -55,11 +57,13 @@ namespace AllStarScore.Admin.Models
 
     public class DeductionsJudge : IJudge
     {
+        public string Id { get { return "judges-deductions"; } }
         public string Designator { get { return "D"; } }
     }
 
     public class LegalitiesJudge : IJudge
     {
+        public string Id { get { return "judges-legalities"; } }
         public string Designator { get { return "L"; } }
     }
 
@@ -127,7 +131,7 @@ namespace AllStarScore.Admin.Models
 
     public interface IScoringDefinition
     {
-        string Key { get; }
+//        string Key { get; }
         IEnumerable<ScoringCategory> ScoringCategories { get; }
     }
 
@@ -145,7 +149,7 @@ namespace AllStarScore.Admin.Models
         public ScoringCategory SkillsCreativity { get; set; }
         public ScoringCategory RoutineCreativity { get; set; }
 
-        public abstract string Key { get; }
+//        public abstract string Key { get; }
 
         public IEnumerable<ScoringCategory> ScoringCategories
         {
@@ -175,26 +179,48 @@ namespace AllStarScore.Admin.Models
             Jumps = new ScoringCategory { Min = min, Max = max, IncludeExectionScore = true };
             MotionsDance = new ScoringCategory { Min = min, Max = max, IncludeExectionScore = true };
             FormationsTransitions = new ScoringCategory { Min = min, Max = max, IncludeExectionScore = true };
-            Performance = new ScoringCategory { Min = min, Max = max, IncludeExectionScore = true };
-            SkillsCreativity = new ScoringCategory { Min = 0, Max = 5, IncludeExectionScore = true };
-            RoutineCreativity = new ScoringCategory { Min = 0, Max = 5, IncludeExectionScore = true };
+            Performance = new ScoringCategory { Min = min, Max = max, IncludeExectionScore = false };
+            SkillsCreativity = new ScoringCategory { Min = 0, Max = 5, IncludeExectionScore = false };
+            RoutineCreativity = new ScoringCategory { Min = 0, Max = 5, IncludeExectionScore = false };
         }
     }
 
     public class Level1ScoringDefinition : AllStarScoringDefinition
     {
-        public override string Key { get { return "scoring-level1"; } }
+//        public override string Key { get { return "scoring-level1"; } }
 
         public Level1ScoringDefinition() : base(3, 5) { }
     }
 
     public class Level2ScoringDefinition : AllStarScoringDefinition
     {
-        public override string Key { get { return "scoring-level2"; } }
+//        public override string Key { get { return "scoring-level2"; } }
 
         public Level2ScoringDefinition() : base(4, 6) { }
     }
 
+    public class Foo
+    {
+        public string Template { get; set; }
+        public IScoringDefinition ScoringDefinition { get; set; }
+    }
+
+    public class ScoringMap
+    {
+        public Dictionary<string, Foo> All 
+        {
+            get
+            {
+                return new Dictionary<string, Foo>()
+                       {
+                           {
+                               "levels-level1",
+                               new Foo { Template = "rough", ScoringDefinition = new Level1ScoringDefinition() }
+                               }
+                       };
+            }
+        }
+    }
     public class JudgeScore
     {
         public IScoringDefinition Scoring { get; set; }

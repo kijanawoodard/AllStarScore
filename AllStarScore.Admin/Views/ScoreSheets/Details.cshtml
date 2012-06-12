@@ -16,12 +16,8 @@
         <span data-bind="text: $data"></span>
         <div data-bind="foreach: $root.schedule.days">
             <div data-bind="foreach: $data.entries">
-                x<span data-bind="text: ko.toJSON($data.panel)"></span>
-                <span data-bind="text: ko.toJSON($parentContext.$parent)"></span>
                 <!-- ko if: $data.registrationId --> 
-                <!-- ko if: ($data.panel == $parentContext.$parent) --> 
-                h
-                i<span data-bind="text: ko.toJSON($parentContext.$parent)"></span>
+                <!-- ko if: isMyPanel($parentContext.$parent) --> 
                 <div>
                     <span data-bind="text: registration().gymName"></span>
                     <span data-bind="text: registration().teamName"></span>

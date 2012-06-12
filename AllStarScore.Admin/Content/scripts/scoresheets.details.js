@@ -25,6 +25,16 @@ var mapping = {
         create: function (options) {
             return new EntryModel(options.data);
         }
+    },
+    'divisionPanels': {
+        create: function (options) {
+            return options.data;
+        }
+    },
+    'registrations': {
+        create: function (options) {
+            return options.data;
+        }
     }
 };
 
@@ -71,8 +81,13 @@ var EntryModel = function (data) {
     self.panel = ko.computed(function () {
         if (!self.registration())
             return '';
-        
-        return viewModel.schedule.divisionPanels[self.registration().divisionId()];
+
+        return viewModel.schedule.divisionPanels[self.registration().divisionId];
     }, self);
+
+    self.isMyPanel = function (panel) {
+        return self.panel() == panel;
+    };
+
 };
 

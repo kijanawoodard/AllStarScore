@@ -7,6 +7,8 @@ namespace AllStarScore.Admin.ViewModels
 {
     public class ScoreSheetsDetailsViewModel
     {
+        public IJudgePanel JudgePanel { get; set; }
+        public Dictionary<string, Foo> ScoringMap { get; set; }
         public Schedule Schedule { get; set; }
         public Dictionary<string, TeamRegistrationByCompetition.Results> Registrations { get; set; }
 
@@ -16,6 +18,9 @@ namespace AllStarScore.Admin.ViewModels
         {
             Schedule = schedule;
             Registrations = registrations.ToDictionary(r => r.Id, r => r);
+
+            ScoringMap = new ScoringMap().All;
+            JudgePanel = new FiveJudgePanel("A");
         }
     }
 }
