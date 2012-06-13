@@ -223,6 +223,14 @@ namespace AllStarScore.Admin.Models
                            {"levels-level1", "levels-level1-template"},
                            {"levels-level2", "levels-level2-template"},
                            {"levels-level3", "levels-level3-template"},
+                           {"levels-level4", "levels-level4-template"},
+                           {"division-42", "division-42-template"},
+                           {"levels-level5", "levels-level5-template"},
+                           {"levels-recreation", "levels-level5-template"},
+                           {"levels-worlds", "levels-level5-template"},
+                           {"levels-level6", "levels-level6-template"},
+                           {"levels-school", "levels-school-template"},
+                           {"division-jazz", "division-jazz-template"},
                            {"judges-deductions", "judges-deductions-template"},
                            {"judges-legalities", "judges-legalities-template"}
                        };
