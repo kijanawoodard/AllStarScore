@@ -16,6 +16,7 @@
                 <div data-bind="foreach: $data.entries">
                     <!-- ko if: $data.registrationId --> 
                     <!-- ko if: isMyPanel($parents[2]) --> 
+                    &nbsp; @* space here for firefox print. without it, second page header is off. hmm *@
                     <div class="entry">
                         <div class="header">
                             <div class="company">Spirit Celebration</div>
@@ -32,6 +33,9 @@
                             <div class="judge">Judge <span data-bind="text: $parents[2] + $parents[1].designator()"></span></div>
                         </div>
                         <span data-bind="template: { name: getTemplate($parents[1].id()) }"></span>   
+                        <div class="footer">
+                            info@wyldeye.com    &copy; 2012 AllStarScore.com
+                        </div> 
                     </div>
                     <!-- /ko -->
                     <!-- /ko -->
@@ -286,24 +290,25 @@
                     <li class="c2 middle vMiddle">
                         <ul>
                             <li class="specialLeft">
-                                <table class="blue legend">
+                                <table class="legend">
+                                    <caption>Time Deduction</caption>
                                     <tbody>
-                                        <tr>
+                                        <tr class="blue">
                                             <th>3-5 sec</th>
                                             <td>= 0.5</td>
                                         </tr>
-                                        <tr>
+                                        <tr class="blue">
                                             <th>6-10 sec</th>
                                             <td>= 1.0</td>
                                         </tr>
-                                        <tr>
+                                        <tr class="blue">
                                             <th>11+ sec</th>
                                             <td>= 2.0</td>
                                         </tr>
                                     </tbody>
                                 </table>
                             </li>
-                            <li class="specialRight vMiddle heading">Time Deduction = <input type="text" disabled="disabled" /></li>
+                            <li class="specialRight vMiddle center"><input type="text" disabled="disabled" /> pts</li>
                         </ul>
                     </li>
                 </ul>
