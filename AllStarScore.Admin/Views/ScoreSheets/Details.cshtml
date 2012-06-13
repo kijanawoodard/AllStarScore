@@ -10,39 +10,52 @@
 @*<h2>Score Sheets</h2>*@
 
 <div id="scoresheets_details">
-    <div data-bind="foreach: schedule.panels()">
-        <div data-bind="foreach: $root.judgePanel.judges">
-            <div data-bind="foreach: $root.schedule.days">
-                <div data-bind="foreach: $data.entries">
-                    <!-- ko if: $data.registrationId --> 
-                    <!-- ko if: isMyPanel($parents[2]) --> 
-                    &nbsp; @* space here for firefox print. without it, second page header is off. hmm *@
-                    <div class="entry">
-                        <div class="header">
-                            <div class="company">Spirit Celebration</div>
-                            <div class="description">CGA National Championship Feb 12-13, 2011</div>
-                            <div class="name">
-                                <span data-bind="text: registration().gymName"></span>
-                                <span data-bind="text: registration().teamName"></span>
-                            </div>
-                            <div class="division">
-                                <span data-bind="text: registration().levelName"></span>
-                                <span data-bind="text: registration().divisionName"></span>
-                            </div>
-                            <div data-bind="dateString: time, datePattern: 'ddd h:mm tt'" class="time"></div>     
-                            <div class="judge">Judge <span data-bind="text: $parents[2] + $parents[1].designator()"></span></div>
-                        </div>
-                        <span data-bind="template: { name: getTemplate($parents[1].id()) }"></span>   
-                        <div class="footer">
-                            info@wyldeye.com    &copy; 2012 AllStarScore.com
-                        </div> 
-                    </div>
-                    <!-- /ko -->
-                    <!-- /ko -->
-                </div>
+    <fieldset>
+        <legend>Controls</legend>
+        Panels
+        <!-- ko foreach: schedule.panels() -->
+        <label><input type="checkbox" data-bind="value: $data, checked: $root.schedule.visibilityMatrix"/><span data-bind="text: $data"></span></label>
+        <!-- /ko -->
+        
+        Days
+        <!-- ko foreach: schedule.days() -->
+        <label><input type="checkbox" data-bind="value: $data.day, checked: $root.schedule.visibilityMatrix"/><span data-bind="text: $data.day"></span></label>
+        <!-- /ko -->
+    </fieldset>
+
+    <!-- ko foreach: schedule.panels() -->
+    <!-- ko foreach: $root.judgePanel.judges -->
+    <!-- ko foreach: $root.schedule.days -->
+    <!-- ko foreach: $data.entries -->
+    <!-- ko if: $data.registrationId --> 
+    <!-- ko if: isMyPanel($parents[2]) --> 
+    &nbsp; @* space here for firefox print. without it, second page header is off. hmm *@
+    <div class="entry" data-bind="visible: $root.schedule.shouldShow($parents)">
+        <div class="header">
+            <div class="company">Spirit Celebration</div>
+            <div class="description">CGA National Championship Feb 12-13, 2011</div>
+            <div class="name">
+                <span data-bind="text: registration().gymName"></span>
+                <span data-bind="text: registration().teamName"></span>
             </div>
+            <div class="division">
+                <span data-bind="text: registration().levelName"></span>
+                <span data-bind="text: registration().divisionName"></span>
+            </div>
+            <div data-bind="dateString: time, datePattern: 'ddd h:mm tt'" class="time"></div>     
+            <div class="judge">Judge <span data-bind="text: $parents[2] + $parents[1].designator()"></span></div>
         </div>
+        <!-- ko template: { name: getTemplate($parents[1].id()) } --><!-- /ko -->  
+        <div class="footer">
+            info@wyldeye.com    &copy; 2012 AllStarScore.com
+        </div> 
     </div>
+    <!-- /ko -->
+    <!-- /ko -->
+    <!-- /ko -->
+    <!-- /ko -->
+    <!-- /ko -->
+    <!-- /ko -->
     <pre data-bind="text: ko.toJSON($root, null, 2)"></pre>
 </div>
 

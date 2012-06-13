@@ -6,11 +6,6 @@ $(document).ready(function () {
 });
 
 var mapping = {
-    'viewModel': {
-        create: function (options) {
-            return new ScoreSheetsDetailsViewModel(options.data);
-        }
-    },
     'schedule': {
         create: function (options) {
             return new ScheduleModel(options.data);
@@ -38,13 +33,9 @@ var mapping = {
     }
 };
 
-var ScoreSheetsDetailsViewModel = (function (data) {
-    ko.mapping.fromJS(data, mapping, this);
-});
-
 var ScheduleModel = function (data) {
     var self = this;
-    
+
     ko.mapping.fromJS(data, mapping, self);
 
     self.panels = ko.computed(function () {
@@ -52,6 +43,25 @@ var ScheduleModel = function (data) {
             return String.fromCharCode(65 + i);
         });
     }, self);
+
+    self.visibilityMatrix = ko.observableArray();
+
+    _.each(self.panels(), function (panel) {
+        self.visibilityMatrix.push(panel);
+    });
+
+    _.each(self.days(), function (node) {
+        self.visibilityMatrix.push(node.day);
+    });
+
+    self.shouldShow = function (parents) {
+        var panel = parents[2];
+        var day = parents[0].day;
+        
+        var result = _.indexOf(self.visibilityMatrix(), panel) > -1 &&
+                     _.indexOf(self.visibilityMatrix(), day) > -1;
+        return result;
+    };
 };
 
 var DayModel = function (data) {
