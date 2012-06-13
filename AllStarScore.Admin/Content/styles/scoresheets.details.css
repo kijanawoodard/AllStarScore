@@ -1,7 +1,24 @@
-﻿table.scoresheet { border: 3px solid #000; }
+﻿@media print 
+{
+	body  { border: none;-webkit-print-color-adjust:exact;}
+	#body { background-color: #fff;}
+	#body .main-content { background: none;}
+	body > header { display: none; }  
+}
+
+#scoresheets_details .entry {page-break-after: always;overflow: hidden;}
+#scoresheets_details .entry .header { margin-bottom: 5px;}
+#scoresheets_details .entry .header .company { font-size: 2em;float: left;}
+#scoresheets_details .entry .header .description { font-size: 2em;text-align: right;overflow: hidden;}
+#scoresheets_details .entry .header .name,
+#scoresheets_details .entry .header .time { font-size: 1.4em;float: left;}
+#scoresheets_details .entry .header .division,
+#scoresheets_details .entry .header .judge { font-size: 1.4em;text-align: right;overflow: hidden;padding-right: 2px;}
+#scoresheets_details .entry .header .judge span { background-color: #000;color: #fff;padding: 2px;font-weight: bold; }
+
+table.scoresheet { border: 3px solid #000; }
 table.scoresheet th, table.scoresheet td.void { background-color: #dcdcdc; }
 table.scoresheet th { border: 1px solid #000; }
-#scoresheets_details .entry {page-break-after: always;}
 
 table.scoresheet td { border: 1px solid #000; height: 45px;text-align: center; }
 th.section, td.section { border-top: 5px solid #000; }
