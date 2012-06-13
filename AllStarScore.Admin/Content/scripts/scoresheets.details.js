@@ -3,6 +3,7 @@
 $(document).ready(function () {
     viewModel = ko.mapping.fromJS(window.detailsScoreSheetsData, mapping);
     ko.applyBindings(viewModel, document.getElementById('scoresheets_details'));
+    viewModel.schedule.loadVisibilityMatrix();
 });
 
 var mapping = {
@@ -45,27 +46,50 @@ var ScheduleModel = function (data) {
     }, self);
 
     self.visibilityMatrix = ko.observableArray();
-    self.competitionDays = [];
+    self.competitionDays = ko.observableArray();
+    self.levels = ko.observableArray();
 
-    _.each(self.panels(), function (panel) {
-        self.visibilityMatrix.push(panel);
-    });
+    self.loadVisibilityMatrix = function () {
+        //created this function to have access to viewModel after mapping
+        _.each(self.panels(), function (panel) {
+            self.visibilityMatrix.push(panel);
+            _.each(window.viewModel.judgePanel.judges(), function (judge) {
+                self.visibilityMatrix.push(panel + judge.designator());
+            });
+        });
 
-    _.each(self.days(), function (node) {
-        //what are we doing here? normalizing the date to a string for the checkbox compare; 
-        //the value of the checkbox has to be a string not a date object;
-        //we're also divorcing what gets attached the checkbox so the formmatted value doesn't change our real day object
-        var formatted = node.day().toString('dddd MMM dd, yyyy');
-        self.visibilityMatrix.push(formatted);
-        self.competitionDays.push(formatted);
-    });
+        _.each(self.days(), function (node) {
+            //this is outside of the function 'load' function to get the competitionDays 
+            //what are we doing here? normalizing the date to a string for the checkbox compare; 
+            //the value of the checkbox has to be a string not a date object;
+            //we're also divorcing what gets attached the checkbox so the formmatted value doesn't change our real day object
+            var formatted = node.day().toString('ddd MM/dd/yyyy');
+            self.visibilityMatrix.push(formatted);
+            self.competitionDays.push(formatted);
 
-    self.shouldShow = function (parents) {
+            _.each(node.entries(), function (entry) {
+                var registration = entry.registration();
+                if (registration) {
+                    if (_.indexOf(self.visibilityMatrix(), registration.levelId) == -1) {
+                        self.visibilityMatrix.push(registration.levelId);
+                        self.levels.push({ id: registration.levelId, name: registration.levelName });
+                    }
+                }
+            });
+        });
+    };
+
+
+    self.shouldShow = function (entry, parents) {
         var panel = parents[2];
-        var day = parents[0].day().toString('dddd MMM dd, yyyy');
-
+        var day = parents[0].day().toString('ddd MM/dd/yyyy');
+        var judge = panel + parents[1].designator();
+        var level = entry.registration().levelId;
+        
         var result = _.indexOf(self.visibilityMatrix(), panel) > -1 &&
-                     _.indexOf(self.visibilityMatrix(), day) > -1;
+                     _.indexOf(self.visibilityMatrix(), day) > -1 &&
+                     _.indexOf(self.visibilityMatrix(), judge) > -1 &&
+                    _.indexOf(self.visibilityMatrix(), level) > -1;
         return result;
     };
 };

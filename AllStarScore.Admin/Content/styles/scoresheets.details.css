@@ -1,4 +1,8 @@
-﻿#scoresheets_details .entry {page-break-after: always}
+﻿#scoresheets_details .controls { overflow: hidden;}
+#scoresheets_details .controls ul { list-style-type: none;padding: 0;margin-right: 1em;}
+#scoresheets_details .controls ul li, #scoresheets_details .controls ul li label { display: inline;}
+
+#scoresheets_details .entry {page-break-after: always}
 #scoresheets_details .entry .header { margin-bottom: 5px;;overflow: hidden;}
 #scoresheets_details .entry .header .company { font-size: 2em;float: left;}
 #scoresheets_details .entry .header .description { font-size: 2em;text-align: right;overflow: hidden;}
