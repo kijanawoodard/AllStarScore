@@ -1,13 +1,4 @@
-﻿@media print 
-{
-	body  { border: none;-webkit-print-color-adjust:exact;}
-	#body { background-color: #fff;}
-	#body .main-content { background: none;}
-	body > header { display: none; }  
-	@page {sizex: landscape; margin:0mm;}
-}
-
-#scoresheets_details .entry {page-break-after: always}
+﻿#scoresheets_details .entry {page-break-after: always}
 #scoresheets_details .entry .header { margin-bottom: 5px;;overflow: hidden;}
 #scoresheets_details .entry .header .company { font-size: 2em;float: left;}
 #scoresheets_details .entry .header .description { font-size: 2em;text-align: right;overflow: hidden;}
@@ -99,3 +90,18 @@ fieldset.legalities             input {width:100px;margin: 0;padding: 0;}
 	.legalities table.legend th {border-right: 0;}
 	.legalities table.legend td {border-left: 0;}
 	.legalities table.legend caption { text-align: center;}
+	
+	
+	
+	
+	
+@media print 
+{
+	body  { border: none;-webkit-print-color-adjust:exact;}
+	#body { background-color: #fff;}
+	#body .main-content { background: none;}
+	body > header { display: none; }  
+	.legalities {border:solid 1px #fff;}
+	.legalities li.noBorder{border-left:solid 1px #fff;border-bottom:solid 1px #fff;}	
+}
+@page {sizex: landscape; margin:0mm;}
