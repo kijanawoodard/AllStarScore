@@ -15,6 +15,8 @@
     <TargetFrameworkVersion>v4.0</TargetFrameworkVersion>
     <MvcBuildViews>false</MvcBuildViews>
     <UseIISExpress>false</UseIISExpress>
+    <SolutionDir Condition="$(SolutionDir) == '' Or $(SolutionDir) == '*Undefined*'">..\</SolutionDir>
+    <RestorePackages>true</RestorePackages>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
     <DebugSymbols>true</DebugSymbols>
@@ -178,6 +180,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Controllers\LandingController.cs" />
+    <Compile Include="Controllers\RavenController.cs" />
     <Compile Include="Controllers\SyncController.cs" />
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
@@ -254,6 +257,10 @@
     <Content Include="Views\Landing\Index.cshtml" />
   </ItemGroup>
   <ItemGroup>
+    <ProjectReference Include="..\..\AllStarScore.Extensions\AllStarScore.Extensions.csproj">
+      <Project>{F1DB6FF8-2436-4804-A0A2-B92BC8FCE4B7}</Project>
+      <Name>AllStarScore.Extensions</Name>
+    </ProjectReference>
     <ProjectReference Include="..\..\AllStarScore.Models\AllStarScore.Models.csproj">
       <Project>{A96197C9-B52B-4692-B031-229946288C43}</Project>
       <Name>AllStarScore.Models</Name>
@@ -288,4 +295,5 @@
       </FlavorProperties>
     </VisualStudio>
   </ProjectExtensions>
+  <Import Project="$(SolutionDir)\.nuget\nuget.targets" />
 </Project>

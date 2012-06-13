@@ -1,12 +1,10 @@
 using System;
 using System.Linq;
 using System.Web.Mvc;
-using AllStarScore.Admin.Infrastructure.Utilities;
-using Newtonsoft.Json;
+using AllStarScore.Extensions;
 using Raven.Client;
-using Raven.Client.Extensions;
 
-namespace AllStarScore.Admin.Controllers
+namespace AllStarScore.Scoring.Controllers
 {
     //https://github.com/ayende/RaccoonBlog/blob/master/HibernatingRhinos.Loci.Common/Controllers/RavenController.cs
     public abstract class RavenController : Controller
