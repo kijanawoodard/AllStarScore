@@ -1,7 +1,7 @@
 using System;
 using System.Collections.Generic;
 
-namespace AllStarScore.Admin.Infrastructure.Utilities
+namespace AllStarScore.Extensions
 {
     public static class DateTimeExtensions
     {

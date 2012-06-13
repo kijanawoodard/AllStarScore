@@ -1,8 +1,8 @@
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using AllStarScore.Admin.Infrastructure.Commands;
-using AllStarScore.Admin.Infrastructure.Utilities;
 using AllStarScore.Admin.ViewModels;
+using AllStarScore.Extensions;
 
 namespace AllStarScore.Admin.Models
 {

@@ -5,3 +5,14 @@
 }
 
 <h2>Time to Score!</h2>
+
+@using(Html.BeginForm("Import", "Sync")){
+<fieldset>
+    <legend>Import</legend>
+    
+    <label>Import address</label>
+    <input type="text" value="" name="id" />
+    
+    <input type="submit" value="Import"/>
+</fieldset>
+}

@@ -1,8 +1,6 @@
-﻿using System.Globalization;
-using System.Linq;
+﻿using System.Linq;
 using System.Web.Mvc;
 using AllStarScore.Admin.Infrastructure.Indexes;
-using AllStarScore.Admin.Infrastructure.Utilities;
 using AllStarScore.Admin.Models;
 using AllStarScore.Admin.ViewModels;
 using Raven.Client.Linq;

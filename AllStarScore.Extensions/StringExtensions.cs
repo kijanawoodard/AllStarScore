@@ -1,4 +1,4 @@
-namespace AllStarScore.Admin.Infrastructure.Utilities
+namespace AllStarScore.Extensions
 {
     public static class StringExtensions
     {

@@ -1,9 +1,6 @@
 using System;
 using System.Collections.Generic;
-using System.Collections.ObjectModel;
 using System.Linq;
-using AllStarScore.Admin.Infrastructure.Commands;
-using AllStarScore.Admin.Infrastructure.Utilities;
 using AllStarScore.Admin.ViewModels;
 
 namespace AllStarScore.Admin.Models

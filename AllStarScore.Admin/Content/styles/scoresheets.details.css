@@ -3,7 +3,7 @@
 #scoresheets_details .controls ul li, #scoresheets_details .controls ul li label { display: inline;}
 
 #scoresheets_details .entry {page-break-after: always}
-#scoresheets_details .entry .header { margin-bottom: 5px;;overflow: hidden;}
+#scoresheets_details .entry .header { margin-bottom: 5px;overflow: hidden;}
 #scoresheets_details .entry .header .company { font-size: 2em;float: left;}
 #scoresheets_details .entry .header .description { font-size: 2em;text-align: right;overflow: hidden;}
 #scoresheets_details .entry .header .name,
@@ -41,7 +41,7 @@ table.schooldance th.comments, table.schooldance td.comments { width: 790px; }
 .deductions_scoresheet table.score { text-align: right; margin: 0; }
 .deductions_scoresheet table.score tr td.blank, table.score tr td:empty { border-bottom: 1px solid #000; width: 80px; padding-top: 30px; }
 
-.deductions_scoresheet div.comments { width: 100%; floatx: left; }
+.deductions_scoresheet div.comments { width: 100%; }
 .deductions_scoresheet div.comments div { border: 1px solid #000; height: 135px; }
 
 div.legalities table.score { float: none; }
@@ -66,7 +66,7 @@ table.safety td table { width: 100%; }
             .legalities ul li ul li.c3 ul li{width:33%;} /* 3 columns */
     .legalities li.noBorder{border:solid 1px #EFEEEF;border-right:0;}
     .legalities li.c3 ul li.left{width:300px;min-width: 300px;}
-    .legalities li.c3 ul li.middle{widthx:auto;min-width: 150px;}
+    .legalities li.c3 ul li.middle{min-width: 150px;}
     .legalities li.c3 ul li.right{width:300px;}
 fieldset.legalities             input {width:100px;margin: 0;padding: 0;}
     .legalities li.row3 li.left input {width:100%;}

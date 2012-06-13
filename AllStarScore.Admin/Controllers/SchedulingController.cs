@@ -1,12 +1,10 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.Linq;
-using System.Web;
 using System.Web.Mvc;
 using AllStarScore.Admin.Infrastructure.Indexes;
-using AllStarScore.Admin.Infrastructure.Utilities;
 using AllStarScore.Admin.Models;
 using AllStarScore.Admin.ViewModels;
+using AllStarScore.Models;
 using Raven.Client.Linq;
 
 namespace AllStarScore.Admin.Controllers
@@ -60,6 +58,17 @@ namespace AllStarScore.Admin.Controllers
 
                     return new JsonDotNetResult(true);
                 });
+        }
+
+        [AllowAnonymous]
+        public JsonDotNetResult Import(string id)
+        {
+            var result = new List<Performance>()
+                         {
+                             new Performance(){RegistrationId = "reg-1"}
+                         };
+
+            return new JsonDotNetResult(result);
         }
     }
 }
