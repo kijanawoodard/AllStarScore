@@ -89,19 +89,10 @@ var EntryModel = function (data) {
         return self.panel() == panel;
     };
 
-    var getScoringMap = function (judge) {
+    self.getTemplate = function (judge) {
         var division = self.registration().divisionId;
         var level = self.registration().levelId;
         var map = viewModel.scoringMap[judge] || viewModel.scoringMap[division] || viewModel.scoringMap[level];
-        return map;
-    };
-    self.getTemplate = function (judge) {
-        var map = getScoringMap(judge);
-        return map['template']();
-    };
-
-    self.getTemplateData = function (judge) {
-        var map = getScoringMap(judge);
-        return map['scoringDefinition'];
+        return map();
     };
 };

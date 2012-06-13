@@ -8,7 +8,7 @@ namespace AllStarScore.Admin.ViewModels
     public class ScoreSheetsDetailsViewModel
     {
         public IJudgePanel JudgePanel { get; set; }
-        public Dictionary<string, Foo> ScoringMap { get; set; }
+        public Dictionary<string, string> ScoringMap { get; set; }
         public Schedule Schedule { get; set; }
         public Dictionary<string, TeamRegistrationByCompetition.Results> Registrations { get; set; }
 

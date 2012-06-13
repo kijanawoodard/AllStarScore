@@ -214,27 +214,17 @@ namespace AllStarScore.Admin.Models
 
     public class ScoringMap
     {
-        public Dictionary<string, Foo> All 
+        public Dictionary<string, string> All 
         {
             get
             {
-                return new Dictionary<string, Foo>()
+                return new Dictionary<string, string>()
                        {
-                           {
-                               "levels-level1",
-                               new Foo
-                               {Template = "allstar-template", ScoringDefinition = new Level1ScoringDefinition()}
-                               },
-                           {
-                               "levels-level2",
-                               new Foo
-                               {Template = "allstar-template", ScoringDefinition = new Level2ScoringDefinition()}
-                               },
-                           {
-                               "levels-level3",
-                               new Foo
-                               {Template = "allstar-template", ScoringDefinition = new Level3ScoringDefinition()}
-                               }
+                           {"levels-level1", "levels-level1-template"},
+                           {"levels-level2", "levels-level2-template"},
+                           {"levels-level3", "levels-level3-template"},
+                           {"judges-deductions", "judges-deductions-template"},
+                           {"judges-legalities", "judges-legalities-template"}
                        };
             }
         }
