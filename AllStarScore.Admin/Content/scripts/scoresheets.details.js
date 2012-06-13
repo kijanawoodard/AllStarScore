@@ -79,7 +79,6 @@ var ScheduleModel = function (data) {
         });
     };
 
-
     self.shouldShow = function (entry, parents) {
         var panel = parents[2];
         var day = parents[0].day().toString('ddd MM/dd/yyyy');
