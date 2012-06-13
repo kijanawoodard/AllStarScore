@@ -10,16 +10,22 @@
 @*<h2>Score Sheets</h2>*@
 
 <div id="scoresheets_details">
-    <fieldset>
+    <fieldset class="controls">
         <legend>Controls</legend>
         Panels
         <!-- ko foreach: schedule.panels() -->
-        <label><input type="checkbox" data-bind="value: $data, checked: $root.schedule.visibilityMatrix"/><span data-bind="text: $data"></span></label>
+        <label>
+            <input type="checkbox" data-bind="value: $data, checked: $root.schedule.visibilityMatrix"/>
+            <span data-bind="text: $data"></span>
+        </label>
         <!-- /ko -->
         
         Days
-        <!-- ko foreach: schedule.days() -->
-        <label><input type="checkbox" data-bind="value: $data.day, checked: $root.schedule.visibilityMatrix"/><span data-bind="text: $data.day"></span></label>
+        <!-- ko foreach: schedule.competitionDays -->
+        <label>
+            <input type="checkbox" data-bind="value: $data, checked: $root.schedule.visibilityMatrix"/>
+            <span data-bind="text: $data"></span>
+        </label>
         <!-- /ko -->
     </fieldset>
 

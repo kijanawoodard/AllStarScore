@@ -45,19 +45,25 @@ var ScheduleModel = function (data) {
     }, self);
 
     self.visibilityMatrix = ko.observableArray();
+    self.competitionDays = [];
 
     _.each(self.panels(), function (panel) {
         self.visibilityMatrix.push(panel);
     });
 
     _.each(self.days(), function (node) {
-        self.visibilityMatrix.push(node.day);
+        //what are we doing here? normalizing the date to a string for the checkbox compare; 
+        //the value of the checkbox has to be a string not a date object;
+        //we're also divorcing what gets attached the checkbox so the formmatted value doesn't change our real day object
+        var formatted = node.day().toString('dddd MMM dd, yyyy');
+        self.visibilityMatrix.push(formatted);
+        self.competitionDays.push(formatted);
     });
 
     self.shouldShow = function (parents) {
         var panel = parents[2];
-        var day = parents[0].day;
-        
+        var day = parents[0].day().toString('dddd MMM dd, yyyy');
+
         var result = _.indexOf(self.visibilityMatrix(), panel) > -1 &&
                      _.indexOf(self.visibilityMatrix(), day) > -1;
         return result;

@@ -103,5 +103,6 @@ fieldset.legalities             input {width:100px;margin: 0;padding: 0;}
 	body > header { display: none; }  
 	.legalities {border:solid 1px #fff;}
 	.legalities li.noBorder{border-left:solid 1px #fff;border-bottom:solid 1px #fff;}	
+	#scoresheets_details .controls { display: none;}
 }
 @page {sizex: landscape; margin:0mm;}
