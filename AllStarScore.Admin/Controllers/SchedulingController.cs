@@ -16,6 +16,7 @@ namespace AllStarScore.Admin.Controllers
             var registrations =
                 RavenSession
                     .Query<TeamRegistration, TeamRegistrationByCompetition>()
+                    .Take(int.MaxValue)
                     .As<TeamRegistrationByCompetition.Results>()
                     .OrderBy(x => x.RegistrationDate)
                     .Lazily();
@@ -58,20 +59,6 @@ namespace AllStarScore.Admin.Controllers
 
                     return new JsonDotNetResult(true);
                 });
-        }
-
-        [AllowAnonymous]
-        public JsonDotNetResult Import(string id)
-        {
-            var result = new ScoringImportData
-                         {
-                             Performances = new List<Performance>()
-                                            {
-                                                new Performance() {RegistrationId = "reg-1"}
-                                            }
-                         };
-
-            return new JsonDotNetResult(result);
         }
     }
 }

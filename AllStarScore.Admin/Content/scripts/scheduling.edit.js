@@ -43,6 +43,7 @@ var getRegistrationId = function(id) {
 };
 
 var mapping = {
+    'include': ["panel"],
     'days': {
         create: function (options) {
             return new DayModel(options.data);

@@ -23,6 +23,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "AllStarScore.Models", "AllS
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "AllStarScore.Extensions", "AllStarScore.Extensions\AllStarScore.Extensions.csproj", "{F1DB6FF8-2436-4804-A0A2-B92BC8FCE4B7}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "AllStarScore.Library", "AllStarScore.Library\AllStarScore.Library.csproj", "{BCD278B1-8F08-4504-9B97-4F5BF9D63150}"
+EndProject
 Global
 	GlobalSection(TestCaseManagementSettings) = postSolution
 		CategoryFile = AllStarScore.Admin.vsmdi
@@ -48,6 +50,10 @@ Global
 		{F1DB6FF8-2436-4804-A0A2-B92BC8FCE4B7}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{F1DB6FF8-2436-4804-A0A2-B92BC8FCE4B7}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{F1DB6FF8-2436-4804-A0A2-B92BC8FCE4B7}.Release|Any CPU.Build.0 = Release|Any CPU
+		{BCD278B1-8F08-4504-9B97-4F5BF9D63150}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{BCD278B1-8F08-4504-9B97-4F5BF9D63150}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{BCD278B1-8F08-4504-9B97-4F5BF9D63150}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{BCD278B1-8F08-4504-9B97-4F5BF9D63150}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

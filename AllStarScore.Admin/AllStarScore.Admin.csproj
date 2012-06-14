@@ -151,6 +151,7 @@
     <Compile Include="Controllers\RegistrationController.cs" />
     <Compile Include="Controllers\SchedulingController.cs" />
     <Compile Include="Controllers\ScoreSheetsController.cs" />
+    <Compile Include="Controllers\SyncController.cs" />
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
@@ -162,7 +163,6 @@
     <Compile Include="Infrastructure\Indexes\TeamRegistrationByCompetition.cs" />
     <Compile Include="Infrastructure\Indexes\TeamRegistrationStatsByCompetition.cs" />
     <Compile Include="Infrastructure\Indexes\TeamRegistrationStatsByGym.cs" />
-    <Compile Include="Infrastructure\ModelBinding\CommandValueProviderFactory.cs" />
     <Compile Include="Models\AccountModels.cs" />
     <Compile Include="Models\Competition.cs" />
     <Compile Include="Models\Division.cs" />
@@ -187,6 +187,7 @@
     <Compile Include="ViewModels\SchedulingEditCommand.cs" />
     <Compile Include="ViewModels\SchedulingEditViewModel.cs" />
     <Compile Include="ViewModels\ScoreSheetsDetailsViewModel.cs" />
+    <Compile Include="ViewModels\SyncIndexViewModel.cs" />
     <Compile Include="ViewModels\TeamRegistrationViewModel.cs" />
   </ItemGroup>
   <ItemGroup>
@@ -358,10 +359,17 @@
       <Project>{F1DB6FF8-2436-4804-A0A2-B92BC8FCE4B7}</Project>
       <Name>AllStarScore.Extensions</Name>
     </ProjectReference>
+    <ProjectReference Include="..\AllStarScore.Library\AllStarScore.Library.csproj">
+      <Project>{BCD278B1-8F08-4504-9B97-4F5BF9D63150}</Project>
+      <Name>AllStarScore.Library</Name>
+    </ProjectReference>
     <ProjectReference Include="..\AllStarScore.Models\AllStarScore.Models.csproj">
       <Project>{A96197C9-B52B-4692-B031-229946288C43}</Project>
       <Name>AllStarScore.Models</Name>
     </ProjectReference>
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="Views\Sync\Index.cshtml" />
   </ItemGroup>
   <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
   <Import Project="$(MSBuildExtensionsPath32)\Microsoft\VisualStudio\v10.0\WebApplications\Microsoft.WebApplication.targets" />

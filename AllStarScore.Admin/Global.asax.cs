@@ -1,5 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.ComponentModel.Composition.Hosting;
 using System.Diagnostics;
 using System.Linq;
@@ -9,10 +8,10 @@ using System.Web.Mvc;
 using System.Web.Routing;
 using AllStarScore.Admin.Controllers;
 using AllStarScore.Admin.Infrastructure.Indexes;
-using AllStarScore.Admin.Infrastructure.ModelBinding;
 using AllStarScore.Admin.Models;
+using AllStarScore.Library.ModelBinding;
+using AllStarScore.Library.Moth;
 using Moth.Core;
-using Moth.Core.Providers;
 using Raven.Abstractions.Data;
 using Raven.Client;
 using Raven.Client.Document;
@@ -190,37 +189,6 @@ namespace AllStarScore.Admin
 
             divisions.ForEach(session.Store);
             session.SaveChanges();
-        }
-    }
-
-    public class CustomMothProvider : AspNetCacheProvider
-    {
-        public override void Store(string key, object o, TimeSpan duration)
-        {
-            /* tah dah */
-        }
-
-        public override IOutputCacheRestrictions Enable
-        {
-            get
-            {
-                return new OutputCacheRestrictions()
-                {
-                    PageOutput = true, 
-                    CssTidy = false,   
-                    ScriptMinification = false,
-                    CssPreprocessing = false 
-                };
-            }
-        }
-    }
-
-    public class CustomAuthorizeAttribute : System.Web.Mvc.AuthorizeAttribute
-    {
-        public override void OnAuthorization(AuthorizationContext filterContext)
-        {
-            if (!(filterContext.Controller is ResourcesController))
-                base.OnAuthorization(filterContext);
         }
     }
 }

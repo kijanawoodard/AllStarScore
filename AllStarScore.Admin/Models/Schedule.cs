@@ -2,6 +2,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using AllStarScore.Admin.ViewModels;
+using Newtonsoft.Json;
 
 namespace AllStarScore.Admin.Models
 {
@@ -17,6 +18,18 @@ namespace AllStarScore.Admin.Models
         public List<ScheduleDay> Days { get; set; } 
         public Dictionary<string, string> DivisionPanels { get; set; }
         
+        [JsonIgnore]
+        public IEnumerable<PerformanceEntry> PerformanceEntries
+        {
+            get
+            {
+                return Days
+                    .SelectMany(day => day.Entries)
+                    .Where(entry => entry.ContainsKey("registrationId"))
+                    .Select(entry => new PerformanceEntry(entry));
+            }
+        }
+
         public Schedule()
         {
             DefaultDuration = 3;
@@ -58,6 +71,28 @@ namespace AllStarScore.Admin.Models
 
             public DateTime Day { get; set; }
             public List<Dictionary<string, string>> Entries { get; set; }
+        }
+
+        public class PerformanceEntry
+        {
+            public string RegistrationId { get; set; }
+            public string Panel { get; set; }
+            public DateTime PerformanceTime { get; set; }
+            public int WarmupTime { get; set; }
+            public int Duration { get; set; }
+            public int Index { get; set; }
+            public string Template { get; set; }
+
+            public PerformanceEntry(Dictionary<string, string> entry)
+            {
+                RegistrationId = entry["registrationId"];
+                Panel = entry["panel"];
+                PerformanceTime = DateTime.Parse(entry["time"]);
+                WarmupTime = int.Parse(entry["warmupTime"]);
+                Duration = int.Parse(entry["duration"]);
+                Index = int.Parse(entry["index"]);
+                Template = entry["template"];
+            }
         }
     }
 }

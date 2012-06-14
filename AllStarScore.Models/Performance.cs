@@ -9,16 +9,18 @@ namespace AllStarScore.Models
     {
         public string Id { get; set; }
 
+        public string CompetitionId { get; set; }
         public string RegistrationId { get; set; }
 
-        public string CompetitionId { get; set; }
         public string GymId { get; set; }
         public string DivisionId { get; set; }
         public string LevelId { get; set; }
 
-        public DateTime WarmupTime { get; set; }
         public DateTime PerformanceTime { get; set; }
         public string Panel { get; set; }
+
+        public int WarmupTime { get; set; }
+        public int Duration { get; set; }
 
         public string GymName { get; set; }
         public string TeamName { get; set; }
@@ -37,7 +39,9 @@ namespace AllStarScore.Models
     public class ScoringImportData
     {
         public string CompanyName { get; set; }
+        public string CompetitionId { get; set; }
         public string CompetitionDescription { get; set; }
+        public List<DateTime> Days { get; set; } 
         public List<Performance> Performances { get; set; } 
     }
 }

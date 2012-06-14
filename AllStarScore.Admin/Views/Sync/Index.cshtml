@@ -1,0 +1,9 @@
+﻿@model AllStarScore.Admin.ViewModels.SyncIndexViewModel
+
+@{
+    ViewBag.Title = "Synchronize with Scoring Computer";
+}
+
+<h2>Synchronize with Scoring Computer</h2>
+
+@Url.Action("Export", "Sync", new { Model.CompetitionId, Model.Hash }, "http")

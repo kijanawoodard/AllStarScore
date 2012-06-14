@@ -7,8 +7,12 @@ using System.Web.Http;
 using System.Web.Mvc;
 using System.Web.Optimization;
 using System.Web.Routing;
+using AllStarScore.Library.ModelBinding;
+using AllStarScore.Library.Moth;
 using AllStarScore.Scoring.Controllers;
+using Moth.Core;
 using Raven.Client.Embedded;
+using System.Diagnostics;
 
 namespace AllStarScore.Scoring
 {
@@ -20,6 +24,8 @@ namespace AllStarScore.Scoring
         public static void RegisterGlobalFilters(GlobalFilterCollection filters)
         {
             filters.Add(new HandleErrorAttribute());
+            //filters.Add(new CustomAuthorizeAttribute());
+            filters.Add(new MothAction());
         }
 
         public static void RegisterRoutes(RouteCollection routes)
@@ -44,9 +50,15 @@ namespace AllStarScore.Scoring
             AreaRegistration.RegisterAllAreas();
 
             RegisterGlobalFilters(GlobalFilters.Filters);
+
+            InitializeMothForDebugging();
+            MothRouteFactory.RegisterRoutes(RouteTable.Routes);
+
             RegisterRoutes(RouteTable.Routes);
 
-            BundleTable.Bundles.RegisterTemplateBundles();
+            ValueProviderFactories.Factories.Insert(0, new CommandValueProviderFactory());
+
+            //BundleTable.Bundles.RegisterTemplateBundles();
 
             RavenController.DocumentStore = new EmbeddableDocumentStore()
                                             {
@@ -58,12 +70,19 @@ namespace AllStarScore.Scoring
             RavenController.DocumentStore.Initialize();
             RavenController.DocumentStore.Conventions.IdentityPartsSeparator = "-";
 
-            
+            InitializeRavenProfiler();
         }
-        protected void Application_End()
+
+        [Conditional("DEBUG")]
+        private void InitializeMothForDebugging()
         {
-            RavenController.DocumentStore.Dispose();
-            Thread.Sleep(5);
+            MothAction.Initialize(new CustomMothProvider());
+        }
+
+        [Conditional("DEBUG")]
+        private void InitializeRavenProfiler()
+        {
+            Raven.Client.MvcIntegration.RavenProfiler.InitializeFor(RavenController.DocumentStore);
         }
     }
 }
