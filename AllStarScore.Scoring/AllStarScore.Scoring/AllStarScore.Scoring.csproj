@@ -231,8 +231,10 @@
     <Content Include="Content\scripts\lib\knockout.simpleGrid.1.3.js" />
     <Content Include="Content\scripts\lib\modernizr-2.5.3.js" />
     <Content Include="Content\scripts\lib\underscore-min.js" />
+    <Content Include="Content\scripts\performances.index.js" />
     <Content Include="Content\styles\global.css" />
     <Content Include="Content\styles\jquery-ui-timepicker-addon.css" />
+    <Content Include="Content\styles\performances.index.css" />
     <Content Include="Content\styles\site.css" />
     <Content Include="Content\styles\site.mobile.css" />
     <Content Include="Content\styles\tablesorter.themes\blue\asc.gif" />

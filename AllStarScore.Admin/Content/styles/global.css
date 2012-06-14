@@ -31,3 +31,15 @@ table.tablesorter th.headerSortDown {
 	background-image: url(../images/desc.gif);
 	background-repeat: no-repeat;
 }
+
+@media print 
+{
+	body  { border: none;-webkit-print-color-adjust:exact;}
+	#body { background-color: #fff;}
+	#body .main-content { background: none;}
+	body > header { display: none; }  
+	footer { display: none; background-color: #fff;background: none;}
+	script { display: none; }
+	
+	.ko_output { display: none; }
+}

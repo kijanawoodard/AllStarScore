@@ -10,9 +10,6 @@ namespace AllStarScore.Scoring.Controllers
 {
     public class PerformanceController : RavenController
     {
-        //
-        // GET: /Performance/
-
         public ActionResult Index()
         {
             var performances =
@@ -24,6 +21,5 @@ namespace AllStarScore.Scoring.Controllers
             var model = new PerformanceIndexViewModel(performances);
             return View(model);
         }
-
     }
 }

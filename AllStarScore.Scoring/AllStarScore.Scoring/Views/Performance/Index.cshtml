@@ -4,4 +4,34 @@
     ViewBag.Title = "Performances";
 }
 
+@{ Html.RegisterStylesheet("~/content/styles/performances.index.css"); }
+@{ Html.RegisterScript("~/content/scripts/performances.index.js"); }
+
 <h2>Performances</h2>
+
+<div id="performance_index">
+
+    <ol data-bind="foreach: performances" class="performances">
+        <li>
+            <span data-bind="dateString: performanceTime, datePattern: 'ddd h:mm tt'" class="when"></span>
+            <span class="name">
+                <span data-bind="text: gymName"></span>
+                <span data-bind="text: teamName"></span>
+            </span>
+            <span class="division">
+                <span data-bind="text: levelName"></span>
+                <span data-bind="text: divisionName"></span>
+            </span>
+            <span class="status">
+                <span data-bind="visible: isShowTeam">Show Team</span>
+                <span data-bind="visible: didNotCompete">Did Not Compete</span>
+                <span data-bind="visible: scoringComplete" class="complete">Complete</span>
+            </span>
+        </li>
+    </ol>
+    <pre data-bind="text: ko.toJSON($root, null, 2)" class="ko_output"></pre>
+</div>
+
+<script>
+    var performanceIndexData = JSON.parse('@Html.Raw(Model.ToJson())');
+</script>
