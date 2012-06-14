@@ -49,7 +49,7 @@ namespace AllStarScore.Admin
 
             routes.MapRoute(
                 name: null,
-                url: "synchronize/{competitionid}/{hash}",
+                url: "synchronize/{hash}/{competitionid}",
                 defaults: new { controller = "Sync", action = "Export" }
             );
 
