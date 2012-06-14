@@ -1,11 +1,14 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Threading;
 using System.Web;
 using System.Web.Http;
 using System.Web.Mvc;
 using System.Web.Optimization;
 using System.Web.Routing;
+using AllStarScore.Scoring.Controllers;
+using Raven.Client.Embedded;
 
 namespace AllStarScore.Scoring
 {
@@ -44,6 +47,23 @@ namespace AllStarScore.Scoring
             RegisterRoutes(RouteTable.Routes);
 
             BundleTable.Bundles.RegisterTemplateBundles();
+
+            RavenController.DocumentStore = new EmbeddableDocumentStore()
+                                            {
+                                                DataDirectory = "Raven",
+                                                UseEmbeddedHttpServer = true
+                                            };
+            Raven.Database.Server.NonAdminHttp.EnsureCanListenToWhenInNonAdminContext(8085);
+            RavenController.DocumentStore.Configuration.Port = 8085;
+            RavenController.DocumentStore.Initialize();
+            RavenController.DocumentStore.Conventions.IdentityPartsSeparator = "-";
+
+            
+        }
+        protected void Application_End()
+        {
+            RavenController.DocumentStore.Dispose();
+            Thread.Sleep(5);
         }
     }
 }

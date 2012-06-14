@@ -3,13 +3,15 @@ using System.Linq;
 using System.Web.Mvc;
 using AllStarScore.Extensions;
 using Raven.Client;
+using Raven.Client.Document;
+using Raven.Client.Embedded;
 
 namespace AllStarScore.Scoring.Controllers
 {
     //https://github.com/ayende/RaccoonBlog/blob/master/HibernatingRhinos.Loci.Common/Controllers/RavenController.cs
     public abstract class RavenController : Controller
     {
-        public static IDocumentStore DocumentStore
+        public static EmbeddableDocumentStore DocumentStore
         {
             get { return _documentStore; }
             set
@@ -20,7 +22,7 @@ namespace AllStarScore.Scoring.Controllers
                 }
             }
         }
-        private static IDocumentStore _documentStore;
+        private static EmbeddableDocumentStore _documentStore;
 
         public IDocumentSession RavenSession { get; protected set; }
 
