@@ -30,7 +30,7 @@ namespace AllStarScore.Admin.Models
     public class LoginModel
     {
         [Required]
-        [Display(Name = "CommandByUser name")]
+        [Display(Name = "User Name")]
         public string UserName { get; set; }
 
         [Required]
@@ -45,7 +45,7 @@ namespace AllStarScore.Admin.Models
     public class RegisterModel
     {
         [Required]
-        [Display(Name = "CommandByUser name")]
+        [Display(Name = "User name")]
         public string UserName { get; set; }
 
         [Required]
