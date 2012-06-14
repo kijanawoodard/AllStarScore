@@ -20,7 +20,7 @@ namespace AllStarScore.Scoring.Controllers
             UpdateCompetition(model);
             UpdatePerformances(model);
 
-            return View("Import", data as object);
+            return RedirectToAction("Index", "Performance", new {id = model.CompetitionId});
         }
 
         public void UpdateCompetition(ScoringImportData model)
@@ -37,6 +37,7 @@ namespace AllStarScore.Scoring.Controllers
             }
 
             competition.CompanyName = model.CompanyName;
+            competition.CompanyName = model.CompetitionName;
             competition.CompetitionDescription = model.CompetitionDescription;
             competition.Days = model.Days;
         }
@@ -67,7 +68,9 @@ namespace AllStarScore.Scoring.Controllers
         public string CompetitionId { get { return Id; } }
 
         public string CompanyName { get; set; } //denormalized here for events run on-behalf of another company
+        public string CompetitionName { get; set; }
         public string CompetitionDescription { get; set; }
+        public string CompetitionDisplay { get { return string.IsNullOrWhiteSpace(CompetitionDescription) ? CompetitionName : CompetitionDescription; } }
         public List<DateTime> Days { get; set; } 
     }
 }

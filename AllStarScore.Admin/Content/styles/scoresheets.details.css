@@ -6,7 +6,7 @@
 #scoresheets_details .entry .header .company { font-size: 2em;float: left;}
 #scoresheets_details .entry .header .description { font-size: 2em;text-align: right;overflow: hidden;}
 #scoresheets_details .entry .header .name,
-#scoresheets_details .entry .header .time { font-size: 1.4em;float: left;}
+#scoresheets_details .entry .header .when { font-size: 1.4em;float: left;}
 #scoresheets_details .entry .header .division,
 #scoresheets_details .entry .header .judge { font-size: 1.4em;text-align: right;overflow: hidden;padding-right: 2px;}
 #scoresheets_details .entry .header .judge span { background-color: #000;color: #fff;padding: 2px;font-weight: bold; }

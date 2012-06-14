@@ -75,6 +75,7 @@ namespace AllStarScore.Admin.Controllers
 
                             CompanyName = "Spirit Celebration", //TODO: Create Document
                             CompetitionId = competition.Value.Id,
+                            CompetitionName = competition.Value.Name,
                             CompetitionDescription = competition.Value.Description,
                             Days = competition.Value.Days.ToList()
                         };

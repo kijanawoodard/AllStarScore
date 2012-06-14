@@ -40,6 +40,7 @@ namespace AllStarScore.Models
     {
         public string CompanyName { get; set; }
         public string CompetitionId { get; set; }
+        public string CompetitionName { get; set; }
         public string CompetitionDescription { get; set; }
         public List<DateTime> Days { get; set; } 
         public List<Performance> Performances { get; set; } 

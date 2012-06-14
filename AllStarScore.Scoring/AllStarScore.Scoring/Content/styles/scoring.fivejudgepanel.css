@@ -1,1 +1,21 @@
-﻿
+﻿#scoring_fivejudgepanel .header { margin-bottom: 5px;overflow: hidden;}
+#scoring_fivejudgepanel .header .company { font-size: 2em;float: left;}
+#scoring_fivejudgepanel .header .description { font-size: 2em;text-align: right;overflow: hidden;}
+#scoring_fivejudgepanel .header .name,
+#scoring_fivejudgepanel .header .when { font-size: 1.4em;float: left;}
+#scoring_fivejudgepanel .header .division,
+#scoring_fivejudgepanel .header .judge { font-size: 1.4em;text-align: right;overflow: hidden;padding-right: 2px;}
+#scoring_fivejudgepanel .header .judge span { background-color: #000;color: #fff;padding: 2px;font-weight: bold; }
+
+#scoring_fivejudgepanel .score_summary { width: 35%;float: left;margin-right: 4em;text-align: center;}
+#scoring_fivejudgepanel .score_summary td { min-width: 45px;padding: 0;}
+#scoring_fivejudgepanel .score_summary td:first-child { text-align: left; }
+
+#scoring_fivejudgepanel .final_score { overflow: hidden;text-align: right;border-collapse: collapse;}
+#scoring_fivejudgepanel .final_score td { min-width: 45px; padding-right: 2px;}
+#scoring_fivejudgepanel .final_score th { font-weight: normal; } 
+#scoring_fivejudgepanel .final_score tr:last-child th,
+#scoring_fivejudgepanel .final_score tr:last-child td { border-top: 2px solid #000; } 
+#scoring_fivejudgepanel .final_score tr:last-child td { padding-right: 0px; } 
+#scoring_fivejudgepanel .final_score tr:last-child th { font-weight: bold; } 
+#scoring_fivejudgepanel .final_score tr:last-child { font-size: 2em; } 

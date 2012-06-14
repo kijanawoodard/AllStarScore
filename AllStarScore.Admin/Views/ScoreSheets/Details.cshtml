@@ -65,7 +65,7 @@
                 <span data-bind="text: registration().levelName"></span>
                 <span data-bind="text: registration().divisionName"></span>
             </div>
-            <div data-bind="dateString: time, datePattern: 'ddd h:mm tt'" class="time"></div>     
+            <div data-bind="dateString: time, datePattern: 'ddd h:mm tt'" class="when"></div>     
             <div class="judge">Judge <span data-bind="text: $parents[2] + $parents[1].designator()"></span></div>
         </div>
         <!-- ko template: { name: getTemplate($parents[1].id()) } --><!-- /ko -->  
