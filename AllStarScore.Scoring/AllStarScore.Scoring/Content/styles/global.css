@@ -1,0 +1,33 @@
+﻿.control_links { display: none; }
+
+.ui-datepicker { margin-top: .8em; }
+input.input-validation-error, input.error { border: 1px solid red !important; background-color: #FDC; }
+
+td { padding: 0 8px 0 0; }
+fieldset td { padding: 0; }
+td.numeric { text-align: right; }
+
+
+
+
+
+
+table.tablesorter thead tr th, table.tablesorter tfoot tr th {
+	padding: 4px 36px 4px 4px;
+}
+
+table.tablesorter th.header {
+	xbackground-image: url(../images/bg.gif);
+	background-repeat: no-repeat;
+	background-position: center right;
+	cursor: pointer;
+}
+
+table.tablesorter th.headerSortUp {
+	background-image: url(../images/asc.gif);
+	background-repeat: no-repeat;
+}
+table.tablesorter th.headerSortDown {
+	background-image: url(../images/desc.gif);
+	background-repeat: no-repeat;
+}
