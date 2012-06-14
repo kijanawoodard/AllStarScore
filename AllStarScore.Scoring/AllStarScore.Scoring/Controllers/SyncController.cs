@@ -15,7 +15,7 @@ namespace AllStarScore.Scoring.Controllers
         {
             var client = new WebClient();
             var data = client.DownloadString(id);
-            var model = JsonConvert.DeserializeObject<List<Performance>>(data);
+            var model = JsonConvert.DeserializeObject<ScoringImportData>(data);
             return new EmptyResult();
         }
 

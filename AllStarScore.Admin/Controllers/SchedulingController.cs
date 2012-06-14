@@ -63,9 +63,12 @@ namespace AllStarScore.Admin.Controllers
         [AllowAnonymous]
         public JsonDotNetResult Import(string id)
         {
-            var result = new List<Performance>()
+            var result = new ScoringImportData
                          {
-                             new Performance(){RegistrationId = "reg-1"}
+                             Performances = new List<Performance>()
+                                            {
+                                                new Performance() {RegistrationId = "reg-1"}
+                                            }
                          };
 
             return new JsonDotNetResult(result);
