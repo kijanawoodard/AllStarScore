@@ -29,6 +29,9 @@ namespace AllStarScore.Models
         public bool IsShowTeam { get; set; }
         public string GymLocation { get; set; }
         public int ParticipantCount { get; set; }
+
+        public bool DidNotCompete { get; set; }
+        public bool ScoringComplete { get; set; }
     }
 
     public class ScoringImportData
