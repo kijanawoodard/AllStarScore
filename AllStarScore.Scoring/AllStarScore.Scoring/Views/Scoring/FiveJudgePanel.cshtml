@@ -1,0 +1,150 @@
+﻿@model AllStarScore.Scoring.ViewModels.ScoringFiveJudgePanelViewModel
+
+@{
+    ViewBag.Title = "Team Score Summary";
+}
+
+@{ Html.RegisterStylesheet("~/content/styles/scoring.fivejudgepanel.css"); }
+@{ Html.RegisterScript("~/content/scripts/scoring.fivejudgepanel.js"); }
+
+<h2>@ViewBag.Title</h2>
+
+<div id="performance_index">
+@*    <ol data-bind="foreach: performances" class="performances">*@
+@*        <li>*@
+            <span data-bind="dateString: viewModel.performance.performanceTime, datePattern: 'ddd h:mm tt'" class="when"></span>
+@*            <span class="name">*@
+@*                <a data-bind="attr: {href: scoringUrl() + id()}">*@
+@*                    <span data-bind="text: gymName"></span>*@
+@*                    <span data-bind="text: teamName"></span>*@
+@*                </a>*@
+@*            </span>*@
+@*            <span class="division">*@
+@*                <span data-bind="text: levelName"></span>*@
+@*                <span data-bind="text: divisionName"></span>*@
+@*            </span>*@
+@*            <span class="status">*@
+@*                <span data-bind="visible: isShowTeam">Show Team</span>*@
+@*                <span data-bind="visible: didNotCompete">Did Not Compete</span>*@
+@*                <span data-bind="visible: scoringComplete" class="complete">Complete</span>*@
+@*            </span>*@
+@*        </li>*@
+    @*    </ol>*@
+    
+    <!-- ko template: { name: viewModel.getTemplate, data: viewModel.performance } --><!-- /ko -->
+    <pre data-bind="text: ko.toJSON($root, null, 2)" class="ko_output"></pre>
+</div>
+
+<script>
+    var scoringFiveJudgePanelData = JSON.parse('@Html.Raw(Model.ToJson())');
+    scoringFiveJudgePanelData.scoringUrl = '@Url.Action("FiveJudgePanel", "Scoring")/';
+</script>
+
+<script type="text/html" id="all-star-template">
+    <table class="scoresheet">
+        <thead>
+            <tr>
+                <th class="skills">Skills</th>
+                <th class="judge"><span data-bind="text: $data.panel"></span>1</th>
+                <th class="judge"><span data-bind="text: $data.panel"></span>2</th>
+                <th class="judge"><span data-bind="text: $data.panel"></span>3</th>
+                <th class="comments"></th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr>
+                <td>Stunts</td>
+                <td>5</td>
+                <td>5</td>
+                <td>5</td>
+                <td class="comments" rowspan="12"></td>
+            </tr>
+            <tr>
+                <td>Pyramids</td>
+                <td>5</td>
+                <td>5</td>
+                <td>5</td>
+            </tr>
+            <tr>
+                <td>Tosses</td>
+                <td>5</td>
+                <td>5</td>
+                <td>5</td>
+            </tr>
+            <tr>
+                <td>Standing Tumbling</td>
+                <td>5</td>
+                <td>5</td>
+                <td>5</td>
+            </tr>
+            <tr>
+                <td>Running Tumbling</td>
+                <td>5</td>
+                <td>5</td>
+                <td>5</td>
+            </tr>
+            <tr>
+                <td>Jumps</td>
+                <td>5</td>
+                <td>5</td>
+                <td>5</td>
+            </tr>
+            <tr>
+                <td>Motions / Dance</td>
+                <td>5</td>
+                <td>5</td>
+                <td>5</td>
+            </tr>
+            <tr>
+                <td>Formations / Transitions</td>
+                <td>5</td>
+                <td>5</td>
+                <td>5</td>
+            </tr>
+            <tr>
+                <td>Performance</td>
+                <td>5</td>
+                <td>5</td>
+                <td>5</td>
+            </tr>
+            <tr>
+                <td>Skills Creativity</td>
+                <td>5</td>
+                <td>5</td>
+                <td>5</td>
+            </tr>
+            <tr>
+                <td>Routine Creativity</td>
+                <td>5</td>
+                <td>5</td>
+                <td>5</td>
+            </tr>
+            <tr>
+                <th>Total</th>
+                <th>64</th>
+                <th>64</th>
+                <th>64</th>
+            </tr>
+        </tbody>
+    </table>
+    <table>
+        <tbody>
+            <tr>
+                <th>Average</th>
+                <td>64</td>
+            </tr>
+            <tr>
+                <th>Point Deductions</th>
+                <td>1</td>
+            </tr>
+            <tr>
+                <th>Safety Deductions</th>
+                <td>1</td>
+            </tr>
+            <tr>
+                <th>Final Score</th>
+                <td>62</td>
+            </tr>
+        </tbody>
+    </table>
+</script>

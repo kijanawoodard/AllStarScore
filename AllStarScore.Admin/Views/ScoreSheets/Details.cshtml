@@ -82,6 +82,10 @@
     <pre data-bind="text: ko.toJSON($root, null, 2)" class="ko_output"></pre>
 </div>
 
+<script>
+    var detailsScoreSheetsData = JSON.parse('@Html.Raw(Model.ToJson())');
+</script>
+
 <script type="text/html" id="levels-level1-template">
     <table class="scoresheet">
         <thead>
@@ -1245,8 +1249,4 @@
             </li>			    
         </ul>
     </fieldset>            
-</script>
-
-<script>
-    var detailsScoreSheetsData = JSON.parse('@Html.Raw(Model.ToJson())');
 </script>

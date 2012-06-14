@@ -12,7 +12,6 @@ var mapping = {
 };
 
 var PerformanceModel = function (data) {
-    //console.log(data.schedule);
     data.performanceTime = new Date(data.performanceTime);
     ko.mapping.fromJS(data, mapping, this);
 };

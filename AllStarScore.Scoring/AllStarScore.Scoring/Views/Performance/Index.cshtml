@@ -9,14 +9,15 @@
 
 <h2>Performances</h2>
 
-<div id="performance_index">
-
+<div id="scoring_fivejudgepanel">
     <ol data-bind="foreach: performances" class="performances">
         <li>
             <span data-bind="dateString: performanceTime, datePattern: 'ddd h:mm tt'" class="when"></span>
             <span class="name">
-                <span data-bind="text: gymName"></span>
-                <span data-bind="text: teamName"></span>
+                <a data-bind="attr: {href: $root.scoringUrl() + id()}">
+                    <span data-bind="text: gymName"></span>
+                    <span data-bind="text: teamName"></span>
+                </a>
             </span>
             <span class="division">
                 <span data-bind="text: levelName"></span>
@@ -34,4 +35,5 @@
 
 <script>
     var performanceIndexData = JSON.parse('@Html.Raw(Model.ToJson())');
+    performanceIndexData.scoringUrl = '@Url.Action("FiveJudgePanel", "Scoring")/';
 </script>
