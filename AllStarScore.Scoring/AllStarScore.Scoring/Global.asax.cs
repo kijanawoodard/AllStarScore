@@ -11,6 +11,7 @@ using AllStarScore.Library.ModelBinding;
 using AllStarScore.Library.Moth;
 using AllStarScore.Scoring.Controllers;
 using Moth.Core;
+using Raven.Abstractions.Data;
 using Raven.Client.Embedded;
 using System.Diagnostics;
 
@@ -62,7 +63,7 @@ namespace AllStarScore.Scoring
 
             RavenController.DocumentStore = new EmbeddableDocumentStore()
                                             {
-                                                DataDirectory = @"C:\AllStarScore\Raven",
+                                                ConnectionStringName = "RavenDB",
                                                 UseEmbeddedHttpServer = true
                                             };
             Raven.Database.Server.NonAdminHttp.EnsureCanListenToWhenInNonAdminContext(8085);
