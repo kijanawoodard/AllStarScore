@@ -39,7 +39,6 @@ table.tablesorter th.headerSortDown {
 	#body .main-content { background: none;}
 	body > header { display: none; }  
 	footer { display: none; background-color: #fff;background: none;}
-	script { display: none; }
 	
 	.ko_output { display: none; }
 }
