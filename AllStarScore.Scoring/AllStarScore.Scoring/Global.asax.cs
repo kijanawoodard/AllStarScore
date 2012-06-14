@@ -50,7 +50,7 @@ namespace AllStarScore.Scoring
 
             RavenController.DocumentStore = new EmbeddableDocumentStore()
                                             {
-                                                DataDirectory = "Raven",
+                                                DataDirectory = @"C:\AllStarScore\Raven",
                                                 UseEmbeddedHttpServer = true
                                             };
             Raven.Database.Server.NonAdminHttp.EnsureCanListenToWhenInNonAdminContext(8085);

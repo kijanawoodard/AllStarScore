@@ -309,6 +309,12 @@
         }
         "Entry"
         {
+        "MsmKey" = "8:_69FA4EF0F03A4049A487BA893E144FFF"
+        "OwnerKey" = "8:_UNDEFINED"
+        "MsmSig" = "8:_UNDEFINED"
+        }
+        "Entry"
+        {
         "MsmKey" = "8:_6A6C3A527EFE622FB7E44263D751069D"
         "OwnerKey" = "8:_645B80F34DE44CC9B5AB63FE56468F9C"
         "MsmSig" = "8:_UNDEFINED"
@@ -599,6 +605,12 @@
         {
         "MsmKey" = "8:_UNDEFINED"
         "OwnerKey" = "8:_645B80F34DE44CC9B5AB63FE56468F9C"
+        "MsmSig" = "8:_UNDEFINED"
+        }
+        "Entry"
+        {
+        "MsmKey" = "8:_UNDEFINED"
+        "OwnerKey" = "8:_69FA4EF0F03A4049A487BA893E144FFF"
         "MsmSig" = "8:_UNDEFINED"
         }
         "Entry"
@@ -905,6 +917,34 @@
     {
         "CustomAction"
         {
+            "{4AA51A2D-7D85-4A59-BA75-B0809FC8B380}:_1744053C2ACD47D8AA6BAA22358D93D5"
+            {
+            "Name" = "8:Primary output from AllStarScore.Scoring.Setup.Installer (Active)"
+            "Condition" = "8:"
+            "Object" = "8:_69FA4EF0F03A4049A487BA893E144FFF"
+            "FileType" = "3:1"
+            "InstallAction" = "3:1"
+            "Arguments" = "8:"
+            "EntryPoint" = "8:"
+            "Sequence" = "3:1"
+            "Identifier" = "8:_68B5985E_789B_4D1F_B4AE_959988ED5802"
+            "InstallerClass" = "11:TRUE"
+            "CustomActionData" = "8:"
+            }
+            "{4AA51A2D-7D85-4A59-BA75-B0809FC8B380}:_A8AF24B7EC994B898FC70AC451C44FFA"
+            {
+            "Name" = "8:Primary output from AllStarScore.Scoring.Setup.Installer (Active)"
+            "Condition" = "8:"
+            "Object" = "8:_69FA4EF0F03A4049A487BA893E144FFF"
+            "FileType" = "3:1"
+            "InstallAction" = "3:2"
+            "Arguments" = "8:"
+            "EntryPoint" = "8:"
+            "Sequence" = "3:1"
+            "Identifier" = "8:_9B22EFB6_7F48_4A1A_9635_172CC580AE54"
+            "InstallerClass" = "11:TRUE"
+            "CustomActionData" = "8:"
+            }
         }
         "DefaultFeature"
         {
@@ -2165,7 +2205,7 @@
         "Name" = "8:Microsoft Visual Studio"
         "ProductName" = "8:All Star Scoring"
         "ProductCode" = "8:{95D4950D-A492-4852-AC18-C254E601FD2E}"
-        "PackageCode" = "8:{B1416086-0369-49A2-AAD2-D92F864D4168}"
+        "PackageCode" = "8:{404DA0A3-22FD-4463-A591-45FD3E19E597}"
         "UpgradeCode" = "8:{30D7834B-22DE-484E-8210-2828B72CDF75}"
         "AspNetVersion" = "8:4.0.30319.0"
         "RestartWWWService" = "11:TRUE"
@@ -2666,6 +2706,34 @@
             "OutputConfiguration" = "8:"
             "OutputGroupCanonicalName" = "8:Built"
             "OutputProjectGuid" = "8:{0386FA34-5FE4-4302-AC0E-2C4068EADB23}"
+            "ShowKeyOutput" = "11:TRUE"
+                "ExcludeFilters"
+                {
+                }
+            }
+            "{5259A561-127C-4D43-A0A1-72F10C7B3BF8}:_69FA4EF0F03A4049A487BA893E144FFF"
+            {
+            "SourcePath" = "8:..\\AllStarScore.Scoring.Setup.Installer\\obj\\Debug\\AllStarScore.Scoring.Setup.Installer.dll"
+            "TargetName" = "8:"
+            "Tag" = "8:"
+            "Folder" = "8:_85FF0951CC664ED38C62E074CB55D4C9"
+            "Condition" = "8:"
+            "Transitive" = "11:FALSE"
+            "Vital" = "11:TRUE"
+            "ReadOnly" = "11:FALSE"
+            "Hidden" = "11:FALSE"
+            "System" = "11:FALSE"
+            "Permanent" = "11:FALSE"
+            "SharedLegacy" = "11:FALSE"
+            "PackageAs" = "3:1"
+            "Register" = "3:1"
+            "Exclude" = "11:FALSE"
+            "IsDependency" = "11:FALSE"
+            "IsolateTo" = "8:"
+            "ProjectOutputGroupRegister" = "3:1"
+            "OutputConfiguration" = "8:"
+            "OutputGroupCanonicalName" = "8:Built"
+            "OutputProjectGuid" = "8:{7896E98E-E498-46BF-9978-F1AE57955426}"
             "ShowKeyOutput" = "11:TRUE"
                 "ExcludeFilters"
                 {
