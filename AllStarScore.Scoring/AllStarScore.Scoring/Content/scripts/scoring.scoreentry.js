@@ -1,6 +1,33 @@
 ﻿$(document).ready(function () {
     var viewModel = ko.mapping.fromJS({ viewModel: window.scoringScoreEntryData }, mapping);
     ko.applyBindings(viewModel, document.getElementById('scoring_scoreentry'));
+
+    var textboxes = $("input[type=text]:visible");
+    var scorepad = $(".scorepad");
+    var active;
+    
+    textboxes.focus(function () {
+        scorepad.show();
+//        active.removeClass(selectedClass);
+        active = $(this);
+        active.select();
+//        active.addClass(selectedClass);
+
+        var index = active.parent().index();
+        if (index == 1) {
+            scorepad.addClass("scorepad_base");
+            scorepad.removeClass("scorepad_execution");
+            lowOnly = false;
+        }
+        else if (index == 2) {
+            scorepad.addClass("scorepad_execution");
+            scorepad.removeClass("scorepad_base");
+            lowOnly = true;
+        }
+
+    });
+
+    textboxes.first().focus();
 });
 
 var mapping = {
