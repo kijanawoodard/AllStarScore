@@ -76,7 +76,7 @@ var ScoreEntryViewModel = function (data) {
 
             scores[key].isBaseBelowMin = ko.computed(function () {
                 var base = scores[key].base();
-                return (parseFloat(base) + executionMax) < category.min();
+                return parseFloat(base) != 0 && (parseFloat(base) + executionMax) < category.min();
             });
 
             scores[key].isBaseAboveMax = ko.computed(function () {
