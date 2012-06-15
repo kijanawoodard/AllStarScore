@@ -232,6 +232,7 @@
     <Content Include="Content\scripts\global.tinypubsub.js" />
     <Content Include="Content\scripts\lib\date.js" />
     <Content Include="Content\scripts\lib\jquery-ui-timepicker-addon.js" />
+    <Content Include="Content\scripts\lib\jquery.cookie.js" />
     <Content Include="Content\scripts\lib\jquery.tablesorter.min.js" />
     <Content Include="Content\scripts\lib\jquery.tablesorter.pager.js" />
     <Content Include="Content\scripts\lib\jquery.validate.min.js" />

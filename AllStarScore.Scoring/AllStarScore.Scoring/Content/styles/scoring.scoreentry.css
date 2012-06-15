@@ -24,7 +24,7 @@
 #scoring_scoreentry .score_entry input:focus,
 #scoring_scoreentry .score_entry button:focus { background-color: #a0ffa0; }
 
-fieldset input[type="text"] { border:initial;margin: 0;padding: 0;}
+fieldset input[type="text"] {border-color: #707070;margin: 0;padding: 0;}
 
 .scorepad {display: none; text-align: center;overflow: hidden;}
 .scorepad table { border: 1px solid #000; border-bottom: 0; background-color: #dcdcdc; margin-right: 10px; float: left;}
