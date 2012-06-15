@@ -5,13 +5,16 @@
     var textboxes = $("input[type=text]:visible");
     var scorepad = $(".scorepad");
     var active;
-    
+    var highPadSelected = $(".scorepad table.high td:first");
+    var selectedClass = "selected";
+    var lowOnly = false;
+
     textboxes.focus(function () {
         scorepad.show();
-//        active.removeClass(selectedClass);
+        //        active.removeClass(selectedClass);
         active = $(this);
         active.select();
-//        active.addClass(selectedClass);
+        //        active.addClass(selectedClass);
 
         var index = active.parent().index();
         if (index == 1) {
@@ -27,8 +30,54 @@
 
     });
 
+    if ($.browser.mozilla) {
+        $(textboxes).keypress(checkForEnter);
+    } else {
+        $(textboxes).keydown(checkForEnter);
+    }
+    
+    function checkForEnter(event) {
+        if (event.which != 13) return true;
+        moveNext(this);
+        event.preventDefault();
+        return false;
+    }
+
+    function moveNext(box) {
+        var nextBoxNumber = textboxes.index(box) + 1;
+        if (nextBoxNumber < textboxes.length) {
+            var nextBox = textboxes[nextBoxNumber]
+            nextBox.focus();
+            nextBox.select();
+        }
+        else {
+            $("button").first().focus();
+        }
+    }
+
+    $(".scorepad table.high td").click(function () {
+        highPadSelected.removeClass(selectedClass);
+        highPadSelected = $(this);
+        highPadSelected.addClass(selectedClass);
+    });
+
+    $(".scorepad table.low td").click(function () {
+        var low = $(this).text();
+        var high = highPadSelected.text();
+        var value = high + low;
+
+        if (lowOnly)
+            value = "0" + low; //cheap hack
+
+        active.val(value);
+        active.change();
+        moveNext(active);
+    });
+
     textboxes.first().focus();
 });
+
+
 
 var mapping = {
     'viewModel': {
