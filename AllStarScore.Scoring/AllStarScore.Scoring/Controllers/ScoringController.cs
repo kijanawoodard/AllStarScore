@@ -31,12 +31,34 @@ namespace AllStarScore.Scoring.Controllers
             
             var score =
                 RavenSession
-                    .Load<JudgeScore>(request.JudgeScoreId);
+                    .Load<JudgeScore>(request.JudgeScoreId());
 
             score = score ?? new JudgeScore() {JudgeId = request.JudgeId, PerformanceId = request.PerformanceId };
 
             var model = new ScoringScoreEntryViewModel(performance, score, new ScoringMap());
             return View(model);
+        }
+
+        [HttpPost]
+        public JsonDotNetResult ScoreEntry(ScoreEntryUpdateCommand command)
+        {
+            return Execute(
+                action: () =>
+                {
+                    var score =
+                        RavenSession
+                            .Load<JudgeScore>(command.JudgeScoreId());
+
+                    if (score == null)
+                    {
+                        score = new JudgeScore() { JudgeId = command.JudgeId, PerformanceId = command.PerformanceId };
+                        RavenSession.Store(score);    
+                    }
+
+                    score.Update(command);
+
+                    return new JsonDotNetResult(score);
+                });
         }
     }
 }

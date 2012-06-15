@@ -40,6 +40,19 @@ var ScoreEntryViewModel = function (data) {
         return { score: score, map: map, categories: categories };
     };
 
+    self.save = function () {
+        var form = $('#scoring_scoreentry form');
+
+        form.ajaxPost({
+            data: ko.mapping.toJSON(self.score),
+            success: function (result) {
+                console.log(result);
+                console.log('saved');
+            }
+        });
+    };
+
+    /* occurs on object creation */
     //set default scores if they don't exist
     (function () {
         var input = self.getScoring(self.performance, self.score);
@@ -110,7 +123,7 @@ var ScoreEntryViewModel = function (data) {
         input.score.isGrandTotalAboveMax = ko.computed(function () {
             return input.score.grandTotal() > 0 && input.score.grandTotal() > input.score.maxTotal();
         });
-        
+
         input.score.minTotal = ko.computed(function () {
             var result = _.reduce(input.map, function (memo, category) {
                 return memo + category.min();

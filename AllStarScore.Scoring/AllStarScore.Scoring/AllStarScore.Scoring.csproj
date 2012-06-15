@@ -191,6 +191,8 @@
     <Reference Include="System.EnterpriseServices" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Infrastructure\Commands\ICommand.cs" />
+    <Compile Include="Infrastructure\Indexes\CompetitionSearch.cs" />
     <Compile Include="Models\JudgeScore.cs" />
     <Compile Include="Controllers\LandingController.cs" />
     <Compile Include="Controllers\PerformanceController.cs" />

@@ -19,3 +19,8 @@
 #scoring_scoreentry				 .controls  { margin-top: 5px;float: right;text-align: right;}
 #scoring_scoreentry				 .controls button { margin-top: 8px; }
 #scoring_scoreentry				 .controls span { padding: 4px; }
+
+#scoring_scoreentry .score_entry input:focus,
+#scoring_scoreentry .score_entry button:focus { background-color: #a0ffa0; }
+
+fieldset input[type="text"] { border:initial;margin: 0;padding: 0;}

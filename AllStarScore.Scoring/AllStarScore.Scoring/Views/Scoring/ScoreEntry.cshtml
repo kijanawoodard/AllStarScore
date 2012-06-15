@@ -24,10 +24,17 @@
         <div data-bind="dateString: performanceTime, datePattern: 'ddd h:mm tt'" class="when"></div>     
         <div class="judge">Judge <span data-bind="text: panel() + $root.viewModel.score.judgeId()"></span></div>
     </div>
-        
-    <!-- ko template: { name: viewModel.getTemplate, data: viewModel.getScoring(viewModel.performance, viewModel.score) } --><!-- /ko -->
     
+    <form action='@Url.Action("ScoreEntry", "Scoring")' method="post">
+        <fieldset>
+            <legend>Score Entry</legend>
+            <div class="validation-summary-errors"></div>
+            <!-- ko template: { name: viewModel.getTemplate, data: viewModel.getScoring(viewModel.performance, viewModel.score) } --><!-- /ko -->
+        </fieldset>
+    </form>
+
     <pre data-bind="text: ko.toJSON($root, null, 2)" class="ko_output"></pre>
+    <pre data-bind="text: ko.mapping.toJSON($root.viewModel.score, null, 2)" class="ko_output"></pre>
 </div>
 
 <script>
@@ -73,7 +80,7 @@
             <span class="below_min" data-bind="visible: $data.score.isGrandTotalBelowMin">The total score is below the minimum</span>
             <span class="above_max" data-bind="visible: $data.score.isGrandTotalAboveMax">The total score is above the maximum</span>
             <br/>
-            <button>Save</button>
+            <button data-bind="click: $root.viewModel.save">Save</button>
         </div>        
     </div>
 </script>

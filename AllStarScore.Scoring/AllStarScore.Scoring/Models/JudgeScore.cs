@@ -1,17 +1,55 @@
+using System;
+using System.Collections.ObjectModel;
+using System.Linq;
 using System.Collections.Generic;
+using AllStarScore.Scoring.Infrastructure.Commands;
+using AllStarScore.Scoring.ViewModels;
 
 namespace AllStarScore.Scoring.Models
 {
-    public class JudgeScore
+    public class JudgeScore : IJudgeScoreId
     {
+        public string Id { get { return this.JudgeScoreId(); } }
         public string PerformanceId { get; set; }
         public string JudgeId { get; set; }
 
         public Dictionary<string, ScoreEntry> Scores { get; set; }
+        public float GrandTotal { get; set; }
+
+        public float GrandTotalServer
+        {
+            get
+            {
+                return Scores.Values.Aggregate(0.0f, (agg, score) => agg + (float)(Math.Truncate(score.Total * 10) / 10));
+            }
+        }
+
+        public float GrandTotalDifference
+        {
+            get { return Math.Abs(GrandTotalServer - GrandTotal); }
+        }
+        public bool GrandTotalChecks
+        {
+            get
+            {
+                return GrandTotalDifference < .1; //TODO: Testing
+            }
+        }
+
+        public ICollection<ICommand> History { get; private set; }
 
         public JudgeScore()
         {
             Scores = new Dictionary<string, ScoreEntry>();
+            History = new Collection<ICommand>();
+        }
+
+        public void Update(ScoreEntryUpdateCommand command)
+        {
+            Scores = command.Scores;
+            GrandTotal = command.GrandTotal;
+
+            History.Add(command);
         }
     }
 
@@ -67,10 +105,10 @@ namespace AllStarScore.Scoring.Models
 
     public class ScoreEntry
     {
-        public float Score { get; set; }
-        public float ExecutionScore { get; set; }
+        public float Base { get; set; }
+        public float Execution { get; set; }
         
-        public float TotalScore { get { return Score + ExecutionScore; } }
+        public float Total { get { return Base + Execution; } }
     }
 
     public class ScoringCategory
