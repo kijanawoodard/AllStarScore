@@ -31,60 +31,64 @@ var ScoreEntryViewModel = function (data) {
         var division = performance.divisionId();
         var level = performance.levelId();
         var map = self.scoringMap.categories[division] || self.scoringMap.categories[level];
-        return { scores: score.scores, map: map.all() };
+
+        //an array version for knockout foreach
+        var categories = $.map(map, function (category, key) {
+            return { key: key, category: category };
+        });
+        
+        return { score: score, map: map, categories: categories };
     };
 
     //set default scores if they don't exist
     (function () {
         var input = self.getScoring(self.performance, self.score);
+        var scores = input.score.scores;
 
-        _.each(input.map, function (category) {
-
-            input.scores[category.name()] = input.scores[category.name()] || ko.observable(0.0);
-
+        $.each(input.map, function (key, category) {
+            scores[key] = scores[key] || {};
+            scores[key].base = scores[key].base || ko.observable(0.0);
+            
             if (category.includeExectionScore()) {
-                input.scores[category.name() + '_execution'] = input.scores[category.name() + '_execution'] || ko.observable(0.0);
+                scores[key].execution = scores[key].execution || ko.observable(0.0);
             }
 
-            input.scores[category.name() + '_total'] = ko.computed(function () {
-                var base = input.scores[category.name()]();
-                var execution = category.includeExectionScore() ? input.scores[category.name() + '_execution']() : 0;
+            scores[key].total = ko.computed(function () {
+                var base = scores[key].base();
+                var execution = category.includeExectionScore() ? scores[key].execution() : 0;
                 return parseFloat(base) + parseFloat(execution);
             });
         });
 
-        input.scores['total_base'] = ko.computed(function () {
+        input.score.totalBase = ko.computed(function () {
             var memo = 0.0;
-            for (var key in input.scores) {
-                if (key.indexOf('_') == -1) {
-                    memo += parseFloat(input.scores[key]());
-                }
+            for (var key in scores) {
+                memo += parseFloat(scores[key].base());
             }
             return memo;
         });
 
-        input.scores['total_execution'] = ko.computed(function () {
+        input.score.totalExecution = ko.computed(function () {
             var memo = 0.0;
-            for (var key in input.scores) {
-                if (key.indexOf('_execution') > -1 && key != 'total_execution') {
-                    memo += parseFloat(input.scores[key]());
-                }
+            for (var key in scores) {
+                var execution = scores[key].execution ? scores[key].execution() : 0.0;
+                memo += parseFloat(execution);
             }
             return memo;
         });
 
-        input.scores['grand_total'] = ko.computed(function () {
-            return input.scores['total_base']() + input.scores['total_execution']();
+        input.score.grandTotal = ko.computed(function () {
+            return input.score.totalBase() + input.score.totalExecution();
         });
 
-        input.scores['min_total'] = ko.computed(function () {
+        input.score.minTotal = ko.computed(function () {
             var result = _.reduce(input.map, function (memo, category) {
                 return memo + category.min();
             }, 0);
             return result;
         });
-        
-        input.scores['max_total'] = ko.computed(function () {
+
+        input.score.maxTotal = ko.computed(function () {
             var result = _.reduce(input.map, function (memo, category) {
                 return memo + category.max();
             }, 0);

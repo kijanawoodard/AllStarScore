@@ -47,23 +47,23 @@
             </tr>
         </thead>
         <tbody>
-            <!-- ko foreach: $data.map -->
+            <!-- ko foreach: $data.categories -->
             <tr>
-                <td data-bind="text: display"></td>
-                <td><input type="text" data-bind="value: $parent.scores[$data.name()]" /></td>
-                <td><input type="text" data-bind="value: $parent.scores[$data.name() + '_execution'], visible: includeExectionScore" /></td>
-                <td data-bind="text: $parent.scores[$data.name() + '_total']"></td>
-                <td data-bind="text: min"></td>
-                <td data-bind="text: max"></td>
+                <td data-bind="text: $data.category.display"></td>
+                <td><input type="text" data-bind="value: $parent.score.scores[$data.key].base" /></td>
+                <td><input type="text" data-bind="value: $parent.score.scores[$data.key].execution, visible: $data.category.includeExectionScore" /></td>
+                <td data-bind="text: $parent.score.scores[$data.key].total"></td>
+                <td data-bind="text: $data.category.min"></td>
+                <td data-bind="text: $data.category.max"></td>
             </tr>
             <!-- /ko -->
             <tr>
                 <th>Total</th>
-                <th data-bind="text: $data.scores['total_base']"></th>
-                <th data-bind="text: $data.scores['total_execution']"></th>
-                <th data-bind="text: $data.scores['grand_total']"></th>
-                <th data-bind="text: $data.scores['min_total']"></th>
-                <th data-bind="text: $data.scores['max_total']"></th>
+                <th data-bind="text: $data.score.totalBase"></th>
+                <th data-bind="text: $data.score.totalExecution"></th>
+                <th data-bind="text: $data.score.grandTotal"></th>
+                <th data-bind="text: $data.score.minTotal"></th>
+                <th data-bind="text: $data.score.maxTotal"></th>
             </tr>
         </tbody>
     </table>

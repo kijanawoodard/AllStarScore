@@ -65,7 +65,6 @@ namespace AllStarScore.Scoring.Models
 
     public class ScoringCategory
     {
-        public string Name { get; set; }
         public string Display { get; set; }
         public float Min { get; set; }
         public float Max { get; set; }
@@ -93,43 +92,43 @@ namespace AllStarScore.Scoring.Models
         public ScoringCategory Jumps { get; set; }
         public ScoringCategory MotionsDance { get; set; }
         public ScoringCategory FormationsTransitions { get; set; }
-        public ScoringCategory Performance { get; set; }
+        public ScoringCategory PerformanceCategory { get; set; }
         public ScoringCategory SkillsCreativity { get; set; }
         public ScoringCategory RoutineCreativity { get; set; }
 
         //        public abstract string Key { get; }
 
-        public IEnumerable<ScoringCategory> All
-        {
-            get
-            {
-                yield return Stunts;
-                yield return Pyramids;
-                yield return Tosses;
-                yield return StandardTumbling;
-                yield return RunningTumbling;
-                yield return Jumps;
-                yield return MotionsDance;
-                yield return FormationsTransitions;
-                yield return Performance;
-                yield return SkillsCreativity;
-                yield return RoutineCreativity;
-            }
-        }
+//        public IEnumerable<ScoringCategory> All
+//        {
+//            get
+//            {
+//                yield return Stunts;
+//                yield return Pyramids;
+//                yield return Tosses;
+//                yield return StandardTumbling;
+//                yield return RunningTumbling;
+//                yield return Jumps;
+//                yield return MotionsDance;
+//                yield return FormationsTransitions;
+//                yield return Performance;
+//                yield return SkillsCreativity;
+//                yield return RoutineCreativity;
+//            }
+//        }
 
         protected AllStarScoringDefinition(int min, int max)
         {
-            Stunts = new ScoringCategory { Name = "stunts", Display = "Stunts", Min = min, Max = max, IncludeExectionScore = true };
-            Pyramids = new ScoringCategory { Name = "pyramids", Display = "Pyramids", Min = min, Max = max, IncludeExectionScore = true };
-            Tosses = new ScoringCategory { Name = "tosses", Display = "Tosses", Min = min, Max = max, IncludeExectionScore = true };
-            StandardTumbling = new ScoringCategory { Name = "standardTumbling", Display = "Standard Tumbling", Min = min, Max = max, IncludeExectionScore = true };
-            RunningTumbling = new ScoringCategory { Name = "runningTumbling", Display = "Running Tumbling", Min = min, Max = max, IncludeExectionScore = true };
-            Jumps = new ScoringCategory { Name = "jumps", Display = "Jumps", Min = min, Max = max, IncludeExectionScore = true };
-            MotionsDance = new ScoringCategory { Name = "motionsDance", Display = "Motions / Dance", Min = min, Max = max, IncludeExectionScore = true };
-            FormationsTransitions = new ScoringCategory { Name = "formationsTransitions", Display = "Formations / Transitions", Min = min, Max = max, IncludeExectionScore = true };
-            Performance = new ScoringCategory { Name = "performance", Display = "Performance", Min = min, Max = max, IncludeExectionScore = false };
-            SkillsCreativity = new ScoringCategory { Name = "skillsCreativity", Display = "Skills Creativity", Min = 0, Max = 5, IncludeExectionScore = false };
-            RoutineCreativity = new ScoringCategory { Name = "routineCreativity", Display = "Routine Creativity", Min = 0, Max = 5, IncludeExectionScore = false };
+            Stunts = new ScoringCategory { Display = "Stunts", Min = min, Max = max, IncludeExectionScore = true };
+            Pyramids = new ScoringCategory { Display = "Pyramids", Min = min, Max = max, IncludeExectionScore = true };
+            Tosses = new ScoringCategory { Display = "Tosses", Min = min, Max = max, IncludeExectionScore = true };
+            StandardTumbling = new ScoringCategory { Display = "Standard Tumbling", Min = min, Max = max, IncludeExectionScore = true };
+            RunningTumbling = new ScoringCategory { Display = "Running Tumbling", Min = min, Max = max, IncludeExectionScore = true };
+            Jumps = new ScoringCategory { Display = "Jumps", Min = min, Max = max, IncludeExectionScore = true };
+            MotionsDance = new ScoringCategory { Display = "Motions / Dance", Min = min, Max = max, IncludeExectionScore = true };
+            FormationsTransitions = new ScoringCategory { Display = "Formations / Transitions", Min = min, Max = max, IncludeExectionScore = true };
+            PerformanceCategory = new ScoringCategory { Display = "Performance", Min = min, Max = max, IncludeExectionScore = false };
+            SkillsCreativity = new ScoringCategory { Display = "Skills Creativity", Min = 0, Max = 5, IncludeExectionScore = false };
+            RoutineCreativity = new ScoringCategory { Display = "Routine Creativity", Min = 0, Max = 5, IncludeExectionScore = false };
         }
     }
 
