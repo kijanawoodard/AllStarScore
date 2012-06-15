@@ -7,7 +7,7 @@
 #scoring_scoreentry .header .judge { font-size: 1.4em;text-align: right;overflow: hidden;padding-right: 2px;}
 #scoring_scoreentry .header .judge span { background-color: #000;color: #fff;padding: 2px;font-weight: bold; }
 
-#scoring_scoreentry .score_entry { width: 50% }
+#scoring_scoreentry .score_entry { width: 50%;float: left;margin-right: 20px;}
 #scoring_scoreentry .score_entry table { text-align: center;width: 100%; }
 #scoring_scoreentry .score_entry th,
 #scoring_scoreentry .score_entry td { padding: 0 4px 2px 0; }
@@ -24,3 +24,12 @@
 #scoring_scoreentry .score_entry button:focus { background-color: #a0ffa0; }
 
 fieldset input[type="text"] { border:initial;margin: 0;padding: 0;}
+
+.scorepad { positionx: absolute; displayx: none; margin-leftx: 45%;text-align: center;overflow: hidden;}
+.scorepad table { border: 1px solid #000; border-bottom: 0; background-color: #dcdcdc; margin-right: 10px; float: left;}
+.scorepad table td { border-bottom: 1px solid #000; padding: 10px 10px; }
+.scorepad table td:hover { background-color: #dcffdc; }
+.scorepad table td:active { background-color: #ffdcdc; }
+.scorepad table td.selected { background-color: #dcdcff; }
+.scorepad_base .execution { display: none; }
+.scorepad_execution .high, .scorepad_execution .high td, .scorepad_execution .high td.selected { background-color: #fff; color: #fff; border: 1px solid #fff; }
