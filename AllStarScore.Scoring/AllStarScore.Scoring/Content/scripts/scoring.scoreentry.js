@@ -37,7 +37,7 @@
     textboxes.change(function () {
         var val = $(this).val();
         var f = formatNumber(parseFloat(val));
-        
+
         if (isNaN(f)) {
             f = 0;
         }
@@ -47,6 +47,7 @@
 
         $(this).val(f);
         $(this).change();
+        return false;
     });
 
     $(textboxes).keydown(function (evt) {
