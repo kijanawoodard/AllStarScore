@@ -28,12 +28,12 @@ namespace AllStarScore.Scoring.Controllers
             var performance =
                 RavenSession
                     .Load<Performance>(request.PerformanceId);
-
+            
             var score =
                 RavenSession
                     .Load<JudgeScore>(request.JudgeScoreId);
 
-            score = score ?? new JudgeScore() {JudgeId = request.JudgeId};
+            score = score ?? new JudgeScore() {JudgeId = request.JudgeId, PerformanceId = request.PerformanceId };
 
             var model = new ScoringScoreEntryViewModel(performance, score, new ScoringMap());
             return View(model);

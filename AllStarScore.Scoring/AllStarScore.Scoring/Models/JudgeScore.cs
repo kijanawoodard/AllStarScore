@@ -4,12 +4,14 @@ namespace AllStarScore.Scoring.Models
 {
     public class JudgeScore
     {
+        public string PerformanceId { get; set; }
         public string JudgeId { get; set; }
-        public Dictionary<string, float> Scores { get; set; }
+
+        public Dictionary<string, ScoreEntry> Scores { get; set; }
 
         public JudgeScore()
         {
-            Scores = new Dictionary<string, float>();
+            Scores = new Dictionary<string, ScoreEntry>();
         }
     }
 
@@ -63,17 +65,20 @@ namespace AllStarScore.Scoring.Models
         }
     }
 
+    public class ScoreEntry
+    {
+        public float Score { get; set; }
+        public float ExecutionScore { get; set; }
+        
+        public float TotalScore { get { return Score + ExecutionScore; } }
+    }
+
     public class ScoringCategory
     {
         public string Display { get; set; }
         public float Min { get; set; }
         public float Max { get; set; }
         public bool IncludeExectionScore { get; set; }
-
-        //        public float Score { get; set; }
-        //        public float ExecutionScore { get; set; }
-        //
-        //        public float TotalScore { get { return Score + ExecutionScore; } }
     }
 
     public interface IScoringDefinition
