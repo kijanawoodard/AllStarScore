@@ -5,7 +5,8 @@
     var textboxes = $("input[type=text]:visible");
     var scorepad = $(".scorepad");
     var active;
-    var highPadSelected = $(".scorepad table.high td:first");
+
+    var highPadSelected = $(".scorepad table.high td").eq($.cookie('scorepad.high')) || $(".scorepad table.high td:first");
     var selectedClass = "selected";
     var lowOnly = false;
 
@@ -94,6 +95,7 @@
         highPadSelected.removeClass(selectedClass);
         highPadSelected = $(this);
         highPadSelected.addClass(selectedClass);
+        $.cookie('scorepad.high', $(this).text(), { expires: 365 });
     });
 
     $(".scorepad table.low td").click(function () {
