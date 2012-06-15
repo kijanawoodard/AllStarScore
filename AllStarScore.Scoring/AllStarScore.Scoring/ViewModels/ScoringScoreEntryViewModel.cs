@@ -1,6 +1,7 @@
 using System.Collections.Generic;
 using AllStarScore.Models;
 using AllStarScore.Scoring.Controllers;
+using AllStarScore.Scoring.Models;
 
 namespace AllStarScore.Scoring.ViewModels
 {
@@ -8,13 +9,13 @@ namespace AllStarScore.Scoring.ViewModels
     {
         public Performance Performance { get; set; }
         public JudgeScore Score { get; set; }
-        public Dictionary<string, string> ScoringMap { get; set; }
+        public ScoringMap ScoringMap { get; set; }
 
         public ScoringScoreEntryViewModel(Performance performance, JudgeScore score, ScoringMap scoringMap)
         {
             Performance = performance;
             Score = score;
-            ScoringMap = scoringMap.All;
+            ScoringMap = scoringMap;
         }
     }
 

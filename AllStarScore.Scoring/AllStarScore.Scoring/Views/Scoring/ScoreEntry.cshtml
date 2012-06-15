@@ -25,7 +25,7 @@
         <div class="judge">Judge <span data-bind="text: panel() + $root.viewModel.score.judgeId()"></span></div>
     </div>
         
-    <!-- ko template: { name: viewModel.getTemplate, data: viewModel.performance } --><!-- /ko -->
+    <!-- ko template: { name: viewModel.getTemplate, data: viewModel.getScoring(viewModel.performance, viewModel.score) } --><!-- /ko -->
     
     <pre data-bind="text: ko.toJSON($root, null, 2)" class="ko_output"></pre>
 </div>
@@ -41,82 +41,29 @@
                 <th class="skills">Skills</th>
                 <th class="base">Base<br />Score</th>
                 <th class="execution">Execution/<br />Technique<br />0 - 1.0</th>
-                <th class="max">Judge<br />Score</th>
+                <th class="judge">Judge<br />Score</th>
+                <th class="min">Min<br />Score</th>
                 <th class="max">Max<br />Score</th>
             </tr>
         </thead>
         <tbody>
+            <!-- ko foreach: $data.map -->
             <tr>
-                <td>Stunts</td>
-                <td></td>
-                <td></td>
-                <td></td>
-                <td>5</td>
+                <td data-bind="text: display"></td>
+                <td><input type="text" data-bind="value: $parent.scores[$data.name()]" /></td>
+                <td><input type="text" data-bind="value: $parent.scores[$data.name() + '_execution'], visible: includeExectionScore" /></td>
+                <td data-bind="text: $parent.scores[$data.name() + '_total']"></td>
+                <td data-bind="text: min"></td>
+                <td data-bind="text: max"></td>
             </tr>
+            <!-- /ko -->
             <tr>
-                <td>Pyramids</td>
-                <td></td>
-                <td></td>
-                <td>5</td>
-            </tr>
-            <tr>
-                <td>Tosses</td>
-                <td></td>
-                <td></td>
-                <td>5</td>
-            </tr>
-            <tr>
-                <td>Standing Tumbling</td>
-                <td></td>
-                <td></td>
-                <td>5</td>
-            </tr>
-            <tr>
-                <td>Running Tumbling</td>
-                <td></td>
-                <td></td>
-                <td>5</td>
-            </tr>
-            <tr>
-                <td>Jumps</td>
-                <td></td>
-                <td></td>
-                <td>5</td>
-            </tr>
-            <tr>
-                <td>Motions / Dance</td>
-                <td></td>
-                <td></td>
-                <td>5</td>
-            </tr>
-            <tr>
-                <td>Formations / Transitions</td>
-                <td></td>
-                <td></td>
-                <td>5</td>
-            </tr>
-            <tr>
-                <td>Performance</td>
-                <td></td>
-                <td class="void"></td>
-                <td>5</td>
-            </tr>
-            <tr>
-                <td>Skills Creativity</td>
-                <td></td>
-                <td class="void"></td>
-                <td>5</td>
-            </tr>
-            <tr>
-                <td>Routine Creativity</td>
-                <td></td>
-                <td class="void"></td>
-                <td>5</td>
-            </tr>
-            <tr>
-                <th colspan="2">Total</th>
-                <th></th>
-                <th>64</th>
+                <th>Total</th>
+                <th data-bind="text: $data.scores['total_base']"></th>
+                <th data-bind="text: $data.scores['total_execution']"></th>
+                <th data-bind="text: $data.scores['grand_total']"></th>
+                <th data-bind="text: $data.scores['min_total']"></th>
+                <th data-bind="text: $data.scores['max_total']"></th>
             </tr>
         </tbody>
     </table>

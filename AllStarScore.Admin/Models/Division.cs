@@ -117,101 +117,6 @@ namespace AllStarScore.Admin.Models
         }
     }
 
-    public class ScoringCategory
-    {
-        public float Min { get; set; }
-        public float Max { get; set; }
-        public bool IncludeExectionScore { get; set; }
-
-        public float Score { get; set; }
-        public float ExecutionScore { get; set; }
-
-        public float TotalScore { get { return Score + ExecutionScore; } }
-    }
-
-    public interface IScoringDefinition
-    {
-//        string Key { get; }
-        IEnumerable<ScoringCategory> ScoringCategories { get; }
-    }
-
-    public abstract class AllStarScoringDefinition : IScoringDefinition
-    {
-        public ScoringCategory Stunts { get; set; }
-        public ScoringCategory Pyramids { get; set; }
-        public ScoringCategory Tosses { get; set; }
-        public ScoringCategory StandardTumbling { get; set; }
-        public ScoringCategory RunningTumbling { get; set; }
-        public ScoringCategory Jumps { get; set; }
-        public ScoringCategory MotionsDance { get; set; }
-        public ScoringCategory FormationsTransitions { get; set; }
-        public ScoringCategory Performance { get; set; }
-        public ScoringCategory SkillsCreativity { get; set; }
-        public ScoringCategory RoutineCreativity { get; set; }
-
-//        public abstract string Key { get; }
-
-        public IEnumerable<ScoringCategory> ScoringCategories
-        {
-            get
-            {
-                yield return Stunts;
-                yield return Pyramids;
-                yield return Tosses;
-                yield return StandardTumbling;
-                yield return RunningTumbling;
-                yield return Jumps;
-                yield return MotionsDance;
-                yield return FormationsTransitions;
-                yield return Performance;
-                yield return SkillsCreativity;
-                yield return RoutineCreativity;
-            }
-        }
-
-        protected AllStarScoringDefinition(int min, int max)
-        {
-            Stunts = new ScoringCategory { Min = min, Max = max, IncludeExectionScore = true };
-            Pyramids = new ScoringCategory { Min = min, Max = max, IncludeExectionScore = true };
-            Tosses = new ScoringCategory { Min = min, Max = max, IncludeExectionScore = true };
-            StandardTumbling = new ScoringCategory { Min = min, Max = max, IncludeExectionScore = true };
-            RunningTumbling = new ScoringCategory { Min = min, Max = max, IncludeExectionScore = true };
-            Jumps = new ScoringCategory { Min = min, Max = max, IncludeExectionScore = true };
-            MotionsDance = new ScoringCategory { Min = min, Max = max, IncludeExectionScore = true };
-            FormationsTransitions = new ScoringCategory { Min = min, Max = max, IncludeExectionScore = true };
-            Performance = new ScoringCategory { Min = min, Max = max, IncludeExectionScore = false };
-            SkillsCreativity = new ScoringCategory { Min = 0, Max = 5, IncludeExectionScore = false };
-            RoutineCreativity = new ScoringCategory { Min = 0, Max = 5, IncludeExectionScore = false };
-        }
-    }
-
-    public class Level1ScoringDefinition : AllStarScoringDefinition
-    {
-//        public override string Key { get { return "scoring-level1"; } }
-
-        public Level1ScoringDefinition() : base(3, 5) { }
-    }
-
-    public class Level2ScoringDefinition : AllStarScoringDefinition
-    {
-//        public override string Key { get { return "scoring-level2"; } }
-
-        public Level2ScoringDefinition() : base(4, 6) { }
-    }
-
-    public class Level3ScoringDefinition : AllStarScoringDefinition
-    {
-        //        public override string Key { get { return "scoring-level2"; } }
-
-        public Level3ScoringDefinition() : base(5, 7) { }
-    }
-
-    public class Foo
-    {
-        public string Template { get; set; }
-        public IScoringDefinition ScoringDefinition { get; set; }
-    }
-
     public class ScoringMap
     {
         public Dictionary<string, string> All 
@@ -236,14 +141,5 @@ namespace AllStarScore.Admin.Models
                        };
             }
         }
-    }
-    public class JudgeScore
-    {
-        public IScoringDefinition Scoring { get; set; }
-//        public string Panel { get; set; }
-//        public string JudgeDesignator { get; set; }
-//        public string JudgeOrdinal { get; set; }
-        public string JudgeId { get; set; }
-        public string PerformanceId { get; set; }
     }
 }

@@ -1,6 +1,6 @@
 using System.Collections.Generic;
 using AllStarScore.Models;
-using AllStarScore.Scoring.Controllers;
+using AllStarScore.Scoring.Models;
 
 namespace AllStarScore.Scoring.ViewModels
 {
@@ -12,7 +12,7 @@ namespace AllStarScore.Scoring.ViewModels
         public ScoringFiveJudgePanelViewModel(Performance performance, ScoringMap scoringMap)
         {
             Performance = performance;
-            ScoringMap = scoringMap.All;
+            ScoringMap = scoringMap.Templates;
         }
     }
 }
