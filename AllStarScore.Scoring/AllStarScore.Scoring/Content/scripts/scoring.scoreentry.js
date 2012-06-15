@@ -10,11 +10,13 @@
     var lowOnly = false;
 
     textboxes.focus(function () {
-        scorepad.show();
-        //        active.removeClass(selectedClass);
+        if (active) {
+            active.removeClass(selectedClass);
+        }
+
         active = $(this);
         active.select();
-        //        active.addClass(selectedClass);
+        active.addClass(selectedClass);
 
         var index = active.parent().index();
         if (index == 1) {
@@ -35,7 +37,7 @@
     } else {
         $(textboxes).keydown(checkForEnter);
     }
-    
+
     function checkForEnter(event) {
         if (event.which != 13) return true;
         moveNext(this);
@@ -54,6 +56,13 @@
             $("button").first().focus();
         }
     }
+
+    $("button").first().focus(function () {
+        if (active) {
+            active.removeClass(selectedClass);
+        }
+        active = undefined;
+    });
 
     $(".scorepad table.high td").click(function () {
         highPadSelected.removeClass(selectedClass);
@@ -75,6 +84,7 @@
     });
 
     textboxes.first().focus();
+    highPadSelected.click();
 });
 
 
@@ -145,7 +155,8 @@ var ScoreEntryViewModel = function (data) {
             scores[key].total = ko.computed(function () {
                 var base = scores[key].base();
                 var execution = category.includeExectionScore() ? scores[key].execution() : 0;
-                return (parseFloat(base) + parseFloat(execution)) || 0;
+                var result = (parseFloat(base) + parseFloat(execution)) || 0;
+                return formatNumber(result);
             });
 
             var executionMax = 1;
@@ -176,7 +187,7 @@ var ScoreEntryViewModel = function (data) {
             for (var key in scores) {
                 memo += parseFloat(scores[key].base() || 0);
             }
-            return memo;
+            return formatNumber(memo);
         });
 
         input.score.totalExecution = ko.computed(function () {
@@ -185,11 +196,12 @@ var ScoreEntryViewModel = function (data) {
                 var execution = scores[key].execution ? scores[key].execution() : 0.0;
                 memo += parseFloat(execution) || 0;
             }
-            return memo;
+            return formatNumber(memo);
         });
 
         input.score.grandTotal = ko.computed(function () {
-            return input.score.totalBase() + input.score.totalExecution();
+            var result = parseFloat(input.score.totalBase()) + parseFloat(input.score.totalExecution());
+            return formatNumber(result);
         });
 
         input.score.isGrandTotalBelowMin = ko.computed(function () {
@@ -213,6 +225,13 @@ var ScoreEntryViewModel = function (data) {
             }, 0);
             return result;
         });
+
+        var formatNumber = function (num) {
+            num *= 10;
+            num = Math.round(num) / 10;
+            num = num.toFixed(1);
+            return num;
+        };
 
     } ()); //define it and run it; a startup script
 };

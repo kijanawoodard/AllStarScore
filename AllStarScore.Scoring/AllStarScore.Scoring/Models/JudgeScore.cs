@@ -20,7 +20,7 @@ namespace AllStarScore.Scoring.Models
         {
             get
             {
-                return Scores.Values.Aggregate(0.0f, (agg, score) => agg + (float)(Math.Truncate(score.Total * 10) / 10));
+                return Scores.Values.Aggregate(0.0f, (agg, score) => agg + score.Total);
             }
         }
 
@@ -107,8 +107,8 @@ namespace AllStarScore.Scoring.Models
     {
         public float Base { get; set; }
         public float Execution { get; set; }
-        
-        public float Total { get { return Base + Execution; } }
+
+        public float Total { get { return (float)(Math.Truncate((Base + Execution) * 10) / 10); } }
     }
 
     public class ScoringCategory
