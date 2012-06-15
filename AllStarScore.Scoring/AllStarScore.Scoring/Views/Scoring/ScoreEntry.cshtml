@@ -1,0 +1,123 @@
+﻿@model AllStarScore.Scoring.ViewModels.ScoringScoreEntryViewModel
+
+@{
+    ViewBag.Title = "Score Entry";
+}
+
+@{ Html.RegisterStylesheet("~/content/styles/scoring.scoreentry.css"); }
+@{ Html.RegisterScript("~/content/scripts/scoring.scoreentry.js"); }
+
+<h2>@ViewBag.Title</h2>
+
+<div id="scoring_scoreentry">
+    <div data-bind="with: viewModel.performance" class="header">
+        <div class="company">Spirit Celebration</div>
+        <div class="description">CGA National Championship Feb 12-13, 2011</div>
+        <div class="name">
+            <span data-bind="text: gymName"></span>
+            <span data-bind="text: teamName"></span>
+        </div>
+        <div class="division">
+            <span data-bind="text: levelName"></span>
+            <span data-bind="text: divisionName"></span>
+        </div>
+        <div data-bind="dateString: performanceTime, datePattern: 'ddd h:mm tt'" class="when"></div>     
+        <div class="judge">Judge <span data-bind="text: panel() + $root.viewModel.score.judgeId()"></span></div>
+    </div>
+        
+    <!-- ko template: { name: viewModel.getTemplate, data: viewModel.performance } --><!-- /ko -->
+    
+    <pre data-bind="text: ko.toJSON($root, null, 2)" class="ko_output"></pre>
+</div>
+
+<script>
+    var scoringScoreEntryData = JSON.parse('@Html.Raw(Model.ToJson())');
+</script>
+
+<script type="text/html" id="all-star-template">
+    <table class="score_entry">
+        <thead>
+            <tr>
+                <th class="skills">Skills</th>
+                <th class="base">Base<br />Score</th>
+                <th class="execution">Execution/<br />Technique<br />0 - 1.0</th>
+                <th class="max">Judge<br />Score</th>
+                <th class="max">Max<br />Score</th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr>
+                <td>Stunts</td>
+                <td></td>
+                <td></td>
+                <td></td>
+                <td>5</td>
+            </tr>
+            <tr>
+                <td>Pyramids</td>
+                <td></td>
+                <td></td>
+                <td>5</td>
+            </tr>
+            <tr>
+                <td>Tosses</td>
+                <td></td>
+                <td></td>
+                <td>5</td>
+            </tr>
+            <tr>
+                <td>Standing Tumbling</td>
+                <td></td>
+                <td></td>
+                <td>5</td>
+            </tr>
+            <tr>
+                <td>Running Tumbling</td>
+                <td></td>
+                <td></td>
+                <td>5</td>
+            </tr>
+            <tr>
+                <td>Jumps</td>
+                <td></td>
+                <td></td>
+                <td>5</td>
+            </tr>
+            <tr>
+                <td>Motions / Dance</td>
+                <td></td>
+                <td></td>
+                <td>5</td>
+            </tr>
+            <tr>
+                <td>Formations / Transitions</td>
+                <td></td>
+                <td></td>
+                <td>5</td>
+            </tr>
+            <tr>
+                <td>Performance</td>
+                <td></td>
+                <td class="void"></td>
+                <td>5</td>
+            </tr>
+            <tr>
+                <td>Skills Creativity</td>
+                <td></td>
+                <td class="void"></td>
+                <td>5</td>
+            </tr>
+            <tr>
+                <td>Routine Creativity</td>
+                <td></td>
+                <td class="void"></td>
+                <td>5</td>
+            </tr>
+            <tr>
+                <th colspan="2">Total</th>
+                <th></th>
+                <th>64</th>
+            </tr>
+        </tbody>
+    </table>
+</script>

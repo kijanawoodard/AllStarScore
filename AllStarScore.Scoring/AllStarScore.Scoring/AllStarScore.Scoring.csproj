@@ -202,6 +202,7 @@
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="ViewModels\PerformanceIndexViewModel.cs" />
     <Compile Include="ViewModels\ScoringFiveJudgePanelViewModel.cs" />
+    <Compile Include="ViewModels\ScoringScoreEntryViewModel.cs" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="Content\images\accent.png" />
@@ -241,10 +242,13 @@
     <Content Include="Content\scripts\lib\underscore-min.js" />
     <Content Include="Content\scripts\performances.index.js" />
     <Content Include="Content\scripts\scoring.fivejudgepanel.js" />
+    <Content Include="Content\scripts\scoring.scoreentry.js" />
     <Content Include="Content\styles\global.css" />
     <Content Include="Content\styles\jquery-ui-timepicker-addon.css" />
+    <Content Include="Content\styles\normalize.css" />
     <Content Include="Content\styles\performances.index.css" />
     <Content Include="Content\styles\scoring.fivejudgepanel.css" />
+    <Content Include="Content\styles\scoring.scoreentry.css" />
     <Content Include="Content\styles\site.css" />
     <Content Include="Content\styles\site.mobile.css" />
     <Content Include="Content\styles\tablesorter.themes\blue\asc.gif" />
@@ -322,6 +326,9 @@
   </ItemGroup>
   <ItemGroup>
     <Content Include="Views\Scoring\FiveJudgePanel.cshtml" />
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="Views\Scoring\ScoreEntry.cshtml" />
   </ItemGroup>
   <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
   <Import Project="$(MSBuildExtensionsPath32)\Microsoft\VisualStudio\v10.0\WebApplications\Microsoft.WebApplication.targets" />

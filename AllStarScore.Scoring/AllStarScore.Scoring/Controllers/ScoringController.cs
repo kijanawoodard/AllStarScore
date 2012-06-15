@@ -10,6 +10,7 @@ namespace AllStarScore.Scoring.Controllers
 {
     public class ScoringController : RavenController
     {
+        [HttpGet]
         public ActionResult FiveJudgePanel(string id)
         {
             var performance =
@@ -18,6 +19,34 @@ namespace AllStarScore.Scoring.Controllers
 
             var model = new ScoringFiveJudgePanelViewModel(performance, new ScoringMap());
             return View(model);
+        }
+
+        [HttpGet]
+        public ActionResult ScoreEntry(ScoreEntryRequestModel request)
+        {
+            var performance =
+                RavenSession
+                    .Load<Performance>(request.PerformanceId);
+
+            var score =
+                RavenSession
+                    .Load<JudgeScore>(request.JudgeScoreId);
+
+            score = score ?? new JudgeScore() {JudgeId = request.JudgeId};
+
+            var model = new ScoringScoreEntryViewModel(performance, score, new ScoringMap());
+            return View(model);
+        }
+    }
+
+    public class JudgeScore
+    {
+        public string JudgeId { get; set; }
+        public Dictionary<string, float> Scores { get; set; }
+
+        public JudgeScore()
+        {
+            Scores = new Dictionary<string, float>();
         }
     }
 
@@ -39,10 +68,9 @@ namespace AllStarScore.Scoring.Controllers
                            {"levels-worlds", "all-star-template"},
                            {"levels-level6", "all-star-template"},
                            {"levels-school", "levels-school-template"},
-                           {"division-jazz", "division-jazz-template"}
-//                           ,
-//                           {"judges-deductions", "judges-deductions-template"},
-//                           {"judges-legalities", "judges-legalities-template"}
+                           {"division-jazz", "division-jazz-template"},
+                           {"judges-deductions", "judges-deductions-template"},
+                           {"judges-legalities", "judges-legalities-template"}
                        };
             }
         }

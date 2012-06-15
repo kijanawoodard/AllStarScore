@@ -22,7 +22,6 @@
             <span data-bind="text: divisionName"></span>
         </div>
         <div data-bind="dateString: performanceTime, datePattern: 'ddd h:mm tt'" class="when"></div>     
-@*        <div class="judge">Judge <span data-bind="text: $parents[2] + $parents[1].designator()"></span></div>*@
     </div>
         
     <!-- ko template: { name: viewModel.getTemplate, data: viewModel.performance } --><!-- /ko -->
@@ -46,12 +45,38 @@
             </tr>
         </tbody>
     </table>
+    
+    <nav data-bind="with: viewModel.performance">
+        <ul>
+            <li>
+                <a href="@Url.Action("ScoreEntry", "Scoring", new { performanceId = @Model.Performance.Id, judgeId = "1"})">
+                    <span data-bind="text: panel"></span>1
+                </a>
+            </li>
+            <li>
+                <a href="@Url.Action("ScoreEntry", "Scoring", new { performanceId = @Model.Performance.Id, judgeId = "2"})">
+                    <span data-bind="text: panel"></span>2
+                </a>
+            </li><li>
+                <a href="@Url.Action("ScoreEntry", "Scoring", new { performanceId = @Model.Performance.Id, judgeId = "3"})">
+                    <span data-bind="text: panel"></span>3
+                </a>
+            </li><li>
+                <a href="@Url.Action("ScoreEntry", "Scoring", new { performanceId = @Model.Performance.Id, judgeId = "D"})">
+                    <span data-bind="text: panel"></span>D
+                </a>
+            </li><li>
+                <a href="@Url.Action("ScoreEntry", "Scoring", new { performanceId = @Model.Performance.Id, judgeId = "L"})">
+                    <span data-bind="text: panel"></span>L
+                </a>
+            </li>
+        </ul>
+    </nav>
     <pre data-bind="text: ko.toJSON($root, null, 2)" class="ko_output"></pre>
 </div>
 
 <script>
     var scoringFiveJudgePanelData = JSON.parse('@Html.Raw(Model.ToJson())');
-    scoringFiveJudgePanelData.scoringUrl = '@Url.Action("FiveJudgePanel", "Scoring")/';
 </script>
 
 <script type="text/html" id="all-star-template">

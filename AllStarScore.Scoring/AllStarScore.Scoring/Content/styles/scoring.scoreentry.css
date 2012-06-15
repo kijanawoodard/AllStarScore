@@ -1,0 +1,8 @@
+﻿#scoring_scoreentry .header { margin-bottom: 5px;overflow: hidden;}
+#scoring_scoreentry .header .company { font-size: 2em;float: left;}
+#scoring_scoreentry .header .description { font-size: 2em;text-align: right;overflow: hidden;}
+#scoring_scoreentry .header .name,
+#scoring_scoreentry .header .when { font-size: 1.4em;float: left;}
+#scoring_scoreentry .header .division,
+#scoring_scoreentry .header .judge { font-size: 1.4em;text-align: right;overflow: hidden;padding-right: 2px;}
+#scoring_scoreentry .header .judge span { background-color: #000;color: #fff;padding: 2px;font-weight: bold; }
