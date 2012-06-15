@@ -7,6 +7,15 @@
 #scoring_scoreentry .header .judge { font-size: 1.4em;text-align: right;overflow: hidden;padding-right: 2px;}
 #scoring_scoreentry .header .judge span { background-color: #000;color: #fff;padding: 2px;font-weight: bold; }
 
-#scoring_scoreentry .score_entry { text-align: center; }
-#scoring_scoreentry .score_entry td { padding: 0;}
+#scoring_scoreentry .score_entry { width: 50% }
+#scoring_scoreentry .score_entry table { text-align: center;width: 100%; }
+#scoring_scoreentry .score_entry th,
+#scoring_scoreentry .score_entry td { padding: 0 4px 2px 0; }
 #scoring_scoreentry .score_entry td:first-child { text-align: left; }
+
+#scoring_scoreentry .score_entry input { text-align: center;width: 75px;}
+#scoring_scoreentry				 .below_min { background-color: #ffa0a0; }
+#scoring_scoreentry				 .above_max { background-color: #a0a0ff; }
+#scoring_scoreentry				 .controls  { margin-top: 5px;float: right;text-align: right;}
+#scoring_scoreentry				 .controls button { margin-top: 8px; }
+#scoring_scoreentry				 .controls span { padding: 4px; }

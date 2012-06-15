@@ -36,7 +36,7 @@ var ScoreEntryViewModel = function (data) {
         var categories = $.map(map, function (category, key) {
             return { key: key, category: category };
         });
-        
+
         return { score: score, map: map, categories: categories };
     };
 
@@ -47,23 +47,45 @@ var ScoreEntryViewModel = function (data) {
 
         $.each(input.map, function (key, category) {
             scores[key] = scores[key] || {};
-            scores[key].base = scores[key].base || ko.observable(0.0);
-            
+            scores[key].base = scores[key].base || ko.observable();
+
             if (category.includeExectionScore()) {
-                scores[key].execution = scores[key].execution || ko.observable(0.0);
+                scores[key].execution = scores[key].execution || ko.observable();
             }
 
             scores[key].total = ko.computed(function () {
                 var base = scores[key].base();
                 var execution = category.includeExectionScore() ? scores[key].execution() : 0;
-                return parseFloat(base) + parseFloat(execution);
+                return (parseFloat(base) + parseFloat(execution)) || 0;
+            });
+
+            var executionMax = 1;
+
+            scores[key].isBaseBelowMin = ko.computed(function () {
+                var base = scores[key].base();
+                return (parseFloat(base) + executionMax) < category.min();
+            });
+
+            scores[key].isBaseAboveMax = ko.computed(function () {
+                var base = scores[key].base();
+                return (parseFloat(base) + executionMax) > category.max();
+            });
+
+            scores[key].isExecutionBelowMin = ko.computed(function () {
+                var execution = category.includeExectionScore() ? scores[key].execution() : 0;
+                return parseFloat(execution) < 0;
+            });
+
+            scores[key].isExecutionAboveMax = ko.computed(function () {
+                var execution = category.includeExectionScore() ? scores[key].execution() : 0;
+                return parseFloat(execution) > executionMax;
             });
         });
 
         input.score.totalBase = ko.computed(function () {
             var memo = 0.0;
             for (var key in scores) {
-                memo += parseFloat(scores[key].base());
+                memo += parseFloat(scores[key].base() || 0);
             }
             return memo;
         });
@@ -72,7 +94,7 @@ var ScoreEntryViewModel = function (data) {
             var memo = 0.0;
             for (var key in scores) {
                 var execution = scores[key].execution ? scores[key].execution() : 0.0;
-                memo += parseFloat(execution);
+                memo += parseFloat(execution) || 0;
             }
             return memo;
         });
@@ -81,6 +103,14 @@ var ScoreEntryViewModel = function (data) {
             return input.score.totalBase() + input.score.totalExecution();
         });
 
+        input.score.isGrandTotalBelowMin = ko.computed(function () {
+            return input.score.grandTotal() > 0 && input.score.grandTotal() < input.score.minTotal();
+        });
+
+        input.score.isGrandTotalAboveMax = ko.computed(function () {
+            return input.score.grandTotal() > 0 && input.score.grandTotal() > input.score.maxTotal();
+        });
+        
         input.score.minTotal = ko.computed(function () {
             var result = _.reduce(input.map, function (memo, category) {
                 return memo + category.min();
