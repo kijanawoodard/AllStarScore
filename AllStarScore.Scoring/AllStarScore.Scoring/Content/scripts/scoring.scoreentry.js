@@ -10,6 +10,8 @@
     var lowOnly = false;
 
     textboxes.focus(function () {
+        scorepad.show();
+
         if (active) {
             active.removeClass(selectedClass);
         }
@@ -32,23 +34,46 @@
 
     });
 
-    if ($.browser.mozilla) {
-        $(textboxes).keypress(checkForEnter);
-    } else {
-        $(textboxes).keydown(checkForEnter);
-    }
+    textboxes.change(function () {
+        var val = $(this).val();
+        var f = formatNumber(parseFloat(val));
+        
+        if (isNaN(f)) {
+            f = 0;
+        }
+        else if (f == val) {
+            return true;
+        }
 
-    function checkForEnter(event) {
-        if (event.which != 13) return true;
-        moveNext(this);
-        event.preventDefault();
-        return false;
-    }
+        $(this).val(f);
+        $(this).change();
+    });
+
+    $(textboxes).keydown(function (evt) {
+        var event = evt || window.event;
+        var key = event.keyCode || event.which;
+
+        //move next on enter
+        if (key == 13) {
+            moveNext(this);
+            event.preventDefault();
+            return false;
+        }
+        return (event.ctrlKey || event.altKey
+            || (47 < key && key < 58 && event.shiftKey == false)
+            || (95 < key && key < 106)
+            || (key == 110)
+            || (key == 190)
+            || (key == 8)
+            || (key == 9)
+            || (key > 34 && key < 40)
+            || (key == 46));
+    });
 
     function moveNext(box) {
         var nextBoxNumber = textboxes.index(box) + 1;
         if (nextBoxNumber < textboxes.length) {
-            var nextBox = textboxes[nextBoxNumber]
+            var nextBox = textboxes[nextBoxNumber];
             nextBox.focus();
             nextBox.select();
         }
@@ -226,17 +251,17 @@ var ScoreEntryViewModel = function (data) {
             return result;
         });
 
-        var formatNumber = function (num) {
-            num *= 10;
-            num = Math.round(num) / 10;
-            num = num.toFixed(1);
-            return num;
-        };
-
     } ()); //define it and run it; a startup script
 };
 
 var PerformanceModel = function (data) {
     data.performanceTime = new Date(data.performanceTime);
     ko.mapping.fromJS(data, mapping, this);
+};
+
+var formatNumber = function (num) {
+    num *= 10;
+    num = Math.round(num) / 10;
+    num = num.toFixed(1);
+    return num;
 };
