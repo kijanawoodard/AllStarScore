@@ -9,8 +9,8 @@
 
 <h2>@ViewBag.Title</h2>
 
-<div id="scoring_fivejudgepanel">
-    <div data-bind="with: viewModel.performance" class="header">
+<div id="scoring_fivejudgepanel" data-bind="with: viewModel">
+    <div data-bind="with: performance" class="header">
         <div class="company">Spirit Celebration</div>
         <div class="description">CGA National Championship Feb 12-13, 2011</div>
         <div class="name">
@@ -24,9 +24,20 @@
         <div data-bind="dateString: performanceTime, datePattern: 'ddd h:mm tt'" class="when"></div>     
     </div>
         
-    <!-- ko template: { name: viewModel.getTemplate, data: viewModel.getScoring(viewModel.performance, viewModel.judges) } --><!-- /ko -->
+    <!-- ko template: { name: getTemplate, data: getScoring(performance, judges) } --><!-- /ko -->
     
-    <div class="final_score" data-bind="with: viewModel">
+    <form action='@Url.Action("MarkTeamDidCompete", "Scoring")' method="post" class="did_compete"  data-bind="visible: performance.didNotCompete">
+        <fieldset>
+            <legend>Did Not Compete</legend>
+            <div class="validation-summary-errors"></div>
+            <p>This team has been marked as<br />"Did Not Compete".</p>
+            <p>If the team is going to be able to compete, please click the button below.</p>
+
+            <button data-bind="click: markTeamDidCompete">The Team will Compete</button>
+        </fieldset>
+    </form>
+
+    <div class="final_score" data-bind="visible: performance.didCompete">
         <table>
             <tbody>
                 <tr>
@@ -47,35 +58,40 @@
                 </tr>
             </tbody>
         </table>
-        <button data-bind="visible: judges().length != 0">Did Not Compete</button>
-        <button data-bind="visible: judges().length != 5">Complete</button>
+        
+        <form action='@Url.Action("MarkTeamDidNotCompete", "Scoring")' method="post" class="did_not_compete" data-bind="visible: judges().length == 0">
+            <fieldset>
+                <legend>Did Not Compete</legend>
+                <div class="validation-summary-errors"></div>
+                <button data-bind="click: markTeamDidNotCompete">The Team did not Compete</button>
+            </fieldset>
+        </form>
+        
+        <form action='@Url.Action("MarkTeamScoringComplete", "Scoring")' method="post" class="scoring_complete" data-bind="visible: judges().length == 5 && performance.scoringIsNotComplete()">
+            <fieldset>
+                <legend>Scoring Complete</legend>
+                <div class="validation-summary-errors"></div>
+                <button data-bind="click: markTeamScoringCompete">Scoring Complete</button>
+            </fieldset>
+        </form>
     </div>
+    
+    <form action='@Url.Action("MarkTeamScoringOpen", "Scoring")' method="post" class="scoring_open"  data-bind="visible: performance.scoringComplete">
+        <fieldset>
+            <legend>re-open Scoring</legend>
+            <div class="validation-summary-errors"></div>
+            <p>This team has been marked as<br />"Scoring Complete".</p>
+            <p>If the score needs to be adjusted, please click the button below.</p>
 
-    <nav data-bind="with: viewModel.performance, visible: !viewModel.performance.scoringComplete()">
-        <ul>
+            <button data-bind="click: markTeamScoringOpen">Re-Open Scoring</button>
+        </fieldset>
+    </form>
+
+    <nav data-bind="with: performance, visible: performance.scoringIsNotComplete() && performance.didCompete()">
+        <ul data-bind="foreach: ['1', '2', '3', 'D', 'L']">
             <li>
-                <a href="@Url.Action("ScoreEntry", "Scoring", new { performanceId = @Model.Performance.Id, judgeId = "1"})">
-                    <span data-bind="text: panel"></span>1
-                </a>
-            </li>
-            <li>
-                <a href="@Url.Action("ScoreEntry", "Scoring", new { performanceId = @Model.Performance.Id, judgeId = "2"})">
-                    <span data-bind="text: panel"></span>2
-                </a>
-            </li>
-            <li>
-                <a href="@Url.Action("ScoreEntry", "Scoring", new { performanceId = @Model.Performance.Id, judgeId = "3"})">
-                    <span data-bind="text: panel"></span>3
-                </a>
-            </li>
-            <li>
-                <a href="@Url.Action("ScoreEntry", "Scoring", new { performanceId = @Model.Performance.Id, judgeId = "D"})">
-                    <span data-bind="text: panel"></span>D
-                </a>
-            </li>
-            <li>
-                <a href="@Url.Action("ScoreEntry", "Scoring", new { performanceId = @Model.Performance.Id, judgeId = "L"})">
-                    <span data-bind="text: panel"></span>L
+                <a data-bind="attr: { href: $root.viewModel.scoreEntryUrl().replace('REPLACE_THIS', $data) }">
+                    <span data-bind="text: $parent.panel"></span><span data-bind="text: $data"></span>
                 </a>
             </li>
         </ul>
@@ -86,6 +102,7 @@
 
 <script>
     var scoringFiveJudgePanelData = JSON.parse('@Html.Raw(Model.ToJson())');
+    scoringFiveJudgePanelData.scoreEntryUrl = '@Url.Action("ScoreEntry", "Scoring", new { performanceId = @Model.Performance.Id, judgeId = "REPLACE_THIS"})';
 </script>
 
 <script type="text/html" id="all_star_template">

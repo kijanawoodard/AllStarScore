@@ -73,5 +73,73 @@ namespace AllStarScore.Scoring.Controllers
                     return new JsonDotNetResult(score);
                 });
         }
+
+        [HttpPost]
+        public JsonDotNetResult MarkTeamDidNotCompete(MarkTeamDidNotCompeteCommand command)
+        {
+            return Execute(
+                action: () =>
+                {
+                    var performance =
+                        RavenSession
+                            .Load<Performance>(command.PerformanceId);
+
+                    //hmmm - shared model coming back to bite
+                    performance.DidNotCompete = true;
+
+                    return new JsonDotNetResult(true);
+                });
+        }
+
+        [HttpPost]
+        public JsonDotNetResult MarkTeamDidCompete(MarkTeamDidCompeteCommand command)
+        {
+            return Execute(
+                action: () =>
+                {
+                    var performance =
+                        RavenSession
+                            .Load<Performance>(command.PerformanceId);
+
+                    //hmmm - shared model coming back to bite
+                    performance.DidNotCompete = false;
+
+                    return new JsonDotNetResult(false);
+                });
+        }
+
+        [HttpPost]
+        public JsonDotNetResult MarkTeamScoringComplete(MarkTeamScoringCompleteCommand command)
+        {
+            return Execute(
+                action: () =>
+                {
+                    var performance =
+                        RavenSession
+                            .Load<Performance>(command.PerformanceId);
+
+                    //hmmm - shared model coming back to bite
+                    performance.ScoringComplete = true;
+
+                    return new JsonDotNetResult(true);
+                });
+        }
+
+        [HttpPost]
+        public JsonDotNetResult MarkTeamScoringOpen(MarkTeamScoringOpenCommand command)
+        {
+            return Execute(
+                action: () =>
+                {
+                    var performance =
+                        RavenSession
+                            .Load<Performance>(command.PerformanceId);
+
+                    //hmmm - shared model coming back to bite
+                    performance.ScoringComplete = false;
+
+                    return new JsonDotNetResult(true);
+                });
+        }
     }
 }

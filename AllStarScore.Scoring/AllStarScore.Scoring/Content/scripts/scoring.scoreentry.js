@@ -165,7 +165,7 @@ var ScoreEntryViewModel = function (data) {
 
         //we will save scorepad settings in a cookie; establish the cookie name
         scorepad_cookie_name += self.getScorePanelCookieName();
-        
+
     } ()); //define it and run it; a startup script
 };
 
