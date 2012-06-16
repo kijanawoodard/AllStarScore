@@ -1,121 +1,7 @@
-﻿$(document).ready(function () {
+﻿$(document).ready(function() {
     var viewModel = ko.mapping.fromJS({ viewModel: window.scoringScoreEntryData }, mapping);
     ko.applyBindings(viewModel, document.getElementById('scoring_scoreentry'));
-
-    var textboxes = $("input[type=text]:visible");
-    var scorepad = $(".scorepad");
-    var active;
-
-    var highPadSelected = $(".scorepad table.high td").eq($.cookie('scorepad.high')) || $(".scorepad table.high td:first");
-    var selectedClass = "selected";
-    var lowOnly = false;
-
-    textboxes.focus(function () {
-        scorepad.show();
-
-        if (active) {
-            active.removeClass(selectedClass);
-        }
-
-        active = $(this);
-        active.select();
-        active.addClass(selectedClass);
-
-        var index = active.parent().index();
-        if (index == 1) {
-            scorepad.addClass("scorepad_base");
-            scorepad.removeClass("scorepad_execution");
-            lowOnly = false;
-        }
-        else if (index == 2) {
-            scorepad.addClass("scorepad_execution");
-            scorepad.removeClass("scorepad_base");
-            lowOnly = true;
-        }
-
-    });
-
-    textboxes.change(function () {
-        var val = $(this).val();
-        var f = formatNumber(parseFloat(val));
-
-        if (isNaN(f)) {
-            f = 0;
-        }
-        else if (f == val) {
-            return true;
-        }
-
-        $(this).val(f);
-        $(this).change();
-        return false;
-    });
-
-    $(textboxes).keydown(function (evt) {
-        var event = evt || window.event;
-        var key = event.keyCode || event.which;
-
-        //move next on enter
-        if (key == 13) {
-            moveNext(this);
-            event.preventDefault();
-            return false;
-        }
-        return (event.ctrlKey || event.altKey
-            || (47 < key && key < 58 && event.shiftKey == false)
-            || (95 < key && key < 106)
-            || (key == 110)
-            || (key == 190)
-            || (key == 8)
-            || (key == 9)
-            || (key > 34 && key < 40)
-            || (key == 46));
-    });
-
-    function moveNext(box) {
-        var nextBoxNumber = textboxes.index(box) + 1;
-        if (nextBoxNumber < textboxes.length) {
-            var nextBox = textboxes[nextBoxNumber];
-            nextBox.focus();
-            nextBox.select();
-        }
-        else {
-            $("button").first().focus();
-        }
-    }
-
-    $("button").first().focus(function () {
-        if (active) {
-            active.removeClass(selectedClass);
-        }
-        active = undefined;
-    });
-
-    $(".scorepad table.high td").click(function () {
-        highPadSelected.removeClass(selectedClass);
-        highPadSelected = $(this);
-        highPadSelected.addClass(selectedClass);
-        $.cookie('scorepad.high', $(this).text(), { expires: 365 });
-    });
-
-    $(".scorepad table.low td").click(function () {
-        var low = $(this).text();
-        var high = highPadSelected.text();
-        var value = high + low;
-
-        if (lowOnly)
-            value = "0" + low; //cheap hack
-
-        active.val(value);
-        active.change();
-        moveNext(active);
-    });
-
-    textboxes.first().focus();
-    highPadSelected.click();
 });
-
-
 
 var mapping = {
     'viewModel': {
@@ -268,3 +154,118 @@ var formatNumber = function (num) {
     num = num.toFixed(1);
     return num;
 };
+
+//score pad and textbox entry stuff ported from old code. convert to knockout? maybe, if we add a 2nd visible score pad;
+$(document).ready(function () {
+    var textboxes = $("input[type=text]:visible");
+    var scorepad = $(".scorepad");
+    var active;
+
+    var highPadSelected = $(".scorepad table.high td").eq($.cookie('scorepad.high')) || $(".scorepad table.high td:first");
+    var selectedClass = "selected";
+    var lowOnly = false;
+
+    textboxes.focus(function () {
+        scorepad.show();
+
+        if (active) {
+            active.removeClass(selectedClass);
+        }
+
+        active = $(this);
+        active.select();
+        active.addClass(selectedClass);
+
+        var index = active.parent().index();
+        if (index == 1) {
+            scorepad.addClass("scorepad_base");
+            scorepad.removeClass("scorepad_execution");
+            lowOnly = false;
+        }
+        else if (index == 2) {
+            scorepad.addClass("scorepad_execution");
+            scorepad.removeClass("scorepad_base");
+            lowOnly = true;
+        }
+
+    });
+
+    textboxes.change(function () {
+        var val = $(this).val();
+        var f = formatNumber(parseFloat(val));
+
+        if (isNaN(f)) {
+            f = 0;
+        }
+        else if (f == val) {
+            return true;
+        }
+
+        $(this).val(f);
+        $(this).change();
+        return false;
+    });
+
+    $(textboxes).keydown(function (evt) {
+        var event = evt || window.event;
+        var key = event.keyCode || event.which;
+
+        //move next on enter
+        if (key == 13) {
+            moveNext(this);
+            event.preventDefault();
+            return false;
+        }
+        return (event.ctrlKey || event.altKey
+            || (47 < key && key < 58 && event.shiftKey == false)
+            || (95 < key && key < 106)
+            || (key == 110)
+            || (key == 190)
+            || (key == 8)
+            || (key == 9)
+            || (key > 34 && key < 40)
+            || (key == 46));
+    });
+
+    function moveNext(box) {
+        var nextBoxNumber = textboxes.index(box) + 1;
+        if (nextBoxNumber < textboxes.length) {
+            var nextBox = textboxes[nextBoxNumber];
+            nextBox.focus();
+            nextBox.select();
+        }
+        else {
+            $("button").first().focus();
+        }
+    }
+
+    $("button").first().focus(function () {
+        if (active) {
+            active.removeClass(selectedClass);
+        }
+        active = undefined;
+    });
+
+    $(".scorepad table.high td").click(function () {
+        highPadSelected.removeClass(selectedClass);
+        highPadSelected = $(this);
+        highPadSelected.addClass(selectedClass);
+        $.cookie('scorepad.high', $(this).text(), { expires: 365 });
+    });
+
+    $(".scorepad table.low td").click(function () {
+        var low = $(this).text();
+        var high = highPadSelected.text();
+        var value = high + low;
+
+        if (lowOnly)
+            value = "0" + low; //cheap hack
+
+        active.val(value);
+        active.change();
+        moveNext(active);
+    });
+
+    textboxes.first().focus();
+    highPadSelected.click();
+});
