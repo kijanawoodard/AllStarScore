@@ -24,7 +24,7 @@ var ScoreEntryViewModel = function (data) {
         //not sure about this; but move ahead for now; refactor later
         if (id == 'D')
             return 'judges-deductions';
-        else if (id == 'D')
+        else if (id == 'L')
             return 'judges-legalities';
         else
             return 'judges-panel';
