@@ -11,7 +11,8 @@
 #scoring_fivejudgepanel .score_summary td { min-width: 45px;padding: 0;}
 #scoring_fivejudgepanel .score_summary td:first-child { text-align: left; }
 
-#scoring_fivejudgepanel .final_score { overflow: hidden;text-align: right;border-collapse: collapse;}
+#scoring_fivejudgepanel .final_score {float: left;text-align: right;}
+#scoring_fivejudgepanel .final_score table {text-align: right;border-collapse: collapse;}
 #scoring_fivejudgepanel .final_score td { min-width: 100px; padding-right: 2px;}
 #scoring_fivejudgepanel .final_score th { font-weight: normal; } 
 #scoring_fivejudgepanel .final_score tr:last-child th,
@@ -19,3 +20,7 @@
 #scoring_fivejudgepanel .final_score tr:last-child td { padding-right: 0px; } 
 #scoring_fivejudgepanel .final_score tr:last-child th { font-weight: bold; } 
 #scoring_fivejudgepanel .final_score tr:last-child { font-size: 2em; } 
+
+#scoring_fivejudgepanel nav { overflow: hidden;}
+#scoring_fivejudgepanel nav li,
+#scoring_fivejudgepanel nav li a{ padding: 10px; font-size: 1.3em}

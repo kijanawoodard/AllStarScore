@@ -18,6 +18,11 @@ var mapping = {
 
 var FiveJudgePanelViewModel = function (data) {
     var self = this;
+
+    data.judges = _.sortBy(data.judges, function (judge) {
+        return judge.judgeId;
+    });
+
     ko.mapping.fromJS(data, mapping, this);
 
     self.getTemplate = function () {

@@ -89,19 +89,20 @@ namespace AllStarScore.Scoring.Models
             {
                 return new Dictionary<string, string>()
                        {
-                           {"levels-level1", "all-star-template"},
-                           {"levels-level2", "all-star-template"},
-                           {"levels-level3", "all-star-template"},
-                           {"levels-level4", "lall-star-template"},
-                           {"division-42", "all-star-template"},
-                           {"levels-level5", "all-star-template"},
-                           {"levels-recreation", "all-star-template"},
-                           {"levels-worlds", "all-star-template"},
-                           {"levels-level6", "all-star-template"},
-                           {"levels-school", "levels-school-template"},
-                           {"division-jazz", "division-jazz-template"},
-                           {"judges-deductions", "judges-deductions-template"},
-                           {"judges-legalities", "judges-legalities-template"}
+                           {"levels-level1", "all_star_template"},
+                           {"levels-level2", "all_star_template"},
+                           {"levels-level3", "all_star_template"},
+                           {"levels-level4", "lall_star_template"},
+                           {"division-42", "all_star_template"},
+                           {"levels-level5", "all_star_template"},
+                           {"levels-level6", "all_star_template"},
+                           {"levels-worlds", "all_star_template"},
+                           {"levels-recreation", "all_star_template"},
+                           {"levels-school", "single_column_template"},
+                           {"levels-dance", "single_column_template"},
+                           {"division-jazz", "single_column_template"},
+                           {"judges-deductions", "single_value_template"},
+                           {"judges-legalities", "single_value_template"}
                        };
             }
         }
@@ -114,7 +115,7 @@ namespace AllStarScore.Scoring.Models
                        {
                            {"levels-level1", new Level1ScoringDefinition()},
                            {"levels-level2", new Level2ScoringDefinition()},
-                           {"levels-level3", new Level3ScoringDefinition()}
+                           {"levels-level3", new Level3ScoringDefinition()},
 //                           ,
 //                           {"levels-level4", "lall-star-template"},
 //                           {"division-42", "all-star-template"},
@@ -124,8 +125,8 @@ namespace AllStarScore.Scoring.Models
 //                           {"levels-level6", "all-star-template"},
 //                           {"levels-school", "levels-school-template"},
 //                           {"division-jazz", "division-jazz-template"},
-//                           {"judges-deductions", "judges-deductions-template"},
-//                           {"judges-legalities", "judges-legalities-template"}
+                           {"judges-deductions", new DeductionsScoringDefinition()},
+                           {"judges-legalities", new LegalitiesScoringDefinition()}
                        };
             }
         }
@@ -148,11 +149,7 @@ namespace AllStarScore.Scoring.Models
         public bool IncludeExectionScore { get; set; }
     }
 
-    public interface IScoringDefinition
-    {
-        //        string Key { get; }
-//        IEnumerable<ScoringCategory> ScoringCategories { get; }
-    }
+    public interface IScoringDefinition { }
 
     public abstract class AllStarScoringDefinition : IScoringDefinition
     {
@@ -167,26 +164,6 @@ namespace AllStarScore.Scoring.Models
         public ScoringCategory PerformanceCategory { get; set; }
         public ScoringCategory SkillsCreativity { get; set; }
         public ScoringCategory RoutineCreativity { get; set; }
-
-        //        public abstract string Key { get; }
-
-//        public IEnumerable<ScoringCategory> All
-//        {
-//            get
-//            {
-//                yield return Stunts;
-//                yield return Pyramids;
-//                yield return Tosses;
-//                yield return StandardTumbling;
-//                yield return RunningTumbling;
-//                yield return Jumps;
-//                yield return MotionsDance;
-//                yield return FormationsTransitions;
-//                yield return Performance;
-//                yield return SkillsCreativity;
-//                yield return RoutineCreativity;
-//            }
-//        }
 
         protected AllStarScoringDefinition(int min, int max)
         {
@@ -206,22 +183,36 @@ namespace AllStarScore.Scoring.Models
 
     public class Level1ScoringDefinition : AllStarScoringDefinition
     {
-        //        public override string Key { get { return "scoring-level1"; } }
-
         public Level1ScoringDefinition() : base(3, 5) { }
     }
 
     public class Level2ScoringDefinition : AllStarScoringDefinition
     {
-        //        public override string Key { get { return "scoring-level2"; } }
-
         public Level2ScoringDefinition() : base(4, 6) { }
     }
 
     public class Level3ScoringDefinition : AllStarScoringDefinition
     {
-        //        public override string Key { get { return "scoring-level2"; } }
-
         public Level3ScoringDefinition() : base(5, 7) { }
+    }
+
+    public class DeductionsScoringDefinition : IScoringDefinition
+    {
+        public ScoringCategory Deductions { get; set; }
+
+        public DeductionsScoringDefinition()
+        {
+            Deductions = new ScoringCategory() { Display = "Deductions", Min = 0, Max = 20, IncludeExectionScore = false};
+        }
+    }
+
+    public class LegalitiesScoringDefinition : IScoringDefinition
+    {
+        public ScoringCategory Legalities { get; set; }
+
+        public LegalitiesScoringDefinition()
+        {
+            Legalities = new ScoringCategory() { Display = "Legalities", Min = 0, Max = 20, IncludeExectionScore = false };
+        }
     }
 }

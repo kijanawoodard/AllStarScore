@@ -25,29 +25,33 @@
     </div>
         
     <!-- ko template: { name: viewModel.getTemplate, data: viewModel.getScoring(viewModel.performance, viewModel.judges) } --><!-- /ko -->
-
-    <table class="final_score">
-        <tbody data-bind="with: viewModel">
-            <tr>
-                <th>Average</th>
-                <td data-bind="text: calculator.averagePanelScore().toFixed(3)"></td>
-            </tr>
-            <tr>
-                <th>Point Deductions</th>
-                <td data-bind="text: judges()[3] && judges()[3].grandTotal">1</td>
-            </tr>
-            <tr>
-                <th>Safety Deductions</th>
-                <td data-bind="text: judges()[4] && judges()[4].grandTotal">1</td>
-            </tr>
-            <tr>
-                <th>Final Score</th>
-                <td data-bind="text: calculator.finalScore().toFixed(3)"></td>
-            </tr>
-        </tbody>
-    </table>
     
-    <nav data-bind="with: viewModel.performance">
+    <div class="final_score" data-bind="with: viewModel">
+        <table>
+            <tbody>
+                <tr>
+                    <th>Average</th>
+                    <td data-bind="text: calculator.averagePanelScore().toFixed(3)"></td>
+                </tr>
+                <tr>
+                    <th>Point Deductions</th>
+                    <td data-bind="text: judges()[3] && judges()[3].grandTotal">1</td>
+                </tr>
+                <tr>
+                    <th>Safety Deductions</th>
+                    <td data-bind="text: judges()[4] && judges()[4].grandTotal">1</td>
+                </tr>
+                <tr>
+                    <th>Final Score</th>
+                    <td data-bind="text: calculator.finalScore().toFixed(3)"></td>
+                </tr>
+            </tbody>
+        </table>
+        <button data-bind="visible: judges().length != 0">Did Not Compete</button>
+        <button data-bind="visible: judges().length != 5">Complete</button>
+    </div>
+
+    <nav data-bind="with: viewModel.performance, visible: !viewModel.performance.scoringComplete()">
         <ul>
             <li>
                 <a href="@Url.Action("ScoreEntry", "Scoring", new { performanceId = @Model.Performance.Id, judgeId = "1"})">
@@ -84,7 +88,7 @@
     var scoringFiveJudgePanelData = JSON.parse('@Html.Raw(Model.ToJson())');
 </script>
 
-<script type="text/html" id="all-star-template">
+<script type="text/html" id="all_star_template">
     <table class="score_summary">
         <thead>
             <tr data-bind="with: performance.panel">

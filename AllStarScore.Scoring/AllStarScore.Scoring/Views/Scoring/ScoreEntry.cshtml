@@ -29,8 +29,17 @@
         <fieldset>
             <legend>Score Entry</legend>
             <div class="validation-summary-errors"></div>
-            <!-- ko template: { name: viewModel.getTemplate, data: viewModel.getScoring(viewModel.performance, viewModel.score) } --><!-- /ko -->
             
+            <div class="score_entry" data-bind="ko_cssClass: viewModel.getTemplate">
+                <!-- ko template: { name: viewModel.getTemplate, data: viewModel.getScoring(viewModel.performance, viewModel.score) } --><!-- /ko -->
+                <div class="controls">
+                    <span class="below_min" data-bind="visible: viewModel.score.isGrandTotalBelowMin">The total score is below the minimum</span>
+                    <span class="above_max" data-bind="visible: viewModel.score.isGrandTotalAboveMax">The total score is above the maximum</span>
+                    <br/>
+                    <button data-bind="click: viewModel.save">Save</button>
+                </div>        
+            </div>
+
             <div class="scorepad">
                 <table class="high">
                     <tr><td>0</td></tr>
@@ -72,46 +81,56 @@
     var scoringScoreEntryData = JSON.parse('@Html.Raw(Model.ToJson())');
 </script>
 
-<script type="text/html" id="all-star-template">
-    <div class="score_entry">
-        <table>
-            <thead>
-                <tr>
-                    <th class="skills">Skills</th>
-                    <th class="base">Base<br />Score</th>
-                    <th class="execution">Execution<br />Technique<br />0 - 1.0</th>
-                    <th class="judge">Judge<br />Score</th>
-                    <th class="min">Min<br />Score</th>
-                    <th class="max">Max<br />Score</th>
-                </tr>
-            </thead>
-            <tbody>
-                <!-- ko foreach: $data.categories -->
-                <tr>
-                    <td data-bind="text: $data.category.display"></td>
-                    <td><input type="text" data-bind="value: $parent.score.scores[$data.key].base, css: { below_min:  $parent.score.scores[$data.key].isBaseBelowMin,  above_max:  $parent.score.scores[$data.key].isBaseAboveMax}" /></td>
-                    <td><input type="text" data-bind="value: $parent.score.scores[$data.key].execution, visible: $data.category.includeExectionScore, css: { below_min:  $parent.score.scores[$data.key].isExecutionBelowMin,  above_max:  $parent.score.scores[$data.key].isExecutionAboveMax}" /></td>
-                    <td data-bind="text: $parent.score.scores[$data.key].total"></td>
-                    <td data-bind="text: $data.category.min"></td>
-                    <td data-bind="text: $data.category.max"></td>
-                </tr>
-                <!-- /ko -->
-                <tr>
-                    <th>Total</th>
-                    <th data-bind="text: $data.score.totalBase"></th>
-                    <th data-bind="text: $data.score.totalExecution"></th>
-                    <th data-bind="text: $data.score.grandTotal"></th>
-                    <th data-bind="text: $data.score.minTotal"></th>
-                    <th data-bind="text: $data.score.maxTotal"></th>
-                </tr>
-            </tbody>
-        </table>
-        
-        <div class="controls">
-            <span class="below_min" data-bind="visible: $data.score.isGrandTotalBelowMin">The total score is below the minimum</span>
-            <span class="above_max" data-bind="visible: $data.score.isGrandTotalAboveMax">The total score is above the maximum</span>
-            <br/>
-            <button data-bind="click: $root.viewModel.save">Save</button>
-        </div>        
-    </div>
+<script type="text/html" id="all_star_template">
+    <table>
+        <thead>
+            <tr>
+                <th class="skills">Skills</th>
+                <th class="base">Base<br />Score</th>
+                <th class="execution">Execution<br />Technique<br />0 - 1.0</th>
+                <th class="judge">Judge<br />Score</th>
+                <th class="min">Min<br />Score</th>
+                <th class="max">Max<br />Score</th>
+            </tr>
+        </thead>
+        <tbody>
+            <!-- ko foreach: $data.categories -->
+            <tr>
+                <td data-bind="text: $data.category.display"></td>
+                <td><input type="text" data-bind="value: $parent.score.scores[$data.key].base, css: { below_min:  $parent.score.scores[$data.key].isBaseBelowMin,  above_max:  $parent.score.scores[$data.key].isBaseAboveMax}" /></td>
+                <td><input type="text" data-bind="value: $parent.score.scores[$data.key].execution, visible: $data.category.includeExectionScore, css: { below_min:  $parent.score.scores[$data.key].isExecutionBelowMin,  above_max:  $parent.score.scores[$data.key].isExecutionAboveMax}" /></td>
+                <td data-bind="text: $parent.score.scores[$data.key].total"></td>
+                <td data-bind="text: $data.category.min"></td>
+                <td data-bind="text: $data.category.max"></td>
+            </tr>
+            <!-- /ko -->
+            <tr>
+                <th>Total</th>
+                <th data-bind="text: $data.score.totalBase"></th>
+                <th data-bind="text: $data.score.totalExecution"></th>
+                <th data-bind="text: $data.score.grandTotal"></th>
+                <th data-bind="text: $data.score.minTotal"></th>
+                <th data-bind="text: $data.score.maxTotal"></th>
+            </tr>
+        </tbody>
+    </table>
+</script>
+
+<script type="text/html" id="single_value_template">
+    <table>
+        <thead>
+            <tr>
+                <th class="skills">Category</th>
+                <th class="judge">Judge<br />Score</th>
+            </tr>
+        </thead>
+        <tbody>
+            <!-- ko foreach: $data.categories -->
+            <tr>
+                <td data-bind="text: $data.category.display"></td>
+                <td><input type="text" data-bind="value: $parent.score.scores[$data.key].base, css: { below_min:  $parent.score.scores[$data.key].isBaseBelowMin,  above_max:  $parent.score.scores[$data.key].isBaseAboveMax}" /></td>
+            </tr>
+            <!-- /ko -->
+        </tbody>
+    </table>
 </script>

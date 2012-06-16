@@ -20,17 +20,30 @@ var ScoreEntryViewModel = function (data) {
     var self = this;
     ko.mapping.fromJS(data, mapping, this);
 
+    var getJudgeKey = function (id) {
+        //not sure about this; but move ahead for now; refactor later
+        if (id == 'D')
+            return 'judges-deductions';
+        else if (id == 'D')
+            return 'judges-legalities';
+        else
+            return 'judges-panel';
+    };
+
     self.getTemplate = function () {
-        var division = self.performance.divisionId();
+        var judge = getJudgeKey(self.score.judgeId());
+        var division = getJudgeKey(self.performance.divisionId());
         var level = self.performance.levelId();
-        var map = self.scoringMap.templates[division] || self.scoringMap.templates[level];
+        var map = self.scoringMap.templates[judge] || self.scoringMap.templates[division] || self.scoringMap.templates[level];
         return map();
     };
 
+    //take parms to prepare for multiple renderings
     self.getScoring = function (performance, score) {
+        var judge = getJudgeKey(score.judgeId());
         var division = performance.divisionId();
         var level = performance.levelId();
-        var map = self.scoringMap.categories[division] || self.scoringMap.categories[level];
+        var map = self.scoringMap.categories[judge] || self.scoringMap.categories[division] || self.scoringMap.categories[level];
 
         //an array version for knockout foreach
         var categories = $.map(map, function (category, key) {
@@ -252,6 +265,10 @@ $(document).ready(function () {
     });
 
     $(".scorepad table.low td").click(function () {
+        if (!active) {
+            return;
+        }
+
         var low = $(this).text();
         var high = highPadSelected.text();
         var value = high + low;
