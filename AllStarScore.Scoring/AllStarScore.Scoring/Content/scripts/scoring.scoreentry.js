@@ -1,4 +1,6 @@
-﻿$(document).ready(function() {
+﻿var scorepad_cookie_name = 'scorepad.high.';
+
+$(document).ready(function() {
     var viewModel = ko.mapping.fromJS({ viewModel: window.scoringScoreEntryData }, mapping);
     ko.applyBindings(viewModel, document.getElementById('scoring_scoreentry'));
 });
@@ -28,6 +30,16 @@ var ScoreEntryViewModel = function (data) {
             return 'judges-legalities';
         else
             return 'judges-panel';
+    };
+
+    self.getScorePanelCookieName = function () {
+        var judge = getJudgeKey(self.score.judgeId());
+        var division = getJudgeKey(self.performance.divisionId());
+        var level = self.performance.levelId();
+        var result = self.scoringMap.templates[judge] ? judge :
+                     self.scoringMap.templates[division] ? division :
+                     level;
+        return result;
     };
 
     self.getTemplate = function () {
@@ -151,6 +163,9 @@ var ScoreEntryViewModel = function (data) {
             return result;
         });
 
+        //we will save scorepad settings in a cookie; establish the cookie name
+        scorepad_cookie_name += self.getScorePanelCookieName();
+        
     } ()); //define it and run it; a startup script
 };
 
@@ -172,7 +187,7 @@ $(document).ready(function () {
     var scorepad = $(".scorepad");
     var active;
 
-    var highPadSelected = $(".scorepad table.high td").eq($.cookie('scorepad.high')) || $(".scorepad table.high td:first");
+    var highPadSelected = $(".scorepad table.high td").eq($.cookie(scorepad_cookie_name)) || $(".scorepad table.high td:first");
     var selectedClass = "selected";
     var lowOnly = false;
 
@@ -261,7 +276,7 @@ $(document).ready(function () {
         highPadSelected.removeClass(selectedClass);
         highPadSelected = $(this);
         highPadSelected.addClass(selectedClass);
-        $.cookie('scorepad.high', $(this).text(), { expires: 365 });
+        $.cookie(scorepad_cookie_name, $(this).text(), { expires: 365 });
     });
 
     $(".scorepad table.low td").click(function () {
