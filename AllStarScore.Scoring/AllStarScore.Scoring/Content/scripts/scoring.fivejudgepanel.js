@@ -21,10 +21,9 @@ var FiveJudgePanelViewModel = function (data) {
     ko.mapping.fromJS(data, mapping, this);
 
     self.getTemplate = function () {
-        console.log(self.performance);
         var division = self.performance.divisionId();
         var level = self.performance.levelId();
-        var map = self.scoringMap[division] || self.scoringMap[level];
+        var map = self.scoringMap.templates[division] || self.scoringMap.templates[level];
         return map();
     };
 };

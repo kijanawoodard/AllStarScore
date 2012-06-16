@@ -9,22 +9,22 @@ namespace AllStarScore.Scoring.Models
 {
     public class JudgeScore : IJudgeScoreId
     {
-        public string Id { get { return this.JudgeScoreId(); } }
+        public string Id { get { return this.CalculateJudgeScoreId(); } }
         public string PerformanceId { get; set; }
         public string JudgeId { get; set; }
 
         public Dictionary<string, ScoreEntry> Scores { get; set; }
-        public float GrandTotal { get; set; }
+        public decimal GrandTotal { get; set; }
 
-        public float GrandTotalServer
+        public decimal GrandTotalServer
         {
             get
             {
-                return Scores.Values.Aggregate(0.0f, (agg, score) => agg + score.Total);
+                return Scores.Values.Aggregate(0.0m, (agg, score) => agg + score.Total);
             }
         }
 
-        public float GrandTotalDifference
+        public decimal GrandTotalDifference
         {
             get { return Math.Abs(GrandTotalServer - GrandTotal); }
         }
@@ -32,7 +32,7 @@ namespace AllStarScore.Scoring.Models
         {
             get
             {
-                return GrandTotalDifference < .1; //TODO: Testing
+                return GrandTotalDifference < .1m; //TODO: Testing
             }
         }
 
@@ -42,6 +42,12 @@ namespace AllStarScore.Scoring.Models
         {
             Scores = new Dictionary<string, ScoreEntry>();
             History = new Collection<ICommand>();
+        }
+
+        public JudgeScore(string performanceId, string judgeId) : this()
+        {
+            PerformanceId = performanceId;
+            JudgeId = judgeId;
         }
 
         public void Update(ScoreEntryUpdateCommand command)
@@ -103,12 +109,19 @@ namespace AllStarScore.Scoring.Models
         }
     }
 
+    //why decimal? was getting some friction from Raven, plus http://stackoverflow.com/a/1165788/214073
     public class ScoreEntry
     {
-        public float Base { get; set; }
-        public float Execution { get; set; }
+        public decimal Base { get; set; }
+        public decimal Execution { get; set; }
 
-        public float Total { get { return (float)(Math.Truncate((Base + Execution) * 10) / 10); } }
+        public decimal Total { get { return Math.Truncate((Base + Execution) * 10) / 10; } }
+
+        public ScoreEntry()
+        {
+            Base = 0m;
+            Execution = 0m;
+        }
     }
 
     public class ScoringCategory

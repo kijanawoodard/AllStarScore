@@ -42,7 +42,7 @@ var ScoreEntryViewModel = function (data) {
 
     self.save = function () {
         var form = $('#scoring_scoreentry form');
-
+        console.log(ko.mapping.toJSON(self.score));
         form.ajaxPost({
             data: ko.mapping.toJSON(self.score),
             success: function (result) {
@@ -61,11 +61,8 @@ var ScoreEntryViewModel = function (data) {
         $.each(input.map, function (key, category) {
             scores[key] = scores[key] || {};
             scores[key].base = scores[key].base || ko.observable();
-
-            if (category.includeExectionScore()) {
-                scores[key].execution = scores[key].execution || ko.observable();
-            }
-
+            scores[key].execution = scores[key].execution || ko.observable();
+            
             scores[key].total = ko.computed(function () {
                 var base = scores[key].base();
                 var execution = category.includeExectionScore() ? scores[key].execution() : 0;

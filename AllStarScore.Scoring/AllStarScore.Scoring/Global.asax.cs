@@ -10,10 +10,12 @@ using System.Web.Routing;
 using AllStarScore.Library.ModelBinding;
 using AllStarScore.Library.Moth;
 using AllStarScore.Scoring.Controllers;
+using AllStarScore.Scoring.Infrastructure.Indexes;
 using Moth.Core;
 using Raven.Abstractions.Data;
 using Raven.Client.Embedded;
 using System.Diagnostics;
+using Raven.Client.Indexes;
 using RouteMagic;
 
 namespace AllStarScore.Scoring
@@ -70,6 +72,7 @@ namespace AllStarScore.Scoring
             RegisterRoutes(RouteTable.Routes);
 
             ValueProviderFactories.Factories.Insert(0, new CommandValueProviderFactory());
+            ModelBinders.Binders.Add(typeof(decimal), new DecimalModelBinder()); //http://digitalbush.com/2011/04/24/asp-net-mvc3-json-decimal-binding-woes/
 
             //BundleTable.Bundles.RegisterTemplateBundles();
 
@@ -84,6 +87,8 @@ namespace AllStarScore.Scoring
             RavenController.DocumentStore.Conventions.IdentityPartsSeparator = "-";
 
             InitializeRavenProfiler();
+
+            IndexCreation.CreateIndexes(typeof(JudgeScoreByPerformance).Assembly, RavenController.DocumentStore);
         }
 
         [Conditional("DEBUG")]

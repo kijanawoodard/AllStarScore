@@ -24,7 +24,8 @@
         <div data-bind="dateString: performanceTime, datePattern: 'ddd h:mm tt'" class="when"></div>     
     </div>
         
-    <!-- ko template: { name: viewModel.getTemplate, data: viewModel.performance } --><!-- /ko -->
+    <!-- ko template: { name: viewModel.getTemplate, data: viewModel } --><!-- /ko -->
+
     <table class="final_score">
         <tbody>
             <tr>
@@ -82,17 +83,18 @@
 <script type="text/html" id="all-star-template">
     <table class="score_summary">
         <thead>
-            <tr>
-                <th class="skills">Skills</th>
-                <th class="judge"><span data-bind="text: $data.panel"></span>1</th>
-                <th class="judge"><span data-bind="text: $data.panel"></span>2</th>
-                <th class="judge"><span data-bind="text: $data.panel"></span>3</th>
-            </tr>
+@*            <tr data-bind="with: performance.panel">*@
+@*                <th class="skills">Skills</th>*@
+@*                <th class="judge"><span data-bind="text: $data"></span>1</th>*@
+@*                <th class="judge"><span data-bind="text: $data"></span>2</th>*@
+@*                <th class="judge"><span data-bind="text: $data"></span>3</th>*@
+            @*            </tr>*@
         </thead>
         <tbody>
             <tr>
                 <td>Stunts</td>
-                <td>5</td>
+                <td></td>
+@*                <td data-bind="text: scores()[0].scores.stunts.total"></td>*@
                 <td>5</td>
                 <td>5</td>
             </tr>

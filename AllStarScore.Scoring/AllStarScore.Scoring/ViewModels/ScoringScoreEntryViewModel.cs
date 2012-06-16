@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using AllStarScore.Models;
 using AllStarScore.Scoring.Controllers;
 using AllStarScore.Scoring.Infrastructure.Commands;
+using AllStarScore.Scoring.Infrastructure.Indexes;
 using AllStarScore.Scoring.Models;
 
 namespace AllStarScore.Scoring.ViewModels
@@ -10,10 +11,10 @@ namespace AllStarScore.Scoring.ViewModels
     public class ScoringScoreEntryViewModel
     {
         public Performance Performance { get; set; }
-        public JudgeScore Score { get; set; }
+        public JudgeScoreByPerformance.Result Score { get; set; }
         public ScoringMap ScoringMap { get; set; }
 
-        public ScoringScoreEntryViewModel(Performance performance, JudgeScore score, ScoringMap scoringMap)
+        public ScoringScoreEntryViewModel(Performance performance, JudgeScoreByPerformance.Result score, ScoringMap scoringMap)
         {
             Performance = performance;
             Score = score;
@@ -29,14 +30,20 @@ namespace AllStarScore.Scoring.ViewModels
 
     public class ScoreEntryUpdateCommand : ICommand, IJudgeScoreId
     {
+        public string Id { get; set; }
         public string PerformanceId { get; set; }
         public string JudgeId { get; set; }
 
         public Dictionary<string, ScoreEntry> Scores { get; set; }
-        public float GrandTotal { get; set; }
+        public decimal GrandTotal { get; set; }
 
         public string CommandByUser { get; set; }
         public DateTime CommandWhen { get; set; }
+
+        public ScoreEntryUpdateCommand()
+        {
+            Scores = new Dictionary<string, ScoreEntry>();
+        }
     }
 
     public interface IJudgeScoreId
@@ -47,7 +54,7 @@ namespace AllStarScore.Scoring.ViewModels
 
     public static class ScoreExtensions
     {
-        public static string JudgeScoreId(this IJudgeScoreId score)
+        public static string CalculateJudgeScoreId(this IJudgeScoreId score)
         {
             return score.PerformanceId + "/scores-" + score.JudgeId;
         }

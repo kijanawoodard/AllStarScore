@@ -4,8 +4,10 @@ using System.Linq;
 using System.Web;
 using System.Web.Mvc;
 using AllStarScore.Models;
+using AllStarScore.Scoring.Infrastructure.Indexes;
 using AllStarScore.Scoring.Models;
 using AllStarScore.Scoring.ViewModels;
+using Raven.Client.Linq;
 
 namespace AllStarScore.Scoring.Controllers
 {
@@ -16,9 +18,18 @@ namespace AllStarScore.Scoring.Controllers
         {
             var performance =
                 RavenSession
+                    .Advanced.Lazily
                     .Load<Performance>(id);
 
-            var model = new ScoringFiveJudgePanelViewModel(performance, new ScoringMap());
+            var scores =
+                RavenSession
+                    .Query<JudgeScore, JudgeScoreByPerformance>()
+                    .Where(x => x.PerformanceId == id)
+                    .As<JudgeScoreByPerformance.Result>()
+                    .ToList();
+
+            var model = new ScoringFiveJudgePanelViewModel(performance.Value, scores, new ScoringMap());
+            
             return View(model);
         }
 
@@ -28,12 +39,15 @@ namespace AllStarScore.Scoring.Controllers
             var performance =
                 RavenSession
                     .Load<Performance>(request.PerformanceId);
-            
+
             var score =
                 RavenSession
-                    .Load<JudgeScore>(request.JudgeScoreId());
+                    .Query<JudgeScore, JudgeScoreByPerformance>() //even though we have the id, i'm querying for the projection; if we drop history on JudgeScore due to a bundle, go back to Load
+                    .Where(x => x.Id == request.CalculateJudgeScoreId())
+                    .As<JudgeScoreByPerformance.Result>()
+                    .FirstOrDefault();
 
-            score = score ?? new JudgeScore() {JudgeId = request.JudgeId, PerformanceId = request.PerformanceId };
+            score = score ?? new JudgeScoreByPerformance.Result{PerformanceId = request.PerformanceId, JudgeId = request.JudgeId};
 
             var model = new ScoringScoreEntryViewModel(performance, score, new ScoringMap());
             return View(model);
@@ -47,12 +61,12 @@ namespace AllStarScore.Scoring.Controllers
                 {
                     var score =
                         RavenSession
-                            .Load<JudgeScore>(command.JudgeScoreId());
+                            .Load<JudgeScore>(command.Id);
 
-                    if (score == null)
+                    if (score.Id == null)
                     {
-                        score = new JudgeScore() { JudgeId = command.JudgeId, PerformanceId = command.PerformanceId };
-                        RavenSession.Store(score);    
+                        score = new JudgeScore(command.PerformanceId, command.JudgeId);
+                        RavenSession.Store(score);
                     }
 
                     score.Update(command);
