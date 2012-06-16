@@ -11,6 +11,7 @@ using AllStarScore.Library.ModelBinding;
 using AllStarScore.Library.Moth;
 using AllStarScore.Scoring.Controllers;
 using AllStarScore.Scoring.Infrastructure.Indexes;
+using AllStarScore.Scoring.Infrastructure.RavenQueryListeners;
 using Moth.Core;
 using Raven.Abstractions.Data;
 using Raven.Client.Embedded;
@@ -83,6 +84,7 @@ namespace AllStarScore.Scoring
                                             };
             Raven.Database.Server.NonAdminHttp.EnsureCanListenToWhenInNonAdminContext(8085);
             RavenController.DocumentStore.Configuration.Port = 8085;
+            RavenController.DocumentStore.RegisterListener(new NoStaleQueriesAllowedAsOfNow());
             RavenController.DocumentStore.Initialize();
             RavenController.DocumentStore.Conventions.IdentityPartsSeparator = "-";
 

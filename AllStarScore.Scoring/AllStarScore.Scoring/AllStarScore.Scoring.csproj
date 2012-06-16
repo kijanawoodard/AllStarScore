@@ -193,6 +193,7 @@
   <ItemGroup>
     <Compile Include="Infrastructure\Commands\ICommand.cs" />
     <Compile Include="Infrastructure\Indexes\JudgeScoreByPerformance.cs" />
+    <Compile Include="Infrastructure\RavenQueryListeners\NoStaleQueriesAllowedAsOfNow.cs" />
     <Compile Include="Models\JudgeScore.cs" />
     <Compile Include="Controllers\LandingController.cs" />
     <Compile Include="Controllers\PerformanceController.cs" />
