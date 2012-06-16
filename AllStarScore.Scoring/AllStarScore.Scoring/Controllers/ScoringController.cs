@@ -28,7 +28,9 @@ namespace AllStarScore.Scoring.Controllers
                     .As<JudgeScoreByPerformance.Result>()
                     .ToList();
 
-            var model = new ScoringFiveJudgePanelViewModel(performance.Value, scores, new ScoringMap());
+            var calculator = new FiveJudgePanelPerformanceScoreCalculator(scores);
+
+            var model = new ScoringFiveJudgePanelViewModel(performance.Value, scores, calculator, new ScoringMap());
             
             return View(model);
         }
@@ -42,12 +44,9 @@ namespace AllStarScore.Scoring.Controllers
 
             var score =
                 RavenSession
-                    .Query<JudgeScore, JudgeScoreByPerformance>() //even though we have the id, i'm querying for the projection; if we drop history on JudgeScore due to a bundle, go back to Load
-                    .Where(x => x.Id == request.CalculateJudgeScoreId())
-                    .As<JudgeScoreByPerformance.Result>()
-                    .FirstOrDefault();
+                    .Load<JudgeScore>(request.CalculateJudgeScoreId());
 
-            score = score ?? new JudgeScoreByPerformance.Result{PerformanceId = request.PerformanceId, JudgeId = request.JudgeId};
+            score = score ?? new JudgeScore(request.PerformanceId, request.JudgeId);
 
             var model = new ScoringScoreEntryViewModel(performance, score, new ScoringMap());
             return View(model);
@@ -61,9 +60,9 @@ namespace AllStarScore.Scoring.Controllers
                 {
                     var score =
                         RavenSession
-                            .Load<JudgeScore>(command.Id);
+                            .Load<JudgeScore>(command.CalculateJudgeScoreId());
 
-                    if (score.Id == null)
+                    if (score == null)
                     {
                         score = new JudgeScore(command.PerformanceId, command.JudgeId);
                         RavenSession.Store(score);

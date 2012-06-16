@@ -2,8 +2,9 @@ using System;
 using System.Collections.ObjectModel;
 using System.Linq;
 using System.Collections.Generic;
-using AllStarScore.Scoring.Infrastructure.Commands;
+using AllStarScore.Scoring.Infrastructure.Indexes;
 using AllStarScore.Scoring.ViewModels;
+using AllStarScore.Extensions;
 
 namespace AllStarScore.Scoring.Models
 {
@@ -36,12 +37,12 @@ namespace AllStarScore.Scoring.Models
             }
         }
 
-        public ICollection<ICommand> History { get; private set; }
+//        public ICollection<ICommand> History { get; private set; }
 
         public JudgeScore()
         {
             Scores = new Dictionary<string, ScoreEntry>();
-            History = new Collection<ICommand>();
+//            History = new Collection<ICommand>();
         }
 
         public JudgeScore(string performanceId, string judgeId) : this()
@@ -55,8 +56,29 @@ namespace AllStarScore.Scoring.Models
             Scores = command.Scores;
             GrandTotal = command.GrandTotal;
 
-            History.Add(command);
+//            History.Add(command);
         }
+    }
+
+    public class FiveJudgePanelPerformanceScoreCalculator
+    {
+        public decimal AveragePanelScore { get; set; }
+        public decimal FinalScore { get; set; }
+
+        public FiveJudgePanelPerformanceScoreCalculator(List<JudgeScoreByPerformance.Result> scores)
+        {
+            AveragePanelScore =
+                scores
+                    .Where(x => new[] {"1", "2", "3"}.Contains(x.JudgeId))
+                    .Average(x => x.GrandTotalServer)
+                    .TruncateRound(3);
+
+            FinalScore =
+                AveragePanelScore - scores
+                                        .Where(x => new[] {"D", "L"}.Contains(x.JudgeId))
+                                        .Sum(x => x.GrandTotalServer)
+                                        .TruncateRound(3);
+        }    
     }
 
     public class ScoringMap
@@ -115,13 +137,7 @@ namespace AllStarScore.Scoring.Models
         public decimal Base { get; set; }
         public decimal Execution { get; set; }
 
-        public decimal Total { get { return Math.Truncate((Base + Execution) * 10) / 10; } }
-
-        public ScoreEntry()
-        {
-            Base = 0m;
-            Execution = 0m;
-        }
+        public decimal Total { get { return (Base + Execution).TruncateRound(1); } }
     }
 
     public class ScoringCategory

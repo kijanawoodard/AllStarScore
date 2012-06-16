@@ -24,25 +24,25 @@
         <div data-bind="dateString: performanceTime, datePattern: 'ddd h:mm tt'" class="when"></div>     
     </div>
         
-    <!-- ko template: { name: viewModel.getTemplate, data: viewModel } --><!-- /ko -->
+    <!-- ko template: { name: viewModel.getTemplate, data: viewModel.getScoring(viewModel.performance, viewModel.judges) } --><!-- /ko -->
 
     <table class="final_score">
-        <tbody>
+        <tbody data-bind="with: viewModel">
             <tr>
                 <th>Average</th>
-                <td>64</td>
+                <td data-bind="text: calculator.averagePanelScore().toFixed(3)"></td>
             </tr>
             <tr>
                 <th>Point Deductions</th>
-                <td>1</td>
+                <td data-bind="text: judges()[3] && judges()[3].grandTotal">1</td>
             </tr>
             <tr>
                 <th>Safety Deductions</th>
-                <td>1</td>
+                <td data-bind="text: judges()[4] && judges()[4].grandTotal">1</td>
             </tr>
             <tr>
                 <th>Final Score</th>
-                <td>62</td>
+                <td data-bind="text: calculator.finalScore().toFixed(3)"></td>
             </tr>
         </tbody>
     </table>
@@ -58,21 +58,25 @@
                 <a href="@Url.Action("ScoreEntry", "Scoring", new { performanceId = @Model.Performance.Id, judgeId = "2"})">
                     <span data-bind="text: panel"></span>2
                 </a>
-            </li><li>
+            </li>
+            <li>
                 <a href="@Url.Action("ScoreEntry", "Scoring", new { performanceId = @Model.Performance.Id, judgeId = "3"})">
                     <span data-bind="text: panel"></span>3
                 </a>
-            </li><li>
+            </li>
+            <li>
                 <a href="@Url.Action("ScoreEntry", "Scoring", new { performanceId = @Model.Performance.Id, judgeId = "D"})">
                     <span data-bind="text: panel"></span>D
                 </a>
-            </li><li>
+            </li>
+            <li>
                 <a href="@Url.Action("ScoreEntry", "Scoring", new { performanceId = @Model.Performance.Id, judgeId = "L"})">
                     <span data-bind="text: panel"></span>L
                 </a>
             </li>
         </ul>
     </nav>
+
     <pre data-bind="text: ko.toJSON($root, null, 2)" class="ko_output"></pre>
 </div>
 
@@ -83,86 +87,27 @@
 <script type="text/html" id="all-star-template">
     <table class="score_summary">
         <thead>
-@*            <tr data-bind="with: performance.panel">*@
-@*                <th class="skills">Skills</th>*@
-@*                <th class="judge"><span data-bind="text: $data"></span>1</th>*@
-@*                <th class="judge"><span data-bind="text: $data"></span>2</th>*@
-@*                <th class="judge"><span data-bind="text: $data"></span>3</th>*@
-            @*            </tr>*@
+            <tr data-bind="with: performance.panel">
+                <th class="skills">Skills</th>
+                <th class="judge"><span data-bind="text: $data"></span>1</th>
+                <th class="judge"><span data-bind="text: $data"></span>2</th>
+                <th class="judge"><span data-bind="text: $data"></span>3</th>
+            </tr>
         </thead>
         <tbody>
+            <!-- ko foreach: $data.categories -->
             <tr>
-                <td>Stunts</td>
-                <td></td>
-@*                <td data-bind="text: scores()[0].scores.stunts.total"></td>*@
-                <td>5</td>
-                <td>5</td>
+                <td  data-bind="text: category.display"></td>
+                <td data-bind="text: $parent.judges()[0] && $parent.judges()[0].scores[key].total().toFixed(1)"></td>
+                <td data-bind="text: $parent.judges()[1] && $parent.judges()[1].scores[key].total().toFixed(1)"></td>
+                <td data-bind="text: $parent.judges()[2] && $parent.judges()[2].scores[key].total().toFixed(1)"></td>
             </tr>
-            <tr>
-                <td>Pyramids</td>
-                <td>5</td>
-                <td>5</td>
-                <td>5</td>
-            </tr>
-            <tr>
-                <td>Tosses</td>
-                <td>5</td>
-                <td>5</td>
-                <td>5</td>
-            </tr>
-            <tr>
-                <td>Standing Tumbling</td>
-                <td>5</td>
-                <td>5</td>
-                <td>5</td>
-            </tr>
-            <tr>
-                <td>Running Tumbling</td>
-                <td>5</td>
-                <td>5</td>
-                <td>5</td>
-            </tr>
-            <tr>
-                <td>Jumps</td>
-                <td>5</td>
-                <td>5</td>
-                <td>5</td>
-            </tr>
-            <tr>
-                <td>Motions / Dance</td>
-                <td>5</td>
-                <td>5</td>
-                <td>5</td>
-            </tr>
-            <tr>
-                <td>Formations / Transitions</td>
-                <td>5</td>
-                <td>5</td>
-                <td>5</td>
-            </tr>
-            <tr>
-                <td>Performance</td>
-                <td>5</td>
-                <td>5</td>
-                <td>5</td>
-            </tr>
-            <tr>
-                <td>Skills Creativity</td>
-                <td>5</td>
-                <td>5</td>
-                <td>5</td>
-            </tr>
-            <tr>
-                <td>Routine Creativity</td>
-                <td>5</td>
-                <td>5</td>
-                <td>5</td>
-            </tr>
+            <!-- /ko -->
             <tr>
                 <th>Total</th>
-                <th>64</th>
-                <th>64</th>
-                <th>64</th>
+                <th data-bind="text: judges()[0] && judges()[0].grandTotal().toFixed(1)"></th>
+                <th data-bind="text: judges()[1] && judges()[1].grandTotal().toFixed(1)"></th>
+                <th data-bind="text: judges()[2] && judges()[2].grandTotal().toFixed(1)"></th>
             </tr>
         </tbody>
     </table>

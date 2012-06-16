@@ -16,6 +16,11 @@ namespace AllStarScore.Scoring.Infrastructure.Indexes
             public decimal GrandTotal { get; set; }
             public decimal GrandTotalServer { get; set; }
             public bool GrandTotalChecks { get; set; }
+
+            public Result()
+            {
+                Scores = new Dictionary<string, ScoreEntry>();
+            }
         }
 
         public JudgeScoreByPerformance()

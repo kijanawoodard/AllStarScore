@@ -27,4 +27,13 @@ namespace AllStarScore.Extensions
             return func(foo);
         }
     }
+
+    public static class DecimalExtension
+    {
+        public static decimal TruncateRound(this decimal number, int places)
+        {
+            return Math.Truncate(number * 10 * places) / (10 * places);
+        }
+    }
+
 }
