@@ -77,6 +77,8 @@ namespace AllStarScore.Scoring
 
             //BundleTable.Bundles.RegisterTemplateBundles();
 
+            //TOOD: Script netsh for installer: https://groups.google.com/forum/?fromgroups#!topic/ravendb/Wzl9jPq0m_0
+            //http://blogs.iis.net/webdevelopertips/archive/2009/10/02/tip-98-did-you-know-the-default-application-pool-identity-in-iis-7-5-windows-7-changed-from-networkservice-to-apppoolidentity.aspx
             RavenController.DocumentStore = new EmbeddableDocumentStore()
                                             {
                                                 ConnectionStringName = "RavenDB",
