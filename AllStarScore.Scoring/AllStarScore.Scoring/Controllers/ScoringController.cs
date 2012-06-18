@@ -21,18 +21,24 @@ namespace AllStarScore.Scoring.Controllers
                     .Advanced.Lazily
                     .Load<Performance>(id);
 
+            var calculator = GetCalculator(id);
+
+            var model = new ScoringFiveJudgePanelViewModel(performance.Value, calculator, new ScoringMap());
+            
+            return View(model);
+        }
+
+        private FiveJudgePanelPerformanceScoreCalculator GetCalculator(string performanceId)
+        {
             var scores =
                 RavenSession
                     .Query<JudgeScore, JudgeScoreByPerformance>()
-                    .Where(x => x.PerformanceId == id)
+                    .Where(x => x.PerformanceId == performanceId)
                     .As<JudgeScoreByPerformance.Result>()
                     .ToList();
 
             var calculator = new FiveJudgePanelPerformanceScoreCalculator(scores);
-
-            var model = new ScoringFiveJudgePanelViewModel(performance.Value, scores, calculator, new ScoringMap());
-            
-            return View(model);
+            return calculator;
         }
 
         [HttpGet]
@@ -114,12 +120,15 @@ namespace AllStarScore.Scoring.Controllers
             return Execute(
                 action: () =>
                 {
+                    var calculator = GetCalculator(command.PerformanceId); //don't trust the client
+
                     var performance =
                         RavenSession
                             .Load<Performance>(command.PerformanceId);
 
                     //hmmm - shared model coming back to bite
                     performance.ScoringComplete = true;
+                    performance.FinalScore = calculator.FinalScore;
 
                     return new JsonDotNetResult(true);
                 });
@@ -137,6 +146,7 @@ namespace AllStarScore.Scoring.Controllers
 
                     //hmmm - shared model coming back to bite
                     performance.ScoringComplete = false;
+                    performance.FinalScore = 0;
 
                     return new JsonDotNetResult(true);
                 });

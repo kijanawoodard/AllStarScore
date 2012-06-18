@@ -30,9 +30,10 @@ namespace AllStarScore.Extensions
 
     public static class DecimalExtension
     {
-        public static decimal TruncateRound(this decimal number, int places)
+        public static decimal RoundUp(this decimal number, int places)
         {
-            return Math.Truncate(number * 10 * places) / (10 * places);
+            var result = Math.Round(number, places, MidpointRounding.AwayFromZero);
+            return result;
         }
     }
 

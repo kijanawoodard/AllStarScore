@@ -60,24 +60,32 @@ namespace AllStarScore.Scoring.Models
         }
     }
 
-    public class FiveJudgePanelPerformanceScoreCalculator
+    public interface ITeamScoreCalculator
     {
+        List<JudgeScoreByPerformance.Result> Scores { get; set; }
+        decimal AveragePanelScore { get; set; }
+        decimal FinalScore { get; set; }
+    }
+
+    public class FiveJudgePanelPerformanceScoreCalculator : ITeamScoreCalculator
+    {
+        public List<JudgeScoreByPerformance.Result> Scores { get; set; }
         public decimal AveragePanelScore { get; set; }
         public decimal FinalScore { get; set; }
 
         public FiveJudgePanelPerformanceScoreCalculator(List<JudgeScoreByPerformance.Result> scores)
         {
+            Scores = scores;
+
             AveragePanelScore =
-                scores
-                    .Where(x => new[] {"1", "2", "3"}.Contains(x.JudgeId))
-                    .Average(x => x.GrandTotalServer)
-                    .TruncateRound(3);
+                DecimalExtension.RoundUp(scores
+                               .Where(x => new[] {"1", "2", "3"}.Contains(x.JudgeId))
+                               .Average(x => x.GrandTotalServer), 3);
 
             FinalScore =
-                AveragePanelScore - scores
-                                        .Where(x => new[] {"D", "L"}.Contains(x.JudgeId))
-                                        .Sum(x => x.GrandTotalServer)
-                                        .TruncateRound(3);
+                AveragePanelScore - DecimalExtension.RoundUp(scores
+                                                   .Where(x => new[] {"D", "L"}.Contains(x.JudgeId))
+                                                   .Sum(x => x.GrandTotalServer), 3);
         }    
     }
 
@@ -138,7 +146,7 @@ namespace AllStarScore.Scoring.Models
         public decimal Base { get; set; }
         public decimal Execution { get; set; }
 
-        public decimal Total { get { return (Base + Execution).TruncateRound(1); } }
+        public decimal Total { get { return DecimalExtension.RoundUp((Base + Execution), 1); } }
     }
 
     public class ScoringCategory

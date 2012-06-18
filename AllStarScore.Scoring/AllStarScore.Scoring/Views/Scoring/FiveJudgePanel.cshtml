@@ -24,7 +24,7 @@
         <div data-bind="dateString: performanceTime, datePattern: 'ddd h:mm tt'" class="when"></div>     
     </div>
         
-    <!-- ko template: { name: getTemplate, data: getScoring(performance, judges) } --><!-- /ko -->
+    <!-- ko template: { name: getTemplate, data: getScoring(performance, calculator.scores) } --><!-- /ko -->
     
     <form action='@Url.Action("MarkTeamDidCompete", "Scoring")' method="post" class="did_compete"  data-bind="visible: performance.didNotCompete">
         <fieldset>
@@ -46,11 +46,11 @@
                 </tr>
                 <tr>
                     <th>Point Deductions</th>
-                    <td data-bind="text: judges()[3] && judges()[3].grandTotal">1</td>
+                    <td data-bind="text: calculator.scores()[3] && calculator.scores()[3].grandTotal">1</td>
                 </tr>
                 <tr>
                     <th>Safety Deductions</th>
-                    <td data-bind="text: judges()[4] && judges()[4].grandTotal">1</td>
+                    <td data-bind="text: calculator.scores()[4] && calculator.scores()[4].grandTotal">1</td>
                 </tr>
                 <tr>
                     <th>Final Score</th>
@@ -59,7 +59,7 @@
             </tbody>
         </table>
         
-        <form action='@Url.Action("MarkTeamDidNotCompete", "Scoring")' method="post" class="did_not_compete" data-bind="visible: judges().length == 0">
+        <form action='@Url.Action("MarkTeamDidNotCompete", "Scoring")' method="post" class="did_not_compete" data-bind="visible: calculator.scores().length == 0">
             <fieldset>
                 <legend>Did Not Compete</legend>
                 <div class="validation-summary-errors"></div>
@@ -67,7 +67,7 @@
             </fieldset>
         </form>
         
-        <form action='@Url.Action("MarkTeamScoringComplete", "Scoring")' method="post" class="scoring_complete" data-bind="visible: judges().length == 5 && performance.scoringIsNotComplete()">
+        <form action='@Url.Action("MarkTeamScoringComplete", "Scoring")' method="post" class="scoring_complete" data-bind="visible: calculator.scores().length == 5 && performance.scoringIsNotComplete()">
             <fieldset>
                 <legend>Scoring Complete</legend>
                 <div class="validation-summary-errors"></div>

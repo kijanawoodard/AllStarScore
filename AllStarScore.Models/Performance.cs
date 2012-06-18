@@ -34,6 +34,8 @@ namespace AllStarScore.Models
 
         public bool DidNotCompete { get; set; }
         public bool ScoringComplete { get; set; }
+
+        public decimal FinalScore { get; set; }
     }
 
     public class ScoringImportData

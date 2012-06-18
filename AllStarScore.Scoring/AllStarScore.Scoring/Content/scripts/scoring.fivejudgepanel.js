@@ -19,7 +19,7 @@ var mapping = {
 var FiveJudgePanelViewModel = function (data) {
     var self = this;
 
-    data.judges = _.sortBy(data.judges, function (judge) {
+    data.calculator.scores = _.sortBy(data.calculator.scores, function (judge) {
         return judge.judgeId;
     });
 
