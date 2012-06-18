@@ -78,14 +78,15 @@ namespace AllStarScore.Scoring.Models
             Scores = scores;
 
             AveragePanelScore =
-                DecimalExtension.RoundUp(scores
-                               .Where(x => new[] {"1", "2", "3"}.Contains(x.JudgeId))
-                               .Average(x => x.GrandTotalServer), 3);
+                scores
+                    .Where(x => new[] {"1", "2", "3"}.Contains(x.JudgeId))
+                    .Average(x => x.GrandTotalServer).RoundUp(3);
 
             FinalScore =
-                AveragePanelScore - DecimalExtension.RoundUp(scores
-                                                   .Where(x => new[] {"D", "L"}.Contains(x.JudgeId))
-                                                   .Sum(x => x.GrandTotalServer), 3);
+                AveragePanelScore - scores
+                                        .Where(x => new[] {"D", "L"}.Contains(x.JudgeId))
+                                        .Sum(x => x.GrandTotalServer)
+                                        .RoundUp(3);
         }    
     }
 
@@ -146,7 +147,7 @@ namespace AllStarScore.Scoring.Models
         public decimal Base { get; set; }
         public decimal Execution { get; set; }
 
-        public decimal Total { get { return DecimalExtension.RoundUp((Base + Execution), 1); } }
+        public decimal Total { get { return (Base + Execution).RoundUp(1); } }
     }
 
     public class ScoringCategory
