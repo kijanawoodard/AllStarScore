@@ -191,6 +191,7 @@
     <Reference Include="System.EnterpriseServices" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Controllers\ReportingController.cs" />
     <Compile Include="Infrastructure\Commands\ICommand.cs" />
     <Compile Include="Infrastructure\Indexes\JudgeScoreByPerformance.cs" />
     <Compile Include="Infrastructure\RavenQueryListeners\NoStaleQueriesAllowedAsOfNow.cs" />
