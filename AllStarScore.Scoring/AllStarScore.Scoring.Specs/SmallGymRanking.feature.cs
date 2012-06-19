@@ -120,9 +120,9 @@ this.ScenarioSetup(scenarioInfo);
         public virtual void RankDivisionWithATieAmongstNon_Winners()
         {
             TechTalk.SpecFlow.ScenarioInfo scenarioInfo = new TechTalk.SpecFlow.ScenarioInfo("Rank Division with a tie amongst non-winners", ((string[])(null)));
-#line 23
+#line 22
 this.ScenarioSetup(scenarioInfo);
-#line 24
+#line 23
  testRunner.Given("a Small Gym Calculator");
 #line hidden
             TechTalk.SpecFlow.Table table2 = new TechTalk.SpecFlow.Table(new string[] {
@@ -157,29 +157,29 @@ this.ScenarioSetup(scenarioInfo);
                         "A New Gym",
                         "true",
                         "38.397"});
-#line 25
+#line 24
   testRunner.And("a set of Performances:", ((string)(null)), table2);
-#line 34
+#line 33
  testRunner.When("the TeamScores are ranked");
-#line 35
+#line 34
  testRunner.Then("Division Winner should be 1st");
-#line 36
+#line 35
   testRunner.And("Division Winner should be ranked 1");
-#line 37
+#line 36
   testRunner.And("High Spirit should be ranked 1");
-#line 38
+#line 37
   testRunner.And("A Large Gym should be ranked 2");
-#line 39
+#line 38
   testRunner.And("Another Large Gym should be ranked 3");
-#line 40
+#line 39
   testRunner.And("A Small Gym should be ranked 3");
-#line 41
+#line 40
   testRunner.And("A Small Gym should be 4th");
-#line 42
+#line 41
   testRunner.And("Another Large Gym should be 5th");
-#line 43
+#line 42
   testRunner.And("Tiger Cheer should be ranked 4");
-#line 44
+#line 43
   testRunner.And("A New Gym should be ranked 5");
 #line hidden
             this.ScenarioCleanup();
@@ -190,9 +190,9 @@ this.ScenarioSetup(scenarioInfo);
         public virtual void RankDivisionWithATieAmongstWinners()
         {
             TechTalk.SpecFlow.ScenarioInfo scenarioInfo = new TechTalk.SpecFlow.ScenarioInfo("Rank Division with a tie amongst winners", ((string[])(null)));
-#line 46
+#line 45
 this.ScenarioSetup(scenarioInfo);
-#line 47
+#line 46
  testRunner.Given("a Small Gym Calculator");
 #line hidden
             TechTalk.SpecFlow.Table table3 = new TechTalk.SpecFlow.Table(new string[] {
@@ -227,29 +227,29 @@ this.ScenarioSetup(scenarioInfo);
                         "A New Gym",
                         "true",
                         "38.397"});
-#line 48
+#line 47
   testRunner.And("a set of Performances:", ((string)(null)), table3);
-#line 57
+#line 56
  testRunner.When("the TeamScores are ranked");
-#line 58
+#line 57
  testRunner.Then("Division Winner should be 3rd");
-#line 59
+#line 58
   testRunner.And("Division Winner should be ranked 1");
-#line 60
+#line 59
   testRunner.And("A Large Gym should be ranked 2");
-#line 61
+#line 60
   testRunner.And("High Spirit should be ranked 3");
-#line 62
+#line 61
   testRunner.And("A Small Gym should be ranked 1");
-#line 63
+#line 62
   testRunner.And("Another Large Gym should be ranked 1");
-#line 64
+#line 63
   testRunner.And("A Small Gym should be 1st");
-#line 65
+#line 64
   testRunner.And("Another Large Gym should be 2nd");
-#line 66
+#line 65
   testRunner.And("Tiger Cheer should be ranked 4");
-#line 67
+#line 66
   testRunner.And("A New Gym should be ranked 5");
 #line hidden
             this.ScenarioCleanup();
@@ -260,9 +260,9 @@ this.ScenarioSetup(scenarioInfo);
         public virtual void RankDivisionWithATieSmallGymNon_NaturalWinners()
         {
             TechTalk.SpecFlow.ScenarioInfo scenarioInfo = new TechTalk.SpecFlow.ScenarioInfo("Rank Division with a tie small gym non-natural winners", ((string[])(null)));
-#line 69
+#line 68
 this.ScenarioSetup(scenarioInfo);
-#line 70
+#line 69
  testRunner.Given("a Small Gym Calculator");
 #line hidden
             TechTalk.SpecFlow.Table table4 = new TechTalk.SpecFlow.Table(new string[] {
@@ -297,29 +297,29 @@ this.ScenarioSetup(scenarioInfo);
                         "A New Gym",
                         "true",
                         "38.397"});
-#line 71
+#line 70
   testRunner.And("a set of Performances:", ((string)(null)), table4);
-#line 80
+#line 79
  testRunner.When("the TeamScores are ranked");
-#line 81
+#line 80
  testRunner.Then("Division Winner should be 1st");
-#line 82
+#line 81
   testRunner.And("Division Winner should be ranked 1");
-#line 83
+#line 82
   testRunner.And("Tiger Cheer should be ranked 1");
-#line 84
+#line 83
   testRunner.And("A Small Gym should be ranked 1");
-#line 85
+#line 84
   testRunner.And("A Small Gym should be 2nd");
-#line 86
+#line 85
   testRunner.And("Tiger Cheer should be 3rd");
-#line 87
+#line 86
   testRunner.And("Another Large Gym should be ranked 2");
-#line 88
+#line 87
   testRunner.And("A Large Gym should be ranked 3");
-#line 89
+#line 88
   testRunner.And("High Spirit should be ranked 4");
-#line 90
+#line 89
   testRunner.And("A New Gym should be ranked 5");
 #line hidden
             this.ScenarioCleanup();
@@ -330,9 +330,9 @@ this.ScenarioSetup(scenarioInfo);
         public virtual void RankDivisionWithNoSmallGyms()
         {
             TechTalk.SpecFlow.ScenarioInfo scenarioInfo = new TechTalk.SpecFlow.ScenarioInfo("Rank Division with no Small Gyms", ((string[])(null)));
-#line 93
+#line 92
 this.ScenarioSetup(scenarioInfo);
-#line 94
+#line 93
  testRunner.Given("a Small Gym Calculator");
 #line hidden
             TechTalk.SpecFlow.Table table5 = new TechTalk.SpecFlow.Table(new string[] {
@@ -367,25 +367,25 @@ this.ScenarioSetup(scenarioInfo);
                         "A New Gym",
                         "true",
                         "38.397"});
-#line 95
+#line 94
   testRunner.And("a set of Performances:", ((string)(null)), table5);
-#line 104
+#line 103
  testRunner.When("the TeamScores are ranked");
-#line 105
+#line 104
  testRunner.Then("Division Winner should be 1st");
-#line 106
+#line 105
   testRunner.And("Division Winner should be ranked 1");
-#line 107
+#line 106
   testRunner.And("Another Large Gym should be ranked 2");
-#line 108
+#line 107
   testRunner.And("A Large Gym should be ranked 3");
-#line 109
+#line 108
   testRunner.And("Tiger Cheer should be ranked 4");
-#line 110
+#line 109
   testRunner.And("A Small Gym should be ranked 4");
-#line 111
+#line 110
   testRunner.And("High Spirit should be ranked 5");
-#line 112
+#line 111
   testRunner.And("A New Gym should be ranked 6");
 #line hidden
             this.ScenarioCleanup();
@@ -396,9 +396,9 @@ this.ScenarioSetup(scenarioInfo);
         public virtual void RankDivisionWithNoLargeGyms()
         {
             TechTalk.SpecFlow.ScenarioInfo scenarioInfo = new TechTalk.SpecFlow.ScenarioInfo("Rank Division with no Large Gyms", ((string[])(null)));
-#line 114
+#line 113
 this.ScenarioSetup(scenarioInfo);
-#line 115
+#line 114
  testRunner.Given("a Small Gym Calculator");
 #line hidden
             TechTalk.SpecFlow.Table table6 = new TechTalk.SpecFlow.Table(new string[] {
@@ -433,26 +433,168 @@ this.ScenarioSetup(scenarioInfo);
                         "A New Gym",
                         "false",
                         "38.397"});
-#line 116
+#line 115
   testRunner.And("a set of Performances:", ((string)(null)), table6);
-#line 125
+#line 124
  testRunner.When("the TeamScores are ranked");
-#line 126
+#line 125
  testRunner.Then("Division Winner should be 1st");
-#line 127
+#line 126
   testRunner.And("Division Winner should be ranked 1");
-#line 128
+#line 127
   testRunner.And("Another Large Gym should be ranked 2");
-#line 129
+#line 128
   testRunner.And("A Large Gym should be ranked 3");
-#line 130
+#line 129
   testRunner.And("Tiger Cheer should be ranked 4");
-#line 131
+#line 130
   testRunner.And("A Small Gym should be ranked 4");
-#line 132
+#line 131
   testRunner.And("High Spirit should be ranked 5");
-#line 133
+#line 132
   testRunner.And("A New Gym should be ranked 6");
+#line hidden
+            this.ScenarioCleanup();
+        }
+        
+        [NUnit.Framework.TestAttribute()]
+        [NUnit.Framework.DescriptionAttribute("Rank Division with Large Gym Winner and a Small Gym winner far down the list")]
+        public virtual void RankDivisionWithLargeGymWinnerAndASmallGymWinnerFarDownTheList()
+        {
+            TechTalk.SpecFlow.ScenarioInfo scenarioInfo = new TechTalk.SpecFlow.ScenarioInfo("Rank Division with Large Gym Winner and a Small Gym winner far down the list", ((string[])(null)));
+#line 134
+this.ScenarioSetup(scenarioInfo);
+#line 135
+ testRunner.Given("a Small Gym Calculator");
+#line hidden
+            TechTalk.SpecFlow.Table table7 = new TechTalk.SpecFlow.Table(new string[] {
+                        "GymName",
+                        "IsSmallGym",
+                        "Final Score"});
+            table7.AddRow(new string[] {
+                        "Tiger Cheer",
+                        "true",
+                        "40.200"});
+            table7.AddRow(new string[] {
+                        "Bear Cheer",
+                        "true",
+                        "41.200"});
+            table7.AddRow(new string[] {
+                        "Zebra Cheer",
+                        "true",
+                        "39.200"});
+            table7.AddRow(new string[] {
+                        "Division Winner",
+                        "false",
+                        "45.933"});
+            table7.AddRow(new string[] {
+                        "A Large Gym",
+                        "false",
+                        "43.397"});
+            table7.AddRow(new string[] {
+                        "A Large Gym2",
+                        "false",
+                        "43.297"});
+            table7.AddRow(new string[] {
+                        "A Large Gym3",
+                        "false",
+                        "43.197"});
+            table7.AddRow(new string[] {
+                        "A Large Gym4",
+                        "false",
+                        "42.397"});
+            table7.AddRow(new string[] {
+                        "High Spirit",
+                        "true",
+                        "42.293"});
+#line 136
+  testRunner.And("a set of Performances:", ((string)(null)), table7);
+#line 148
+ testRunner.When("the TeamScores are ranked");
+#line 149
+ testRunner.Then("Division Winner should be 1st");
+#line 150
+  testRunner.And("Division Winner should be ranked 1");
+#line 151
+  testRunner.And("High Spirit should be ranked 1");
+#line 152
+  testRunner.And("A Large Gym should be ranked 2");
+#line 153
+  testRunner.And("Bear Cheer should be ranked 6");
+#line 154
+  testRunner.And("Tiger Cheer should be ranked 7");
+#line hidden
+            this.ScenarioCleanup();
+        }
+        
+        [NUnit.Framework.TestAttribute()]
+        [NUnit.Framework.DescriptionAttribute("Rank Division with Large Gym Winner and a Small Gym winner far down the list With" +
+            " a lot of ties in between")]
+        public virtual void RankDivisionWithLargeGymWinnerAndASmallGymWinnerFarDownTheListWithALotOfTiesInBetween()
+        {
+            TechTalk.SpecFlow.ScenarioInfo scenarioInfo = new TechTalk.SpecFlow.ScenarioInfo("Rank Division with Large Gym Winner and a Small Gym winner far down the list With" +
+                    " a lot of ties in between", ((string[])(null)));
+#line 156
+this.ScenarioSetup(scenarioInfo);
+#line 157
+ testRunner.Given("a Small Gym Calculator");
+#line hidden
+            TechTalk.SpecFlow.Table table8 = new TechTalk.SpecFlow.Table(new string[] {
+                        "GymName",
+                        "IsSmallGym",
+                        "Final Score"});
+            table8.AddRow(new string[] {
+                        "Tiger Cheer",
+                        "true",
+                        "40.200"});
+            table8.AddRow(new string[] {
+                        "Bear Cheer",
+                        "true",
+                        "41.200"});
+            table8.AddRow(new string[] {
+                        "Zebra Cheer",
+                        "true",
+                        "39.200"});
+            table8.AddRow(new string[] {
+                        "Division Winner",
+                        "false",
+                        "45.933"});
+            table8.AddRow(new string[] {
+                        "A Large Gym",
+                        "false",
+                        "43.397"});
+            table8.AddRow(new string[] {
+                        "A Large Gym2",
+                        "false",
+                        "43.297"});
+            table8.AddRow(new string[] {
+                        "A Large Gym3",
+                        "false",
+                        "43.297"});
+            table8.AddRow(new string[] {
+                        "A Large Gym4",
+                        "false",
+                        "43.297"});
+            table8.AddRow(new string[] {
+                        "High Spirit",
+                        "true",
+                        "42.293"});
+#line 158
+  testRunner.And("a set of Performances:", ((string)(null)), table8);
+#line 170
+ testRunner.When("the TeamScores are ranked");
+#line 171
+ testRunner.Then("Division Winner should be 1st");
+#line 172
+  testRunner.And("Division Winner should be ranked 1");
+#line 173
+  testRunner.And("High Spirit should be ranked 1");
+#line 174
+  testRunner.And("A Large Gym should be ranked 2");
+#line 175
+  testRunner.And("Bear Cheer should be ranked 4");
+#line 176
+  testRunner.And("Tiger Cheer should be ranked 5");
 #line hidden
             this.ScenarioCleanup();
         }

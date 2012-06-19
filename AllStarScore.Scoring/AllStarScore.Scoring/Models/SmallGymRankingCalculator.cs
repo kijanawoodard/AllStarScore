@@ -12,49 +12,27 @@ namespace AllStarScore.Scoring.Models
 
     public class NaturalRankingCalculator : IRankingCalculator
     {
-        public IEnumerable<TeamScore> Rank(IEnumerable<TeamScore> scores)
+        public virtual IEnumerable<TeamScore> Rank(IEnumerable<TeamScore> scores)
         {
+            var rank = 1;
             var result = scores
                             .OrderByDescending(x => x.TotalScore)
                             .ThenBy(x => x.GymName)
+                            .Select(x =>
+                            {
+                                x.Rank = rank++;
+                                return x;
+                            })
                             .ToList();
-            
-            var rank = 0;
-            for (int i = 0; i < result.Count; i++)
-            {
-                if (i > 0 && result[i-1].TotalScore == result[i].TotalScore)
-                {
-                    //everything's fine
-                }
-                else
-                {
-                    rank++;
-                }
 
-                result[i].Rank = rank;
-            }
+            result = DealWithTies(result);
 
             return result;
         }
-    }
 
-    public class SmallGymRankingCalculator : IRankingCalculator
-    {
-        private NaturalRankingCalculator _calculator;
-
-        public IEnumerable<TeamScore> Rank(IEnumerable<TeamScore> scores)
+        protected List<TeamScore> DealWithTies(List<TeamScore> scores)
         {
-            _calculator = new NaturalRankingCalculator();
-            var result = _calculator.Rank(scores).ToList();
-
-            SetFirstPlace(result, x => x.IsLargeGym);
-            SetFirstPlace(result, x => x.IsSmallGym);
-
-            result = result
-                        .OrderBy(x => x.Rank)
-                        .ThenByDescending(x => x.TotalScore)
-                        .ThenBy(x => x.GymName)
-                        .ToList();
+            var result = scores.ToList();
 
             var rank = 1;
             for (int i = 0; i < result.Count; i++)
@@ -74,7 +52,27 @@ namespace AllStarScore.Scoring.Models
 
                 result[i].Rank = rank;
             }
+            return result;
+        }
+    }
 
+    public class SmallGymRankingCalculator : NaturalRankingCalculator, IRankingCalculator
+    {
+        public override IEnumerable<TeamScore> Rank(IEnumerable<TeamScore> scores)
+        {
+            var result = base.Rank(scores).ToList();
+
+            SetFirstPlace(result, x => x.IsLargeGym);
+            SetFirstPlace(result, x => x.IsSmallGym);
+
+            result = result
+                        .OrderBy(x => x.Rank)
+                        .ThenByDescending(x => x.TotalScore)
+                        .ThenBy(x => x.GymName)
+                        .ToList();
+            
+            result = DealWithTies(result);
+            
             return result;
         }
 
