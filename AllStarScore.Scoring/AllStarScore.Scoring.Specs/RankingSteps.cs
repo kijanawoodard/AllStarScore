@@ -75,4 +75,35 @@ namespace AllStarScore.Scoring.Specs
             Assert.AreEqual(rank, score.Rank);
         }
     }
+
+    public class GroupingSteps
+    {
+        private List<TeamScore> _scores;
+
+        [Given(@"a set of Performances:")]
+        public void GivenIHaveASetOfPerformances(Table table)
+        {
+            var performances = table.CreateSet<Performance>().ToList();
+            var generator = new TeamScoreGenerator();
+            _scores = generator.From(performances).ToList();
+        }
+
+        [When(@"Performances are Grouped")]
+        public void WhenPerformancesAreGrouped()
+        {
+            ScenarioContext.Current.Pending();
+        }
+
+        [Then(@"the count of divisions-1 will be 7")]
+        public void ThenTheCountOfDivisions_1WillBe7()
+        {
+            ScenarioContext.Current.Pending();
+        }
+
+        [Then(@"the count of levels-1 will be 7")]
+        public void ThenTheCountOfLevels_1WillBe7()
+        {
+            ScenarioContext.Current.Pending();
+        }
+    }
 }

@@ -80,35 +80,59 @@ this.ScenarioSetup(scenarioInfo);
             TechTalk.SpecFlow.Table table1 = new TechTalk.SpecFlow.Table(new string[] {
                         "GymName",
                         "IsSmallGym",
-                        "Final Score"});
+                        "Final Score",
+                        "Registration Id",
+                        "Division Id",
+                        "Level Id"});
             table1.AddRow(new string[] {
                         "Tiger Cheer",
                         "true",
-                        "40.200"});
+                        "40.200",
+                        "registrations-1",
+                        "divisions-1",
+                        "levels-1"});
             table1.AddRow(new string[] {
                         "High Spirit",
                         "true",
-                        "42.293"});
+                        "42.293",
+                        "registrations-2",
+                        "divisions-1",
+                        "levels-1"});
             table1.AddRow(new string[] {
                         "Division Winner",
                         "false",
-                        "45.933"});
+                        "45.933",
+                        "registrations-3",
+                        "divisions-1",
+                        "levels-1"});
             table1.AddRow(new string[] {
                         "A Large Gym",
                         "false",
-                        "43.397"});
+                        "43.397",
+                        "registrations-4",
+                        "divisions-1",
+                        "levels-1"});
             table1.AddRow(new string[] {
                         "Another Large Gym",
                         "false",
-                        "41.397"});
+                        "41.397",
+                        "registrations-5",
+                        "divisions-1",
+                        "levels-1"});
             table1.AddRow(new string[] {
                         "A Small Gym",
                         "true",
-                        "41.397"});
+                        "41.397",
+                        "registrations-6",
+                        "divisions-1",
+                        "levels-1"});
             table1.AddRow(new string[] {
                         "A New Gym",
                         "true",
-                        "38.397"});
+                        "38.397",
+                        "registrations-7",
+                        "divisions-1",
+                        "levels-1"});
 #line 9
   testRunner.And("a set of Performances:", ((string)(null)), table1);
 #line 18
@@ -150,35 +174,59 @@ this.ScenarioSetup(scenarioInfo);
             TechTalk.SpecFlow.Table table2 = new TechTalk.SpecFlow.Table(new string[] {
                         "GymName",
                         "IsSmallGym",
-                        "Final Score"});
+                        "Final Score",
+                        "Registration Id",
+                        "Division Id",
+                        "Level Id"});
             table2.AddRow(new string[] {
                         "Tiger Cheer",
                         "true",
-                        "40.200"});
+                        "40.200",
+                        "registrations-1",
+                        "divisions-1",
+                        "levels-1"});
             table2.AddRow(new string[] {
                         "High Spirit",
                         "true",
-                        "42.293"});
+                        "42.293",
+                        "registrations-2",
+                        "divisions-1",
+                        "levels-1"});
             table2.AddRow(new string[] {
                         "Division Winner",
                         "false",
-                        "45.933"});
+                        "45.933",
+                        "registrations-3",
+                        "divisions-1",
+                        "levels-1"});
             table2.AddRow(new string[] {
                         "A Large Gym",
                         "false",
-                        "43.397"});
+                        "43.397",
+                        "registrations-4",
+                        "divisions-1",
+                        "levels-1"});
             table2.AddRow(new string[] {
                         "Another Large Gym",
                         "false",
-                        "45.933"});
+                        "45.933",
+                        "registrations-5",
+                        "divisions-1",
+                        "levels-1"});
             table2.AddRow(new string[] {
                         "A Small Gym",
                         "true",
-                        "45.933"});
+                        "45.933",
+                        "registrations-6",
+                        "divisions-1",
+                        "levels-1"});
             table2.AddRow(new string[] {
                         "A New Gym",
                         "true",
-                        "38.397"});
+                        "38.397",
+                        "registrations-7",
+                        "divisions-1",
+                        "levels-1"});
 #line 32
   testRunner.And("a set of Performances:", ((string)(null)), table2);
 #line 41

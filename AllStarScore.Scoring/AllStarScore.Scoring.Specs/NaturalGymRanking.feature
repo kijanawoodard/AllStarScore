@@ -7,14 +7,14 @@
 Scenario: Rank Division with a tie amongst non-winners
 	Given a Natural Gym Ranking Calculator
 		And a set of Performances:
-		| GymName           | IsSmallGym | Final Score |
-		| Tiger Cheer       | true       | 40.200      |
-		| High Spirit       | true       | 42.293      |
-		| Division Winner   | false      | 45.933      |
-		| A Large Gym       | false      | 43.397      |
-		| Another Large Gym | false      | 41.397      |
-		| A Small Gym       | true       | 41.397      |
-		| A New Gym         | true       | 38.397      |
+		| GymName           | IsSmallGym | Final Score | Registration Id | Division Id | Level Id |
+		| Tiger Cheer       | true       | 40.200      | registrations-1 | divisions-1 | levels-1 |
+		| High Spirit       | true       | 42.293      | registrations-2 | divisions-1 | levels-1 |
+		| Division Winner   | false      | 45.933      | registrations-3 | divisions-1 | levels-1 |
+		| A Large Gym       | false      | 43.397      | registrations-4 | divisions-1 | levels-1 |
+		| Another Large Gym | false      | 41.397      | registrations-5 | divisions-1 | levels-1 |
+		| A Small Gym       | true       | 41.397      | registrations-6 | divisions-1 | levels-1 |
+		| A New Gym         | true       | 38.397      | registrations-7 | divisions-1 | levels-1 |
 	When the TeamScores are ranked
 	Then Division Winner should be 1st
 		And Division Winner should be ranked 1
@@ -30,14 +30,14 @@ Scenario: Rank Division with a tie amongst non-winners
 Scenario: Rank Division with a tie amongst winners
 	Given a Natural Gym Ranking Calculator
 		And a set of Performances:
-		| GymName           | IsSmallGym | Final Score |
-		| Tiger Cheer       | true       | 40.200      |
-		| High Spirit       | true       | 42.293      |
-		| Division Winner   | false      | 45.933      |
-		| A Large Gym       | false      | 43.397      |
-		| Another Large Gym | false      | 45.933      |
-		| A Small Gym       | true       | 45.933      |
-		| A New Gym         | true       | 38.397      |
+		| GymName           | IsSmallGym | Final Score | Registration Id | Division Id | Level Id |
+		| Tiger Cheer       | true       | 40.200      | registrations-1 | divisions-1 | levels-1 |
+		| High Spirit       | true       | 42.293      | registrations-2 | divisions-1 | levels-1 |
+		| Division Winner   | false      | 45.933      | registrations-3 | divisions-1 | levels-1 |
+		| A Large Gym       | false      | 43.397      | registrations-4 | divisions-1 | levels-1 |
+		| Another Large Gym | false      | 45.933      | registrations-5 | divisions-1 | levels-1 |
+		| A Small Gym       | true       | 45.933      | registrations-6 | divisions-1 | levels-1 |
+		| A New Gym         | true       | 38.397      | registrations-7 | divisions-1 | levels-1 |
 	When the TeamScores are ranked
 	Then Division Winner should be 3rd
 		And Division Winner should be ranked 1

@@ -59,6 +59,11 @@
       <DependentUpon>NaturalGymRanking.feature</DependentUpon>
     </Compile>
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="ScoreGrouping.feature.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>ScoreGrouping.feature</DependentUpon>
+    </Compile>
     <Compile Include="SmallGymRanking.feature.cs">
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>
@@ -75,6 +80,10 @@
       <LastGenOutput>NaturalGymRanking.feature.cs</LastGenOutput>
     </None>
     <None Include="packages.config" />
+    <None Include="ScoreGrouping.feature">
+      <Generator>SpecFlowSingleFileGenerator</Generator>
+      <LastGenOutput>ScoreGrouping.feature.cs</LastGenOutput>
+    </None>
     <None Include="SmallGymRanking.feature">
       <Generator>SpecFlowSingleFileGenerator</Generator>
       <LastGenOutput>SmallGymRanking.feature.cs</LastGenOutput>
