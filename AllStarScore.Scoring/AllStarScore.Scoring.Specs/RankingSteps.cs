@@ -17,14 +17,14 @@ namespace AllStarScore.Scoring.Specs
         private IRankingCalculator _calculator;
 
 
-        [Given(@"a Small Gym Calculator")]
-        public void GivenASmallGymCalculator()
+        [Given(@"a Small Gym Ranking Calculator")]
+        public void GivenASmallGymRankingCalculator()
         {
             _calculator = new SmallGymRankingCalculator();
         }
 
-        [Given(@"a Natural Gym Calculator")]
-        public void GivenANaturalGymCalculator()
+        [Given(@"a Natural Gym Ranking Calculator")]
+        public void GivenANaturalGymRankingCalculator()
         {
             _calculator = new NaturalRankingCalculator();
         }

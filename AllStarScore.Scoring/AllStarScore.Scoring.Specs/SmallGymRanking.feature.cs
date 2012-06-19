@@ -75,7 +75,7 @@ namespace AllStarScore.Scoring.Specs
 #line 7
 this.ScenarioSetup(scenarioInfo);
 #line 8
- testRunner.Given("a Small Gym Calculator");
+ testRunner.Given("a Small Gym Ranking Calculator");
 #line hidden
             TechTalk.SpecFlow.Table table1 = new TechTalk.SpecFlow.Table(new string[] {
                         "GymName",
@@ -123,7 +123,7 @@ this.ScenarioSetup(scenarioInfo);
 #line 22
 this.ScenarioSetup(scenarioInfo);
 #line 23
- testRunner.Given("a Small Gym Calculator");
+ testRunner.Given("a Small Gym Ranking Calculator");
 #line hidden
             TechTalk.SpecFlow.Table table2 = new TechTalk.SpecFlow.Table(new string[] {
                         "GymName",
@@ -193,7 +193,7 @@ this.ScenarioSetup(scenarioInfo);
 #line 45
 this.ScenarioSetup(scenarioInfo);
 #line 46
- testRunner.Given("a Small Gym Calculator");
+ testRunner.Given("a Small Gym Ranking Calculator");
 #line hidden
             TechTalk.SpecFlow.Table table3 = new TechTalk.SpecFlow.Table(new string[] {
                         "GymName",
@@ -263,7 +263,7 @@ this.ScenarioSetup(scenarioInfo);
 #line 68
 this.ScenarioSetup(scenarioInfo);
 #line 69
- testRunner.Given("a Small Gym Calculator");
+ testRunner.Given("a Small Gym Ranking Calculator");
 #line hidden
             TechTalk.SpecFlow.Table table4 = new TechTalk.SpecFlow.Table(new string[] {
                         "GymName",
@@ -333,7 +333,7 @@ this.ScenarioSetup(scenarioInfo);
 #line 92
 this.ScenarioSetup(scenarioInfo);
 #line 93
- testRunner.Given("a Small Gym Calculator");
+ testRunner.Given("a Small Gym Ranking Calculator");
 #line hidden
             TechTalk.SpecFlow.Table table5 = new TechTalk.SpecFlow.Table(new string[] {
                         "GymName",
@@ -399,7 +399,7 @@ this.ScenarioSetup(scenarioInfo);
 #line 113
 this.ScenarioSetup(scenarioInfo);
 #line 114
- testRunner.Given("a Small Gym Calculator");
+ testRunner.Given("a Small Gym Ranking Calculator");
 #line hidden
             TechTalk.SpecFlow.Table table6 = new TechTalk.SpecFlow.Table(new string[] {
                         "GymName",
@@ -465,7 +465,7 @@ this.ScenarioSetup(scenarioInfo);
 #line 134
 this.ScenarioSetup(scenarioInfo);
 #line 135
- testRunner.Given("a Small Gym Calculator");
+ testRunner.Given("a Small Gym Ranking Calculator");
 #line hidden
             TechTalk.SpecFlow.Table table7 = new TechTalk.SpecFlow.Table(new string[] {
                         "GymName",
@@ -537,7 +537,7 @@ this.ScenarioSetup(scenarioInfo);
 #line 156
 this.ScenarioSetup(scenarioInfo);
 #line 157
- testRunner.Given("a Small Gym Calculator");
+ testRunner.Given("a Small Gym Ranking Calculator");
 #line hidden
             TechTalk.SpecFlow.Table table8 = new TechTalk.SpecFlow.Table(new string[] {
                         "GymName",

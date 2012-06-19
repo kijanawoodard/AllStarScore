@@ -75,7 +75,7 @@ namespace AllStarScore.Scoring.Specs
 #line 7
 this.ScenarioSetup(scenarioInfo);
 #line 8
- testRunner.Given("a Natural Gym Calculator");
+ testRunner.Given("a Natural Gym Ranking Calculator");
 #line hidden
             TechTalk.SpecFlow.Table table1 = new TechTalk.SpecFlow.Table(new string[] {
                         "GymName",
@@ -145,7 +145,7 @@ this.ScenarioSetup(scenarioInfo);
 #line 30
 this.ScenarioSetup(scenarioInfo);
 #line 31
- testRunner.Given("a Natural Gym Calculator");
+ testRunner.Given("a Natural Gym Ranking Calculator");
 #line hidden
             TechTalk.SpecFlow.Table table2 = new TechTalk.SpecFlow.Table(new string[] {
                         "GymName",

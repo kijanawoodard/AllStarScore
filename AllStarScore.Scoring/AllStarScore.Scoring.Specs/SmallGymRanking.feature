@@ -5,7 +5,7 @@
 
 @mytag
 Scenario: Rank Division with Large Gym Winner
-	Given a Small Gym Calculator
+	Given a Small Gym Ranking Calculator
 		And a set of Performances:
 		| GymName         | IsSmallGym | Final Score |
 		| Tiger Cheer     | true       | 40.200      |
@@ -20,7 +20,7 @@ Scenario: Rank Division with Large Gym Winner
 		And Tiger Cheer should be ranked 3
 
 Scenario: Rank Division with a tie amongst non-winners
-	Given a Small Gym Calculator
+	Given a Small Gym Ranking Calculator
 		And a set of Performances:
 		| GymName           | IsSmallGym | Final Score |
 		| Tiger Cheer       | true       | 40.200      |
@@ -43,7 +43,7 @@ Scenario: Rank Division with a tie amongst non-winners
 		And A New Gym should be ranked 5
 
 Scenario: Rank Division with a tie amongst winners
-	Given a Small Gym Calculator
+	Given a Small Gym Ranking Calculator
 		And a set of Performances:
 		| GymName           | IsSmallGym | Final Score |
 		| Tiger Cheer       | true       | 40.200      |
@@ -66,7 +66,7 @@ Scenario: Rank Division with a tie amongst winners
 		And A New Gym should be ranked 5
 
 Scenario: Rank Division with a tie small gym non-natural winners
-	Given a Small Gym Calculator
+	Given a Small Gym Ranking Calculator
 		And a set of Performances:
 		| GymName           | IsSmallGym | Final Score |
 		| Tiger Cheer       | true       | 40.200      |
@@ -90,7 +90,7 @@ Scenario: Rank Division with a tie small gym non-natural winners
 
 
 Scenario: Rank Division with no Small Gyms
-	Given a Small Gym Calculator
+	Given a Small Gym Ranking Calculator
 		And a set of Performances:
 		| GymName           | IsSmallGym | Final Score |
 		| Tiger Cheer       | true       | 40.200      |
@@ -111,7 +111,7 @@ Scenario: Rank Division with no Small Gyms
 		And A New Gym should be ranked 6
 
 Scenario: Rank Division with no Large Gyms
-	Given a Small Gym Calculator
+	Given a Small Gym Ranking Calculator
 		And a set of Performances:
 		| GymName           | IsSmallGym | Final Score |
 		| Tiger Cheer       | false      | 40.200      |
@@ -132,7 +132,7 @@ Scenario: Rank Division with no Large Gyms
 		And A New Gym should be ranked 6
 
 Scenario: Rank Division with Large Gym Winner and a Small Gym winner far down the list
-	Given a Small Gym Calculator
+	Given a Small Gym Ranking Calculator
 		And a set of Performances:
 		| GymName         | IsSmallGym | Final Score |
 		| Tiger Cheer     | true       | 40.200      |
@@ -154,7 +154,7 @@ Scenario: Rank Division with Large Gym Winner and a Small Gym winner far down th
 		And Tiger Cheer should be ranked 7
 
 Scenario: Rank Division with Large Gym Winner and a Small Gym winner far down the list With a lot of ties in between
-	Given a Small Gym Calculator
+	Given a Small Gym Ranking Calculator
 		And a set of Performances:
 		| GymName         | IsSmallGym | Final Score |
 		| Tiger Cheer     | true       | 40.200      |

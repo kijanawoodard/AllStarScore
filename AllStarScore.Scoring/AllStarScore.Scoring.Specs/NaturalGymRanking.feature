@@ -5,7 +5,7 @@
 
 @mytag
 Scenario: Rank Division with a tie amongst non-winners
-	Given a Natural Gym Calculator
+	Given a Natural Gym Ranking Calculator
 		And a set of Performances:
 		| GymName           | IsSmallGym | Final Score |
 		| Tiger Cheer       | true       | 40.200      |
@@ -28,7 +28,7 @@ Scenario: Rank Division with a tie amongst non-winners
 		And A New Gym should be ranked 6
 
 Scenario: Rank Division with a tie amongst winners
-	Given a Natural Gym Calculator
+	Given a Natural Gym Ranking Calculator
 		And a set of Performances:
 		| GymName           | IsSmallGym | Final Score |
 		| Tiger Cheer       | true       | 40.200      |
