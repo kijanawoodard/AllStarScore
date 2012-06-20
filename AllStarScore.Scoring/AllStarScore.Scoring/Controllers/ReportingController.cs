@@ -25,14 +25,32 @@ namespace AllStarScore.Scoring.Controllers
                     .Take(int.MaxValue)
                     .ToList();
 
-            var calculator = new SmallGymRankingCalculator(); //tODO: indirect
+            var calculator = new SmallGymRankingCalculator(); //TODO: indirect
             var generator = new TeamScoreGenerator();
             var scores = generator.From(performances);
-            scores.Rank(calculator);
+            var reporting = new TeamScoreReporting(scores);
+            reporting.Rank(calculator);
 
-            var model = new ReportingSinglePerformanceViewModel(id, scores);
+            var model = new ReportingSinglePerformanceViewModel(id, reporting);
             return View(model);
         }
 
+        public ActionResult TwoPerformance(string id)
+        {
+            var performances =
+                RavenSession
+                    .Query<Performance>()
+                    .Take(int.MaxValue)
+                    .ToList();
+
+            var calculator = new SmallGymRankingCalculator(); //TODO: indirect
+            var generator = new TeamScoreGenerator();
+            var scores = generator.From(performances).Where(x => x.PerformanceScores.Count == 2);
+            var reporting = new TeamScoreReporting(scores);
+            reporting.Rank(calculator);
+
+            var model = new ReportingTwoPerformanceViewModel(id, reporting);
+            return View(model);
+        }
     }
 }

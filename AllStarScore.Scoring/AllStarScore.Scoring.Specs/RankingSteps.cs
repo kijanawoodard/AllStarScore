@@ -14,8 +14,8 @@ namespace AllStarScore.Scoring.Specs
     public class RankingSteps
     {
         private IRankingCalculator _calculator;
-        private TeamScoreReporting _scores;
-        private List<TeamScore> _first { get { return _scores.Divisions.First().Scores.ToList(); } } 
+        private TeamScoreReporting _reporting;
+        private List<TeamScore> _first { get { return _reporting.Divisions.First().Scores.ToList(); } } 
         private List<Performance> _performances;
 
         [Given(@"a Small Gym Ranking Calculator")]
@@ -36,7 +36,8 @@ namespace AllStarScore.Scoring.Specs
         {
             var performances = table.CreateSet<Performance>().ToList();
             var generator = new TeamScoreGenerator();
-            _scores = generator.From(performances);
+            var scores = generator.From(performances);
+            _reporting = new TeamScoreReporting(scores);
         }
 
         [Given(@"a set of Performances to be grouped:")]
@@ -49,13 +50,14 @@ namespace AllStarScore.Scoring.Specs
         public void WhenPerformancesAreGrouped()
         {
             var generator = new TeamScoreGenerator();
-            _scores = generator.From(_performances);
+            var scores = generator.From(_performances);
+            _reporting = new TeamScoreReporting(scores);
         }
 
         [When(@"the TeamScores are ranked")]
         public void WhenTheTeamScoresAreRanked()
         {
-            _scores.Rank(_calculator);
+            _reporting.Rank(_calculator);
         }
 
         [Then(@"(.*) should be (\d+)st")]
@@ -85,16 +87,16 @@ namespace AllStarScore.Scoring.Specs
         [Then(@"(.*) should be ranked (\d+)")]
         public void ThenTigerCheerShouldBeRanked(string gym, int rank)
         {
-            var score = _scores.All.SelectMany(x => x.Scores).First(x => x.GymName == gym);
+            var score = _reporting.All.SelectMany(x => x.Scores).First(x => x.GymName == gym);
             Assert.AreEqual(rank, score.Rank);
         }
 
         [Then(@"(.*) should be ranked (\d+) in division and (\d+) in level and (\d+) overall")]
         public void ThenTigerCheerShouldBeRanked(string gym, int divisionRank, int levelRank, int overallRank)
         {
-            var divisionScore = _scores.Divisions.SelectMany(x => x.Scores).Single(x => x.GymName == gym).Rank;
-            var levelScore = _scores.Levels.SelectMany(x => x.Scores).Single(x => x.GymName == gym).Rank;
-            var overallScore = _scores.Overall.Scores.Single(x => x.GymName == gym).Rank;
+            var divisionScore = _reporting.Divisions.SelectMany(x => x.Scores).Single(x => x.GymName == gym).Rank;
+            var levelScore = _reporting.Levels.SelectMany(x => x.Scores).Single(x => x.GymName == gym).Rank;
+            var overallScore = _reporting.Overall.Scores.Single(x => x.GymName == gym).Rank;
             Assert.AreEqual(divisionRank, divisionScore);
             Assert.AreEqual(levelRank, levelScore);
             Assert.AreEqual(overallRank, overallScore);
@@ -103,7 +105,7 @@ namespace AllStarScore.Scoring.Specs
         [Then(@"the count of (.*) will be (\d+)")]
         public void ThenTheCountOfKeyWillBeExpected(string key, int expected)
         {
-            var count = _scores.All.First(x => x.Key == key).Scores.Count;
+            var count = _reporting.All.First(x => x.Key == key).Scores.Count;
             Assert.AreEqual(expected, count);
         }
     }

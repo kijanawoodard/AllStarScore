@@ -1,15 +1,16 @@
-﻿@model AllStarScore.Scoring.ViewModels.ReportingSinglePerformanceViewModel
+﻿@model AllStarScore.Scoring.ViewModels.ReportingTwoPerformanceViewModel
 
 @{
-    ViewBag.Title = "Single Performance or First Performance";
+    ViewBag.Title = "Two Performance Scores";
 }
 
-@{ Html.RegisterStylesheet("~/content/styles/reporting.singleperformance.css"); }
-@{ Html.RegisterScript("~/content/scripts/reporting.singleperformance.js"); }
+@{ Html.RegisterStylesheet("~/content/styles/reporting.twoperformance.css"); }
+@{ Html.RegisterScript("~/content/scripts/reporting.twoperformance.js"); }
 
 <h2>@ViewBag.Title</h2>
 
-<div id="reporting_singleperformance" data-bind="with: viewModel">
+
+<div id="reporting_twoperformance" data-bind="with: viewModel">
     <h3>Divisions</h3>
     <!-- ko template: { name: 'group_template', data: reporting.divisions } --><!-- /ko -->
     
@@ -27,10 +28,20 @@
         <li>
             <h4 data-bind="text: key"></h4>
             <table>
+                <thead>
+                    <tr>
+                        <th>Rank</th>
+                        <th>First</th>
+                        <th>Second</th>
+                        <th>Final</th>
+                    </tr>
+                </thead>
                 <tbody data-bind="foreach: scores">
                     <tr>
                         <td data-bind="text: rank" class="numeric"></td>
                         <td data-bind="text: performanceScores()[0].toFixed(3)" class="numeric"></td>
+                        <td data-bind="text: performanceScores()[1].toFixed(3)" class="numeric"></td>
+                        <td data-bind="text: totalScore().toFixed(3)" class="numeric"></td>
                         <td>
                             <span data-bind="text: gymName"></span>
                             <span data-bind="text: teamName"></span>

@@ -125,7 +125,7 @@ namespace AllStarScore.Scoring.Models
     //creates TeamScore records from performances
     public class TeamScoreGenerator
     {
-        public TeamScoreReporting From(IEnumerable<Performance> performances)
+        public IEnumerable<TeamScore> From(IEnumerable<Performance> performances)
         {
             var scores =
                 performances
@@ -147,11 +147,9 @@ namespace AllStarScore.Scoring.Models
                         IsShowTeam = x.First().IsShowTeam,
                         DidNotCompete = x.First().DidNotCompete,
                         ScoringComplete = x.First().ScoringComplete,
-                    })
-                    .ToList();
+                    });
 
-            var result = new TeamScoreReporting(scores);
-            return result;
+            return scores;
         }
     }
 
@@ -163,23 +161,25 @@ namespace AllStarScore.Scoring.Models
 
         [JsonIgnore]
         public List<TeamScoreGroup> All { get { return Divisions.Concat(Levels).Concat(new[] {Overall}).ToList(); } } 
-        public TeamScoreReporting(List<TeamScore> scores)
+        public TeamScoreReporting(IEnumerable<TeamScore> scores)
         {
+            var list = scores.ToList();
+
             Divisions =
-                scores
+                list
                     .JsonCopy() //http://stackoverflow.com/a/222761/214073 //TODO: Blog about this
                     .GroupBy(x => x.DivisionId)
                     .Select(g => new TeamScoreGroup(g))
                     .ToList();
 
             Levels =
-                scores
+                list
                     .JsonCopy()
                     .GroupBy(x => x.LevelId)
                     .Select(g => new TeamScoreGroup(g))
                     .ToList();
 
-            Overall = new TeamScoreGroup("overall", scores.JsonCopy());
+            Overall = new TeamScoreGroup("overall", list);
         }
 
         public void Rank(IRankingCalculator calculator)

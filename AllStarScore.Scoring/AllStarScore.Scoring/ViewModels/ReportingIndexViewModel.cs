@@ -24,4 +24,16 @@ namespace AllStarScore.Scoring.ViewModels
             Reporting = reporting;
         }
     }
+
+    public class ReportingTwoPerformanceViewModel
+    {
+        public string CompetitionId { get; set; }
+        public TeamScoreReporting Reporting { get; set; }
+
+        public ReportingTwoPerformanceViewModel(string competitionId, TeamScoreReporting reporting)
+        {
+            CompetitionId = competitionId;
+            Reporting = reporting;
+        }
+    }
 }
