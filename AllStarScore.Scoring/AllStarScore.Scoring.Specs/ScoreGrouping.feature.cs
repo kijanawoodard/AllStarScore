@@ -132,13 +132,375 @@ this.ScenarioSetup(scenarioInfo);
                         "divisions-1",
                         "levels-1"});
 #line 8
- testRunner.Given("a set of Performances:", ((string)(null)), table1);
+ testRunner.Given("a set of Performances to be grouped:", ((string)(null)), table1);
 #line 17
  testRunner.When("Performances are Grouped");
 #line 18
  testRunner.Then("the count of divisions-1 will be 7");
 #line 19
   testRunner.And("the count of levels-1 will be 7");
+#line 20
+  testRunner.And("the count of overall will be 7");
+#line hidden
+            this.ScenarioCleanup();
+        }
+        
+        [NUnit.Framework.TestAttribute()]
+        [NUnit.Framework.DescriptionAttribute("Group performances all in the same level but different divisions")]
+        public virtual void GroupPerformancesAllInTheSameLevelButDifferentDivisions()
+        {
+            TechTalk.SpecFlow.ScenarioInfo scenarioInfo = new TechTalk.SpecFlow.ScenarioInfo("Group performances all in the same level but different divisions", ((string[])(null)));
+#line 22
+this.ScenarioSetup(scenarioInfo);
+#line hidden
+            TechTalk.SpecFlow.Table table2 = new TechTalk.SpecFlow.Table(new string[] {
+                        "GymName",
+                        "IsSmallGym",
+                        "Final Score",
+                        "Registration Id",
+                        "Division Id",
+                        "Level Id"});
+            table2.AddRow(new string[] {
+                        "Tiger Cheer",
+                        "true",
+                        "40.200",
+                        "registrations-1",
+                        "divisions-1",
+                        "levels-1"});
+            table2.AddRow(new string[] {
+                        "High Spirit",
+                        "true",
+                        "42.293",
+                        "registrations-2",
+                        "divisions-1",
+                        "levels-1"});
+            table2.AddRow(new string[] {
+                        "Division Winner",
+                        "false",
+                        "45.933",
+                        "registrations-3",
+                        "divisions-1",
+                        "levels-1"});
+            table2.AddRow(new string[] {
+                        "A Large Gym",
+                        "false",
+                        "43.397",
+                        "registrations-4",
+                        "divisions-2",
+                        "levels-1"});
+            table2.AddRow(new string[] {
+                        "Another Large Gym",
+                        "false",
+                        "41.397",
+                        "registrations-5",
+                        "divisions-2",
+                        "levels-1"});
+            table2.AddRow(new string[] {
+                        "A Small Gym",
+                        "true",
+                        "41.397",
+                        "registrations-6",
+                        "divisions-3",
+                        "levels-1"});
+            table2.AddRow(new string[] {
+                        "A New Gym",
+                        "true",
+                        "38.397",
+                        "registrations-7",
+                        "divisions-3",
+                        "levels-1"});
+#line 23
+ testRunner.Given("a set of Performances to be grouped:", ((string)(null)), table2);
+#line 32
+ testRunner.When("Performances are Grouped");
+#line 33
+ testRunner.Then("the count of divisions-1 will be 3");
+#line 34
+  testRunner.And("the count of divisions-2 will be 2");
+#line 35
+  testRunner.And("the count of divisions-3 will be 2");
+#line 36
+  testRunner.And("the count of levels-1 will be 7");
+#line 37
+  testRunner.And("the count of overall will be 7");
+#line hidden
+            this.ScenarioCleanup();
+        }
+        
+        [NUnit.Framework.TestAttribute()]
+        [NUnit.Framework.DescriptionAttribute("Group performances all in the different levels and different divisions")]
+        public virtual void GroupPerformancesAllInTheDifferentLevelsAndDifferentDivisions()
+        {
+            TechTalk.SpecFlow.ScenarioInfo scenarioInfo = new TechTalk.SpecFlow.ScenarioInfo("Group performances all in the different levels and different divisions", ((string[])(null)));
+#line 39
+this.ScenarioSetup(scenarioInfo);
+#line hidden
+            TechTalk.SpecFlow.Table table3 = new TechTalk.SpecFlow.Table(new string[] {
+                        "GymName",
+                        "IsSmallGym",
+                        "Final Score",
+                        "Registration Id",
+                        "Division Id",
+                        "Level Id"});
+            table3.AddRow(new string[] {
+                        "Tiger Cheer",
+                        "true",
+                        "40.200",
+                        "registrations-1",
+                        "divisions-1",
+                        "levels-1"});
+            table3.AddRow(new string[] {
+                        "High Spirit",
+                        "true",
+                        "42.293",
+                        "registrations-2",
+                        "divisions-1",
+                        "levels-1"});
+            table3.AddRow(new string[] {
+                        "Division Winner",
+                        "false",
+                        "45.933",
+                        "registrations-3",
+                        "divisions-1",
+                        "levels-1"});
+            table3.AddRow(new string[] {
+                        "A Large Gym",
+                        "false",
+                        "43.397",
+                        "registrations-4",
+                        "divisions-2",
+                        "levels-2"});
+            table3.AddRow(new string[] {
+                        "Another Large Gym",
+                        "false",
+                        "41.397",
+                        "registrations-5",
+                        "divisions-2",
+                        "levels-2"});
+            table3.AddRow(new string[] {
+                        "A Small Gym",
+                        "true",
+                        "41.397",
+                        "registrations-6",
+                        "divisions-3",
+                        "levels-3"});
+            table3.AddRow(new string[] {
+                        "A New Gym",
+                        "true",
+                        "38.397",
+                        "registrations-7",
+                        "divisions-3",
+                        "levels-3"});
+#line 40
+ testRunner.Given("a set of Performances to be grouped:", ((string)(null)), table3);
+#line 49
+ testRunner.When("Performances are Grouped");
+#line 50
+ testRunner.Then("the count of divisions-1 will be 3");
+#line 51
+  testRunner.And("the count of divisions-2 will be 2");
+#line 52
+  testRunner.And("the count of divisions-3 will be 2");
+#line 53
+  testRunner.And("the count of levels-1 will be 3");
+#line 54
+  testRunner.And("the count of levels-2 will be 2");
+#line 55
+  testRunner.And("the count of levels-3 will be 2");
+#line 56
+  testRunner.And("the count of overall will be 7");
+#line hidden
+            this.ScenarioCleanup();
+        }
+        
+        [NUnit.Framework.TestAttribute()]
+        [NUnit.Framework.DescriptionAttribute("Group performances all in the different levels and different divisions in random " +
+            "order")]
+        public virtual void GroupPerformancesAllInTheDifferentLevelsAndDifferentDivisionsInRandomOrder()
+        {
+            TechTalk.SpecFlow.ScenarioInfo scenarioInfo = new TechTalk.SpecFlow.ScenarioInfo("Group performances all in the different levels and different divisions in random " +
+                    "order", ((string[])(null)));
+#line 58
+this.ScenarioSetup(scenarioInfo);
+#line hidden
+            TechTalk.SpecFlow.Table table4 = new TechTalk.SpecFlow.Table(new string[] {
+                        "GymName",
+                        "IsSmallGym",
+                        "Final Score",
+                        "Registration Id",
+                        "Division Id",
+                        "Level Id"});
+            table4.AddRow(new string[] {
+                        "A Small Gym",
+                        "true",
+                        "41.397",
+                        "registrations-6",
+                        "divisions-3",
+                        "levels-3"});
+            table4.AddRow(new string[] {
+                        "A Large Gym",
+                        "false",
+                        "43.397",
+                        "registrations-4",
+                        "divisions-2",
+                        "levels-2"});
+            table4.AddRow(new string[] {
+                        "High Spirit",
+                        "true",
+                        "42.293",
+                        "registrations-2",
+                        "divisions-1",
+                        "levels-1"});
+            table4.AddRow(new string[] {
+                        "A New Gym",
+                        "true",
+                        "38.397",
+                        "registrations-7",
+                        "divisions-3",
+                        "levels-3"});
+            table4.AddRow(new string[] {
+                        "Division Winner",
+                        "false",
+                        "45.933",
+                        "registrations-3",
+                        "divisions-1",
+                        "levels-1"});
+            table4.AddRow(new string[] {
+                        "Another Large Gym",
+                        "false",
+                        "41.397",
+                        "registrations-5",
+                        "divisions-2",
+                        "levels-2"});
+            table4.AddRow(new string[] {
+                        "Tiger Cheer",
+                        "true",
+                        "40.200",
+                        "registrations-1",
+                        "divisions-1",
+                        "levels-1"});
+#line 59
+ testRunner.Given("a set of Performances to be grouped:", ((string)(null)), table4);
+#line 68
+ testRunner.When("Performances are Grouped");
+#line 69
+ testRunner.Then("the count of divisions-1 will be 3");
+#line 70
+  testRunner.And("the count of divisions-2 will be 2");
+#line 71
+  testRunner.And("the count of divisions-3 will be 2");
+#line 72
+  testRunner.And("the count of levels-1 will be 3");
+#line 73
+  testRunner.And("the count of levels-2 will be 2");
+#line 74
+  testRunner.And("the count of levels-3 will be 2");
+#line 75
+  testRunner.And("the count of overall will be 7");
+#line hidden
+            this.ScenarioCleanup();
+        }
+        
+        [NUnit.Framework.TestAttribute()]
+        [NUnit.Framework.DescriptionAttribute("Group performances all in the different levels and different divisions in random " +
+            "order and rank them")]
+        public virtual void GroupPerformancesAllInTheDifferentLevelsAndDifferentDivisionsInRandomOrderAndRankThem()
+        {
+            TechTalk.SpecFlow.ScenarioInfo scenarioInfo = new TechTalk.SpecFlow.ScenarioInfo("Group performances all in the different levels and different divisions in random " +
+                    "order and rank them", ((string[])(null)));
+#line 78
+this.ScenarioSetup(scenarioInfo);
+#line hidden
+            TechTalk.SpecFlow.Table table5 = new TechTalk.SpecFlow.Table(new string[] {
+                        "GymName",
+                        "IsSmallGym",
+                        "Final Score",
+                        "Registration Id",
+                        "Division Id",
+                        "Level Id"});
+            table5.AddRow(new string[] {
+                        "A Small Gym",
+                        "true",
+                        "41.397",
+                        "registrations-6",
+                        "divisions-3",
+                        "levels-2"});
+            table5.AddRow(new string[] {
+                        "A Large Gym",
+                        "false",
+                        "43.397",
+                        "registrations-4",
+                        "divisions-2",
+                        "levels-1"});
+            table5.AddRow(new string[] {
+                        "High Spirit",
+                        "true",
+                        "42.293",
+                        "registrations-2",
+                        "divisions-1",
+                        "levels-1"});
+            table5.AddRow(new string[] {
+                        "A New Gym",
+                        "true",
+                        "38.397",
+                        "registrations-7",
+                        "divisions-3",
+                        "levels-2"});
+            table5.AddRow(new string[] {
+                        "Division Winner",
+                        "false",
+                        "45.933",
+                        "registrations-3",
+                        "divisions-1",
+                        "levels-1"});
+            table5.AddRow(new string[] {
+                        "Another Large Gym",
+                        "false",
+                        "41.397",
+                        "registrations-5",
+                        "divisions-2",
+                        "levels-1"});
+            table5.AddRow(new string[] {
+                        "Tiger Cheer",
+                        "true",
+                        "40.200",
+                        "registrations-1",
+                        "divisions-1",
+                        "levels-1"});
+#line 79
+ testRunner.Given("a set of Performances to be grouped:", ((string)(null)), table5);
+#line 88
+  testRunner.And("a Natural Gym Ranking Calculator");
+#line 89
+ testRunner.When("Performances are Grouped");
+#line 90
+  testRunner.And("the TeamScores are ranked");
+#line 91
+ testRunner.Then("the count of divisions-1 will be 3");
+#line 92
+  testRunner.And("the count of divisions-2 will be 2");
+#line 93
+  testRunner.And("the count of divisions-3 will be 2");
+#line 94
+  testRunner.And("the count of levels-1 will be 5");
+#line 95
+  testRunner.And("the count of levels-2 will be 2");
+#line 96
+  testRunner.And("the count of overall will be 7");
+#line 97
+  testRunner.And("Division Winner should be ranked 1 in division and 1 in level and 1 overall");
+#line 98
+  testRunner.And("High Spirit should be ranked 2 in division and 3 in level and 3 overall");
+#line 99
+  testRunner.And("Tiger Cheer should be ranked 3 in division and 5 in level and 5 overall");
+#line 100
+  testRunner.And("A Large Gym should be ranked 1 in division and 2 in level and 2 overall");
+#line 101
+  testRunner.And("Another Large Gym should be ranked 2 in division and 4 in level and 4 overall");
+#line 102
+  testRunner.And("A Small Gym should be ranked 1 in division and 1 in level and 4 overall");
+#line 103
+  testRunner.And("A New Gym should be ranked 2 in division and 2 in level and 6 overall");
 #line hidden
             this.ScenarioCleanup();
         }

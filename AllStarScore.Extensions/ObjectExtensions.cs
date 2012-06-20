@@ -21,6 +21,18 @@ namespace AllStarScore.Extensions
                                                });
         }
 
+        public static T FromJson<T>(this string json)
+        {
+            return JsonConvert.DeserializeObject<T>(json);
+        }
+
+        //http://stackoverflow.com/a/222761/214073
+        //Really dirty - and delicious
+        public static T JsonCopy<T>(this T target)
+        {
+            return target.ToJson().FromJson<T>();
+        }
+
         public static TResult NullOr<T, TResult>(this T foo, Func<T, TResult> func) where T : class
         {
             if (foo == null) return default(TResult);
