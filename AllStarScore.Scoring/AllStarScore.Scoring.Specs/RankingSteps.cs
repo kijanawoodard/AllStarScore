@@ -15,7 +15,7 @@ namespace AllStarScore.Scoring.Specs
     {
         private IRankingCalculator _calculator;
         private TeamScoreReporting _scores;
-        private List<TeamScore> _first { get { return _scores.Divisions.First().ToList(); } } 
+        private List<TeamScore> _first { get { return _scores.Divisions.First().Scores.ToList(); } } 
         private List<Performance> _performances;
 
         [Given(@"a Small Gym Ranking Calculator")]
@@ -85,16 +85,16 @@ namespace AllStarScore.Scoring.Specs
         [Then(@"(.*) should be ranked (\d+)")]
         public void ThenTigerCheerShouldBeRanked(string gym, int rank)
         {
-            var score = _scores.All.SelectMany(x => x.Elements).First(x => x.GymName == gym);
+            var score = _scores.All.SelectMany(x => x.Scores).First(x => x.GymName == gym);
             Assert.AreEqual(rank, score.Rank);
         }
 
         [Then(@"(.*) should be ranked (\d+) in division and (\d+) in level and (\d+) overall")]
         public void ThenTigerCheerShouldBeRanked(string gym, int divisionRank, int levelRank, int overallRank)
         {
-            var divisionScore = _scores.Divisions.SelectMany(x => x.Elements).Single(x => x.GymName == gym).Rank;
-            var levelScore = _scores.Levels.SelectMany(x => x.Elements).Single(x => x.GymName == gym).Rank;
-            var overallScore = _scores.Overall.Single(x => x.GymName == gym).Rank;
+            var divisionScore = _scores.Divisions.SelectMany(x => x.Scores).Single(x => x.GymName == gym).Rank;
+            var levelScore = _scores.Levels.SelectMany(x => x.Scores).Single(x => x.GymName == gym).Rank;
+            var overallScore = _scores.Overall.Scores.Single(x => x.GymName == gym).Rank;
             Assert.AreEqual(divisionRank, divisionScore);
             Assert.AreEqual(levelRank, levelScore);
             Assert.AreEqual(overallRank, overallScore);
@@ -103,7 +103,7 @@ namespace AllStarScore.Scoring.Specs
         [Then(@"the count of (.*) will be (\d+)")]
         public void ThenTheCountOfKeyWillBeExpected(string key, int expected)
         {
-            var count = _scores.All.First(x => x.Key == key).Count();
+            var count = _scores.All.First(x => x.Key == key).Scores.Count;
             Assert.AreEqual(expected, count);
         }
     }

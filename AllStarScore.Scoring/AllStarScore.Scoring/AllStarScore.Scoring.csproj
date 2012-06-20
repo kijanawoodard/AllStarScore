@@ -207,6 +207,7 @@
     <Compile Include="Models\SmallGymRankingCalculator.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="ViewModels\PerformanceIndexViewModel.cs" />
+    <Compile Include="ViewModels\ReportingIndexViewModel.cs" />
     <Compile Include="ViewModels\ScoringFiveJudgePanelViewModel.cs" />
     <Compile Include="ViewModels\ScoringScoreEntryViewModel.cs" />
   </ItemGroup>
@@ -248,12 +249,14 @@
     <Content Include="Content\scripts\lib\modernizr-2.5.3.js" />
     <Content Include="Content\scripts\lib\underscore-min.js" />
     <Content Include="Content\scripts\performances.index.js" />
+    <Content Include="Content\scripts\reporting.singleperformance.js" />
     <Content Include="Content\scripts\scoring.fivejudgepanel.js" />
     <Content Include="Content\scripts\scoring.scoreentry.js" />
     <Content Include="Content\styles\global.css" />
     <Content Include="Content\styles\jquery-ui-timepicker-addon.css" />
     <Content Include="Content\styles\normalize.css" />
     <Content Include="Content\styles\performances.index.css" />
+    <Content Include="Content\styles\reporting.singleperformance.css" />
     <Content Include="Content\styles\scoring.fivejudgepanel.css" />
     <Content Include="Content\styles\scoring.scoreentry.css" />
     <Content Include="Content\styles\site.css" />
@@ -338,6 +341,12 @@
   </ItemGroup>
   <ItemGroup>
     <Content Include="NLog.config" />
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="Views\Reporting\Index.cshtml" />
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="Views\Reporting\SinglePerformance.cshtml" />
   </ItemGroup>
   <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
   <Import Project="$(MSBuildExtensionsPath32)\Microsoft\VisualStudio\v10.0\WebApplications\Microsoft.WebApplication.targets" />

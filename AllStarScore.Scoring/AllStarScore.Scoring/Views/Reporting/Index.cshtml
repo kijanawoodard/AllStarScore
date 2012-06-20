@@ -1,0 +1,10 @@
+﻿@model AllStarScore.Scoring.ViewModels.ReportingIndexViewModel
+
+@{
+    ViewBag.Title = "Reports";
+}
+
+<h2>Reports</h2>
+
+@Html.ActionLink("Single Performance", "SinglePerformance", "Reporting", new { id = Model.CompetitionId }, new { })
+@Html.ActionLink("Two Performance", "TwoPerformance", "Reporting", new { id = Model.CompetitionId }, new { })

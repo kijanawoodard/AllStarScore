@@ -1,0 +1,44 @@
+﻿@model AllStarScore.Scoring.ViewModels.ReportingSinglePerformanceViewModel
+
+@{
+    ViewBag.Title = "Single Performance or First Performance";
+}
+
+@{ Html.RegisterStylesheet("~/content/styles/reporting.singleperformance.css"); }
+@{ Html.RegisterScript("~/content/scripts/reporting.singleperformance.js"); }
+
+<h2>@ViewBag.Title</h2>
+
+<div id="reporting_singleperformance" data-bind="with: viewModel">
+    <h3>Divisions</h3>
+    <!-- ko template: { name: 'group_template', data: reporting.divisions } --><!-- /ko -->
+    
+    <h3>Levels</h3>
+    <!-- ko template: { name: 'group_template', data: reporting.levels } --><!-- /ko -->
+    <pre data-bind="text: ko.toJSON($root, null, 2)" class="ko_output"></pre>
+</div>
+
+<script>
+    var reportingData = JSON.parse('@Html.Raw(Model.ToJson())');
+</script>
+
+<script type="text/html" id="group_template">
+    <ul data-bind="foreach: $data">
+        <li>
+            <h4 data-bind="text: key"></h4>
+            <table>
+                <tbody data-bind="foreach: scores">
+                    <tr>
+                        <td data-bind="text: rank" class="numeric"></td>
+                        <td data-bind="text: totalScore().toFixed(3)" class="numeric"></td>
+                        <td>
+                            <span data-bind="text: gymName"></span>
+                            <span data-bind="text: teamName"></span>
+                            <span data-bind="text: isSmallGym() ? 'Small Gym' : 'Large Gym'" class="gym_size"></span>
+                        </td>
+                    </tr>
+                </tbody>
+            </table>
+        </li>
+    </ul>
+</script>

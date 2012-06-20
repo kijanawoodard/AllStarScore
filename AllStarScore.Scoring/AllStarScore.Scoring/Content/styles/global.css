@@ -7,7 +7,7 @@ td { padding: 0 8px 0 0; }
 fieldset td { padding: 0; }
 td.numeric { text-align: right; }
 
-
+ul { list-style-type: none;padding: 0;}
 
 
 

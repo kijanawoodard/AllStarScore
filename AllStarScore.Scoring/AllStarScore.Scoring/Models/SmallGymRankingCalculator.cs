@@ -4,6 +4,7 @@ using System.Linq;
 using System.Collections.Generic;
 using AllStarScore.Models;
 using AllStarScore.Extensions;
+using Newtonsoft.Json;
 
 namespace AllStarScore.Scoring.Models
 {
@@ -159,12 +160,14 @@ namespace AllStarScore.Scoring.Models
         public List<TeamScoreGroup> Divisions { get; set; }
         public List<TeamScoreGroup> Levels { get; set; }
         public TeamScoreGroup Overall { get; set; }
+
+        [JsonIgnore]
         public List<TeamScoreGroup> All { get { return Divisions.Concat(Levels).Concat(new[] {Overall}).ToList(); } } 
         public TeamScoreReporting(List<TeamScore> scores)
         {
             Divisions =
                 scores
-                    .JsonCopy() //http://stackoverflow.com/a/222761/214073
+                    .JsonCopy() //http://stackoverflow.com/a/222761/214073 //TODO: Blog about this
                     .GroupBy(x => x.DivisionId)
                     .Select(g => new TeamScoreGroup(g))
                     .ToList();
@@ -183,46 +186,25 @@ namespace AllStarScore.Scoring.Models
         {
             All.ForEach(x =>
             {
-                x.Elements = calculator.Rank(x.Elements).ToList();
+                x.Scores = calculator.Rank(x.Scores).ToList();
             });
         }
     }
 
-    public class TeamScoreGroup : Grouping<string, TeamScore>
+    //http://stackoverflow.com/a/8508212/214073 - very loosely based
+    public class TeamScoreGroup
     {
+        public string Key { get; private set; }
+        public List<TeamScore> Scores { get; set; }
+
         public TeamScoreGroup(IGrouping<string, TeamScore> grouping) : this(grouping.Key, grouping)
         {
         }
 
-        public TeamScoreGroup(string key, IEnumerable<TeamScore> elements) : base(key, elements)
-        {
-        }
-    }
-
-    //http://stackoverflow.com/a/8508212/214073
-    public class Grouping<TKey, TElement> : IGrouping<TKey, TElement>
-    {
-
-        public Grouping(IGrouping<TKey, TElement> grouping) : this(grouping.Key, grouping)
-        {
-            
-        }
-
-        public Grouping(TKey key, IEnumerable<TElement> elements)
+        public TeamScoreGroup(string key, IEnumerable<TeamScore> elements)
         {
             Key = key;
-            Elements = elements.ToList();
+            Scores = elements.ToList();
         }
-
-        public TKey Key { get; private set; }
-        public List<TElement> Elements { get; set; }
-
-        public IEnumerator<TElement> GetEnumerator()
-        {
-            return Elements.GetEnumerator();
-        }
-
-        IEnumerator IEnumerable.GetEnumerator() { return GetEnumerator(); }
-
     }
 }
