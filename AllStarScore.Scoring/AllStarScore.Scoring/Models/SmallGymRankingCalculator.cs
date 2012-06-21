@@ -191,6 +191,41 @@ namespace AllStarScore.Scoring.Models
         }
     }
 
+    public class AverageScoreReporting
+    {
+        public Dictionary<string, Dictionary<string, decimal>> Averages { get; set; }
+        
+        public AverageScoreReporting(IEnumerable<Performance> performances, IEnumerable<JudgeScore> scores)
+        {
+            var all =
+                from item in scores
+                from score in item.Scores
+                let divisionid = performances.First(p => p.Id == item.PerformanceId).DivisionId
+                select new
+                       {
+                           DivisionId = divisionid,
+                           Category = score.Key,
+                           score.Value.Total 
+                       };
+
+            var averaged =
+                from one in all
+                group one by new {one.DivisionId, one.Category}
+                into g
+                select new
+                       {
+                           g.Key.DivisionId,
+                           g.Key.Category,
+                           Total = g.Average(x => x.Total).RoundUp(1)
+                       };
+
+            Averages =
+                averaged
+                    .GroupBy(x => x.DivisionId)
+                    .ToDictionary(x => x.Key, x => x.ToDictionary(y => y.Category, y => y.Total));
+        }
+    }
+
     //http://stackoverflow.com/a/8508212/214073 - very loosely based
     public class TeamScoreGroup
     {

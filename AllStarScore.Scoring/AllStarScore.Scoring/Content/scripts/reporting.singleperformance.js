@@ -5,14 +5,24 @@
 
 
 var mapping = {
-//    'viewModel': {
-//        create: function (options) {
-//            return new FiveJudgePanelViewModel(options.data);
-//        }
-//    },
-//    'performance': {
-//        create: function (options) {
-//            return new PerformanceModel(options.data);
-//        }
-//    }
+    'viewModel': {
+        create: function (options) {
+            return new ReportingViewModel(options.data);
+        }
+    }
 };
+
+var ReportingViewModel = function (data) {
+    var self = this;
+
+    ko.mapping.fromJS(data, mapping, self);
+
+    self.asArray = function (obj) {
+        var result = [];
+        for (var key in obj) {
+            result.push({ key: key, value: obj[key] });
+        }
+
+        return result;
+    };
+}

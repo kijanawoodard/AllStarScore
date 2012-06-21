@@ -21,7 +21,7 @@ namespace AllStarScore.Scoring.Models
         {
             get
             {
-                return Scores.Values.Aggregate(0.0m, (agg, score) => agg + score.Total);
+                return Scores.Values.Aggregate(0.0m, (agg, score) => agg + score.Total).RoundUp(3);
             }
         }
 

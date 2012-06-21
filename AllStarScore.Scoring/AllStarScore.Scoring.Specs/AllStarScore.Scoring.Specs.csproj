@@ -53,6 +53,12 @@
     </CodeAnalysisDependentAssemblyPaths>
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="AverageScoreReporting.feature.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>AverageScoreReporting.feature</DependentUpon>
+    </Compile>
+    <Compile Include="AveragingSteps.cs" />
     <Compile Include="NaturalGymRanking.feature.cs">
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>
@@ -74,6 +80,10 @@
   <ItemGroup>
     <None Include="App.config">
       <SubType>Designer</SubType>
+    </None>
+    <None Include="AverageScoreReporting.feature">
+      <Generator>SpecFlowSingleFileGenerator</Generator>
+      <LastGenOutput>AverageScoreReporting.feature.cs</LastGenOutput>
     </None>
     <None Include="NaturalGymRanking.feature">
       <Generator>SpecFlowSingleFileGenerator</Generator>

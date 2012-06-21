@@ -22,16 +22,25 @@ namespace AllStarScore.Scoring.Controllers
             var performances =
                 RavenSession
                     .Query<Performance>()
+                    .Where(x => x.CompetitionId == id)
                     .Take(int.MaxValue)
                     .ToList();
 
+            var judges =
+                RavenSession
+                    .Query<JudgeScore>()
+                    .Take(int.MaxValue)
+                    .ToList();
+                    
             var calculator = new SmallGymRankingCalculator(); //TODO: indirect
             var generator = new TeamScoreGenerator();
             var scores = generator.From(performances);
             var reporting = new TeamScoreReporting(scores);
             reporting.Rank(calculator);
 
-            var model = new ReportingSinglePerformanceViewModel(id, reporting);
+            var averages = new AverageScoreReporting(performances, judges);
+
+            var model = new ReportingSinglePerformanceViewModel(id, reporting, averages);
             return View(model);
         }
 
