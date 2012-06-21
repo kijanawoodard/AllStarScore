@@ -6,7 +6,10 @@
 <div id="competitionlayout_index" data-bind="with: lookup.info">
     <div  class="header">
         <div data-bind="text: companyName" class="company"></div>
-        <div data-bind="text: competitionDescription"class="description"></div>
+        <div class="description">
+            <span data-bind="text: competitionName"></span>
+            <span data-bind="dateString: new Date(days()[0]), datePattern: 'MMM dd, yyyy'"></span>
+        </div>
     </div>
 </div>
 
