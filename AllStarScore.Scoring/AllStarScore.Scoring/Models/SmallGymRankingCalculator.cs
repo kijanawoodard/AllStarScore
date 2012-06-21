@@ -109,6 +109,9 @@ namespace AllStarScore.Scoring.Models
         public string TeamName { get; set; }
         public string GymLocation { get; set; }
 
+        public string DivisionName { get; set; }
+        public string LevelName { get; set; }
+
         public bool IsSmallGym { get; set; }
         public bool IsLargeGym { get { return !IsSmallGym; } }
         public bool IsShowTeam { get; set; }
@@ -141,6 +144,8 @@ namespace AllStarScore.Scoring.Models
                             .Select(p => p.FinalScore)
                             .ToList(),
                         GymName = x.First().GymName,
+                        DivisionName = x.First().DivisionName,
+                        LevelName = x.First().LevelName,
                         TeamName = x.First().TeamName,
                         GymLocation = x.First().GymLocation,
                         IsSmallGym = x.First().IsSmallGym,

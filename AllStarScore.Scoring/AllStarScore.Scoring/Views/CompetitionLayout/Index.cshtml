@@ -1,0 +1,8 @@
+﻿@model AllStarScore.Scoring.ViewModels.CompetitionLayoutIndexViewModel
+
+@{ Html.RegisterStylesheet("~/content/styles/competitionlayout.index.css"); }
+@{ Html.RegisterScript("~/content/scripts/competitionlayout.index.js"); }
+
+<script>
+    var competitionLayoutIndexData = JSON.parse('@Html.Raw(Model.ToJson())');
+</script>
