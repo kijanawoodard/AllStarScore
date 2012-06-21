@@ -98,7 +98,7 @@ namespace AllStarScore.Scoring
 
             InitializeRavenProfiler();
 
-            IndexCreation.CreateIndexes(typeof(JudgeScoreByPerformance).Assembly, RavenController.DocumentStore);
+            IndexCreation.CreateIndexes(typeof(JudgeScoreIndex).Assembly, RavenController.DocumentStore);
         }
 
         [Conditional("DEBUG")]

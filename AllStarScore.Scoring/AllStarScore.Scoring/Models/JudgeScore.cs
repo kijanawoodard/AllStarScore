@@ -62,18 +62,18 @@ namespace AllStarScore.Scoring.Models
 
     public interface ITeamScoreCalculator
     {
-        List<JudgeScoreByPerformance.Result> Scores { get; set; }
+        List<JudgeScoreIndex.Result> Scores { get; set; }
         decimal AveragePanelScore { get; set; }
         decimal FinalScore { get; set; }
     }
 
     public class FiveJudgePanelPerformanceScoreCalculator : ITeamScoreCalculator
     {
-        public List<JudgeScoreByPerformance.Result> Scores { get; set; }
+        public List<JudgeScoreIndex.Result> Scores { get; set; }
         public decimal AveragePanelScore { get; set; }
         public decimal FinalScore { get; set; }
 
-        public FiveJudgePanelPerformanceScoreCalculator(List<JudgeScoreByPerformance.Result> scores)
+        public FiveJudgePanelPerformanceScoreCalculator(List<JudgeScoreIndex.Result> scores)
         {
             Scores = scores;
 

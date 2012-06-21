@@ -5,7 +5,7 @@ using Raven.Client.Indexes;
 
 namespace AllStarScore.Scoring.Infrastructure.Indexes
 {
-    public class JudgeScoreByPerformance : AbstractIndexCreationTask<JudgeScore, JudgeScoreByPerformance.Result>
+    public class JudgeScoreIndex : AbstractIndexCreationTask<JudgeScore, JudgeScoreIndex.Result>
     {
         public class Result
         {
@@ -23,7 +23,7 @@ namespace AllStarScore.Scoring.Infrastructure.Indexes
             }
         }
 
-        public JudgeScoreByPerformance()
+        public JudgeScoreIndex()
         {
             Map = scores => from score in scores
                             select new

@@ -32,9 +32,9 @@ namespace AllStarScore.Scoring.Controllers
         {
             var scores =
                 RavenSession
-                    .Query<JudgeScore, JudgeScoreByPerformance>()
+                    .Query<JudgeScore, JudgeScoreIndex>()
                     .Where(x => x.PerformanceId == performanceId)
-                    .As<JudgeScoreByPerformance.Result>()
+                    .As<JudgeScoreIndex.Result>()
                     .ToList();
 
             var calculator = new FiveJudgePanelPerformanceScoreCalculator(scores);
