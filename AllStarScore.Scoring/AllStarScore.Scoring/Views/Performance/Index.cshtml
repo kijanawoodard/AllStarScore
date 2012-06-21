@@ -2,6 +2,7 @@
 
 @{
     ViewBag.Title = "Performances";
+    Layout = "~/Views/Shared/_LayoutCompetition.cshtml";
 }
 
 @{ Html.RegisterStylesheet("~/content/styles/performances.index.css"); }
@@ -9,12 +10,12 @@
 
 <h2>Performances</h2>
 
-<div id="performance_index">
+<div id="performance_index" data-bind="with: $root.performanceViewModel">
     <ol data-bind="foreach: performances" class="performances">
         <li>
             <span data-bind="dateString: performanceTime, datePattern: 'ddd h:mm tt'" class="when"></span>
             <span class="name">
-                <a data-bind="attr: {href: $root.scoringUrl() + id()}">
+                <a data-bind="attr: {href: $root.performanceViewModel.scoringUrl() + id()}">
                     <span data-bind="text: gymName"></span>
                     <span data-bind="text: teamName"></span>
                 </a>
