@@ -1,20 +1,13 @@
-using System.Collections.Generic;
-using System.Collections.ObjectModel;
-using AllStarScore.Admin.Infrastructure.Commands;
-
-namespace AllStarScore.Admin.Models
+namespace AllStarScore.Models
 {
-    public class Level
+    public class Division
     {
         public string Id { get; set; }
         public string Name { get; set; }
-        public string DefaultScoringDefinition { get; set; }
+        public string LevelId { get; set; }
 
-        public ICollection<ICommand> History { get; private set; }
-
-        public Level()
+        public Division()
         {
-            History = new Collection<ICommand>();
         }
 
         public override bool Equals(object obj)
@@ -32,7 +25,7 @@ namespace AllStarScore.Admin.Models
 
         public override string ToString()
         {
-            return Name;
+            return LevelId + "/" + Name;
         }
     }
 }

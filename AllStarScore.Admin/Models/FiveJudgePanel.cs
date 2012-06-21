@@ -1,40 +1,43 @@
 using System.Collections.Generic;
-using System.Collections.ObjectModel;
 using System.Globalization;
-using System.Linq;
-using AllStarScore.Admin.Infrastructure.Commands;
 
 namespace AllStarScore.Admin.Models
 {
-    public class Division
+    public class FiveJudgePanel : IJudgePanel
     {
-        public string Id { get; set; }
-        public string Name { get; set; }
-        public string LevelId { get; set; }
+        public string Id { get { return "panels-fivejudge"; } }
 
-        public ICollection<ICommand> History { get; private set; }
+        public string Designator { get; private set; }
 
-        public Division()
+        private PanelJudge PanelJudge1 { get; set; }
+        private PanelJudge PanelJudge2 { get; set; }
+        private PanelJudge PanelJudge3 { get; set; }
+
+        private DeductionsJudge DeductionsJudge { get; set; }
+        private LegalitiesJudge LegalitiesJudge { get; set; }
+
+        public IEnumerable<IJudge> Judges
         {
-            History = new Collection<ICommand>();
+            get
+            {
+                yield return PanelJudge1;
+                yield return PanelJudge2;
+                yield return PanelJudge3;
+                yield return DeductionsJudge;
+                yield return LegalitiesJudge;
+            }
         }
 
-        public override bool Equals(object obj)
+        public FiveJudgePanel(string designator)
         {
-            var target = obj as Division;
-            if (target == null) return false;
+            Designator = designator;
 
-            return Id.Equals(target.Id);
-        }
+            PanelJudge1 = new PanelJudge(1);
+            PanelJudge2 = new PanelJudge(2);
+            PanelJudge3 = new PanelJudge(3);
 
-        public override int GetHashCode()
-        {
-            return Id.GetHashCode();
-        }
-
-        public override string ToString()
-        {
-            return LevelId + "/" + Name;
+            DeductionsJudge = new DeductionsJudge();
+            LegalitiesJudge = new LegalitiesJudge();
         }
     }
 
@@ -76,50 +79,12 @@ namespace AllStarScore.Admin.Models
 
     public class JudgingPanels
     {
-        
-    }
 
-    public class FiveJudgePanel : IJudgePanel
-    {
-        public string Id { get { return "panels-fivejudge"; } }
-
-        public string Designator { get; private set; }
-
-        private PanelJudge PanelJudge1 { get; set; }
-        private PanelJudge PanelJudge2 { get; set; }
-        private PanelJudge PanelJudge3 { get; set; }
-
-        private DeductionsJudge DeductionsJudge { get; set; }
-        private LegalitiesJudge LegalitiesJudge { get; set; }
-
-        public IEnumerable<IJudge> Judges
-        {
-            get
-            {
-                yield return PanelJudge1;
-                yield return PanelJudge2;
-                yield return PanelJudge3;
-                yield return DeductionsJudge;
-                yield return LegalitiesJudge;
-            }
-        }
-
-        public FiveJudgePanel(string designator)
-        {
-            Designator = designator;
-
-            PanelJudge1 = new PanelJudge(1);
-            PanelJudge2 = new PanelJudge(2);
-            PanelJudge3 = new PanelJudge(3);
-
-            DeductionsJudge = new DeductionsJudge();
-            LegalitiesJudge = new LegalitiesJudge();
-        }
     }
 
     public class ScoringMap
     {
-        public Dictionary<string, string> All 
+        public Dictionary<string, string> All
         {
             get
             {

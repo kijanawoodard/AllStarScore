@@ -1,5 +1,4 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 
@@ -36,15 +35,5 @@ namespace AllStarScore.Models
         public bool ScoringComplete { get; set; }
 
         public decimal FinalScore { get; set; }
-    }
-
-    public class ScoringImportData
-    {
-        public string CompanyName { get; set; }
-        public string CompetitionId { get; set; }
-        public string CompetitionName { get; set; }
-        public string CompetitionDescription { get; set; }
-        public List<DateTime> Days { get; set; } 
-        public List<Performance> Performances { get; set; } 
     }
 }

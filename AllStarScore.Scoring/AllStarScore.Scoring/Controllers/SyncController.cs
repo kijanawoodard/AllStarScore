@@ -15,15 +15,15 @@ namespace AllStarScore.Scoring.Controllers
         {
             var client = new WebClient();
             var data = client.DownloadString(id);
-            var model = JsonConvert.DeserializeObject<ScoringImportData>(data);
+            var model = JsonConvert.DeserializeObject<CompetitionImport>(data);
 
-            UpdateCompetition(model);
+            RavenSession.Store(model); //UpdateCompetition(model);
             UpdatePerformances(model);
 
             return RedirectToAction("Index", "Performance", new {id = model.CompetitionId});
         }
 
-        public void UpdateCompetition(ScoringImportData model)
+        public void UpdateCompetition(CompetitionImport model)
         {
             var competition = RavenSession.Load<Competition>(model.CompetitionId);
 
@@ -42,7 +42,7 @@ namespace AllStarScore.Scoring.Controllers
             competition.Days = model.Days;
         }
 
-        public void UpdatePerformances(ScoringImportData model)
+        public void UpdatePerformances(CompetitionImport model)
         {
             var performances =
                 RavenSession

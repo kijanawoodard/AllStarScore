@@ -276,7 +276,7 @@ $(document).ready(function () {
         highPadSelected.removeClass(selectedClass);
         highPadSelected = $(this);
         highPadSelected.addClass(selectedClass);
-        $.cookie(scorepad_cookie_name, $(this).text(), { expires: 365 });
+        $.cookie(scorepad_cookie_name, $(this).text(), { expires: 365, path: '/' });
     });
 
     $(".scorepad table.low td").click(function () {

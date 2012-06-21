@@ -5,6 +5,7 @@ using System.Web.Script.Serialization;
 using AllStarScore.Admin.Infrastructure.Indexes;
 using AllStarScore.Admin.Models;
 using AllStarScore.Admin.ViewModels;
+using AllStarScore.Models;
 using Newtonsoft.Json;
 using Newtonsoft.Json.Serialization;
 using Raven.Client.Linq;

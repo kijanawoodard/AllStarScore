@@ -165,9 +165,8 @@
     <Compile Include="Infrastructure\Indexes\TeamRegistrationStatsByGym.cs" />
     <Compile Include="Models\AccountModels.cs" />
     <Compile Include="Models\Competition.cs" />
-    <Compile Include="Models\Division.cs" />
+    <Compile Include="Models\FiveJudgePanel.cs" />
     <Compile Include="Models\Gym.cs" />
-    <Compile Include="Models\Level.cs" />
     <Compile Include="Models\Schedule.cs" />
     <Compile Include="Models\TeamRegistration.cs" />
     <Compile Include="Models\User.cs" />

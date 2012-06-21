@@ -36,6 +36,18 @@ namespace AllStarScore.Admin.Controllers
                     .Advanced.Lazily
                     .Load<Competition>(request.CompetitionId);
 
+            var divisions =
+                RavenSession
+                    .Query<Division>()
+                    .Take(int.MaxValue)
+                    .Lazily();
+
+            var levels =
+                RavenSession
+                    .Query<Level>()
+                    .Take(int.MaxValue)
+                    .Lazily();
+                    
             var schedule = RavenSession
                             .Query<Schedule, ScheduleByCompetition>()
                             .FirstOrDefault(x => x.CompetitionId == request.CompetitionId);
@@ -43,7 +55,7 @@ namespace AllStarScore.Admin.Controllers
             if (schedule == null)
                 return new HttpNotFoundResult();
 
-            var model = new ScoringImportData
+            var model = new CompetitionImport
                         {
                             Performances = schedule
                                 .PerformanceEntries
@@ -77,7 +89,9 @@ namespace AllStarScore.Admin.Controllers
                             CompetitionId = competition.Value.Id,
                             CompetitionName = competition.Value.Name,
                             CompetitionDescription = competition.Value.Description,
-                            Days = competition.Value.Days.ToList()
+                            Days = competition.Value.Days.ToList(),
+                            Divisions = divisions.Value.ToList(),
+                            Levels = levels.Value.ToList()
                         };
             
 

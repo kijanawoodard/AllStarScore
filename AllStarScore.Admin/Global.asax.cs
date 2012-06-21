@@ -11,6 +11,7 @@ using AllStarScore.Admin.Infrastructure.Indexes;
 using AllStarScore.Admin.Models;
 using AllStarScore.Library.ModelBinding;
 using AllStarScore.Library.Moth;
+using AllStarScore.Models;
 using Moth.Core;
 using Raven.Abstractions.Data;
 using Raven.Client;
