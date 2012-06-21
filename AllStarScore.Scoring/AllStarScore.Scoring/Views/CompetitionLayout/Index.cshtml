@@ -3,6 +3,13 @@
 @{ Html.RegisterStylesheet("~/content/styles/competitionlayout.index.css"); }
 @{ Html.RegisterScript("~/content/scripts/competitionlayout.index.js"); }
 
+<div id="competitionlayout_index" data-bind="with: lookup.info">
+    <div  class="header">
+        <div data-bind="text: companyName" class="company"></div>
+        <div data-bind="text: competitionDescription"class="description"></div>
+    </div>
+</div>
+
 <script>
     var competitionLayoutIndexData = JSON.parse('@Html.Raw(Model.ToJson())');
 </script>
