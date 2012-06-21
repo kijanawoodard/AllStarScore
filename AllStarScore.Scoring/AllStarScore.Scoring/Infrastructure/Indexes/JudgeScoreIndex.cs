@@ -10,6 +10,7 @@ namespace AllStarScore.Scoring.Infrastructure.Indexes
         public class Result
         {
             public string Id { get; set; }
+            public string CompetitionId { get; set; }
             public string PerformanceId { get; set; }
             public string JudgeId { get; set; }
             public Dictionary<string, ScoreEntry> Scores { get; set; }

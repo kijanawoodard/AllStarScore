@@ -11,6 +11,7 @@ namespace AllStarScore.Scoring.Models
     public class JudgeScore : IJudgeScoreId
     {
         public string Id { get { return this.CalculateJudgeScoreId(); } }
+        public string CompetitionId { get; set; } //why, we could get this from performance; but then it makes it hard to just get all the scores. case in point average scores
         public string PerformanceId { get; set; }
         public string JudgeId { get; set; }
 
@@ -37,16 +38,14 @@ namespace AllStarScore.Scoring.Models
             }
         }
 
-//        public ICollection<ICommand> History { get; private set; }
-
         public JudgeScore()
         {
             Scores = new Dictionary<string, ScoreEntry>();
-//            History = new Collection<ICommand>();
         }
 
-        public JudgeScore(string performanceId, string judgeId) : this()
+        public JudgeScore(string competitionId, string performanceId, string judgeId) : this()
         {
+            CompetitionId = competitionId;
             PerformanceId = performanceId;
             JudgeId = judgeId;
         }
@@ -55,8 +54,6 @@ namespace AllStarScore.Scoring.Models
         {
             Scores = command.Scores;
             GrandTotal = command.GrandTotal;
-
-//            History.Add(command);
         }
     }
 
