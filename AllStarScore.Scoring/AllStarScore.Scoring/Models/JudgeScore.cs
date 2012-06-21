@@ -77,10 +77,14 @@ namespace AllStarScore.Scoring.Models
         {
             Scores = scores;
 
+            if (!scores.Any())
+                return;
+
             AveragePanelScore =
                 scores
                     .Where(x => new[] {"1", "2", "3"}.Contains(x.JudgeId))
-                    .Average(x => x.GrandTotalServer).RoundUp(3);
+                    .Average(x => x.GrandTotalServer)
+                    .RoundUp(3);
 
             FinalScore =
                 AveragePanelScore - scores
