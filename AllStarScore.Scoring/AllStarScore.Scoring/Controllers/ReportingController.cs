@@ -64,13 +64,13 @@ namespace AllStarScore.Scoring.Controllers
                     .Take(int.MaxValue)
                     .ToList();
 
-            var judges =
+            var scores =
                 RavenSession
                     .Query<JudgeScore>()
                     .Take(int.MaxValue)
                     .ToList();
 
-            var averages = new AverageScoreReporting(performances, judges);
+            var averages = new AverageScoreReporting(performances, scores);
 
             var model = new ReportingAveragesViewModel(averages);
             return PartialView(model);
