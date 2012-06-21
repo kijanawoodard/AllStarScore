@@ -17,13 +17,11 @@ namespace AllStarScore.Scoring.ViewModels
     {
         public string CompetitionId { get; set; }
         public TeamScoreReporting Reporting { get; set; }
-        public AverageScoreReporting AverageReporting { get; set; }
 
-        public ReportingSinglePerformanceViewModel(string competitionId, TeamScoreReporting reporting, AverageScoreReporting averageReporting)
+        public ReportingSinglePerformanceViewModel(string competitionId, TeamScoreReporting reporting)
         {
             CompetitionId = competitionId;
             Reporting = reporting;
-            AverageReporting = averageReporting;
         }
     }
 

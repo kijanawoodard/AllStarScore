@@ -1,51 +1,49 @@
 ﻿$(document).ready(function () {
-    var viewModel = ko.mapping.fromJS({ viewModel: window.averagesData }, mapping);
-    ko.applyBindings(viewModel, document.getElementById('reporting_averages'));
-});
 
-
-var mapping = {
-    'viewModel': {
-        create: function (options) {
-            return new ReportingViewModel(options.data);
+    var mapping = {
+        'reporting': {
+            create: function (options) {
+                return new reportingViewModel(options.data);
+            }
         }
-    }
-};
-
-var ReportingViewModel = function (data) {
-    var self = this;
-
-    ko.mapping.fromJS(data, mapping, self);
-
-    self.asArray = function (obj) {
-        var result = [];
-        for (var key in obj) {
-            result.push({ key: key, value: obj[key] });
-        }
-
-        return result;
     };
 
-    self.getScoring = function (item) {
-        var vm = window.infoViewModel;
-        var info = vm.info;
+    var reportingViewModel = function (data) {
+        var self = this;
+        var vm = window.viewModel;
+        var lookup = vm.lookup;
 
-        var division = item.key;
-        var level = info.divisions[division].levelId();
-        var map = vm.scoringMap.categories[division] || vm.scoringMap.categories[level];
-        var scores = self.asArray(item.value);
+        ko.mapping.fromJS(data, mapping, self);
 
-        map = _.extend(map, vm.scoringMap.categories['judges-deductions'], vm.scoringMap.categories['judges-legalities']);
+        self.asArray = function () {
+            return vm.utilities.asArray(self.averages);
+        };
 
-        _.each(scores, function (score) {
-            score.category = map[score.key].display();
-        });
-        
-        return {
-            level: info.levels[level].name,
-            division: info.divisions[division].name,
-            map: map,
-            scores: scores
+        self.getScoring = function (item) {
+            var info = lookup.info;
+            var maps = lookup.scoringMap.categories;
+            
+            var division = item.key;
+            var level = info.divisions[division].levelId();
+            var map = maps[division] || maps[level];
+            var scores = vm.utilities.asArray(item.value);
+
+            map = _.extend(map, maps['judges-deductions'], maps['judges-legalities']);
+
+            _.each(scores, function (score) {
+                score.category = map[score.key].display();
+            });
+
+            return {
+                level: info.levels[level].name,
+                division: info.divisions[division].name,
+                map: map,
+                scores: scores
+            };
         };
     };
-};
+
+    window.viewModel.averagesViewModel = ko.mapping.fromJS(window.averagesData, mapping);
+    //    var viewModel = ko.mapping.fromJS({ viewModel: window.averagesData }, mapping);
+    //    ko.applyBindings(viewModel, document.getElementById('reporting_averages'));
+});

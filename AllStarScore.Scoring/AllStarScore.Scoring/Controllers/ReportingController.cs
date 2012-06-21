@@ -38,9 +38,7 @@ namespace AllStarScore.Scoring.Controllers
             var reporting = new TeamScoreReporting(scores);
             reporting.Rank(calculator);
 
-            var averages = new AverageScoreReporting(performances, judges);
-
-            var model = new ReportingSinglePerformanceViewModel(id, reporting, averages);
+            var model = new ReportingSinglePerformanceViewModel(id, reporting);
             return View(model);
         }
 

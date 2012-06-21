@@ -10,14 +10,14 @@
 
 <h2>@ViewBag.Title</h2>
 
-<div id="reporting_singleperformance" data-bind="with: viewModel">
+<div id="reporting_singleperformance" data-bind="with: $root.reportingViewModel">
     <h3>Divisions</h3>
     <!-- ko template: { name: 'group_template', data: reporting.divisions } --><!-- /ko -->
     
     <h3>Levels</h3>
     <!-- ko template: { name: 'group_template', data: reporting.levels } --><!-- /ko -->
     
-@*    <pre data-bind="text: ko.toJSON($root, null, 2)" class="ko_output"></pre>*@
+@*    <pre data-bind="text: ko.toJSON($data, null, 2)" class="ko_output"></pre>*@
 </div>
 
 @{ Html.RenderAction("Averages", "Reporting"); }
