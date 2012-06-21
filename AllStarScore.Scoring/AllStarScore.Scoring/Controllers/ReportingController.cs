@@ -61,5 +61,27 @@ namespace AllStarScore.Scoring.Controllers
             var model = new ReportingTwoPerformanceViewModel(id, reporting);
             return View(model);
         }
+
+        [ChildActionOnly]
+        public ActionResult Averages(string id)
+        {
+            var performances =
+                RavenSession
+                    .Query<Performance>()
+                    .Where(x => x.CompetitionId == id)
+                    .Take(int.MaxValue)
+                    .ToList();
+
+            var judges =
+                RavenSession
+                    .Query<JudgeScore>()
+                    .Take(int.MaxValue)
+                    .ToList();
+
+            var averages = new AverageScoreReporting(performances, judges);
+
+            var model = new ReportingAveragesViewModel(averages);
+            return PartialView(model);
+        }
     }
 }

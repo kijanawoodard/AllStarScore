@@ -38,4 +38,14 @@ namespace AllStarScore.Scoring.ViewModels
             Reporting = reporting;
         }
     }
+
+    public class ReportingAveragesViewModel
+    {
+        public AverageScoreReporting Reporting { get; set; }
+
+        public ReportingAveragesViewModel(AverageScoreReporting reporting)
+        {
+            Reporting = reporting;
+        }
+    }
 }

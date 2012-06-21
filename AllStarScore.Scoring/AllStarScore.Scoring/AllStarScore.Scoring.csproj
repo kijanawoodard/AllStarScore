@@ -259,6 +259,7 @@
     <Content Include="Content\scripts\lib\modernizr-2.5.3.js" />
     <Content Include="Content\scripts\lib\underscore-min.js" />
     <Content Include="Content\scripts\performances.index.js" />
+    <Content Include="Content\scripts\reporting.averages.js" />
     <Content Include="Content\scripts\reporting.singleperformance.js" />
     <Content Include="Content\scripts\reporting.twoperformance.js" />
     <Content Include="Content\scripts\scoring.fivejudgepanel.js" />
@@ -268,6 +269,7 @@
     <Content Include="Content\styles\jquery-ui-timepicker-addon.css" />
     <Content Include="Content\styles\normalize.css" />
     <Content Include="Content\styles\performances.index.css" />
+    <Content Include="Content\styles\reporting.averages.css" />
     <Content Include="Content\styles\reporting.singleperformance.css" />
     <Content Include="Content\styles\reporting.twoperformance.css" />
     <Content Include="Content\styles\scoring.fivejudgepanel.css" />
@@ -370,6 +372,9 @@
   </ItemGroup>
   <ItemGroup>
     <Content Include="Views\CompetitionLayout\Index.cshtml" />
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="Views\Reporting\Averages.cshtml" />
   </ItemGroup>
   <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
   <Import Project="$(MSBuildExtensionsPath32)\Microsoft\VisualStudio\v10.0\WebApplications\Microsoft.WebApplication.targets" />

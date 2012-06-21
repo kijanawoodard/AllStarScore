@@ -1,0 +1,39 @@
+﻿@model AllStarScore.Scoring.ViewModels.ReportingAveragesViewModel
+
+@{ Html.RegisterStylesheet("~/content/styles/reporting.averages.css"); }
+@{ Html.RegisterScript("~/content/scripts/reporting.averages.js"); }
+
+<div id="reporting_averages" data-bind="with: viewModel">
+    
+    <h3>Averages</h3>
+    <!-- ko template: { name: 'average_template', data: reporting.averages } --><!-- /ko -->
+    
+@*    <pre data-bind="text: ko.toJSON($root, null, 2)" class="ko_output"></pre>*@
+</div>
+
+<script>
+    var averagesData = JSON.parse('@Html.Raw(Model.ToJson())');
+</script>
+
+<script type="text/html" id="average_template">
+    <ul data-bind="foreach: $root.viewModel.asArray($data)">
+        <li data-bind="with: $root.viewModel.getScoring($data)">
+            <h4>
+                <span data-bind="text: level"></span>
+                <span data-bind="text: division"></span>
+            </h4>
+            <table>
+                <thead>
+                    <tr data-bind="foreach: scores">
+                        <th data-bind="text: category"></th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr data-bind="foreach: scores">
+                        <td data-bind="text: value().toFixed(1)" class="numeric"></td>
+                    </tr>
+                </tbody>
+            </table>
+        </li>
+    </ul>
+</script>

@@ -2,6 +2,7 @@
 
 @{
     ViewBag.Title = "Two Performance Scores";
+    Layout = "~/Views/Shared/_LayoutCompetition.cshtml";
 }
 
 @{ Html.RegisterStylesheet("~/content/styles/reporting.twoperformance.css"); }
@@ -9,15 +10,16 @@
 
 <h2>@ViewBag.Title</h2>
 
-
 <div id="reporting_twoperformance" data-bind="with: viewModel">
     <h3>Divisions</h3>
     <!-- ko template: { name: 'group_template', data: reporting.divisions } --><!-- /ko -->
     
     <h3>Levels</h3>
     <!-- ko template: { name: 'group_template', data: reporting.levels } --><!-- /ko -->
-    <pre data-bind="text: ko.toJSON($root, null, 2)" class="ko_output"></pre>
+@*    <pre data-bind="text: ko.toJSON($root, null, 2)" class="ko_output"></pre>*@
 </div>
+
+@{ Html.RenderAction("Averages", "Reporting"); }
 
 <script>
     var reportingData = JSON.parse('@Html.Raw(Model.ToJson())');
@@ -26,7 +28,10 @@
 <script type="text/html" id="group_template">
     <ul data-bind="foreach: $data">
         <li>
-            <h4 data-bind="text: key"></h4>
+            <h4>
+                <span data-bind="text: scores()[0].levelName()"></span>
+                <span data-bind="text: scores()[0].divisionName()"></span>
+            </h4>
             <table>
                 <thead>
                     <tr>

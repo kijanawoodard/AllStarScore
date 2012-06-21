@@ -17,11 +17,10 @@
     <h3>Levels</h3>
     <!-- ko template: { name: 'group_template', data: reporting.levels } --><!-- /ko -->
     
-    <h3>Averages</h3>
-    <!-- ko template: { name: 'average_template', data: averageReporting.averages } --><!-- /ko -->
-    
-    <pre data-bind="text: ko.toJSON($root, null, 2)" class="ko_output"></pre>
+@*    <pre data-bind="text: ko.toJSON($root, null, 2)" class="ko_output"></pre>*@
 </div>
+
+@{ Html.RenderAction("Averages", "Reporting"); }
 
 <script>
     var reportingData = JSON.parse('@Html.Raw(Model.ToJson())');
@@ -30,7 +29,10 @@
 <script type="text/html" id="group_template">
     <ul data-bind="foreach: $data">
         <li>
-            <h4 data-bind="text: scores()[0].levelName() + ' ' + scores()[0].divisionName()"></h4>
+            <h4>
+                <span data-bind="text: scores()[0].levelName()"></span>
+                <span data-bind="text: scores()[0].divisionName()"></span>
+            </h4>
             <table>
                 <tbody data-bind="foreach: scores">
                     <tr>
@@ -41,29 +43,6 @@
                             <span data-bind="text: teamName"></span>
                             <span data-bind="text: isSmallGym() ? 'Small Gym' : 'Large Gym'" class="gym_size"></span>
                         </td>
-                    </tr>
-                </tbody>
-            </table>
-        </li>
-    </ul>
-</script>
-
-<script type="text/html" id="average_template">
-    <ul data-bind="foreach: $root.viewModel.asArray($data)">
-        <li data-bind="with: $root.viewModel.getScoring($data)">
-            <h4>
-                <span data-bind="text: level"></span>
-                <span data-bind="text: division"></span>
-            </h4>
-            <table>
-                <thead>
-                    <tr data-bind="foreach: scores">
-                        <th data-bind="text: category"></th>
-                    </tr>
-                </thead>
-                <tbody>
-                    <tr data-bind="foreach: scores">
-                        <td data-bind="text: value().toFixed(1)" class="numeric"></td>
                     </tr>
                 </tbody>
             </table>
