@@ -26,12 +26,6 @@ namespace AllStarScore.Scoring.Controllers
                     .Take(int.MaxValue)
                     .ToList();
 
-            var judges =
-                RavenSession
-                    .Query<JudgeScore>()
-                    .Take(int.MaxValue)
-                    .ToList();
-                    
             var calculator = new SmallGymRankingCalculator(); //TODO: indirect
             var generator = new TeamScoreGenerator();
             var scores = generator.From(performances);
