@@ -42,6 +42,7 @@ namespace AllStarScore.Scoring.Controllers
             var performances =
                 RavenSession
                     .Query<Performance>()
+                    .Where(x => x.CompetitionId == id)
                     .Take(int.MaxValue)
                     .ToList();
 

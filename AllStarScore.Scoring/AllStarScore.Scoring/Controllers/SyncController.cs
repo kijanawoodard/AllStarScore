@@ -17,29 +17,10 @@ namespace AllStarScore.Scoring.Controllers
             var data = client.DownloadString(id);
             var model = JsonConvert.DeserializeObject<CompetitionImport>(data);
 
-            RavenSession.Store(model); //UpdateCompetition(model);
+            RavenSession.Store(model); 
             UpdatePerformances(model);
 
             return RedirectToAction("Index", "Performance", new {id = model.CompetitionId});
-        }
-
-        public void UpdateCompetition(CompetitionImport model)
-        {
-            var competition = RavenSession.Load<Competition>(model.CompetitionId);
-
-            if (competition == null)
-            {
-                competition = new Competition()
-                              {
-                                  Id = model.CompetitionId
-                              };
-                RavenSession.Store(competition);
-            }
-
-            competition.CompanyName = model.CompanyName;
-            competition.CompanyName = model.CompetitionName;
-            competition.CompetitionDescription = model.CompetitionDescription;
-            competition.Days = model.Days;
         }
 
         public void UpdatePerformances(CompetitionImport model)
@@ -47,6 +28,7 @@ namespace AllStarScore.Scoring.Controllers
             var performances =
                 RavenSession
                     .Query<Performance>()
+                    .Where(x => x.CompetitionId == model.CompetitionId)
                     .Take(int.MaxValue) //not expecting more than 100s, but likely slighly more than 128
                     .ToList();
 
