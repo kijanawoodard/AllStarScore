@@ -1,6 +1,5 @@
 ﻿$(document).ready(function () {
-    var viewModel = ko.mapping.fromJS({ viewModel: window.scoringFiveJudgePanelData }, mapping);
-    ko.applyBindings(viewModel, document.getElementById('scoring_fivejudgepanel'));
+    viewModel.scoring = ko.mapping.fromJS({viewModel: window.scoringFiveJudgePanelData}, mapping);
 });
 
 var mapping = {

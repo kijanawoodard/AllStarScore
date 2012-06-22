@@ -2,17 +2,16 @@
 
 @{
     ViewBag.Title = "Team Score Summary";
+    Layout = "~/Views/Shared/_LayoutCompetition.cshtml";
 }
 
 @{ Html.RegisterStylesheet("~/content/styles/scoring.fivejudgepanel.css"); }
 @{ Html.RegisterScript("~/content/scripts/scoring.fivejudgepanel.js"); }
 
-<h2>@ViewBag.Title</h2>
+@*<h2>@ViewBag.Title</h2>*@
 
-<div id="scoring_fivejudgepanel" data-bind="with: viewModel">
+<div id="scoring_fivejudgepanel" data-bind="with: $root.scoring.viewModel">
     <div data-bind="with: performance" class="header">
-        <div class="company">Spirit Celebration</div>
-        <div class="description">CGA National Championship Feb 12-13, 2011</div>
         <div class="name">
             <span data-bind="text: gymName"></span>
             <span data-bind="text: teamName"></span>
@@ -90,7 +89,7 @@
     <nav data-bind="with: performance, visible: performance.scoringIsNotComplete() && performance.didCompete()">
         <ul data-bind="foreach: ['1', '2', '3', 'D', 'L']">
             <li>
-                <a data-bind="attr: { href: $root.viewModel.scoreEntryUrl().replace('REPLACE_THIS', $data) }">
+                <a data-bind="attr: { href: $root.scoring.viewModel.scoreEntryUrl().replace('REPLACE_THIS', $data) }">
                     <span data-bind="text: $parent.panel"></span><span data-bind="text: $data"></span>
                 </a>
             </li>

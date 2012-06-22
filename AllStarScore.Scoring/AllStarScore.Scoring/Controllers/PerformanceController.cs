@@ -20,7 +20,7 @@ namespace AllStarScore.Scoring.Controllers
                     .Take(int.MaxValue) //not expecting more than 100s, but likely slighly more than 128
                     .ToList();
 
-            var model = new PerformanceIndexViewModel(performances);
+            var model = new PerformanceIndexViewModel(id, performances);
             return View(model);
         }
     }

@@ -8,8 +8,6 @@
 @{ Html.RegisterStylesheet("~/content/styles/performances.index.css"); }
 @{ Html.RegisterScript("~/content/scripts/performances.index.js"); }
 
-<h2>Performances</h2>
-
 <div id="performance_index" data-bind="with: $root.performanceViewModel">
     <ol data-bind="foreach: performances" class="performances">
         <li>

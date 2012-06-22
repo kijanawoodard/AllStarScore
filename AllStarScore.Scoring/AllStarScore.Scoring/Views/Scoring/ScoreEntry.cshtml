@@ -2,17 +2,14 @@
 
 @{
     ViewBag.Title = "Score Entry";
+    Layout = "~/Views/Shared/_LayoutCompetition.cshtml";
 }
 
 @{ Html.RegisterStylesheet("~/content/styles/scoring.scoreentry.css"); }
 @{ Html.RegisterScript("~/content/scripts/scoring.scoreentry.js"); }
 
-<h2>@ViewBag.Title</h2>
-
-<div id="scoring_scoreentry">
-    <div data-bind="with: viewModel.performance" class="header">
-        <div class="company">Spirit Celebration</div>
-        <div class="description">CGA National Championship Feb 12-13, 2011</div>
+<div id="scoring_scoreentry" data-bind="with: $root.entry.viewModel">
+    <div data-bind="with: performance" class="header">
         <div class="name">
             <span data-bind="text: gymName"></span>
             <span data-bind="text: teamName"></span>
@@ -22,7 +19,7 @@
             <span data-bind="text: divisionName"></span>
         </div>
         <div data-bind="dateString: performanceTime, datePattern: 'ddd h:mm tt'" class="when"></div>     
-        <div class="judge">Judge <span data-bind="text: panel() + $root.viewModel.score.judgeId()"></span></div>
+        <div class="judge">Judge <span data-bind="text: panel() + $root.entry.viewModel.score.judgeId()"></span></div>
     </div>
     
     <form action='@Url.Action("ScoreEntry", "Scoring")' method="post">
@@ -30,13 +27,13 @@
             <legend>Score Entry</legend>
             <div class="validation-summary-errors"></div>
             
-            <div class="score_entry" data-bind="ko_cssClass: viewModel.getTemplate">
-                <!-- ko template: { name: viewModel.getTemplate, data: viewModel.getScoring(viewModel.performance, viewModel.score) } --><!-- /ko -->
+            <div class="score_entry" data-bind="ko_cssClass: getTemplate">
+                <!-- ko template: { name: getTemplate, data: getScoring(performance, score), afterRender: onAfterRender } --><!-- /ko -->
                 <div class="controls">
-                    <span class="below_min" data-bind="visible: viewModel.score.isGrandTotalBelowMin">The total score is below the minimum</span>
-                    <span class="above_max" data-bind="visible: viewModel.score.isGrandTotalAboveMax">The total score is above the maximum</span>
+                    <span class="below_min" data-bind="visible: score.isGrandTotalBelowMin">The total score is below the minimum</span>
+                    <span class="above_max" data-bind="visible: score.isGrandTotalAboveMax">The total score is above the maximum</span>
                     <br/>
-                    <button data-bind="click: viewModel.save">Save</button>
+                    <button data-bind="click: save">Save</button>
                 </div>        
             </div>
 
@@ -72,9 +69,6 @@
             </div>    
         </fieldset>
     </form>
-
-    <pre data-bind="text: ko.toJSON($root, null, 2)" class="ko_output"></pre>
-    <pre data-bind="text: ko.mapping.toJSON($root.viewModel.score, null, 2)" class="ko_output"></pre>
 </div>
 
 <script>

@@ -1,8 +1,7 @@
 ﻿var scorepad_cookie_name = 'scorepad.high.';
 
 $(document).ready(function() {
-    var viewModel = ko.mapping.fromJS({ viewModel: window.scoringScoreEntryData }, mapping);
-    ko.applyBindings(viewModel, document.getElementById('scoring_scoreentry'));
+    viewModel.entry = ko.mapping.fromJS({ viewModel: window.scoringScoreEntryData }, mapping);
 });
 
 var mapping = {
@@ -78,6 +77,10 @@ var ScoreEntryViewModel = function (data) {
                 window.location = result;
             }
         });
+    };
+
+    self.onAfterRender = function () {
+        setupScorePad();
     };
 
     /* occurs on object creation */
@@ -192,7 +195,7 @@ var formatNumber = function (num) {
 };
 
 //score pad and textbox entry stuff ported from old code. convert to knockout? maybe, if we add a 2nd visible score pad;
-$(document).ready(function () {
+var setupScorePad = function () {
     var textboxes = $("input[type=text]:visible");
     var scorepad = $(".scorepad");
     var active;
@@ -200,7 +203,7 @@ $(document).ready(function () {
     var highPadSelected = $(".scorepad table.high td").eq($.cookie(scorepad_cookie_name)) || $(".scorepad table.high td:first");
     var selectedClass = "selected";
     var lowOnly = false;
-
+    
     textboxes.focus(function () {
         scorepad.show();
 
@@ -308,4 +311,4 @@ $(document).ready(function () {
 
     textboxes.first().focus();
     highPadSelected.click();
-});
+};

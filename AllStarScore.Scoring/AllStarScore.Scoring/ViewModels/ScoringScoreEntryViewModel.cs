@@ -10,12 +10,14 @@ namespace AllStarScore.Scoring.ViewModels
 {
     public class ScoringScoreEntryViewModel
     {
+        public string CompetitionId { get; set; }
         public Performance Performance { get; set; }
         public JudgeScore Score { get; set; }
         public ScoringMap ScoringMap { get; set; }
 
         public ScoringScoreEntryViewModel(Performance performance, JudgeScore score, ScoringMap scoringMap)
         {
+            CompetitionId = performance.CompetitionId;
             Performance = performance;
             Score = score;
             ScoringMap = scoringMap;

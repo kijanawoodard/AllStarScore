@@ -1,9 +1,13 @@
-﻿@using System.Web.UI.WebControls
+﻿@model dynamic
+
+@using System.Web.UI.WebControls
 @{
     Layout = "_Layout.cshtml";
 }
 
-@{ Html.RenderAction("Index", "CompetitionLayout"); }
+<h2>@ViewBag.Title</h2>
+
+@{ Html.RenderAction("Index", "CompetitionLayout", new { id = @Model.CompetitionId}); }
 
 @RenderBody()
 
