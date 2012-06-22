@@ -12,6 +12,5 @@ namespace AllStarScore.Scoring.Controllers
         {
             return View();
         }
-
     }
 }
