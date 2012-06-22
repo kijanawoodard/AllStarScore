@@ -21,6 +21,5 @@ namespace AllStarScore.Scoring.Controllers
             var model = new CompetitionLayoutIndexViewModel(info, new ScoringMap());
             return PartialView(model);
         }
-
     }
 }
