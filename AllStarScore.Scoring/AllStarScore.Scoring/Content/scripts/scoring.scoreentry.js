@@ -100,12 +100,14 @@ var ScoreEntryViewModel = function (data) {
 
             scores[key].isBaseBelowMin = ko.computed(function () {
                 var base = scores[key].base();
-                return parseFloat(base) != 0 && (parseFloat(base) + executionMax) < category.min();
+                var executionFactor = category.includeExectionScore() ? executionMax : 0;
+                return parseFloat(base) != 0 && (parseFloat(base) + executionFactor) < category.min();
             });
 
             scores[key].isBaseAboveMax = ko.computed(function () {
                 var base = scores[key].base();
-                return (parseFloat(base) + executionMax) > category.max();
+                var executionFactor = category.includeExectionScore() ? executionMax : 0;
+                return (parseFloat(base) + executionFactor) > category.max();
             });
 
             scores[key].isExecutionBelowMin = ko.computed(function () {
