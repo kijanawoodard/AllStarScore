@@ -72,8 +72,10 @@ var ScoreEntryViewModel = function (data) {
             data: ko.mapping.toJSON(self.score),
             success: function (result) {
                 //console.log(ko.toJSON(result));
-                console.log('saved');
-                $('.validation-summary-errors').empty();
+                //                console.log('saved');
+                //                $('.validation-summary-errors').empty();
+                console.log(result);
+                window.location = result;
             }
         });
     };
@@ -139,7 +141,7 @@ var ScoreEntryViewModel = function (data) {
         });
 
         input.score.allBaseScoresInputted = ko.computed(function () {
-            return _.all(scores, function(score) {
+            return _.all(scores, function (score) {
                 return score.base();
             });
         });

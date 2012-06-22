@@ -20,7 +20,7 @@ namespace AllStarScore.Admin.ViewModels
             Registrations = registrations.ToDictionary(r => r.Id, r => r);
 
             ScoringMap = new ScoringMap().All;
-            JudgePanel = new FiveJudgePanel("A");
+            JudgePanel = new FiveJudgePanel("");
         }
     }
 }

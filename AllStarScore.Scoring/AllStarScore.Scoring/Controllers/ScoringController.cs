@@ -74,8 +74,31 @@ namespace AllStarScore.Scoring.Controllers
 
                     score.Update(command);
 
-                    return new JsonDotNetResult(score);
+                    var result = GetNextScoreEntryUrl(command.PerformanceId, command.JudgeId);
+                    return new JsonDotNetResult(result);
                 });
+        }
+
+        private string GetNextScoreEntryUrl(string performanceId, string judgeId)
+        {
+            //TODO: if other than five panel judge, adjust
+            //TODO: switch on tabulator vs judge
+
+            var judges = new[] {"1", "2", "3", "D", "L"}.ToList();
+
+            var result = "";
+            if (judgeId.Equals(judges.Last(), StringComparison.InvariantCultureIgnoreCase))
+            {
+                result = Url.Action("FiveJudgePanel", "Scoring", new { id = performanceId });
+            }
+            else
+            {
+                var nextIndex = judges.FindIndex(x => x == judgeId) + 1;
+                var nextJudge = judges[nextIndex];
+                result = Url.Action("ScoreEntry", "Scoring", new { performanceId, judgeId = nextJudge});
+            }
+
+            return result;
         }
 
         [HttpPost]
