@@ -40,6 +40,7 @@ namespace AllStarScore.Scoring.Infrastructure.Indexes
                                        select new
                                               {
                                                   result.Id,
+                                                  result.CompetitionId,
                                                   result.PerformanceId,
                                                   result.JudgeId,
                                                   result.Scores,

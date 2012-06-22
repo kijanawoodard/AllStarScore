@@ -4,6 +4,7 @@ using System.Linq;
 using System.Web;
 using System.Web.Mvc;
 using AllStarScore.Models;
+using AllStarScore.Scoring.Infrastructure.Indexes;
 using AllStarScore.Scoring.Models;
 using AllStarScore.Scoring.ViewModels;
 
@@ -66,7 +67,7 @@ namespace AllStarScore.Scoring.Controllers
 
             var scores =
                 RavenSession
-                    .Query<JudgeScore>()
+                    .Query<JudgeScore, JudgeScoreIndex>()
                     .Where(x => x.CompetitionId == id)
                     .Take(int.MaxValue)
                     .ToList();
