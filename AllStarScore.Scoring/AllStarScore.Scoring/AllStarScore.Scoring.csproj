@@ -78,6 +78,9 @@
     <Reference Include="Raven.Backup">
       <HintPath>..\packages\RavenDB.Database.1.0.960\lib\net40\Raven.Backup.exe</HintPath>
     </Reference>
+    <Reference Include="Raven.Bundles.Versioning">
+      <HintPath>..\packages\RavenDB.Bundles.Versioning.1.0.960\lib\net40\Raven.Bundles.Versioning.dll</HintPath>
+    </Reference>
     <Reference Include="Raven.Client.Embedded">
       <HintPath>..\packages\RavenDB.Embedded.1.0.960\lib\net40\Raven.Client.Embedded.dll</HintPath>
     </Reference>
@@ -86,6 +89,9 @@
     </Reference>
     <Reference Include="Raven.Client.MvcIntegration">
       <HintPath>..\packages\RavenDB.Client.MvcIntegration.1.0.960\lib\net40\Raven.Client.MvcIntegration.dll</HintPath>
+    </Reference>
+    <Reference Include="Raven.Client.Versioning">
+      <HintPath>..\packages\RavenDB.Client.Versioning.1.0.960\lib\net40\Raven.Client.Versioning.dll</HintPath>
     </Reference>
     <Reference Include="Raven.Database">
       <HintPath>..\packages\RavenDB.Database.1.0.960\lib\net40\Raven.Database.dll</HintPath>

@@ -82,8 +82,9 @@ namespace AllStarScore.Scoring
             RavenController.DocumentStore = new EmbeddableDocumentStore()
                                             {
                                                 ConnectionStringName = "RavenDB",
-                                                UseEmbeddedHttpServer = true
+                                                UseEmbeddedHttpServer = true,
                                             };
+            
             Raven.Database.Server.NonAdminHttp.EnsureCanListenToWhenInNonAdminContext(8085);
             RavenController.DocumentStore.Configuration.Port = 8085;
             RavenController.DocumentStore.RegisterListener(new NoStaleQueriesAllowedAsOfNow());
