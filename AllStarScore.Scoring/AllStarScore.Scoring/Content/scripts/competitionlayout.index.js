@@ -1,6 +1,4 @@
-﻿var viewModel = {};
-
-$(document).ready(function () {
+﻿$(document).ready(function () {
 
     var mapping = {
         'info': {

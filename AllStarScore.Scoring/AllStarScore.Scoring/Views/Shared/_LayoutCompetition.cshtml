@@ -5,6 +5,10 @@
     Layout = "_Layout.cshtml";
 }
 
+<script>
+    var viewModel = {};
+</script>
+
 <div class="competition_header">
     <h2>@ViewBag.Title</h2>
 
@@ -20,8 +24,14 @@
 
 @RenderBody()
 
-@*Having a problem with Moth. Would Like to inline some script to make sure it gets called last. Doesn't work in razor, doing it in ascx*@
-@{ Html.RenderPartial("~/Views/Shared/_LayoutCompetitonApplyBindings.ascx"); }
+//https://github.com/janjongboom/Moth/issues/19#issuecomment-6504322
+@using(Html.BeginScript(ScriptPositionEnum.EndOfPage)) { 
+    <text>
+    $(document).ready(function () { 
+        ko.applyBindings(window.viewModel);
+    });
+    </text>
+}
 
 
 <pre data-bind="text: ko.toJSON($root, null, 2)" class="ko_output"></pre>

@@ -219,13 +219,6 @@
     <Compile Include="ViewModels\ReportingIndexViewModel.cs" />
     <Compile Include="ViewModels\ScoringFiveJudgePanelViewModel.cs" />
     <Compile Include="ViewModels\ScoringScoreEntryViewModel.cs" />
-    <Compile Include="Views\Shared\_LayoutCompetitonApplyBindings.ascx.cs">
-      <DependentUpon>_LayoutCompetitonApplyBindings.ascx</DependentUpon>
-      <SubType>ASPXCodeBehind</SubType>
-    </Compile>
-    <Compile Include="Views\Shared\_LayoutCompetitonApplyBindings.ascx.designer.cs">
-      <DependentUpon>_LayoutCompetitonApplyBindings.ascx</DependentUpon>
-    </Compile>
   </ItemGroup>
   <ItemGroup>
     <Content Include="Content\images\accent.png" />
@@ -311,7 +304,6 @@
     <Content Include="Scripts\knockout-2.0.0.js" />
     <Content Include="Scripts\modernizr-2.0.6-development-only.js" />
     <Content Include="Scripts\_references.js" />
-    <Content Include="Views\Shared\_LayoutCompetitonApplyBindings.ascx" />
     <Content Include="Web.config">
       <SubType>Designer</SubType>
     </Content>
