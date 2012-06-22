@@ -1,3 +1,8 @@
-﻿#competitionlayout_index .header { margin-bottom: 5px;overflow: hidden;}
+﻿#competitionlayout_index { }
+#competitionlayout_index .header { margin-bottom: 5px;overflow: hidden;}
 #competitionlayout_index .header .company { font-size: 2em;float: left;}
 #competitionlayout_index .header .description { font-size: 2em;text-align: right;overflow: hidden;}
+
+.competition_header { width: 100%;overflow: hidden;}
+.competition_header h2 { float: left;margin: 0;}
+.competition_header nav { float: right;}

@@ -5,7 +5,16 @@
     Layout = "_Layout.cshtml";
 }
 
-<h2>@ViewBag.Title</h2>
+<div class="competition_header">
+    <h2>@ViewBag.Title</h2>
+
+    <nav>
+        <ul id="menu">
+            <li>@Html.ActionLink("Performances", "Index", "Performance", new { id = @Model.CompetitionId }, new { })</li>
+            <li>@Html.ActionLink("Reports", "Index", "Reporting", new { id = @Model.CompetitionId }, new { })</li>
+        </ul>
+    </nav>
+</div>
 
 @{ Html.RenderAction("Index", "CompetitionLayout", new { id = @Model.CompetitionId}); }
 

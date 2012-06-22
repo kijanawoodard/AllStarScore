@@ -8,8 +8,6 @@
 @{ Html.RegisterStylesheet("~/content/styles/reporting.singleperformance.css"); }
 @{ Html.RegisterScript("~/content/scripts/reporting.singleperformance.js"); }
 
-<h2>@ViewBag.Title</h2>
-
 <div id="reporting_singleperformance" data-bind="with: $root.reportingViewModel">
     <h3>Divisions</h3>
     <!-- ko template: { name: 'group_template', data: reporting.divisions } --><!-- /ko -->
