@@ -138,17 +138,23 @@ var ScoreEntryViewModel = function (data) {
             return formatNumber(memo);
         });
 
+        input.score.allBaseScoresInputted = ko.computed(function () {
+            return _.all(scores, function(score) {
+                return score.base();
+            });
+        });
+
         input.score.grandTotal = ko.computed(function () {
             var result = parseFloat(input.score.totalBase()) + parseFloat(input.score.totalExecution());
             return formatNumber(result);
         });
 
         input.score.isGrandTotalBelowMin = ko.computed(function () {
-            return input.score.grandTotal() > 0 && input.score.grandTotal() < input.score.minTotal();
+            return input.score.allBaseScoresInputted() && input.score.grandTotal() < input.score.minTotal();
         });
 
         input.score.isGrandTotalAboveMax = ko.computed(function () {
-            return input.score.grandTotal() > 0 && input.score.grandTotal() > input.score.maxTotal();
+            return input.score.allBaseScoresInputted() > 0 && input.score.grandTotal() > input.score.maxTotal();
         });
 
         input.score.minTotal = ko.computed(function () {
