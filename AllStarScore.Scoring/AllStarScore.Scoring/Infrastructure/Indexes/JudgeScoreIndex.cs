@@ -31,7 +31,8 @@ namespace AllStarScore.Scoring.Infrastructure.Indexes
                                    {
                                        score.Id,
                                        score.PerformanceId,
-                                       score.JudgeId
+                                       score.JudgeId,
+                                       score.CompetitionId
                                    };
         
             TransformResults =

@@ -67,6 +67,7 @@ namespace AllStarScore.Scoring.Controllers
             var scores =
                 RavenSession
                     .Query<JudgeScore>()
+                    .Where(x => x.CompetitionId == id)
                     .Take(int.MaxValue)
                     .ToList();
 
