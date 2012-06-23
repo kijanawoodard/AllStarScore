@@ -117,7 +117,7 @@
         <tbody>
             <!-- ko foreach: $data.categories -->
             <tr>
-                <td  data-bind="text: category.display"></td>
+                <td data-bind="text: category.display"></td>
                 <td data-bind="text: $parent.judges()[0] && $parent.judges()[0].scores[key] && $parent.judges()[0].scores[key].total().toFixed(1)"></td>
                 <td data-bind="text: $parent.judges()[1] && $parent.judges()[1].scores[key] && $parent.judges()[1].scores[key].total().toFixed(1)"></td>
                 <td data-bind="text: $parent.judges()[2] && $parent.judges()[2].scores[key] && $parent.judges()[2].scores[key].total().toFixed(1)"></td>
