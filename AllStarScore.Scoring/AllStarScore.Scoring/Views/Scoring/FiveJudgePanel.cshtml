@@ -45,11 +45,11 @@
                 </tr>
                 <tr>
                     <th>Point Deductions</th>
-                    <td data-bind="text: calculator.scores()[3] && calculator.scores()[3].grandTotal">1</td>
+                    <td data-bind="text: calculator.scores()[3] && calculator.scores()[3].grandTotal"></td>
                 </tr>
                 <tr>
                     <th>Safety Deductions</th>
-                    <td data-bind="text: calculator.scores()[4] && calculator.scores()[4].grandTotal">1</td>
+                    <td data-bind="text: calculator.scores()[4] && calculator.scores()[4].grandTotal"></td>
                 </tr>
                 <tr>
                     <th>Final Score</th>
@@ -118,9 +118,9 @@
             <!-- ko foreach: $data.categories -->
             <tr>
                 <td  data-bind="text: category.display"></td>
-                <td data-bind="text: $parent.judges()[0] && $parent.judges()[0].scores[key].total().toFixed(1)"></td>
-                <td data-bind="text: $parent.judges()[1] && $parent.judges()[1].scores[key].total().toFixed(1)"></td>
-                <td data-bind="text: $parent.judges()[2] && $parent.judges()[2].scores[key].total().toFixed(1)"></td>
+                <td data-bind="text: $parent.judges()[0] && $parent.judges()[0].scores[key] && $parent.judges()[0].scores[key].total().toFixed(1)"></td>
+                <td data-bind="text: $parent.judges()[1] && $parent.judges()[1].scores[key] && $parent.judges()[1].scores[key].total().toFixed(1)"></td>
+                <td data-bind="text: $parent.judges()[2] && $parent.judges()[2].scores[key] && $parent.judges()[2].scores[key].total().toFixed(1)"></td>
             </tr>
             <!-- /ko -->
             <tr>
