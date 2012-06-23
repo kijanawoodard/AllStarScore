@@ -16,7 +16,7 @@ namespace AllStarScore.Scoring.Controllers
         [HttpGet]
         public ActionResult Summary(string performanceId)
         {
-            //pivot point established; can put panel type string on competition or performance as needed and follow the logic
+            //HACK: pivot point established; can put panel type string on competition or performance as needed and follow the logic
             return FiveJudgePanelSummary(performanceId);
         }
 
@@ -51,6 +51,9 @@ namespace AllStarScore.Scoring.Controllers
         [HttpGet]
         public ActionResult ScoreEntry(ScoreEntryRequestModel request)
         {
+            if (!FiveJudgePanel.JudgeIds.Contains(request.JudgeId)) //HACK: pivot if more panel types; move to attribute?; good spot for Fubu
+                return RedirectToAction("Summary", "Scoring", new {request.PerformanceId});
+
             var performance =
                 RavenSession
                     .Load<Performance>(request.PerformanceId);
@@ -88,10 +91,9 @@ namespace AllStarScore.Scoring.Controllers
 
         private string GetNextScoreEntryUrl(string performanceId, string judgeId)
         {
-            //TODO: if other than five panel judge, adjust
             //TODO: switch on tabulator vs judge
 
-            var judges = FiveJudgePanel.JudgeIds.ToList();
+            var judges = FiveJudgePanel.JudgeIds.ToList(); //HACK: pivot if more panel types
 
             var result = "";
             if (judgeId.Equals(judges.Last(), StringComparison.InvariantCultureIgnoreCase))
