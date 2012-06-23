@@ -54,13 +54,14 @@ namespace AllStarScore.Scoring.Controllers
             if (!FiveJudgePanel.JudgeIds.Contains(request.JudgeId)) //HACK: pivot if more panel types; move to attribute?; good spot for Fubu
                 return RedirectToAction("Summary", "Scoring", new {request.PerformanceId});
 
+            var score =
+                RavenSession
+                    .Include<JudgeScore>(x => x.PerformanceId)
+                    .Load<JudgeScore>(request.CalculateJudgeScoreId());
+
             var performance =
                 RavenSession
                     .Load<Performance>(request.PerformanceId);
-
-            var score =
-                RavenSession
-                    .Load<JudgeScore>(request.CalculateJudgeScoreId());
 
             if (score == null)
             {
