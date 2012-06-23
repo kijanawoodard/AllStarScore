@@ -22,7 +22,7 @@ var FiveJudgePanelViewModel = function (data) {
         return judge.judgeId;
     });
 
-    ko.mapping.fromJS(data, mapping, this);
+    ko.mapping.fromJS(data, mapping, self);
 
     self.getTemplate = function () {
         var division = self.performance.divisionId();
