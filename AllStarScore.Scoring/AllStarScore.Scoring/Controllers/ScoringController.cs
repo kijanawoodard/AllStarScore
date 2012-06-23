@@ -81,11 +81,24 @@ namespace AllStarScore.Scoring.Controllers
                 {
                     var score =
                         RavenSession
+                            .Include<JudgeScore>(x => x.PerformanceId)
                             .Load<JudgeScore>(command.CalculateJudgeScoreId());
 
-                    score.Update(command);
+                    var performance =
+                        RavenSession
+                            .Load<Performance>(command.PerformanceId);
 
-                    var result = GetNextScoreEntryUrl(command.PerformanceId, command.JudgeId);
+                    var result = "";
+                    if (performance.ScoringComplete) //must have been sitting on the page; bail out and don't update the score
+                    {
+                        result = Url.Action("Summary", "Scoring", new { command.PerformanceId });
+                    }
+                    else
+                    {
+                        score.Update(command);
+                        result = GetNextScoreEntryUrl(command.PerformanceId, command.JudgeId);  
+                    }
+                    
                     return new JsonDotNetResult(result);
                 });
         }
