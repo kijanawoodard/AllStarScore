@@ -34,5 +34,5 @@
 
 <script>
     var performanceIndexData = JSON.parse('@Html.Raw(Model.ToJson())');
-    performanceIndexData.scoringUrl = '@Url.Action("FiveJudgePanel", "Scoring")/';
+    performanceIndexData.scoringUrl = '@Url.Action("Summary", "Scoring")/';
 </script>

@@ -33,7 +33,7 @@
                     <span class="below_min" data-bind="visible: score.isGrandTotalBelowMin">The total score is below the minimum</span>
                     <span class="above_max" data-bind="visible: score.isGrandTotalAboveMax">The total score is above the maximum</span>
                     <br/>
-                    @Html.ActionLink("Cancel", "FiveJudgePanel", "Scoring", new { id = @Model.Performance.Id}, new { })
+                    @Html.ActionLink("Cancel", "Summary", "Scoring", new { performanceId = @Model.Performance.Id}, new { })
                     <button data-bind="click: save">Save</button>
                 </div>        
             </div>

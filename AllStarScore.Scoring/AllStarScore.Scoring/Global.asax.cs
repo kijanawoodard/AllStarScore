@@ -50,6 +50,12 @@ namespace AllStarScore.Scoring
 
             routes.MapRoute(
                 name: null,
+                url: "summary/{performanceId}",
+                defaults: new { controller = "Scoring", action = "Summary", performanceId = UrlParameter.Optional  }
+            );
+
+            routes.MapRoute(
+                name: null,
                 url: "entry/{performanceId}/judges-{judgeId}",
                 defaults: new { controller = "Scoring", action = "ScoreEntry" }
             );

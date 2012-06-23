@@ -217,7 +217,7 @@
     <Compile Include="ViewModels\CompetitionLayoutIndexViewModel.cs" />
     <Compile Include="ViewModels\PerformanceIndexViewModel.cs" />
     <Compile Include="ViewModels\ReportingIndexViewModel.cs" />
-    <Compile Include="ViewModels\ScoringFiveJudgePanelViewModel.cs" />
+    <Compile Include="ViewModels\ScoringFiveJudgePanelSummaryViewModel.cs" />
     <Compile Include="ViewModels\ScoringScoreEntryViewModel.cs" />
   </ItemGroup>
   <ItemGroup>
@@ -352,7 +352,7 @@
     <Content Include="Content\Web.config" />
   </ItemGroup>
   <ItemGroup>
-    <Content Include="Views\Scoring\FiveJudgePanel.cshtml" />
+    <Content Include="Views\Scoring\FiveJudgePanelSummary.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="Views\Scoring\ScoreEntry.cshtml" />

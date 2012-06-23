@@ -9,14 +9,14 @@ namespace AllStarScore.Scoring.ViewModels
     {
         public string CompetitionId { get; set; }
         public Performance Performance { get; set; }
-        public FiveJudgePanelPerformanceScoreCalculator Calculator { get; set; }
+        public IJudgePanel Panel { get; set; }
         public ScoringMap ScoringMap { get; set; }
 
-        public ScoringFiveJudgePanelViewModel(Performance performance, FiveJudgePanelPerformanceScoreCalculator calculator, ScoringMap scoringMap)
+        public ScoringFiveJudgePanelViewModel(Performance performance, IJudgePanel panel, ScoringMap scoringMap)
         {
             CompetitionId = performance.CompetitionId;
             Performance = performance;
-            Calculator = calculator;
+            Panel = panel;
             ScoringMap = scoringMap;
         }
     }

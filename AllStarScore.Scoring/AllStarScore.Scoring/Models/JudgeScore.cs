@@ -57,6 +57,28 @@ namespace AllStarScore.Scoring.Models
         }
     }
 
+    public interface IJudgePanel
+    {
+        IEnumerable<string> Judges { get; }
+        IEnumerable<string> PanelJudges { get; }
+        ITeamScoreCalculator Calculator { get; }
+    }
+
+    public class FiveJudgePanel : IJudgePanel
+    {
+        public static readonly string[] JudgeIds = new[] {"1", "2", "3", "D", "L"};
+
+        public IEnumerable<string> Judges { get { return JudgeIds.ToList(); } }
+        public IEnumerable<string> PanelJudges { get { return JudgeIds.Take(3).ToList(); } }
+
+        public ITeamScoreCalculator Calculator { get; set; }
+
+        public FiveJudgePanel(List<JudgeScoreIndex.Result> scores)
+        {
+            Calculator = new FiveJudgePanelPerformanceScoreCalculator(scores);
+        }
+    }
+
     public interface ITeamScoreCalculator
     {
         List<JudgeScoreIndex.Result> Scores { get; set; }

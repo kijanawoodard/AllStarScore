@@ -18,7 +18,7 @@ var mapping = {
 var FiveJudgePanelViewModel = function (data) {
     var self = this;
 
-    data.calculator.scores = _.sortBy(data.calculator.scores, function (judge) {
+    data.panel.calculator.scores = _.sortBy(data.panel.calculator.scores, function (judge) {
         return judge.judgeId;
     });
 
@@ -31,7 +31,8 @@ var FiveJudgePanelViewModel = function (data) {
         return map();
     };
 
-    self.getScoring = function (performance, judges) {
+    self.getScoring = function (performance, panel) {
+        var judges = panel.calculator.scores;
         var division = performance.divisionId();
         var level = performance.levelId();
         var map = self.scoringMap.categories[division] || self.scoringMap.categories[level];
@@ -46,12 +47,12 @@ var FiveJudgePanelViewModel = function (data) {
             return { key: key, display: category.display, scores: scores };
         });
 
-        var grandTotal = { };
+        var grandTotal = {};
         _.each(judges(), function (judge) {
             grandTotal[judge.judgeId()] = judge.grandTotalServer().toFixed(1);
         });
 
-        return { performance: performance, grandTotal: grandTotal, categories: categories };
+        return { performance: performance, grandTotal: grandTotal, categories: categories, panelJudges: panel.panelJudges() };
     };
 
     self.markTeamDidNotCompete = function () {

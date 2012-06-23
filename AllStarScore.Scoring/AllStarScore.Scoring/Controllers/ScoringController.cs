@@ -14,31 +14,38 @@ namespace AllStarScore.Scoring.Controllers
     public class ScoringController : RavenController
     {
         [HttpGet]
-        public ActionResult FiveJudgePanel(string id)
+        public ActionResult Summary(string performanceId)
         {
-            var performance =
-                RavenSession
-                    .Advanced.Lazily
-                    .Load<Performance>(id);
-
-            var calculator = GetCalculator(id);
-
-            var model = new ScoringFiveJudgePanelViewModel(performance.Value, calculator, new ScoringMap());
-            
-            return View(model);
+            //pivot point established; can put panel type string on competition or performance as needed and follow the logic
+            return FiveJudgePanelSummary(performanceId);
         }
 
-        private FiveJudgePanelPerformanceScoreCalculator GetCalculator(string performanceId)
+        [HttpGet]
+        public ActionResult FiveJudgePanelSummary(string performanceId)
         {
-            var scores =
+            var scores = GetScores(performanceId);
+
+            var performance =
+                RavenSession
+                    .Load<Performance>(performanceId);
+            
+            var panel = new FiveJudgePanel(scores);
+            var model = new ScoringFiveJudgePanelViewModel(performance, panel, new ScoringMap());
+
+            return View("FiveJudgePanelSummary", model);
+        }
+
+        private List<JudgeScoreIndex.Result> GetScores(string performanceId)
+        {
+            var result =
                 RavenSession
                     .Query<JudgeScore, JudgeScoreIndex>()
+                    .Customize(x => x.Include<JudgeScoreIndex.Result>(r => r.PerformanceId))
                     .Where(x => x.PerformanceId == performanceId)
                     .As<JudgeScoreIndex.Result>()
                     .ToList();
 
-            var calculator = new FiveJudgePanelPerformanceScoreCalculator(scores);
-            return calculator;
+            return result;
         }
 
         [HttpGet]
@@ -84,12 +91,12 @@ namespace AllStarScore.Scoring.Controllers
             //TODO: if other than five panel judge, adjust
             //TODO: switch on tabulator vs judge
 
-            var judges = new[] {"1", "2", "3", "D", "L"}.ToList();
+            var judges = FiveJudgePanel.JudgeIds.ToList();
 
             var result = "";
             if (judgeId.Equals(judges.Last(), StringComparison.InvariantCultureIgnoreCase))
             {
-                result = Url.Action("FiveJudgePanel", "Scoring", new { id = performanceId });
+                result = Url.Action("Summary", "Scoring", new { id = performanceId });
             }
             else
             {
@@ -141,7 +148,8 @@ namespace AllStarScore.Scoring.Controllers
             return Execute(
                 action: () =>
                 {
-                    var calculator = GetCalculator(command.PerformanceId); //don't trust the client
+                    var scores = GetScores(command.PerformanceId); //don't trust the client
+                    var panel = new FiveJudgePanel(scores);
 
                     var performance =
                         RavenSession
@@ -149,7 +157,7 @@ namespace AllStarScore.Scoring.Controllers
 
                     //hmmm - shared model coming back to bite
                     performance.ScoringComplete = true;
-                    performance.FinalScore = calculator.FinalScore;
+                    performance.FinalScore = panel.Calculator.FinalScore;
 
                     return new JsonDotNetResult(true);
                 });
