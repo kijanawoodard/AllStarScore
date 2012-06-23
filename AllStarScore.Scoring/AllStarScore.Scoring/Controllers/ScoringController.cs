@@ -96,7 +96,7 @@ namespace AllStarScore.Scoring.Controllers
             var result = "";
             if (judgeId.Equals(judges.Last(), StringComparison.InvariantCultureIgnoreCase))
             {
-                result = Url.Action("Summary", "Scoring", new { id = performanceId });
+                result = Url.Action("Summary", "Scoring", new { performanceId });
             }
             else
             {
