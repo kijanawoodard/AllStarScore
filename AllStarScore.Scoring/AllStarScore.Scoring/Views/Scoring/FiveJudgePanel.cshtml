@@ -117,17 +117,17 @@
         <tbody>
             <!-- ko foreach: $data.categories -->
             <tr>
-                <td data-bind="text: category.display"></td>
-                <td data-bind="text: $parent.judges()[0] && $parent.judges()[0].scores[key] && $parent.judges()[0].scores[key].total().toFixed(1)"></td>
-                <td data-bind="text: $parent.judges()[1] && $parent.judges()[1].scores[key] && $parent.judges()[1].scores[key].total().toFixed(1)"></td>
-                <td data-bind="text: $parent.judges()[2] && $parent.judges()[2].scores[key] && $parent.judges()[2].scores[key].total().toFixed(1)"></td>
+                <td data-bind="text: display"></td>
+                <td data-bind="text: scores[1]"></td>
+                <td data-bind="text: scores[2]"></td>
+                <td data-bind="text: scores[3]"></td>
             </tr>
             <!-- /ko -->
             <tr>
                 <th>Total</th>
-                <th data-bind="text: judges()[0] && judges()[0].grandTotal().toFixed(1)"></th>
-                <th data-bind="text: judges()[1] && judges()[1].grandTotal().toFixed(1)"></th>
-                <th data-bind="text: judges()[2] && judges()[2].grandTotal().toFixed(1)"></th>
+                <th data-bind="text: grandTotal[1]"></th>
+                <th data-bind="text: grandTotal[2]"></th>
+                <th data-bind="text: grandTotal[3]"></th>
             </tr>
         </tbody>
     </table>

@@ -36,12 +36,22 @@ var FiveJudgePanelViewModel = function (data) {
         var level = performance.levelId();
         var map = self.scoringMap.categories[division] || self.scoringMap.categories[level];
 
-        //an array version for knockout foreach
         var categories = $.map(map, function (category, key) {
-            return { key: key, category: category };
+            var scores = {};
+
+            _.each(judges(), function (judge) {
+                scores[judge.judgeId()] = judge.scores[key] ? judge.scores[key].total().toFixed(1) : '';
+            });
+
+            return { key: key, display: category.display, scores: scores };
         });
 
-        return { performance: performance, judges: judges, map: map, categories: categories };
+        var grandTotal = { };
+        _.each(judges(), function (judge) {
+            grandTotal[judge.judgeId()] = judge.grandTotalServer().toFixed(1);
+        });
+
+        return { performance: performance, grandTotal: grandTotal, categories: categories };
     };
 
     self.markTeamDidNotCompete = function () {
