@@ -37,3 +37,6 @@ fieldset input[type="text"] {border-color: #707070;margin: 0;padding: 0;}
 .scorepad table td.selected { background-color: #dcdcff; }
 .scorepad_base .execution { display: none; }
 .scorepad_execution .high, .scorepad_execution .high td, .scorepad_execution .high td.selected {visibility: hidden; background-color: #fff; color: #fff; border: 1px solid #fff; }
+.scorepad .low .one { display: none; }
+.scorepad_execution .low .one { display: inherit; }
+

@@ -66,6 +66,7 @@
                     <tr><td>.7</td></tr>
                     <tr><td>.8</td></tr>
                     <tr><td>.9</td></tr>
+                    <tr class="one"><td>1.0</td></tr>
                 </table>
             </div>    
         </fieldset>
@@ -92,8 +93,8 @@
             <!-- ko foreach: $data.categories -->
             <tr>
                 <td data-bind="text: $data.category.display"></td>
-                <td><input type="text" data-bind="value: $parent.score.scores[$data.key].base, css: { below_min:  $parent.score.scores[$data.key].isBaseBelowMin,  above_max:  $parent.score.scores[$data.key].isBaseAboveMax}" /></td>
-                <td><input type="text" data-bind="value: $parent.score.scores[$data.key].execution, visible: $data.category.includeExectionScore, css: { below_min:  $parent.score.scores[$data.key].isExecutionBelowMin,  above_max:  $parent.score.scores[$data.key].isExecutionAboveMax}" /></td>
+                <td><input readonly="readonly" type="text" data-bind="value: $parent.score.scores[$data.key].base, css: { below_min:  $parent.score.scores[$data.key].isBaseBelowMin,  above_max:  $parent.score.scores[$data.key].isBaseAboveMax}" /></td>
+                <td><input readonly="readonly" type="text" data-bind="value: $parent.score.scores[$data.key].execution, visible: $data.category.includeExectionScore, css: { below_min:  $parent.score.scores[$data.key].isExecutionBelowMin,  above_max:  $parent.score.scores[$data.key].isExecutionAboveMax}" /></td>
                 <td data-bind="text: $parent.score.scores[$data.key].total"></td>
                 <td data-bind="text: $data.category.min"></td>
                 <td data-bind="text: $data.category.max"></td>
