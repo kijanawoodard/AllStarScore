@@ -4,9 +4,13 @@
 @{ Html.RegisterScript("~/content/scripts/scheduling.edit.js"); }
 
 <div id="scheduling_edit">
-    <div data-bind="visible: unscheduled().length > 0">
+    <div data-bind="visible: unscheduled().length > -1">
         <p><span data-bind="text: unscheduled().length"></span> teams haven't been scheduled</p>
     
+        <ul data-bind="foreach: performances" class="selectable">
+            <li data-bind="template: 'registration-template', css: {'ui-selected' : selected }, selectableItem: selected"></li> 
+        </ul>
+
         <ul data-bind="foreach: unscheduled" class="selectable">
             <li data-bind="template: 'registration-template', css: {'ui-selected' : selected }, selectableItem: selected"></li> 
         </ul>
@@ -59,8 +63,8 @@
                 <span data-bind="dateString: time, datePattern: 'ddd h:mm tt'"></span>
                 <span data-bind="text: panel, click: $root.shiftPanel" class="shift-panel"></span>
                 <span data-bind="template: { name: template(), data: $data.registration() || $data }"></span>
-                <span data-bind="text: $root.calculatePerformancePosition($data)"></span>
-                <span data-bind="text: duration"></span>
+@*                <span data-bind="text: $root.calculatePerformancePosition($data)"></span>*@
+@*                <span data-bind="text: duration"></span>*@
             </div>
         </div>
     </li>
@@ -72,9 +76,11 @@
     <span data-bind="text: levelName"></span>
     <span data-bind="text: divisionName"></span>
     <span data-bind="text: isShowTeam ? 'Show' : ''"></span>
-    <span data-bind="text: participantCount"></span>
+    @*    <span data-bind="text: participantCount"></span>*@
     <span data-bind="text: gymLocation"></span>
-    <span data-bind="text: isSmallGym ? 'Small' : 'Large'"></span>
+    @*    <span data-bind="text: isSmallGym ? 'Small' : 'Large'"></span>*@
+    
+    <span data-bind="text: viewModel.performancesToBeScheduled(id)"></span>
 </script>
 
 <script type="text/html" id="block-template">

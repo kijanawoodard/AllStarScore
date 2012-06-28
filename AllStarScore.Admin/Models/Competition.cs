@@ -14,6 +14,7 @@ namespace AllStarScore.Admin.Models
         public string Description { get; set; }
         public DateTime FirstDay { get; set; }
         public DateTime LastDay { get; set; }
+        public int NumberOfPerformances { get; set; }
 
         public IEnumerable<DateTime> Days
         {

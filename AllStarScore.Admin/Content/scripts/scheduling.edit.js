@@ -81,6 +81,9 @@ var EditScheduleViewModel = (function (data) {
         item.selected = true;
     });
 
+    self.schedule = ko.mapping.fromJS(data.schedule, mapping);
+    self.registrations = ko.mapping.fromJS(data.registrations);
+
     var getAllEntries = function () {
         return _.chain(self.schedule.days())
                     .map(function (day) {
@@ -96,14 +99,42 @@ var EditScheduleViewModel = (function (data) {
         });
     };
 
-    self.schedule = ko.mapping.fromJS(data.schedule, mapping);
-    self.registrations = ko.mapping.fromJS(data.registrations);
-
     self.unscheduled = ko.computed(function () {
         var list = _.filter(self.registrations, function (item) {
             return item.id && !registrationIsScheduled(item.id());
         });
 
+        return _.sortBy(list.slice(), function (item) {
+            return _.indexOf(data.divisions, item.divisionId());
+        });
+    }, self);
+
+    self.scheduled = ko.computed(function () {
+        var all = getAllEntries();
+        var grouped = _.groupBy(all, function (entry) {
+            return entry.registrationId ? entry.registrationId() : entry.type();
+        });
+        return grouped;
+    }, self);
+
+    self.performancesToBeScheduled = function (registrationId) {
+        var grouped = self.scheduled();
+        var done = grouped[registrationId()] || [];
+        return self.numberOfPerformances - done.length;
+    };
+
+    self.performances = ko.computed(function () {
+        var grouped = self.scheduled();
+
+        var list = _.filter(self.registrations, function (item) {
+            if (!item.id)
+                return false;
+
+            var id = item.id();
+            return !grouped[id] || grouped[id].length < self.numberOfPerformances;
+        });
+
+        console.log(list);
         return _.sortBy(list.slice(), function (item) {
             return _.indexOf(data.divisions, item.divisionId());
         });
@@ -118,6 +149,7 @@ var EditScheduleViewModel = (function (data) {
     });
 
     self.divisions = data.divisions;
+    self.numberOfPerformances = data.numberOfPerformances;
 
     self.getPanel = function (divisionId) {
         var result =
@@ -230,11 +262,11 @@ var EditScheduleViewModel = (function (data) {
         var result = 0;
         if (!target.registration)
             return '';
-        
+
         _.chain(getAllEntries())
             .find(function (entry) {
                 if (target.registrationId &&
-                    entry.registrationId && 
+                    entry.registrationId &&
                     target.registrationId() == entry.registrationId()) {
                     result++;
                 }
