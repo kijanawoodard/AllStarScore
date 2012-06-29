@@ -5,12 +5,7 @@
 
 <div id="scheduling_edit">
     <div data-bind="visible: unscheduled().length > -1">
-        <p><span data-bind="text: unscheduled().length"></span> performances haven't been scheduled</p>
-    
-@*        <ul data-bind="foreach: performances" class="selectable">*@
-@*            <li data-bind="template: 'registration-template', css: {'ui-selected' : selected }, selectableItem: selected"></li> *@
-@*        </ul>*@
-@**@
+            
         <div class="setup">
             <div>
                 <div>How many panels do you want? <span data-bind="text: panels().length"></span>: <span data-bind="text: panels"></span></div>
@@ -18,30 +13,24 @@
             </div>
         </div>
         <br/>
-@*        <div class="controls">*@
-@*            <span data-bind="foreach: schedule.days">*@
-@*                <a href="#" data-bind="click: $root.scheduleTeam">Put selected teams on <span data-bind="dateString: day, datePattern: 'dddd'"></span></a><br/>*@
-@*            </span>*@
-@*        </div>*@
     </div>
     
     <div class="performances">
-        <div class="unscheduled">
-            <span>Unscheduled</span>
-            <ol data-bind="sortable: { template: 'scheduled-template', data: unscheduled, options: { axizs: 'y', handle: '.handle', containment: '.performances' } }" class="sortable"></ol>
-        </div>
-        
         <div class="scheduled">
             <div data-bind="foreach: schedule.days">
                 <span data-bind="dateString: day, datePattern: 'dddd MMM dd, yyyy'"></span>
                 <a href="#" data-bind="click: $root.addBreak">Add Break</a>
                 <a href="#" data-bind="click: $root.addAwards">Add Awards</a>
                 <a href="#" data-bind="click: $root.addOpen">Add Open</a>
-                <ol data-bind="sortable: { template: 'scheduled-template', data: entries, options: { axisz: 'y', handle: '.handle', containment: '.performances' } }" class="sortable"></ol>
+                <ol data-bind="sortable: { template: 'scheduled-template', data: entries, options: { tolerance: 'pointer', placeholder: 'ui-state-highlight', handle: '.handle', containment: '.performances' } }" class="sortable"></ol>
             </div>
         </div>
-        
+        <div class="unscheduled" data-bind="visible: unscheduled().length > 0">
+            <p><span data-bind="text: unscheduled().length"></span> performances haven't been scheduled</p>
+            <ol data-bind="sortable: { template: 'scheduled-template', data: unscheduled, options: { tolerance: 'pointer', placeholder: 'ui-state-highlight', handle: '.handle', containment: '.performances' } }" class="sortable"></ol>
+        </div>
     </div>
+    
     <form action='@Url.Action("Edit", "Scheduling")' method="post">
         <fieldset>
             <legend>Save Schedule</legend>

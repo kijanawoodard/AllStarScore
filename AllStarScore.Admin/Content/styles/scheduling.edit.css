@@ -1,8 +1,7 @@
 ﻿.sortable, .selectable { list-style-type: none; margin: 0;padding: 0; width: 100%; }
-.sortable:hover { borderx: 1px solid red;}
 
-.sortable:empty {padding-bottom: 50px; }
-.sortable li:last-child { padding-bottom: 50px;}
+.scheduled ol:empty {padding-bottom: 50px; }
+.scheduled li:last-child { padding-bottom: 50px;}
 
 .sortable li, .selectable li { font-size: 1.4em; height: 36px;margin-bottom: 3px;line-height: 15px;}
 .sortable li { position: relative; }
@@ -43,7 +42,6 @@ li .index { left: 0; top: 0; bottom: 0;padding: .4em 0; }
 .unscheduled .display > span { display: none;}
 .unscheduled .display span.core { display: inline;}
 
-.scheduledx { float: left;width: 45%;overflow: hidden;}
-.unscheduled { overflow: hidden; width: 45%;positionx: fixed;float: right;margin-left: 50%;z-index: 100;background-color: #ddd;}
-.unscheduled li { z-index: 100;}
-formx { overflow: hidden;}
+.performances { overflow: hidden;}
+.scheduled { width: 100%;float: left;}
+.unscheduled {width: 50%;position: fixed;right: 0;background-color: #ddd;padding: 12px;border:2px solid #a0a0a0}
