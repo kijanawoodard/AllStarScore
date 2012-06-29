@@ -26,6 +26,11 @@
     </div>
     
     <div class="performances">
+        <div class="unscheduled">
+            <span>Unscheduled</span>
+            <ol data-bind="sortable: { template: 'scheduled-template', data: unscheduled, options: { axizs: 'y', handle: '.handle', containment: '.performances' } }" class="sortable"></ol>
+        </div>
+        
         <div class="scheduled">
             <div data-bind="foreach: schedule.days">
                 <span data-bind="dateString: day, datePattern: 'dddd MMM dd, yyyy'"></span>
@@ -35,11 +40,7 @@
                 <ol data-bind="sortable: { template: 'scheduled-template', data: entries, options: { axisz: 'y', handle: '.handle', containment: '.performances' } }" class="sortable"></ol>
             </div>
         </div>
-
-        <div class="unscheduled">
-            <span>Unscheduled</span>
-            <ol data-bind="sortable: { template: 'scheduled-template', data: unscheduled, options: { axizs: 'y', handle: '.handle', containment: '.performances' } }" class="sortable"></ol>
-        </div>
+        
     </div>
     <form action='@Url.Action("Edit", "Scheduling")' method="post">
         <fieldset>

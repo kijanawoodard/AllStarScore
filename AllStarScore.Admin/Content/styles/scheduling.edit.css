@@ -44,5 +44,6 @@ li .index { left: 0; top: 0; bottom: 0;padding: .4em 0; }
 .unscheduled .display span.core { display: inline;}
 
 .scheduledx { float: left;width: 45%;overflow: hidden;}
-.unscheduledx { overflow: hidden; width: 45%;}
+.unscheduled { overflow: hidden; width: 45%;positionx: fixed;float: right;margin-left: 50%;z-index: 100;background-color: #ddd;}
+.unscheduled li { z-index: 100;}
 formx { overflow: hidden;}
