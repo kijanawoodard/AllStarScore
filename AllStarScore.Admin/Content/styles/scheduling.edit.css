@@ -5,7 +5,9 @@
 
 .sortable li, .selectable li { font-size: 1.4em; height: 36px;margin-bottom: 3px;line-height: 15px;}
 .sortable li { position: relative; }
-li .handle, .selectable li {cursor: pointer;}
+
+li .handle { cursor: move;}
+.selectable li {cursor: pointer;}
 
 .sortable li .wrap, .selectable li
 {

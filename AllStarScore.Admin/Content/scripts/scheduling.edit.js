@@ -85,6 +85,21 @@ var EditScheduleViewModel = (function (data) {
     self.schedule = ko.mapping.fromJS(data.schedule, mapping);
     self.registrations = ko.mapping.fromJS(data.registrations);
 
+    self.performances_x = ko.computed(function () {
+        return _.chain(self.schedule.days())
+                    .map(function (day) {
+                        return day.entries();
+                    })
+                    .flatten()
+                    .filter(function (item) {
+                        return item.registrationId;
+                    })
+                    .groupBy(function (item) {
+                        return item.registrationId();
+                    })
+                    .value();
+    }, self);
+
     var getAllEntries = function () {
         return _.chain(self.schedule.days())
                     .map(function (day) {
@@ -100,13 +115,13 @@ var EditScheduleViewModel = (function (data) {
         });
     };
 
-//    self.scheduled = ko.computed(function () {
-//        var all = getAllEntries();
-//        var grouped = _.groupBy(all, function (entry) {
-//            return entry.registrationId ? entry.registrationId() : entry.type();
-//        });
-//        return grouped;
-//    }, self);
+    //    self.scheduled = ko.computed(function () {
+    //        var all = getAllEntries();
+    //        var grouped = _.groupBy(all, function (entry) {
+    //            return entry.registrationId ? entry.registrationId() : entry.type();
+    //        });
+    //        return grouped;
+    //    }, self);
 
     self.competitionDays = data.competitionDays;
 
