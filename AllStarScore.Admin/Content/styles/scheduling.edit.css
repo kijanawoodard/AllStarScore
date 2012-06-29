@@ -1,5 +1,8 @@
-﻿.sortable, .selectable { list-style-type: none; margin: 0; padding-bottom: 50px; width: 100%; }
-.sortable:hover { border: 1px solid red;}
+﻿.sortable, .selectable { list-style-type: none; margin: 0;padding: 0; width: 100%; }
+.sortable:hover { borderx: 1px solid red;}
+
+.sortable:empty {padding-bottom: 50px; }
+.sortable li:last-child { padding-bottom: 50px;}
 
 .sortable li, .selectable li { font-size: 1.4em; height: 36px;margin-bottom: 3px;line-height: 15px;}
 .sortable li { position: relative; }
