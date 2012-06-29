@@ -5,16 +5,12 @@
 
 <div id="scheduling_edit">
     <div data-bind="visible: unscheduled().length > -1">
-        <p><span data-bind="text: unscheduled().length"></span> teams haven't been scheduled</p>
+        <p><span data-bind="text: unscheduled().length"></span> performances haven't been scheduled</p>
     
-        <ul data-bind="foreach: performances" class="selectable">
-            <li data-bind="template: 'registration-template', css: {'ui-selected' : selected }, selectableItem: selected"></li> 
-        </ul>
-
-        <ul data-bind="foreach: unscheduled" class="selectable">
-            <li data-bind="template: 'registration-template', css: {'ui-selected' : selected }, selectableItem: selected"></li> 
-        </ul>
-        
+@*        <ul data-bind="foreach: performances" class="selectable">*@
+@*            <li data-bind="template: 'registration-template', css: {'ui-selected' : selected }, selectableItem: selected"></li> *@
+@*        </ul>*@
+@**@
         <div class="setup">
             <div>
                 <div>How many panels do you want? <span data-bind="text: panels().length"></span>: <span data-bind="text: panels"></span></div>
@@ -29,15 +25,22 @@
         </div>
     </div>
     
-    <div data-bind="foreach: schedule.days">
-        <br/><br/>
-        <span data-bind="dateString: day, datePattern: 'dddd MMM dd, yyyy'"></span>
-        <a href="#" data-bind="click: $root.addBreak">Add Break</a>
-        <a href="#" data-bind="click: $root.addAwards">Add Awards</a>
-        <a href="#" data-bind="click: $root.addOpen">Add Open</a>
-        <ol data-bind="sortable: { template: 'scheduled-template', data: entries, options: { axis: 'y', handle: '.handle' } }" class="sortable"></ol>
+    <div class="scheduled">
+        <div data-bind="foreach: schedule.days">
+            <br/><br/>
+            <span data-bind="dateString: day, datePattern: 'dddd MMM dd, yyyy'"></span>
+            <a href="#" data-bind="click: $root.addBreak">Add Break</a>
+            <a href="#" data-bind="click: $root.addAwards">Add Awards</a>
+            <a href="#" data-bind="click: $root.addOpen">Add Open</a>
+            <ol data-bind="sortable: { template: 'scheduled-template', data: entries, options: { axisz: 'y', handle: '.handle' } }" class="sortable"></ol>
+        </div>
     </div>
-    
+
+    <div class="unscheduled">
+        <span>Unscheduled</span>
+        <ol data-bind="sortable: { template: 'scheduled-template', data: unscheduled, options: { axizs: 'y', handle: '.handle' } }" class="sortable"></ol>
+    </div>
+
     <form action='@Url.Action("Edit", "Scheduling")' method="post">
         <fieldset>
             <legend>Save Schedule</legend>
@@ -62,7 +65,7 @@
                 <span data-bind="dateString: $root.calculateWarmup($data), datePattern : 'ddd h:mm tt'"></span>
                 <span data-bind="dateString: time, datePattern: 'ddd h:mm tt'"></span>
                 <span data-bind="text: panel, click: $root.shiftPanel" class="shift-panel"></span>
-                <span data-bind="template: { name: template(), data: $data.registration() || $data }"></span>
+                <span data-bind="template: { name: template(), data: $data.registration() || $data }" class="core"></span>
 @*                <span data-bind="text: $root.calculatePerformancePosition($data)"></span>*@
 @*                <span data-bind="text: duration"></span>*@
             </div>
@@ -80,7 +83,7 @@
     <span data-bind="text: gymLocation"></span>
     @*    <span data-bind="text: isSmallGym ? 'Small' : 'Large'"></span>*@
     
-    <span data-bind="text: viewModel.performancesToBeScheduled(id)"></span>
+@*    <span data-bind="text: viewModel.performancesToBeScheduled(id)"></span>*@
 </script>
 
 <script type="text/html" id="block-template">

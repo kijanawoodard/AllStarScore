@@ -27,7 +27,7 @@ namespace AllStarScore.Admin.Infrastructure.Indexes
             public string DivisionName { get; set; }
             public string LevelName { get; set; }
 
-            public DateTime RegistrationDate { get; set; }
+            public DateTime CreatedAt { get; set; }
         }
 
         public TeamRegistrationByCompetition()
@@ -40,7 +40,7 @@ namespace AllStarScore.Admin.Infrastructure.Indexes
                                            registration.CompetitionId,
                                            registration.GymId,
                                            registration.DivisionId,
-                                           RegistrationDate = registration.History.First().CommandWhen
+                                           registration.CreatedAt,
                                        };
             
             TransformResults =
@@ -64,7 +64,7 @@ namespace AllStarScore.Admin.Infrastructure.Indexes
                                                         division.LevelId,
                                                         DivisionName = division.Name,
                                                         LevelName = level.Name,
-                                                        RegistrationDate = tr.History.First().CommandWhen
+                                                        registration.CreatedAt
                                                     };
         }
     }

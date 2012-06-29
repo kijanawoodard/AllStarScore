@@ -51,6 +51,12 @@ namespace AllStarScore.Admin.Controllers
 
         public ActionResult Details(string id)
         {
+            var bye =
+                RavenSession
+                    .Query<TeamRegistration>()
+                    .Take(int.MaxValue)
+                    .ToList();
+
             var competition = RavenSession.Advanced.Lazily.Load<Competition>(id);
 
             var stats =

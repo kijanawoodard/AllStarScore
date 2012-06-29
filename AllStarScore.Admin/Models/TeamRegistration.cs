@@ -1,5 +1,7 @@
+using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
+using System.Linq;
 using AllStarScore.Admin.Infrastructure.Commands;
 using AllStarScore.Admin.ViewModels;
 using AllStarScore.Extensions;
@@ -17,12 +19,15 @@ namespace AllStarScore.Admin.Models
         public int ParticipantCount { get; set; }
         public string DivisionId { get; set; }
         public bool IsShowTeam { get; set; }
+
+        public DateTime CreatedAt { get; set; }
         
         public ICollection<ICommand> History { get; private set; }
 
         public TeamRegistration()
         {
             History = new Collection<ICommand>();
+            CreatedAt = DateTime.UtcNow;
         }
 
         public void Update(RegistrationCreateCommand command)

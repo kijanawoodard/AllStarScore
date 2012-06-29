@@ -18,7 +18,7 @@ namespace AllStarScore.Admin.Controllers
                 RavenSession
                     .Query<TeamRegistration, TeamRegistrationByCompetition>()
                     .As<TeamRegistrationByCompetition.Results>()
-                    .OrderBy(x => x.RegistrationDate)
+                    .OrderBy(x => x.CreatedAt)
                     .Lazily();
 
             var competition =

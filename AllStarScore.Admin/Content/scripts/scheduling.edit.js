@@ -9,6 +9,7 @@ $(document).ready(function () {
     ko.applyBindings(viewModel, document.getElementById('scheduling_edit'));
 
     $('#scheduling_edit .sortable').disableSelection(); //http://stackoverflow.com/a/9993099/214073 sortable and selectable
+    viewModel.doLoad();
 });
 
 var DayModel = function (data) {
@@ -28,9 +29,9 @@ var EntryModel = function (data) {
     this.registration = ko.computed(function () {
         if (!this.registrationId)
             return undefined;
-        
+
         var id = getRegistrationId(this.registrationId());
-        return viewModel.registrations[id];
+        return window.viewModel.registrations[id];
     }, self);
 
     this.panel = ko.computed(function () {
@@ -78,7 +79,7 @@ var EditScheduleViewModel = (function (data) {
 
     //add tracking flag
     $.each(data.registrations, function (index, item) {
-        item.selected = true;
+        //item.selected = false;
     });
 
     self.schedule = ko.mapping.fromJS(data.schedule, mapping);
@@ -99,16 +100,6 @@ var EditScheduleViewModel = (function (data) {
         });
     };
 
-    self.unscheduled = ko.computed(function () {
-        var list = _.filter(self.registrations, function (item) {
-            return item.id && !registrationIsScheduled(item.id());
-        });
-
-        return _.sortBy(list.slice(), function (item) {
-            return _.indexOf(data.divisions, item.divisionId());
-        });
-    }, self);
-
     self.scheduled = ko.computed(function () {
         var all = getAllEntries();
         var grouped = _.groupBy(all, function (entry) {
@@ -117,28 +108,27 @@ var EditScheduleViewModel = (function (data) {
         return grouped;
     }, self);
 
-    self.performancesToBeScheduled = function (registrationId) {
-        var grouped = self.scheduled();
-        var done = grouped[registrationId()] || [];
-        return self.numberOfPerformances - done.length;
-    };
-
-    self.performances = ko.computed(function () {
-        var grouped = self.scheduled();
-
-        var list = _.filter(self.registrations, function (item) {
-            if (!item.id)
-                return false;
-
-            var id = item.id();
-            return !grouped[id] || grouped[id].length < self.numberOfPerformances;
-        });
-
-        console.log(list);
-        return _.sortBy(list.slice(), function (item) {
-            return _.indexOf(data.divisions, item.divisionId());
-        });
-    }, self);
+    //    self.performancesToBeScheduled = function (registrationId) {
+    //        var grouped = self.scheduled();
+    //        var done = grouped[registrationId()] || [];
+    //        return self.numberOfPerformances - done.length;
+    //    };
+    //
+    //    self.performances = ko.computed(function () {
+    //        var grouped = self.scheduled();
+    //
+    //        var list = _.filter(self.registrations, function (item) {
+    //            if (!item.id)
+    //                return false;
+    //
+    //            var id = item.id();
+    //            return !grouped[id] || grouped[id].length < self.numberOfPerformances;
+    //        });
+    //
+    //        return _.sortBy(list.slice(), function (item) {
+    //            return _.indexOf(data.divisions, item.divisionId());
+    //        });
+    //    }, self);
 
     self.competitionDays = data.competitionDays;
 
@@ -174,28 +164,47 @@ var EditScheduleViewModel = (function (data) {
         return new Date(node.time().getTime() - node.warmupTime() * 60 * 1000);
     };
 
-    self.scheduleTeam = function (day) {
-        var selected = _.filter(self.unscheduled().slice(), function (registration) {
-            return registration.selected();
-        });
-
-        self.scheduleTeams(day, selected);
-    };
+    //    self.scheduleTeam = function (day) {
+    //        var selected = _.filter(self.unscheduled().slice(), function (registration) {
+    //            return registration.selected();
+    //        });
+    //
+    //        self.scheduleTeams(day, selected);
+    //    };
 
     self.scheduleTeams = function (day, registrations) {
         ko.utils.arrayForEach(registrations, function (registration) {
             var json = {}; // prototype();
             json.registrationId = registration.id();
-            json.time = day.day().clone().clearTime();
+            json.time = day.day ? day.day().clone().clearTime() : new Date();
             json.duration = self.schedule.defaultDuration();
             json.warmupTime = self.schedule.defaultWarmupTime(),
             json.index = -1,
             json.template = 'registration-template';
-
+            console.log(json);
             json = new EntryModel(json, self);
 
             day.entries.push(json);
         });
+    };
+
+    self.unscheduled = ko.observableArray();
+
+    self.doLoad = function() {
+        var list = _.filter(self.registrations, function (item) {
+            return item.id && !registrationIsScheduled(item.id());
+        });
+
+        var sorted = _.sortBy(list, function (item) {
+            return _.indexOf(data.divisions, item.divisionId());
+        });
+
+        var result = {};
+        result.entries = self.unscheduled;
+
+        for (var i = 0; i < self.numberOfPerformances; i++) {
+            self.scheduleTeams(result, sorted);    
+        }
     };
 
     var prototype = function () {
@@ -285,6 +294,50 @@ var EditScheduleViewModel = (function (data) {
             }
         });
     };
+
+
+    //    var performances = _.chain(data.schedule.days)
+    //                            .map(function (day) {
+    //                                return day.entries;
+    //                            })
+    //                            .flatten()
+    //                            .value();
+    //
+    //    var registrations = _.chain(data.registrations)
+    //                        .map(function (item) {
+    //                            item.createdAt = new Date(item.createdAt);
+    //                            console.log(item.createdAt.getTime());
+    //                            return item;
+    //                        })
+    //                        .sortBy(function (item) {
+    //                            return -1 * item.createdAt.getTime();
+    //                        })
+    //                        .sortBy(function (item) {
+    //                                return _.indexOf(data.divisions, item.divisionId);
+    //                        })
+    //                        .groupBy(function (item) {
+    //                            return item.divisionId;
+    //                        })
+    //                        .value();
+    //    console.log(performances);
+    //    console.log(registrations);
+    /*
+    Auto-Schedule
+
+    If 1 performance each
+    place in division order by reverse registration date
+    find first in division and insert before
+    if division not there
+    find last in prev division and insert after
+    If 2 performance 
+    If 2 days
+    put 2nd performance on 2nd day
+    follow the 1 performance rules
+    If 1 day
+    find the last 1st performance
+    follow the 1 performance rules                
+    */
+
 
     return self;
 });

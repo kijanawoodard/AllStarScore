@@ -28,7 +28,7 @@ namespace AllStarScore.Admin.Controllers
                     .Query<TeamRegistration, TeamRegistrationByCompetition>()
                     .Take(int.MaxValue)
                     .As<TeamRegistrationByCompetition.Results>()
-                    .OrderBy(x => x.RegistrationDate)
+                    .OrderBy(x => x.CreatedAt)
                     .Lazily();
 
             var competition =
