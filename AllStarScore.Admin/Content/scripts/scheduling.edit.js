@@ -9,7 +9,7 @@ $(document).ready(function () {
     ko.applyBindings(viewModel, document.getElementById('scheduling_edit'));
 
     $('#scheduling_edit .sortable').disableSelection(); //http://stackoverflow.com/a/9993099/214073 sortable and selectable
-    viewModel.doLoad();
+    viewModel.loadUnscheduled();
 });
 
 var DayModel = function (data) {
@@ -33,22 +33,6 @@ var EntryModel = function (data) {
         var id = getRegistrationId(this.registrationId());
         return window.viewModel.registrations[id];
     }, self);
-
-//    this.performancePosition = ko.computed(function() {
-//        var result = 0;
-//        if (!self.registration)
-//            return '';
-//
-//        var times = _.chain(viewModel.performances_x()[self.registrationId()])
-//                    .values()
-//                    .map(function (item) {
-//                        return item.time;
-//                    })
-//                    .value();
-//        result = _.indexOf(times, self.time()) + 1;
-//        console.log(result);
-//        return [, '1st', '2nd', '3rd', '4th', '5th'][result];
-//    }, self);
     
     this.panel = ko.computed(function () {
         return self.registration() ? viewModel.getPanel(self.registration().divisionId())() : '';
@@ -96,7 +80,7 @@ var EditScheduleViewModel = (function (data) {
     self.schedule = ko.mapping.fromJS(data.schedule, mapping);
     self.registrations = ko.mapping.fromJS(data.registrations);
 
-    self.performances_x = ko.computed(function () {
+    self.performances = ko.computed(function () {
         return _.chain(self.schedule.days())
                     .map(function (day) {
                         return day.entries();
@@ -166,9 +150,9 @@ var EditScheduleViewModel = (function (data) {
 
     self.unscheduled = ko.observableArray();
 
-    self.doLoad = function () {
+    self.loadUnscheduled = function () {
         var list = _.filter(self.registrations, function (item) {
-            return item.id && !self.performances_x()[item.id()];
+            return item.id;
         });
 
         var sorted = _.sortBy(list, function (item) {
@@ -179,7 +163,13 @@ var EditScheduleViewModel = (function (data) {
         result.entries = self.unscheduled; //HACK to reuse scheduleTeams
 
         for (var i = 0; i < self.numberOfPerformances; i++) {
-            self.scheduleTeams(result, sorted);
+            var registrations = _.filter(sorted, function (registration) {
+                var node = self.performances()[registration.id()];
+                var count = node ? node.length : 0;
+                
+                return count <= i; //first get all the ones that haven't been registered at all; then get those that have 1 registration and none; and so forth.
+            });
+            self.scheduleTeams(result, registrations);
         }
     };
 
@@ -239,18 +229,18 @@ var EditScheduleViewModel = (function (data) {
 
     self.calculatePerformancePosition = function (target) {
 
-        var result = 0;
+        var result;
         if (!target.registration)
             return '';
 
-        var times = _.chain(self.performances_x()[target.registrationId()])
+        var times = _.chain(self.performances()[target.registrationId()])
                     .values()
                     .map(function (item) {
                         return item.time;
                     })
                     .value();
         result = _.indexOf(times, target.time()) + 1;
-        
+
         return [, '1st', '2nd', '3rd', '4th', '5th'][result];
     };
 

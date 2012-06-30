@@ -38,7 +38,8 @@
             <div class="validation-summary-errors"></div>
 
             <p>
-                <button data-bind="click: save">Save</button>
+@*                <div data-bind="visible: unscheduled().length > 0">Schedule all performances before saving</div>*@
+                <button data-bind="click: save, enable: unscheduled().length > -1">Save</button>
             </p>
         </fieldset>
     </form>
