@@ -34,6 +34,22 @@ var EntryModel = function (data) {
         return window.viewModel.registrations[id];
     }, self);
 
+//    this.performancePosition = ko.computed(function() {
+//        var result = 0;
+//        if (!self.registration)
+//            return '';
+//
+//        var times = _.chain(viewModel.performances_x()[self.registrationId()])
+//                    .values()
+//                    .map(function (item) {
+//                        return item.time;
+//                    })
+//                    .value();
+//        result = _.indexOf(times, self.time()) + 1;
+//        console.log(result);
+//        return [, '1st', '2nd', '3rd', '4th', '5th'][result];
+//    }, self);
+    
     this.panel = ko.computed(function () {
         return self.registration() ? viewModel.getPanel(self.registration().divisionId())() : '';
     }, self);
@@ -234,7 +250,7 @@ var EditScheduleViewModel = (function (data) {
                     })
                     .value();
         result = _.indexOf(times, target.time()) + 1;
-        console.log(result);
+        
         return [, '1st', '2nd', '3rd', '4th', '5th'][result];
     };
 
