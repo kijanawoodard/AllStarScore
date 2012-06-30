@@ -77,11 +77,6 @@ var EditScheduleViewModel = (function (data) {
     //map divisions to just id
     data.divisions = _.pluck(data.divisions, 'divisionId');
 
-    //add tracking flag
-    $.each(data.registrations, function (index, item) {
-        //item.selected = false;
-    });
-
     self.schedule = ko.mapping.fromJS(data.schedule, mapping);
     self.registrations = ko.mapping.fromJS(data.registrations);
 
@@ -94,34 +89,14 @@ var EditScheduleViewModel = (function (data) {
                     .filter(function (item) {
                         return item.registrationId;
                     })
+                    .map(function (item) {
+                        return { registrationId: item.registrationId(), time: item.time() };
+                    })
                     .groupBy(function (item) {
-                        return item.registrationId();
+                        return item.registrationId;
                     })
                     .value();
     }, self);
-
-    var getAllEntries = function () {
-        return _.chain(self.schedule.days())
-                    .map(function (day) {
-                        return day.entries();
-                    })
-                    .flatten()
-                    .value();
-    };
-
-    var registrationIsScheduled = function (id) {
-        return _.any(getAllEntries(), function (entry) {
-            return entry.registrationId && entry.registrationId() == id;
-        });
-    };
-
-    //    self.scheduled = ko.computed(function () {
-    //        var all = getAllEntries();
-    //        var grouped = _.groupBy(all, function (entry) {
-    //            return entry.registrationId ? entry.registrationId() : entry.type();
-    //        });
-    //        return grouped;
-    //    }, self);
 
     self.competitionDays = data.competitionDays;
 
@@ -177,7 +152,7 @@ var EditScheduleViewModel = (function (data) {
 
     self.doLoad = function () {
         var list = _.filter(self.registrations, function (item) {
-            return item.id && !registrationIsScheduled(item.id());
+            return item.id && !self.performances_x()[item.id()];
         });
 
         var sorted = _.sortBy(list, function (item) {
@@ -247,20 +222,19 @@ var EditScheduleViewModel = (function (data) {
     self.schedule.days.valueHasMutated(); //we loaded the items before subscribe, so force subscribe function now
 
     self.calculatePerformancePosition = function (target) {
+
         var result = 0;
         if (!target.registration)
             return '';
 
-        _.chain(getAllEntries())
-            .find(function (entry) {
-                if (target.registrationId &&
-                    entry.registrationId &&
-                    target.registrationId() == entry.registrationId()) {
-                    result++;
-                }
-                return target == entry;
-            });
-
+        var times = _.chain(self.performances_x()[target.registrationId()])
+                    .values()
+                    .map(function (item) {
+                        return item.time;
+                    })
+                    .value();
+        result = _.indexOf(times, target.time()) + 1;
+        console.log(result);
         return [, '1st', '2nd', '3rd', '4th', '5th'][result];
     };
 
