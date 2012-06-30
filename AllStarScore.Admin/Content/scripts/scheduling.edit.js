@@ -26,15 +26,23 @@ var EntryModel = function (data) {
     ko.mapping.fromJS(data, {}, this);
 
     var self = this;
-    this.registration = ko.computed(function () {
+    self.registration = ko.computed(function () {
         if (!this.registrationId)
             return undefined;
 
         var id = getRegistrationId(this.registrationId());
         return window.viewModel.registrations[id];
     }, self);
-    
-    this.panel = ko.computed(function () {
+
+    self.isRegistration = ko.computed(function () {
+        return self.registration();
+    }, self);
+
+    self.isNonTeamEntry = ko.computed(function () {
+        return !self.isRegistration();
+    }, self);
+
+    self.panel = ko.computed(function () {
         return self.registration() ? viewModel.getPanel(self.registration().divisionId())() : '';
     }, self);
 };
@@ -166,7 +174,7 @@ var EditScheduleViewModel = (function (data) {
             var registrations = _.filter(sorted, function (registration) {
                 var node = self.performances()[registration.id()];
                 var count = node ? node.length : 0;
-                
+
                 return count <= i; //first get all the ones that haven't been registered at all; then get those that have 1 registration and none; and so forth.
             });
             self.scheduleTeams(result, registrations);
@@ -230,7 +238,7 @@ var EditScheduleViewModel = (function (data) {
     self.calculatePerformancePosition = function (target) {
 
         var result;
-        if (!target.registration)
+        if (!target.registration())
             return '';
 
         var times = _.chain(self.performances()[target.registrationId()])

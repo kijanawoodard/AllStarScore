@@ -44,7 +44,7 @@
         </fieldset>
     </form>
 
-    <pre data-bind="text: ko.toJSON($root, null, 2)"></pre>
+@*    <pre data-bind="text: ko.toJSON($root, null, 2)"></pre>*@
 </div>
 
 <script type="text/html" id="scheduled-template">
@@ -52,29 +52,34 @@
         <div class="index" data-bind="text: $index() + 1 + '.', syncIndex: index($index())"></div>
         <div class="wrap ui-corner-all">
             <div class='handle'><span class='ui-icon ui-icon-star'></span></div>
-            <div class="display">
-                <span data-bind="dateString: $root.calculateWarmup($data), datePattern : 'ddd h:mm tt'"></span>
+            <div class="display" data-bind="css: { break: isNonTeamEntry}">
+                <span data-bind="dateString: $root.calculateWarmup($data), datePattern : 'ddd h:mm tt'" class="warmup"></span>
                 <span data-bind="dateString: time, datePattern: 'ddd h:mm tt'"></span>
                 <span data-bind="text: panel, click: $root.shiftPanel" class="shift-panel"></span>
                 <span data-bind="template: { name: template(), data: $data.registration() || $data }" class="core"></span>
-                <span data-bind="text: $root.calculatePerformancePosition($data)"></span>
+@*                <!-- ko template: { name: template(), data: $data.registration() || $data } --><!-- /ko -->*@
+                <span data-bind="text: $root.calculatePerformancePosition($data)" class="order"></span>
 @*                <span data-bind="text: duration"></span>*@
             </div>
         </div>
     </li>
 </script>
 
-<script type="text/html" id="registration-template"> 
-    <span data-bind="text: gymName"></span>
-    <span data-bind="text: teamName"></span>
-    <span data-bind="text: levelName"></span>
-    <span data-bind="text: divisionName"></span>
-    <span data-bind="text: isShowTeam ? 'Show' : ''"></span>
+<script type="text/html" id="registration-template">
+    <span class="name">
+        <span data-bind="text: gymName"></span>
+        <span data-bind="text: teamName"></span>
+    </span>
+    <span class="division">
+        <span data-bind="text: levelName"></span>
+        <span data-bind="text: divisionName"></span>
+    </span>
+    <span data-bind="text: isShowTeam ? 'Show' : ''" class="show"></span>
     @*    <span data-bind="text: participantCount"></span>*@
-@*    <span data-bind="text: gymLocation"></span>*@
+    @*    <span data-bind="text: gymLocation"></span>*@
     @*    <span data-bind="text: isSmallGym ? 'Small' : 'Large'"></span>*@
     
-@*    <span data-bind="text: viewModel.performancesToBeScheduled(id)"></span>*@
+    @*    <span data-bind="text: viewModel.performancesToBeScheduled(id)"></span>*@
 </script>
 
 <script type="text/html" id="block-template">

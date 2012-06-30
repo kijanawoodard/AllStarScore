@@ -3,7 +3,8 @@
 .scheduled ol:empty {padding-bottom: 50px; }
 .scheduled li:last-child { padding-bottom: 50px;}
 
-.sortable li, .selectable li { font-size: 1.4em; height: 36px;margin-bottom: 3px;line-height: 15px;}
+.sortable li, .selectable li {  line-height: 15px;font-size: 1.4em;height: 36px;margin-bottom: 3px;}
+.sortable li span{}
 .sortable li { position: relative; }
 
 li .handle { cursor: move;}
@@ -47,3 +48,9 @@ li .index { left: 0; top: 0; bottom: 0;padding: .4em 0; }
 .performances { overflow: hidden;}
 .scheduled { width: 100%;float: left;}
 .unscheduled {width: 50%;position: fixed;right: 0;background-color: #ddd;padding: 12px;border:2px solid #a0a0a0}
+
+.display.break .warmup { color: transparent;}
+.display .name,
+.display .division { width: 30%;display: inline-block;overflow: hidden;white-space: nowrap;}
+.display .show { font-style: italic;font-size: .9em;float: right;}
+.display .order { float: right;}
