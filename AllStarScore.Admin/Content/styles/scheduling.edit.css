@@ -49,8 +49,15 @@ li .index { left: 0; top: 0; bottom: 0;padding: .4em 0; }
 .scheduled { width: 100%;float: left;}
 .unscheduled {width: 50%;position: fixed;right: 0;background-color: #ddd;padding: 12px;border:2px solid #a0a0a0}
 
+.display { line-height: inherit;}
+.display .group { height: 100%;display: inline-block;vertical-align: top;}
+
 .display.break .warmup { color: transparent;}
 .display .name,
-.display .division { width: 30%;display: inline-block;overflow: hidden;white-space: nowrap;}
-.display .show { font-style: italic;font-size: .9em;float: right;}
+.display .division { width: 20%;overflow:hidden;white-space: nowrap;}
+.display .name { width: 40%;}
+
+.display .show { font-style: italic;font-size: .8em;}
 .display .order { float: right;}
+
+#body { padding-bottom: 500px; }
