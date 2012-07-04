@@ -9,7 +9,11 @@
         <div class="setup">
             <div>
                 <div>How many panels do you want? <span data-bind="text: panels().length"></span>: <span data-bind="text: panels"></span></div>
-                <div data-bind="ko_slider: { source: schedule.numberOfPanels, options: { step: 1}}" class="slider"></div>
+                <div data-bind="ko_slider: { source: schedule.numberOfPanels, options: { step: 1, max: 6}}" class="slider"></div>
+            </div>
+            <div>
+                <div>How many performances for each team? <span data-bind="text: schedule.numberOfPerformances"></span></div>
+                <div data-bind="ko_slider: { source: schedule.numberOfPerformances, options: { step: 1, max: 2}}" class="slider"></div>
             </div>
         </div>
         <br/>
@@ -38,13 +42,12 @@
             <div class="validation-summary-errors"></div>
 
             <p>
-@*                <div data-bind="visible: unscheduled().length > 0">Schedule all performances before saving</div>*@
                 <button data-bind="click: save, enable: unscheduled().length > -1">Save</button>
             </p>
         </fieldset>
     </form>
 
-@*    <pre data-bind="text: ko.toJSON($root, null, 2)"></pre>*@
+    <pre data-bind="text: ko.toJSON($root, null, 2)"></pre>
 </div>
 
 <script type="text/html" id="scheduled-template">

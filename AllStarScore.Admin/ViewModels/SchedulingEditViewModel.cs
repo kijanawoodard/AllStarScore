@@ -13,7 +13,6 @@ namespace AllStarScore.Admin.ViewModels
         public Dictionary<string, TeamRegistrationByCompetition.Results> Registrations { get; set; }
         public List<DivisionViewModel> Divisions { get; set; }
         public IEnumerable<DateTime> CompetitionDays { get; set; }
-        public int NumberOfPerformances { get; set; }
 
         public SchedulingEditViewModel(Schedule schedule
                                      , Competition competition
@@ -24,7 +23,6 @@ namespace AllStarScore.Admin.ViewModels
             Registrations = registrations.ToDictionary(r => r.Id, r => r);
             Divisions = divisions.ToList();
             CompetitionDays = competition.Days.ToList();
-            NumberOfPerformances = competition.NumberOfPerformances;
         }
     }
 }

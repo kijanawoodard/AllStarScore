@@ -31,7 +31,7 @@ var EntryModel = function (data) {
             return undefined;
 
         var id = getRegistrationId(this.registrationId());
-        return window.viewModel.registrations[id];
+        return window.viewModel ? window.viewModel.registrations[id] : {};
     }, self);
 
     self.isRegistration = ko.computed(function () {
@@ -43,7 +43,7 @@ var EntryModel = function (data) {
     }, self);
 
     self.panel = ko.computed(function () {
-        return self.registration() ? viewModel.getPanel(self.registration().divisionId())() : '';
+        return self.registration() && window.viewModel ? viewModel.getPanel(self.registration().divisionId())() : '';
     }, self);
 };
 
@@ -115,7 +115,6 @@ var EditScheduleViewModel = (function (data) {
     });
 
     self.divisions = data.divisions;
-    self.numberOfPerformances = data.numberOfPerformances;
 
     self.getPanel = function (divisionId) {
         var result =
@@ -167,10 +166,11 @@ var EditScheduleViewModel = (function (data) {
             return _.indexOf(data.divisions, item.divisionId());
         });
 
+        self.unscheduled([]); //clear any existing values
         var result = {};
         result.entries = self.unscheduled; //HACK to reuse scheduleTeams
 
-        for (var i = 0; i < self.numberOfPerformances; i++) {
+        for (var i = 0; i < self.schedule.numberOfPerformances(); i++) {
             var registrations = _.filter(sorted, function (registration) {
                 var node = self.performances()[registration.id()];
                 var count = node ? node.length : 0;
@@ -180,6 +180,12 @@ var EditScheduleViewModel = (function (data) {
             self.scheduleTeams(result, registrations);
         }
     };
+
+    self.watchPerformanceCount = ko.computed(function () {
+        self.schedule.numberOfPerformances(); //just here so the computed will listen for changes
+        if (window.viewModel) //i did the ko stuff wrong since i didn't know what i was doing; so i'm hacking around my mistakes; the viewModel isn't ready first time
+            self.loadUnscheduled();
+    }, self);
 
     var prototype = function () {
         return new EntryModel({

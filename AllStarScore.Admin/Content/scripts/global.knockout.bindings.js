@@ -106,7 +106,7 @@ ko.bindingHandlers.ko_slider = {
         var boundOptions = valueAccessor().options;
         var options = {
             min: 1,
-            max: 6,
+            max: 100,
             value: value(),
             slide: function (event, ui) {
                 value(ui.value);

@@ -15,9 +15,10 @@ namespace AllStarScore.Admin.Models
         public int DefaultDuration { get; set; } //in minutes
         public int DefaultWarmupTime { get; set; } //in minutes
         public int NumberOfPanels { get; set; }
+        public int NumberOfPerformances { get; set; }
         public List<ScheduleDay> Days { get; set; } 
         public Dictionary<string, string> DivisionPanels { get; set; }
-        
+
         [JsonIgnore]
         public IEnumerable<PerformanceEntry> PerformanceEntries
         {
@@ -35,6 +36,7 @@ namespace AllStarScore.Admin.Models
             DefaultDuration = 3;
             DefaultWarmupTime = 40;
             NumberOfPanels = 2;
+            NumberOfPerformances = 1;
             Days = new List<ScheduleDay>();
             DivisionPanels = new Dictionary<string, string>();
         }
