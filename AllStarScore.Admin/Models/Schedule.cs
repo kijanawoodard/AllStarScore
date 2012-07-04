@@ -17,7 +17,6 @@ namespace AllStarScore.Admin.Models
         public int NumberOfPanels { get; set; }
         public int NumberOfPerformances { get; set; }
         public List<ScheduleDay> Days { get; set; } 
-        public Dictionary<string, string> DivisionPanels { get; set; }
 
         [JsonIgnore]
         public IEnumerable<PerformanceEntry> PerformanceEntries
@@ -38,7 +37,6 @@ namespace AllStarScore.Admin.Models
             NumberOfPanels = 2;
             NumberOfPerformances = 1;
             Days = new List<ScheduleDay>();
-            DivisionPanels = new Dictionary<string, string>();
         }
 
         public Schedule(Competition competition) : this()
@@ -55,7 +53,6 @@ namespace AllStarScore.Admin.Models
             DefaultDuration = command.DefaultDuration;
             DefaultWarmupTime = command.DefaultWarmupTime;
             NumberOfPanels = command.NumberOfPanels;
-            DivisionPanels = command.DivisionPanels;
             Days = command.Days;
         }
 

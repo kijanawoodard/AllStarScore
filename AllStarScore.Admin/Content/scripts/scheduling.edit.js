@@ -42,6 +42,8 @@ var EntryModel = function (data) {
         return !self.isRegistration();
     }, self);
 
+    self.originalPanel = data.panel;
+    
     self.panel = ko.computed(function () {
         return self.registration() && window.viewModel ? viewModel.getPanel(self.registration().divisionId())() : '';
     }, self);
@@ -98,7 +100,7 @@ var EditScheduleViewModel = (function (data) {
                         return item.registrationId;
                     })
                     .map(function (item) {
-                        return { registrationId: item.registrationId(), time: item.time() };
+                        return { registrationId: item.registrationId(), time: item.time(), item: item };
                     })
                     .groupBy(function (item) {
                         return item.registrationId;
@@ -116,11 +118,22 @@ var EditScheduleViewModel = (function (data) {
 
     self.divisions = data.divisions;
 
+    self.divisionPanels = {};
+
+    _.each(data.schedule.days, function (day) {
+        _.each(day.entries, function (entry) {
+            var id = getRegistrationId(entry.registrationId);
+            var division = self.registrations[id].divisionId();
+            self.divisionPanels[division] = self.divisionPanels[division] || ko.observable(entry.panel);
+        });
+    });
+
     self.getPanel = function (divisionId) {
+
         var result =
-            self.schedule.divisionPanels[divisionId] ?
-            self.schedule.divisionPanels[divisionId] :
-            self.schedule.divisionPanels[divisionId] = ko.observable(self.panels()[0]);
+            self.divisionPanels[divisionId] ?
+                self.divisionPanels[divisionId] :
+                self.divisionPanels[divisionId] = ko.observable(self.panels()[0]);
 
         return result;
     };

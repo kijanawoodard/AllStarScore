@@ -43,7 +43,7 @@ namespace AllStarScore.Admin.Controllers
                 schedule = new Schedule(competition.Value);   
                 RavenSession.Store(schedule);
             }
-
+            
             var model = new SchedulingEditViewModel(schedule, competition.Value, registrations.Value, divisions.Value);
             return View(model);
         }

@@ -117,12 +117,12 @@ var EntryModel = function (data) {
         return viewModel.registrations[id];
     }, self);
 
-    self.panel = ko.computed(function () {
-        if (!self.registration())
-            return '';
-
-        return viewModel.schedule.divisionPanels[self.registration().divisionId];
-    }, self);
+//    self.panel = ko.computed(function () {
+//        if (!self.registration())
+//            return '';
+//
+//        return 'a'; viewModel.schedule.divisionPanels[self.registration().divisionId];
+//    }, self);
 
     self.isMyPanel = function (panel) {
         return self.panel() == panel;
