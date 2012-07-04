@@ -61,3 +61,6 @@ li .index { left: 0; top: 0; bottom: 0;padding: .4em 0; }
 .display .order { float: right;}
 
 #body { padding-bottom: 500px; }
+
+#scheduling_edit .setup,
+#scheduling_edit .setup .option { margin-bottom: 10px;}

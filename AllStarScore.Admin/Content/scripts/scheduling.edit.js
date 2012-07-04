@@ -258,6 +258,10 @@ var EditScheduleViewModel = (function (data) {
         return [, '1st', '2nd', '3rd', '4th', '5th'][result];
     };
 
+    self.displayOptions = ko.observable(self.performances().length == 0);
+    self.toggleOptions = function () {
+        self.displayOptions(!self.displayOptions());
+    };
 
     self.save = function () {
         form.ajaxPost({

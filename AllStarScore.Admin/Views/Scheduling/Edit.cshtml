@@ -4,14 +4,15 @@
 @{ Html.RegisterScript("~/content/scripts/scheduling.edit.js"); }
 
 <div id="scheduling_edit">
-    <div data-bind="visible: unscheduled().length > -1">
-            
-        <div class="setup">
-            <div>
+    <div class="setup">
+        <a href="#" data-bind="visible: !displayOptions(), click: toggleOptions">Show Options</a>
+        <a  href="#" data-bind="visible: displayOptions, click: toggleOptions">Hide Options</a>    
+        <div data-bind='fadeVisible: displayOptions'>
+            <div class="option">
                 <div>How many panels do you want? <span data-bind="text: panels().length"></span>: <span data-bind="text: panels"></span></div>
                 <div data-bind="ko_slider: { source: schedule.numberOfPanels, options: { step: 1, max: 6}}" class="slider"></div>
             </div>
-            <div>
+            <div class="option">
                 <div>How many performances for each team? <span data-bind="text: schedule.numberOfPerformances"></span></div>
                 <div data-bind="ko_slider: { source: schedule.numberOfPerformances, options: { step: 1, max: 2}}" class="slider"></div>
             </div>
