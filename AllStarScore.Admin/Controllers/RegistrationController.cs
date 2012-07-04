@@ -1,13 +1,10 @@
 ﻿using System.Collections.Generic;
 using System.Linq;
 using System.Web.Mvc;
-using System.Web.Script.Serialization;
 using AllStarScore.Admin.Infrastructure.Indexes;
-using AllStarScore.Admin.Models;
 using AllStarScore.Admin.ViewModels;
 using AllStarScore.Models;
-using Newtonsoft.Json;
-using Newtonsoft.Json.Serialization;
+using AllStarScore.Models.Commands;
 using Raven.Client.Linq;
 
 namespace AllStarScore.Admin.Controllers

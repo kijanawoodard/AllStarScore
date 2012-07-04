@@ -4,7 +4,6 @@ using System.Diagnostics;
 using System.Linq;
 using System.Web;
 using AllStarScore.Admin.Infrastructure.Indexes;
-using AllStarScore.Admin.Models;
 
 namespace AllStarScore.Admin.ViewModels
 {

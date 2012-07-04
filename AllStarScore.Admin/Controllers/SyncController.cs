@@ -4,7 +4,6 @@ using System.Linq;
 using System.Web;
 using System.Web.Mvc;
 using AllStarScore.Admin.Infrastructure.Indexes;
-using AllStarScore.Admin.Models;
 using AllStarScore.Admin.ViewModels;
 using AllStarScore.Models;
 using Raven.Client.Linq;
@@ -90,7 +89,7 @@ namespace AllStarScore.Admin.Controllers
                                 })
                                 .ToList(),
 
-                            CompanyName = company.Name,
+                            Company = company,
                             CompetitionId = competition.Value.Id,
                             CompetitionName = competition.Value.Name,
                             CompetitionDescription = competition.Value.Description,

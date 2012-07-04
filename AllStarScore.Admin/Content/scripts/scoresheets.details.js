@@ -22,11 +22,6 @@ var mapping = {
             return new EntryModel(options.data);
         }
     },
-    'divisionPanels': {
-        create: function (options) {
-            return options.data;
-        }
-    },
     'registrations': {
         create: function (options) {
             return options.data;

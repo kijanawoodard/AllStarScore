@@ -1,4 +1,4 @@
-using AllStarScore.Admin.Models;
+using AllStarScore.Models;
 
 namespace AllStarScore.Admin.ViewModels
 {

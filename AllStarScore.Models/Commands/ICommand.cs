@@ -1,9 +1,6 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
 
-namespace AllStarScore.Admin.Infrastructure.Commands
+namespace AllStarScore.Models.Commands
 {
     public interface ICommand
     {

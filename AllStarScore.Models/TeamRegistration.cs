@@ -1,12 +1,10 @@
 using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
-using System.Linq;
-using AllStarScore.Admin.Infrastructure.Commands;
-using AllStarScore.Admin.ViewModels;
 using AllStarScore.Extensions;
+using AllStarScore.Models.Commands;
 
-namespace AllStarScore.Admin.Models
+namespace AllStarScore.Models
 {
     public class TeamRegistration
     {

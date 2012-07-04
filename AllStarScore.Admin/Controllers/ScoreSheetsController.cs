@@ -4,8 +4,8 @@ using System.Linq;
 using System.Web;
 using System.Web.Mvc;
 using AllStarScore.Admin.Infrastructure.Indexes;
-using AllStarScore.Admin.Models;
 using AllStarScore.Admin.ViewModels;
+using AllStarScore.Models;
 using Raven.Client.Linq;
 
 namespace AllStarScore.Admin.Controllers

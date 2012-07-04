@@ -1,9 +1,8 @@
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
-using AllStarScore.Admin.Infrastructure.Commands;
-using AllStarScore.Admin.ViewModels;
+using AllStarScore.Models.Commands;
 
-namespace AllStarScore.Admin.Models
+namespace AllStarScore.Models
 {
     public class Gym
     {

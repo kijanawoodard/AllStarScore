@@ -3,12 +3,9 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Web.Mvc;
 using AllStarScore.Admin.Infrastructure.Indexes;
-using AllStarScore.Admin.Models;
 using AllStarScore.Admin.ViewModels;
-using Raven.Abstractions.Indexing;
-using Raven.Client;
-using Raven.Client.Document;
-using Raven.Client.Indexes;
+using AllStarScore.Models;
+using AllStarScore.Models.Commands;
 using Raven.Client.Linq;
 
 namespace AllStarScore.Admin.Controllers

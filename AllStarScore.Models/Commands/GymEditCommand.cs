@@ -1,9 +1,7 @@
 using System;
 using System.ComponentModel.DataAnnotations;
-using AllStarScore.Admin.Infrastructure.Commands;
-using AllStarScore.Admin.Models;
 
-namespace AllStarScore.Admin.ViewModels
+namespace AllStarScore.Models.Commands
 {
     public class GymEditCommand : ICommand
     {

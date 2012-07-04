@@ -1,11 +1,9 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Collections.ObjectModel;
-using AllStarScore.Admin.Infrastructure.Commands;
-using AllStarScore.Admin.ViewModels;
 using AllStarScore.Extensions;
+using AllStarScore.Models.Commands;
 
-namespace AllStarScore.Admin.Models
+namespace AllStarScore.Models
 {
     public class Competition
     {
@@ -20,21 +18,12 @@ namespace AllStarScore.Admin.Models
             get { return FirstDay.GetDateRange(LastDay); }
         }
 
-        public ICollection<ICommand> History { get; private set; }
-
-        public Competition()
-        {
-            History = new Collection<ICommand>();
-        }
-
         public void Update(CompetitionCreateCommand command)
         {
             Name = command.CompetitionName;
             Description = command.Description ?? string.Empty;
             FirstDay = command.FirstDay;
             LastDay = command.LastDay;
-
-            History.Add(command);
         }
 
         public override bool Equals(object obj)

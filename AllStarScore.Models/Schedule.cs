@@ -1,10 +1,10 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
-using AllStarScore.Admin.ViewModels;
+using AllStarScore.Models.Commands;
 using Newtonsoft.Json;
 
-namespace AllStarScore.Admin.Models
+namespace AllStarScore.Models
 {
     public class Schedule
     {

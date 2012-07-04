@@ -1,15 +1,19 @@
 using System;
-using AllStarScore.Admin.Infrastructure.Commands;
+using System.ComponentModel.DataAnnotations;
 
-namespace AllStarScore.Admin.ViewModels
+namespace AllStarScore.Models.Commands
 {
-    public class RegistrationCreateCommand : ICommand
+    public class RegistrationEditCommand : ICommand
     {
-        public string CompetitionId { get; set; }
-        public string GymId { get; set; }
+        [Required]
+        public string Id { get; set; }
 
         public string TeamName { get; set; }
+
+        [Required]
         public string DivisionId { get; set; }
+
+        [Required]
         public int ParticipantCount { get; set; }
         public bool IsShowTeam { get; set; }
 

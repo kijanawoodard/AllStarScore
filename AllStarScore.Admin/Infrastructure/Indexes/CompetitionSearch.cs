@@ -1,6 +1,6 @@
 using System;
 using System.Linq;
-using AllStarScore.Admin.Models;
+using AllStarScore.Models;
 using Raven.Abstractions.Indexing;
 using Raven.Client.Indexes;
 

@@ -1,6 +1,6 @@
 using System.Collections.Generic;
 using AllStarScore.Admin.Infrastructure.Indexes;
-using AllStarScore.Admin.Models;
+using AllStarScore.Models;
 
 namespace AllStarScore.Admin.ViewModels
 {
