@@ -7,7 +7,6 @@ namespace AllStarScore.Models
     {
         public string Id { get { return CompetitionId; } }
 
-        public Company Company { get; set; }
         public string CompanyName { get; set; }
         public string CompetitionId { get; set; }
         public string CompetitionName { get; set; }

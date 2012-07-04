@@ -90,9 +90,7 @@ namespace AllStarScore.Admin.Controllers
                                 })
                                 .ToList(),
 
-                            Company = company,
-                            CompanyName = "Spirit Celebration",
-                            //TODO: Create Document
+                            CompanyName = company.Name,
                             CompetitionId = competition.Value.Id,
                             CompetitionName = competition.Value.Name,
                             CompetitionDescription = competition.Value.Description,
