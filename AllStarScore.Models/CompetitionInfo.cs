@@ -7,6 +7,7 @@ namespace AllStarScore.Models
     {
         public string Id { get { return CompetitionId; } }
 
+        public Company Company { get; set; }
         public string CompanyName { get; set; }
         public string CompetitionId { get; set; }
         public string CompetitionName { get; set; }
@@ -15,5 +16,20 @@ namespace AllStarScore.Models
         public List<Division> Divisions { get; set; }
         public List<Level> Levels { get; set; }
         public List<Performance> Performances { get; set; }
+    }
+
+    public class Company
+    {
+        public string Id { get; set; }
+        public string Name { get; set; }
+        
+        //thinking
+        public bool IsConcernedAboutSmallGyms { get; set; }
+        public string Logo { get; set; }
+
+        public Company()
+        {
+            IsConcernedAboutSmallGyms = true;
+        }
     }
 }

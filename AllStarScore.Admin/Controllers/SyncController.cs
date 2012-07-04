@@ -23,9 +23,14 @@ namespace AllStarScore.Admin.Controllers
         [HttpGet, AllowAnonymous]
         public ActionResult Export(ExportRequestModel request)
         {
+            var company =
+                RavenSession.Query<Company>()
+                    .First();
+
             var registrations =
                 RavenSession
                     .Query<TeamRegistration, TeamRegistrationByCompetition>()
+                    .Where(x => x.CompetitionId == request.CompetitionId)
                     .Take(int.MaxValue)
                     .As<TeamRegistrationByCompetition.Results>()
                     .OrderBy(x => x.CreatedAt)
@@ -85,7 +90,9 @@ namespace AllStarScore.Admin.Controllers
                                 })
                                 .ToList(),
 
-                            CompanyName = "Spirit Celebration", //TODO: Create Document
+                            Company = company,
+                            CompanyName = "Spirit Celebration",
+                            //TODO: Create Document
                             CompetitionId = competition.Value.Id,
                             CompetitionName = competition.Value.Name,
                             CompetitionDescription = competition.Value.Description,

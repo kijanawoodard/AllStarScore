@@ -102,23 +102,11 @@ namespace AllStarScore.Admin
             InitializeRavenProfiler();
 
             IndexCreation.CreateIndexes(typeof (GymsByName).Assembly, RavenController.DocumentStore);
-//            CreateIndexesForDatabases(typeof (GymsByName).Assembly, RavenController.DocumentStore,
-//                                      new string[] {(RavenController.DocumentStore as DocumentStore).DefaultDatabase}); //TODO: robustify
 
-        }
-
-        //http://stackoverflow.com/a/8755565/214073
-        public void CreateIndexesForDatabases(Assembly assemblyToScanForIndexingTasks, IDocumentStore documentStore, string[] databases)
-        {
-            var catalog = new CompositionContainer(new AssemblyCatalog(assemblyToScanForIndexingTasks));
-            foreach (var database in databases)
-            {
-                IndexCreation.CreateIndexes(catalog, documentStore.DatabaseCommands.ForDatabase(database), documentStore.Conventions);
-
-                HackSecurity(database);
-                HackLevels(database);
-                HackDivisions(database);
-            }
+            HackSecurity();
+            HackLevels();
+            HackDivisions();
+            HackCompany();
         }
 
         [Conditional("DEBUG")]
@@ -135,9 +123,9 @@ namespace AllStarScore.Admin
         
 
         //TODO: come up with something better and remove this
-        private void HackSecurity(string database)
+        private void HackSecurity()
         {
-            var session = RavenController.DocumentStore.OpenSession(database);
+            var session = RavenController.DocumentStore.OpenSession();
             if (!session.Query<User>().Any())
             {
                 var admin = new User();
@@ -152,9 +140,9 @@ namespace AllStarScore.Admin
         }
 
         //TODO: come up with something better and remove this
-        private void HackLevels(string database)
+        private void HackLevels()
         {
-            var session = RavenController.DocumentStore.OpenSession(database);
+            var session = RavenController.DocumentStore.OpenSession();
             var ok = session.Query<Level>().Any();
             if (ok) return;
 
@@ -176,9 +164,9 @@ namespace AllStarScore.Admin
         }
 
         //TODO: come up with something better and remove this
-        private void HackDivisions(string database)
+        private void HackDivisions()
         {
-            var session = RavenController.DocumentStore.OpenSession(database);
+            var session = RavenController.DocumentStore.OpenSession();
             var ok = session.Query<Division>().Any();
             if (ok) return;
 
@@ -195,6 +183,22 @@ namespace AllStarScore.Admin
                              };
 
             divisions.ForEach(session.Store);
+            session.SaveChanges();
+        }
+
+        //TODO: come up with something better and remove this
+        private void HackCompany()
+        {
+            var session = RavenController.DocumentStore.OpenSession();
+            var ok = session.Query<Company>().Any();
+            if (ok) return;
+
+            var company = new Company()
+                          {
+                              Name = "New Company"
+                          };
+
+            session.Store(company);
             session.SaveChanges();
         }
     }
