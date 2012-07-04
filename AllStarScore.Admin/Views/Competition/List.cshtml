@@ -6,34 +6,4 @@
     
     <p>Past</p>
     @{ Html.RenderPartial("CompetitionListTable", @Model.Past); }
-    
-    
-@*    <div>knockout</div>*@
-@*    <table>*@
-@*        <caption></caption>*@
-@*        <tr>*@
-@*            <th></th>*@
-@*            <th></th>*@
-@*            <th># Gyms</th>*@
-@*            <th># Teams</th>*@
-@*            <th># Participants</th>*@
-@*            <th></th>*@
-@*        </tr>*@
-@*        <tbody data-bind='foreach: competitions'>*@
-@*            <tr>*@
-@*                <td data-bind='dateString: competitionFirstDay'></td>*@
-@*                <td data-bind='text: competitionName'></td>*@
-@*                <td data-bind='text: gymCount' class="numeric"></td>*@
-@*                <td data-bind='text: teamCount' class="numeric"></td>*@
-@*                <td data-bind='text: participantCount' class="numeric"></td>*@
-@*                <td><a href="@Url.Action("Details", "Competition")">Details</a></td>*@
-@*            </tr>*@
-@*        </tbody>*@
-@*    </table>*@
 </div>
-@**@
-@*<script>*@
-@*    var competitionListData = {*@
-@*        competitions: JSON.parse('@Html.Raw(Model.Competitions.ToJson())')*@
-@*    };*@
-@*</script>*@

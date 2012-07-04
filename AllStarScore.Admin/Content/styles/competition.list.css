@@ -1,1 +1,3 @@
 ﻿#competition_list table { min-width: 50%;margin-bottom: 2em; }
+
+#competition_list_inner .empty { font-style: italic;}
