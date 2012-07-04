@@ -3,7 +3,7 @@
 .scheduled ol:empty {padding-bottom: 50px; }
 .scheduled li:last-child { padding-bottom: 50px;}
 
-.sortable li, .selectable li {  line-height: 15px;font-size: 1.4em;height: 36px;margin-bottom: 3px;}
+.sortable li, .selectable li {  line-height: 12px;font-size: 1.4em;height: 36px;margin-bottom: 3px;}
 .sortable li span{}
 .sortable li { position: relative; }
 
