@@ -5,10 +5,10 @@ namespace AllStarScore.Scoring.ViewModels
 {
     public class CompetitionLayoutIndexViewModel
     {
-        public CompetitionImport Info { get; set; }
+        public CompetitionInfo Info { get; set; }
         public ScoringMap ScoringMap { get; set; }
 
-        public CompetitionLayoutIndexViewModel(CompetitionImport info, ScoringMap scoringMap)
+        public CompetitionLayoutIndexViewModel(CompetitionInfo info, ScoringMap scoringMap)
         {
             Info = info;
             ScoringMap = scoringMap;

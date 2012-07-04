@@ -31,7 +31,7 @@ namespace AllStarScore.Admin.Controllers
                     .Query<TeamRegistration, TeamRegistrationByCompetition>()
                     .Where(x => x.CompetitionId == request.CompetitionId)
                     .Take(int.MaxValue)
-                    .As<TeamRegistrationByCompetition.Results>()
+                    .As<TeamRegistrationByCompetitionResults>()
                     .OrderBy(x => x.CreatedAt)
                     .Lazily();
 
@@ -59,7 +59,7 @@ namespace AllStarScore.Admin.Controllers
             if (schedule == null)
                 return new HttpNotFoundResult();
 
-            var model = new CompetitionImport
+            var model = new CompetitionInfo
                         {
                             Performances = schedule
                                 .PerformanceEntries
@@ -90,6 +90,9 @@ namespace AllStarScore.Admin.Controllers
                                 .ToList(),
 
                             Company = company,
+                            Competition = competition.Value,
+                            Registrations = registrations.Value.ToList(),
+                            Schedule = schedule,
                             CompetitionId = competition.Value.Id,
                             CompetitionName = competition.Value.Name,
                             CompetitionDescription = competition.Value.Description,

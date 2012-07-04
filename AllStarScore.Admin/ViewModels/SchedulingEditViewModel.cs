@@ -10,13 +10,13 @@ namespace AllStarScore.Admin.ViewModels
     public class SchedulingEditViewModel
     {
         public Schedule Schedule { get; set; }
-        public Dictionary<string, TeamRegistrationByCompetition.Results> Registrations { get; set; }
+        public Dictionary<string, TeamRegistrationByCompetitionResults> Registrations { get; set; }
         public List<DivisionViewModel> Divisions { get; set; }
         public IEnumerable<DateTime> CompetitionDays { get; set; }
 
         public SchedulingEditViewModel(Schedule schedule
                                      , Competition competition
-                                     , IEnumerable<TeamRegistrationByCompetition.Results> registrations
+                                     , IEnumerable<TeamRegistrationByCompetitionResults> registrations
                                      , IEnumerable<DivisionViewModel> divisions)
         {
             Schedule = schedule;

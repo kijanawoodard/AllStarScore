@@ -69,4 +69,24 @@ namespace AllStarScore.Models
             return TeamName;
         }
     }
+
+    public class TeamRegistrationByCompetitionResults
+    {
+        public string Id { get; set; }
+        public string CompetitionId { get; set; }
+        public string GymId { get; set; }
+        public string DivisionId { get; set; }
+        public string LevelId { get; set; }
+
+        public string TeamName { get; set; }
+        public int ParticipantCount { get; set; }
+        public bool IsShowTeam { get; set; }
+        public string GymName { get; set; }
+        public string GymLocation { get; set; }
+        public bool IsSmallGym { get; set; }
+        public string DivisionName { get; set; }
+        public string LevelName { get; set; }
+
+        public DateTime CreatedAt { get; set; }
+    }
 }

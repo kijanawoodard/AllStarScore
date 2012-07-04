@@ -15,7 +15,7 @@ namespace AllStarScore.Scoring.Controllers
         {
             var client = new WebClient();
             var data = client.DownloadString(id);
-            var model = JsonConvert.DeserializeObject<CompetitionImport>(data);
+            var model = JsonConvert.DeserializeObject<CompetitionInfo>(data);
 
             RavenSession.Store(model); 
             UpdatePerformances(model);
@@ -23,7 +23,7 @@ namespace AllStarScore.Scoring.Controllers
             return RedirectToAction("Index", "Performance", new {id = model.CompetitionId});
         }
 
-        public void UpdatePerformances(CompetitionImport model)
+        public void UpdatePerformances(CompetitionInfo model)
         {
             var performances =
                 RavenSession

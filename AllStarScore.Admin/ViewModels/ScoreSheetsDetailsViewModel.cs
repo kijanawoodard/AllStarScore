@@ -11,10 +11,10 @@ namespace AllStarScore.Admin.ViewModels
         public IJudgePanel JudgePanel { get; set; }
         public Dictionary<string, string> ScoringMap { get; set; }
         public Schedule Schedule { get; set; }
-        public Dictionary<string, TeamRegistrationByCompetition.Results> Registrations { get; set; }
+        public Dictionary<string, TeamRegistrationByCompetitionResults> Registrations { get; set; }
 
         public ScoreSheetsDetailsViewModel(Schedule schedule
-                                           , IEnumerable<TeamRegistrationByCompetition.Results> registrations
+                                           , IEnumerable<TeamRegistrationByCompetitionResults> registrations
                                            , Competition competition)
         {
             Schedule = schedule;

@@ -199,6 +199,7 @@
   <ItemGroup>
     <Compile Include="Controllers\CompetitionLayoutController.cs" />
     <Compile Include="Controllers\ReportingController.cs" />
+    <Compile Include="Controllers\ScoreSheetsController.cs" />
     <Compile Include="Infrastructure\Commands\ICommand.cs" />
     <Compile Include="Infrastructure\Indexes\JudgeScoreIndex.cs" />
     <Compile Include="Infrastructure\Indexes\PerformancesIndex.cs" />
@@ -217,6 +218,7 @@
     <Compile Include="ViewModels\CompetitionLayoutIndexViewModel.cs" />
     <Compile Include="ViewModels\PerformanceIndexViewModel.cs" />
     <Compile Include="ViewModels\ReportingIndexViewModel.cs" />
+    <Compile Include="ViewModels\ScoreSheetsDetailsViewModel.cs" />
     <Compile Include="ViewModels\ScoringFiveJudgePanelSummaryViewModel.cs" />
     <Compile Include="ViewModels\ScoringScoreEntryViewModel.cs" />
   </ItemGroup>
@@ -377,6 +379,9 @@
   </ItemGroup>
   <ItemGroup>
     <Content Include="Views\Reporting\Averages.cshtml" />
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="Views\ScoreSheets\Details.cshtml" />
   </ItemGroup>
   <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
   <Import Project="$(MSBuildExtensionsPath32)\Microsoft\VisualStudio\v10.0\WebApplications\Microsoft.WebApplication.targets" />

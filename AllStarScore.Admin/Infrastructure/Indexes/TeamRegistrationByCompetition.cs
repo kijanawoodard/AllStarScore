@@ -6,27 +6,9 @@ using Raven.Client.Indexes;
 
 namespace AllStarScore.Admin.Infrastructure.Indexes
 {
-    public class TeamRegistrationByCompetition : AbstractIndexCreationTask<TeamRegistration, TeamRegistrationByCompetition.Results>
+    public class TeamRegistrationByCompetition : AbstractIndexCreationTask<TeamRegistration, TeamRegistrationByCompetitionResults>
     {
-        public class Results
-        {
-            public string Id { get; set; }
-            public string CompetitionId { get; set; }
-            public string GymId { get; set; }
-            public string DivisionId { get; set; }
-            public string LevelId { get; set; }
-            
-            public string TeamName { get; set; }
-            public int ParticipantCount { get; set; }
-            public bool IsShowTeam { get; set; }
-            public string GymName { get; set; }
-            public string GymLocation { get; set; }
-            public bool IsSmallGym { get; set; }
-            public string DivisionName { get; set; }
-            public string LevelName { get; set; }
-
-            public DateTime CreatedAt { get; set; }
-        }
+        
 
         public TeamRegistrationByCompetition()
         {

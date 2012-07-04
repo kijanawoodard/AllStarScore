@@ -1,0 +1,1252 @@
+﻿@model AllStarScore.Scoring.ViewModels.ScoreSheetsDetailsViewModel
+
+@{
+    ViewBag.Title = "Score Sheets";
+}
+
+@{ Html.RegisterStylesheet("~/content/styles/scoresheets.details.css"); }
+@{ Html.RegisterScript("~/content/scripts/scoresheets.details.js"); }
+
+<div id="scoresheets_details">
+    <fieldset class="controls">
+        <legend>Controls</legend>
+        <ul data-bind="foreach: schedule.panels()">
+            <li>
+                <label>
+                    <input type="checkbox" data-bind="value: $data, checked: $root.schedule.visibilityMatrix"/>
+                    <span data-bind="text: 'Panel ' + $data"></span>
+                </label>
+                <ul data-bind="foreach: $root.judgePanel.judges()">
+                    <li>
+                        <label>
+                            <input type="checkbox" data-bind="value: $parent + $data.designator(), checked: $root.schedule.visibilityMatrix"/>
+                            <span data-bind="text: $parent + $data.designator()"></span>
+                        </label>
+                    </li>
+                </ul>
+            </li>
+        </ul>
+        
+        <ul data-bind="foreach: schedule.competitionDays">
+            <li>
+                <label>
+                    <input type="checkbox" data-bind="value: $data, checked: $root.schedule.visibilityMatrix"/>
+                    <span data-bind="text: $data"></span>
+                </label>
+            </li>
+        </ul>
+        
+        <ul data-bind="foreach: schedule.levels">
+            <li>
+                <label>
+                    <input type="checkbox" data-bind="value: $data.id, checked: $root.schedule.visibilityMatrix"/>
+                    <span data-bind="text: $data.name"></span>
+                </label>
+            </li>
+        </ul>
+    </fieldset>
+
+    <!-- ko foreach: schedule.panels() -->
+    <!-- ko foreach: $root.judgePanel.judges -->
+    <!-- ko foreach: $root.schedule.days -->
+    <!-- ko foreach: $data.entries -->
+    <!-- ko if: $data.registrationId --> 
+    <!-- ko if: isMyPanel($parents[2]) --> 
+    &nbsp; @* space here for firefox print. without it, second page header is off. hmm *@
+    <div class="entry" data-bind="visible: $root.schedule.shouldShow($data, $parents)">
+        <div class="header">
+            <div class="company">Spirit Celebration</div>
+            <div class="description">CGA National Championship Feb 12-13, 2011</div>
+            <div class="name">
+                <span data-bind="text: registration().gymName"></span>
+                <span data-bind="text: registration().teamName"></span>
+            </div>
+            <div class="division">
+                <span data-bind="text: registration().levelName"></span>
+                <span data-bind="text: registration().divisionName"></span>
+            </div>
+            <div data-bind="dateString: time, datePattern: 'ddd h:mm tt'" class="when"></div>     
+            <div class="judge">Judge <span data-bind="text: $parents[2] + $parents[1].designator()"></span></div>
+        </div>
+        <!-- ko template: { name: getTemplate($parents[1].id()) } --><!-- /ko -->  
+        <div class="footer">
+            info@wyldeye.com    &copy; 2012 AllStarScore.com
+        </div> 
+    </div>
+    <!-- /ko -->
+    <!-- /ko -->
+    <!-- /ko -->
+    <!-- /ko -->
+    <!-- /ko -->
+    <!-- /ko -->
+    <pre data-bind="text: ko.toJSON($root, null, 2)" class="ko_output"></pre>
+</div>
+
+<script>
+    var detailsScoreSheetsData = JSON.parse('@Html.Raw(Model.ToJson())');
+</script>
+
+<script type="text/html" id="levels-level1-template">
+    <table class="scoresheet">
+        <thead>
+            <tr>
+                <th class="skills">Skills</th>
+                <th class="base">Base<br />Score</th>
+                <th class="execution">Execution/<br />Technique<br />0 - 1.0</th>
+                <th class="max">Max<br />Score</th>
+                <th class="comments">Comments</th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr>
+                <td>Stunts</td>
+                <td></td>
+                <td></td>
+                <td>5</td>
+                <td class="comments" rowspan="12"></td>
+            </tr>
+            <tr>
+                <td>Pyramids</td>
+                <td></td>
+                <td></td>
+                <td>5</td>
+            </tr>
+            <tr>
+                <td>Tosses</td>
+                <td></td>
+                <td></td>
+                <td>5</td>
+            </tr>
+            <tr>
+                <td>Standing Tumbling</td>
+                <td></td>
+                <td></td>
+                <td>5</td>
+            </tr>
+            <tr>
+                <td>Running Tumbling</td>
+                <td></td>
+                <td></td>
+                <td>5</td>
+            </tr>
+            <tr>
+                <td>Jumps</td>
+                <td></td>
+                <td></td>
+                <td>5</td>
+            </tr>
+            <tr>
+                <td>Motions / Dance</td>
+                <td></td>
+                <td></td>
+                <td>5</td>
+            </tr>
+            <tr>
+                <td>Formations / Transitions</td>
+                <td></td>
+                <td></td>
+                <td>5</td>
+            </tr>
+            <tr>
+                <td>Performance</td>
+                <td></td>
+                <td class="void"></td>
+                <td>5</td>
+            </tr>
+            <tr>
+                <td>Skills Creativity</td>
+                <td></td>
+                <td class="void"></td>
+                <td>5</td>
+            </tr>
+            <tr>
+                <td>Routine Creativity</td>
+                <td></td>
+                <td class="void"></td>
+                <td>5</td>
+            </tr>
+            <tr>
+                <th colspan="2">Total</th>
+                <th></th>
+                <th>64</th>
+            </tr>
+        </tbody>
+    </table>
+</script>
+
+<script type="text/html" id="levels-level2-template">
+    <table class="scoresheet">
+        <thead>
+            <tr>
+                <th class="skills">Skills</th>
+                <th class="base">Base<br />Score</th>
+                <th class="execution">Execution/<br />Technique<br />0 - 1.0</th>
+                <th class="max">Max<br />Score</th>
+                <th class="comments">Comments</th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr>
+                <td>Stunts</td>
+                <td></td>
+                <td></td>
+                <td>6</td>
+                <td class="comments" rowspan="12"></td>
+            </tr>
+            <tr>
+                <td>Pyramids</td>
+                <td></td>
+                <td></td>
+                <td>6</td>
+            </tr>
+            <tr>
+                <td>Tosses</td>
+                <td></td>
+                <td></td>
+                <td>6</td>
+            </tr>
+            <tr>
+                <td>Standing Tumbling</td>
+                <td></td>
+                <td></td>
+                <td>6</td>
+            </tr>
+            <tr>
+                <td>Running Tumbling</td>
+                <td></td>
+                <td></td>
+                <td>6</td>
+            </tr>
+            <tr>
+                <td>Jumps</td>
+                <td></td>
+                <td></td>
+                <td>6</td>
+            </tr>
+            <tr>
+                <td>Motions / Dance</td>
+                <td></td>
+                <td></td>
+                <td>6</td>
+            </tr>
+            <tr>
+                <td>Formations / Transitions</td>
+                <td></td>
+                <td></td>
+                <td>6</td>
+            </tr>
+            <tr>
+                <td>Performance</td>
+                <td></td>
+                <td class="void"></td>
+                <td>6</td>
+            </tr>
+            <tr>
+                <td>Skills Creativity</td>
+                <td></td>
+                <td class="void"></td>
+                <td>5</td>
+            </tr>
+            <tr>
+                <td>Routine Creativity</td>
+                <td></td>
+                <td class="void"></td>
+                <td>5</td>
+            </tr>
+            <tr>
+                <th colspan="2">Total</th>
+                <th></th>
+                <th>55</th>
+            </tr>
+        </tbody>
+    </table>
+</script>
+
+<script type="text/html" id="levels-level3-template">
+    <table class="scoresheet">
+        <thead>
+            <tr>
+                <th class="skills">Skills</th>
+                <th class="base">Base<br />Score</th>
+                <th class="execution">Execution/<br />Technique<br />0 - 1.0</th>
+                <th class="max">Max<br />Score</th>
+                <th class="comments">Comments</th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr>
+                <td>Stunts</td>
+                <td></td>
+                <td></td>
+                <td>7</td>
+                <td class="comments" rowspan="12"></td>
+            </tr>
+            <tr>
+                <td>Pyramids</td>
+                <td></td>
+                <td></td>
+                <td>7</td>
+            </tr>
+            <tr>
+                <td>Tosses</td>
+                <td></td>
+                <td></td>
+                <td>7</td>
+            </tr>
+            <tr>
+                <td>Standing Tumbling</td>
+                <td></td>
+                <td></td>
+                <td>7</td>
+            </tr>
+            <tr>
+                <td>Running Tumbling</td>
+                <td></td>
+                <td></td>
+                <td>7</td>
+            </tr>
+            <tr>
+                <td>Jumps</td>
+                <td></td>
+                <td></td>
+                <td>7</td>
+            </tr>
+            <tr>
+                <td>Motions / Dance</td>
+                <td></td>
+                <td></td>
+                <td>7</td>
+            </tr>
+            <tr>
+                <td>Formations / Transitions</td>
+                <td></td>
+                <td></td>
+                <td>7</td>
+            </tr>
+            <tr>
+                <td>Performance</td>
+                <td></td>
+                <td class="void"></td>
+                <td>7</td>
+            </tr>
+            <tr>
+                <td>Skills Creativity</td>
+                <td></td>
+                <td class="void"></td>
+                <td>5</td>
+            </tr>
+            <tr>
+                <td>Routine Creativity</td>
+                <td></td>
+                <td class="void"></td>
+                <td>5</td>
+            </tr>
+            <tr>
+                <th colspan="2">Total</th>
+                <th></th>
+                <th>73</th>
+            </tr>
+        </tbody>
+    </table>
+</script>
+
+<script type="text/html" id="levels-level4-template">
+    <table class="scoresheet">
+        <thead>
+            <tr>
+                <th class="skills">Skills</th>
+                <th class="base">Base<br />Score</th>
+                <th class="execution">Execution/<br />Technique<br />0 - 1.0</th>
+                <th class="max">Max<br />Score</th>
+                <th class="comments">Comments</th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr>
+                <td>Stunts</td>
+                <td></td>
+                <td></td>
+                <td>8</td>
+                <td class="comments" rowspan="12"></td>
+            </tr>
+            <tr>
+                <td>Pyramids</td>
+                <td></td>
+                <td></td>
+                <td>8</td>
+            </tr>
+            <tr>
+                <td>Tosses</td>
+                <td></td>
+                <td></td>
+                <td>8</td>
+            </tr>
+            <tr>
+                <td>Standing Tumbling</td>
+                <td></td>
+                <td></td>
+                <td>8</td>
+            </tr>
+            <tr>
+                <td>Running Tumbling</td>
+                <td></td>
+                <td></td>
+                <td>8</td>
+            </tr>
+            <tr>
+                <td>Jumps</td>
+                <td></td>
+                <td></td>
+                <td>8</td>
+            </tr>
+            <tr>
+                <td>Motions / Dance</td>
+                <td></td>
+                <td></td>
+                <td>8</td>
+            </tr>
+            <tr>
+                <td>Formations / Transitions</td>
+                <td></td>
+                <td></td>
+                <td>8</td>
+            </tr>
+            <tr>
+                <td>Performance</td>
+                <td></td>
+                <td class="void"></td>
+                <td>8</td>
+            </tr>
+            <tr>
+                <td>Skills Creativity</td>
+                <td></td>
+                <td class="void"></td>
+                <td>5</td>
+            </tr>
+            <tr>
+                <td>Routine Creativity</td>
+                <td></td>
+                <td class="void"></td>
+                <td>5</td>
+            </tr>
+            <tr>
+                <th colspan="2">Total</th>
+                <th></th>
+                <th>82</th>
+            </tr>
+        </tbody>
+    </table>
+</script>
+
+<script type="text/html" id="division-42-template">
+    <table class="scoresheet">
+        <thead>
+            <tr>
+                <th class="skills">Skills</th>
+                <th class="base">Base<br />Score</th>
+                <th class="execution">Execution/<br />Technique<br />0 - 1.0</th>
+                <th class="max">Max<br />Score</th>
+                <th class="comments">Comments</th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr>
+                <td>Stunts</td>
+                <td></td>
+                <td></td>
+                <td>8</td>
+                <td class="comments" rowspan="12"></td>
+            </tr>
+            <tr>
+                <td>Pyramids</td>
+                <td></td>
+                <td></td>
+                <td>8</td>
+            </tr>
+            <tr>
+                <td>Tosses</td>
+                <td></td>
+                <td></td>
+                <td>8</td>
+            </tr>
+            <tr>
+                <td>Standing Tumbling</td>
+                <td></td>
+                <td></td>
+                <td>6</td>
+            </tr>
+            <tr>
+                <td>Running Tumbling</td>
+                <td></td>
+                <td></td>
+                <td>6</td>
+            </tr>
+            <tr>
+                <td>Jumps</td>
+                <td></td>
+                <td></td>
+                <td>8</td>
+            </tr>
+            <tr>
+                <td>Motions / Dance</td>
+                <td></td>
+                <td></td>
+                <td>8</td>
+            </tr>
+            <tr>
+                <td>Formations / Transitions</td>
+                <td></td>
+                <td></td>
+                <td>8</td>
+            </tr>
+            <tr>
+                <td>Performance</td>
+                <td></td>
+                <td class="void"></td>
+                <td>8</td>
+            </tr>
+            <tr>
+                <td>Skills Creativity</td>
+                <td></td>
+                <td class="void"></td>
+                <td>5</td>
+            </tr>
+            <tr>
+                <td>Routine Creativity</td>
+                <td></td>
+                <td class="void"></td>
+                <td>5</td>
+            </tr>
+            <tr>
+                <th colspan="2">Total</th>
+                <th></th>
+                <th>82</th>
+            </tr>
+        </tbody>
+    </table>
+</script>
+
+<script type="text/html" id="levels-level5-template">
+    <table class="scoresheet">
+        <thead>
+            <tr>
+                <th class="skills">Skills</th>
+                <th class="base">Base<br />Score</th>
+                <th class="execution">Execution/<br />Technique<br />0 - 1.0</th>
+                <th class="max">Max<br />Score</th>
+                <th class="comments">Comments</th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr>
+                <td>Stunts</td>
+                <td></td>
+                <td></td>
+                <td>10</td>
+                <td class="comments" rowspan="12"></td>
+            </tr>
+            <tr>
+                <td>Pyramids</td>
+                <td></td>
+                <td></td>
+                <td>10</td>
+            </tr>
+            <tr>
+                <td>Tosses</td>
+                <td></td>
+                <td></td>
+                <td>10</td>
+            </tr>
+            <tr>
+                <td>Standing Tumbling</td>
+                <td></td>
+                <td></td>
+                <td>10</td>
+            </tr>
+            <tr>
+                <td>Running Tumbling</td>
+                <td></td>
+                <td></td>
+                <td>10</td>
+            </tr>
+            <tr>
+                <td>Jumps</td>
+                <td></td>
+                <td></td>
+                <td>10</td>
+            </tr>
+            <tr>
+                <td>Motions / Dance</td>
+                <td></td>
+                <td></td>
+                <td>10</td>
+            </tr>
+            <tr>
+                <td>Formations / Transitions</td>
+                <td></td>
+                <td></td>
+                <td>10</td>
+            </tr>
+            <tr>
+                <td>Performance</td>
+                <td></td>
+                <td class="void"></td>
+                <td>10</td>
+            </tr>
+            <tr>
+                <td>Skills Creativity</td>
+                <td></td>
+                <td class="void"></td>
+                <td>5</td>
+            </tr>
+            <tr>
+                <td>Routine Creativity</td>
+                <td></td>
+                <td class="void"></td>
+                <td>5</td>
+            </tr>
+            <tr>
+                <th colspan="2">Total</th>
+                <th></th>
+                <th>100</th>
+            </tr>
+        </tbody>
+    </table>
+</script>
+
+<script type="text/html" id="levels-level5-template">
+    <table class="scoresheet">
+        <thead>
+            <tr>
+                <th class="skills">Skills</th>
+                <th class="base">Base<br />Score</th>
+                <th class="execution">Execution/<br />Technique<br />0 - 1.0</th>
+                <th class="max">Max<br />Score</th>
+                <th class="comments">Comments</th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr>
+                <td>Stunts</td>
+                <td></td>
+                <td></td>
+                <td>10</td>
+                <td class="comments" rowspan="12"></td>
+            </tr>
+            <tr>
+                <td>Pyramids</td>
+                <td></td>
+                <td></td>
+                <td>10</td>
+            </tr>
+            <tr>
+                <td>Tosses</td>
+                <td></td>
+                <td></td>
+                <td>10</td>
+            </tr>
+            <tr>
+                <td>Standing Tumbling</td>
+                <td></td>
+                <td></td>
+                <td>10</td>
+            </tr>
+            <tr>
+                <td>Running Tumbling</td>
+                <td></td>
+                <td></td>
+                <td>10</td>
+            </tr>
+            <tr>
+                <td>Jumps</td>
+                <td></td>
+                <td></td>
+                <td>10</td>
+            </tr>
+            <tr>
+                <td>Motions / Dance</td>
+                <td></td>
+                <td></td>
+                <td>10</td>
+            </tr>
+            <tr>
+                <td>Formations / Transitions</td>
+                <td></td>
+                <td></td>
+                <td>10</td>
+            </tr>
+            <tr>
+                <td>Performance</td>
+                <td></td>
+                <td class="void"></td>
+                <td>10</td>
+            </tr>
+            <tr>
+                <td>Skills Creativity</td>
+                <td></td>
+                <td class="void"></td>
+                <td>5</td>
+            </tr>
+            <tr>
+                <td>Routine Creativity</td>
+                <td></td>
+                <td class="void"></td>
+                <td>5</td>
+            </tr>
+            <tr>
+                <th colspan="2">Total</th>
+                <th></th>
+                <th>100</th>
+            </tr>
+        </tbody>
+    </table>
+</script>
+
+<script type="text/html" id="levels-school-template">
+    <table class="scoresheet">
+        <thead>
+            <tr>
+                <th class="skills">Skills</th>
+                <th class="base">Base<br />Score</th>
+                <th class="max">Max<br />Score</th>
+                <th class="comments">Comments</th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr>
+                <td>Stunts</td>
+                <td></td>
+                <td>10</td>
+                <td class="comments" rowspan="11"></td>
+            </tr>
+            <tr>
+                <td>Pyramids / Tosses</td>
+                <td></td>
+                <td>10</td>
+            </tr>
+            <tr>
+                <td>Tumbling</td>
+                <td></td>
+                <td>10</td>
+            </tr>
+            <tr>
+                <td>Jumps</td>
+                <td></td>
+                <td>10</td>
+            </tr>
+            <tr>
+                <td>Motion / Dance</td>
+                <td></td>
+                <td></td>
+                <td>10</td>
+            </tr>
+            <tr>
+                <td>Timing</td>
+                <td></td>
+                <td></td>
+                <td>10</td>
+            </tr>
+            <tr>
+                <td>Transitions</td>
+                <td></td>
+                <td></td>
+                <td>10</td>
+            </tr>
+            <tr>
+                <td>Performance</td>
+                <td></td>
+                <td class="void"></td>
+                <td>10</td>
+            </tr>
+            <tr>
+                <td>School Representation</td>
+                <td></td>
+                <td class="void"></td>
+                <td>5</td>
+            </tr>
+            <tr>
+                <td>>Overall Impression</td>
+                <td></td>
+                <td class="void"></td>
+                <td>5</td>
+            </tr>
+            <tr>
+                <th colspan="2">Total</th>
+                <th></th>
+                <th>100</th>
+            </tr>
+        </tbody>
+    </table>
+</script>
+
+<script type="text/html" id="levels-level6-template">
+    <table class="scoresheet">
+        <thead>
+            <tr>
+                <th class="skills">Skills</th>
+                <th class="base">Base<br />Score</th>
+                <th class="execution">Execution/<br />Technique<br />0 - 1.0</th>
+                <th class="max">Max<br />Score</th>
+                <th class="comments">Comments</th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr>
+                <td>Stunts</td>
+                <td></td>
+                <td></td>
+                <td>11</td>
+                <td class="comments" rowspan="12"></td>
+            </tr>
+            <tr>
+                <td>Pyramids</td>
+                <td></td>
+                <td></td>
+                <td>11</td>
+            </tr>
+            <tr>
+                <td>Tosses</td>
+                <td></td>
+                <td></td>
+                <td>11</td>
+            </tr>
+            <tr>
+                <td>Standing Tumbling</td>
+                <td></td>
+                <td></td>
+                <td>10</td>
+            </tr>
+            <tr>
+                <td>Running Tumbling</td>
+                <td></td>
+                <td></td>
+                <td>10</td>
+            </tr>
+            <tr>
+                <td>Jumps</td>
+                <td></td>
+                <td></td>
+                <td>10</td>
+            </tr>
+            <tr>
+                <td>Motions / Dance</td>
+                <td></td>
+                <td></td>
+                <td>10</td>
+            </tr>
+            <tr>
+                <td>Formations / Transitions</td>
+                <td></td>
+                <td></td>
+                <td>10</td>
+            </tr>
+            <tr>
+                <td>Performance</td>
+                <td></td>
+                <td class="void"></td>
+                <td>10</td>
+            </tr>
+            <tr>
+                <td>Skills Creativity</td>
+                <td></td>
+                <td class="void"></td>
+                <td>5</td>
+            </tr>
+            <tr>
+                <td>Routine Creativity</td>
+                <td></td>
+                <td class="void"></td>
+                <td>5</td>
+            </tr>
+            <tr>
+                <th colspan="2">Total</th>
+                <th></th>
+                <th>103</th>
+            </tr>
+        </tbody>
+    </table>
+</script>
+
+<script type="text/html" id="levels-dance-template">
+    <table class="scoresheet">
+        <thead>
+            <tr>
+                <th class="skills">Skills</th>
+                <th class="base">Base<br />Score</th>
+                <th class="max">Max<br />Score</th>
+                <th class="comments">Comments</th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr>
+                <td>Technique / Execution</td>
+                <td></td>
+                <td>11</td>
+                <td class="comments" rowspan="8"></td>
+            </tr>
+            <tr>
+                <td>Visual Effects</td>
+                <td></td>
+                <td>11</td>
+            </tr>
+            <tr>
+                <td>Staging</td>
+                <td></td>
+                <td>11</td>
+            </tr>
+            <tr>
+                <td>Difficulty</td>
+                <td></td>
+                <td>11</td>
+            </tr>
+            <tr>
+                <td>Uniformity</td>
+                <td></td>
+                <td>11</td>
+            </tr>
+            <tr>
+                <td>Choreography</td>
+                <td></td>
+                <td>11</td>
+            </tr>
+            <tr>
+                <td>Performance Impression</td>
+                <td></td>
+                <td>11</td>
+            </tr>
+            <tr>
+                <th colspan="2">Total</th>
+                <th></th>
+                <th>77</th>
+            </tr>
+        </tbody>
+    </table>
+</script>
+
+<script type="text/html" id="division-jazz-template">
+    <table class="scoresheet">
+        <thead>
+            <tr>
+                <th class="skills">Skills</th>
+                <th class="base">Base<br />Score</th>
+                <th class="max">Max<br />Score</th>
+                <th class="comments">Comments</th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr>
+                <td>Jazz Technique</td>
+                <td></td>
+                <td>11</td>
+                <td class="comments" rowspan="9"></td>
+            </tr>
+            <tr>
+                <td>Turn Technique</td>
+                <td></td>
+                <td>11</td>
+            </tr>
+            <tr>
+                <td>Leap Technique</td>
+                <td></td>
+                <td>11</td>
+            </tr>
+            <tr>
+                <td>Staging</td>
+                <td></td>
+                <td>11</td>
+            </tr>
+            <tr>
+                <td>Difficulty</td>
+                <td></td>
+                <td>11</td>
+            </tr>
+            <tr>
+                <td>Uniformity</td>
+                <td></td>
+                <td>11</td>
+            </tr>
+            <tr>
+                <td>Choreography</td>
+                <td></td>
+                <td>11</td>
+            </tr>
+            <tr>
+                <td>Performance Impression</td>
+                <td></td>
+                <td>11</td>
+            </tr>
+            <tr>
+                <th colspan="2">Total</th>
+                <th></th>
+                <th>88</th>
+            </tr>
+        </tbody>
+    </table>
+</script>
+
+<script type="text/html" id="judges-deductions-template">
+    <div class="deductions_scoresheet">
+        <div class="inner">
+            <!-- ko template: { name: 'judges-deductions-template-deduction', data: '0 - :15 Seconds' } --><!-- /ko -->
+            <!-- ko template: { name: 'judges-deductions-template-deduction', data: ':16 - :30 Seconds' } --><!-- /ko -->
+            <!-- ko template: { name: 'judges-deductions-template-deduction', data: ':31 - :45 Seconds' } --><!-- /ko -->
+            <!-- ko template: { name: 'judges-deductions-template-deduction', data: ':46 Seconds - 1:00' } --><!-- /ko -->
+            <!-- ko template: { name: 'judges-deductions-template-deduction', data: '1:01 - 1:15' } --><!-- /ko -->
+            <!-- ko template: { name: 'judges-deductions-template-deduction', data: '1:16 - 1:30' } --><!-- /ko --> 
+            <!-- ko template: { name: 'judges-deductions-template-deduction', data: '1:31 - 1:45' } --><!-- /ko --> 
+            <!-- ko template: { name: 'judges-deductions-template-deduction', data: '1:46 - 2:00' } --><!-- /ko --> 
+            <!-- ko template: { name: 'judges-deductions-template-deduction', data: '2:01 - 2:15' } --><!-- /ko --> 
+            <!-- ko template: { name: 'judges-deductions-template-deduction', data: '2:16 - 2:30' } --><!-- /ko --> 
+            <table class="legend">
+                <tr>
+                    <td>ST - Standing Tumbling</td>
+                    <td>M - Mistake</td>
+                </tr>
+                <tr>
+                    <td>RT - Running Tumbling</td>
+                    <td>F - Fall</td>
+                </tr>
+                <tr>
+                    <td>BT - Basket Toss</td>
+                    <td>C - Collapse</td>
+                </tr>
+                <tr>
+                    <td>PY - Pyramid</td>
+                </tr>
+                <tr>
+                    <td>PS - Partner Stunt</td>
+                </tr>
+                <tr>
+                    <td>J - Jumps</td>
+                </tr>
+            </table>
+                
+            <table class="score">
+                <tr>
+                    <td>0.5 x </td>
+                    <td class="blank"></td>
+                    <td> = </td>
+                    <td class="blank"></td>
+                </tr>
+                <tr>
+                    <td>1.0 x </td>
+                    <td class="blank"></td>
+                    <td> = </td>
+                    <td class="blank"></td>
+                </tr>
+                <tr>
+                    <td>1.5 x </td>
+                    <td class="blank"></td>
+                    <td> = </td>
+                    <td class="blank"></td>
+                </tr>
+                <tr>
+                    <td>2.0 x </td>
+                    <td class="blank"></td>
+                    <td> = </td>
+                    <td class="blank"></td>
+                </tr>
+                <tr>
+                    <td colspan="3">Total: </td>
+                    <td class="blank"></td>
+                </tr>
+            </table>
+        </div>
+            
+        <div class="comments">Comments
+            <div></div>
+        </div>
+    </div>
+</script>
+
+<script type="text/html" id="judges-deductions-template-deduction">
+    <table class="deduction">
+        <tr class="first"><th>ST</th><td class="first" /><td /><td /><td /><td /><td /><td /><td /><td class="last" /></tr>
+        <tr><th>RT</th><td class="first" /><td /><td /><td /><td /><td /><td /><td /><td class="last" /></tr>
+        <tr><th>BT</th><td class="first" /><td /><td /><td /><td /><td /><td /><td /><td class="last" /></tr>
+        <tr><th>PY</th><td class="first" /><td /><td /><td /><td /><td /><td /><td /><td class="last" /></tr>
+        <tr><th>PS</th><td class="first" /><td /><td /><td /><td /><td /><td /><td /><td class="last" /></tr>
+        <tr class="last"><th>J</th><td class="first" /><td /><td /><td /><td /><td /><td /><td /><td class="last" /></tr>
+        <tr class="time"><th /><td colspan="6" data-bind="text: $data"></td><td colspan="3" /></tr>
+    </table>
+</script>
+
+<script type="text/html" id="judges-legalities-template">
+    <fieldset class="legalities">
+        <ul>
+            <li class="c2 row1"><!--Row 1-->
+                <ul>
+                    <li class="left blue heading">Number of Participants</li>
+                    <li class="right">
+                        <input type="text" disabled="disabled" />
+                    </li>
+                </ul>
+            </li>
+            <li class="c2"><!--Row 2-->
+                <ul>
+                    <li class="left blue heading">Boundary Violations</li>
+                    <li class="right">2.0 X <input type="text" disabled="disabled" /> = <input type="text" disabled="disabled" /></li>
+                </ul>
+            </li>
+            <li class="c3"><!--Row 3 header?-->
+                <ul class="solidRow">
+                    <li class="blue left heading">Safety Violations (list)</li>
+                    <li class="c3 blue middle">
+                        <ul class="specialBorders">
+                            <li class="heading">Warning</li>
+                            <li class="heading">Category</li>
+                            <li class="heading">Page #</li>
+                        </ul>
+                    </li>
+                    <li class="empty blue right"></li>
+                </ul>
+            </li>
+            <li class="c3 row3"><!--Row 3-->
+                <ul class="solidRow light">
+                    <li class="left"><input type="text" disabled="disabled" /></li>
+                    <li class="c3 middle">
+                        <ul class="specialBorders">
+                            <li><input type="text" disabled="disabled" /></li>
+                            <li><input type="text" disabled="disabled" /></li>
+                            <li><input type="text" disabled="disabled" /></li>
+                        </ul>
+                    </li>
+                    <li class="right">2.0 X <input type="text" disabled="disabled" /> = <input type="text" disabled="disabled" /></li>
+                </ul>
+            </li>
+            <li class="c3 row3"><!--Row 3-->
+                <ul class="solidRow light">
+                    <li class="left"><input type="text" disabled="disabled" /></li>
+                    <li class="c3 middle">
+                        <ul class="specialBorders">
+                            <li><input type="text" disabled="disabled" /></li>
+                            <li><input type="text" disabled="disabled" /></li>
+                            <li><input type="text" disabled="disabled" /></li>
+                        </ul>
+                    </li>
+                    <li class="right">2.0 X <input type="text" disabled="disabled" /> = <input type="text" disabled="disabled" /></li>
+                </ul>
+            </li>
+            <li class="c3 row3"><!--Row 3-->
+                <ul class="solidRow light">
+                    <li class="left"><input type="text" disabled="disabled" /></li>
+                    <li class="c3 middle">
+                        <ul class="specialBorders">
+                            <li><input type="text" disabled="disabled" /></li>
+                            <li><input type="text" disabled="disabled" /></li>
+                            <li><input type="text" disabled="disabled" /></li>
+                        </ul>
+                    </li>
+                    <li class="right">2.0 X <input type="text" disabled="disabled" /> = <input type="text" disabled="disabled" /></li>
+                </ul>
+            </li>
+            <li class="c3 row3"><!--Row 3-->
+                <ul class="solidRow light">
+                    <li class="left"><input type="text" disabled="disabled" /></li>
+                    <li class="c3 middle">
+                        <ul class="specialBorders">
+                            <li><input type="text" disabled="disabled" /></li>
+                            <li><input type="text" disabled="disabled" /></li>
+                            <li><input type="text" disabled="disabled" /></li>
+                        </ul>
+                    </li>
+                    <li class="right">2.0 X <input type="text" disabled="disabled" /> = <input type="text" disabled="disabled" /></li>
+                </ul>
+            </li>
+            <li class="c3 row3"><!--Row 3-->
+                <ul class="solidRow light">
+                    <li class="left"><input type="text" disabled="disabled" /></li>
+                    <li class="c3 middle">
+                        <ul class="specialBorders">
+                            <li><input type="text" disabled="disabled" /></li>
+                            <li><input type="text" disabled="disabled" /></li>
+                            <li><input type="text" disabled="disabled" /></li>
+                        </ul>
+                    </li>
+                    <li class="right">2.0 X <input type="text" disabled="disabled" /> = <input type="text" disabled="disabled" /></li>
+                </ul>
+            </li>
+            <li class="c3 row3"><!--Row 3-->
+                <ul class="solidRow light">
+                    <li class="left"><input type="text" disabled="disabled" /></li>
+                    <li class="c3 middle">
+                        <ul class="specialBorders">
+                            <li><input type="text" disabled="disabled" /></li>
+                            <li><input type="text" disabled="disabled" /></li>
+                            <li><input type="text" disabled="disabled" /></li>
+                        </ul>
+                    </li>
+                    <li class="right">2.0 X <input type="text" disabled="disabled" /> = <input type="text" disabled="disabled" /></li>
+                </ul>
+            </li>
+            <li class="c3 row3"><!--Row 3-->
+                <ul class="solidRow light">
+                    <li class="left"><input type="text" disabled="disabled" /></li>
+                    <li class="c3 middle">
+                        <ul class="specialBorders">
+                            <li><input type="text" disabled="disabled" /></li>
+                            <li><input type="text" disabled="disabled" /></li>
+                            <li><input type="text" disabled="disabled" /></li>
+                        </ul>
+                    </li>
+                    <li class="right">2.0 X <input type="text" disabled="disabled" /> = <input type="text" disabled="disabled" /></li>
+                </ul>
+            </li>
+            <li class="c3 row3"><!--Row 3-->
+                <ul class="solidRow light">
+                    <li class="left"><input type="text" disabled="disabled" /></li>
+                    <li class="c3 middle">
+                        <ul class="specialBorders">
+                            <li><input type="text" disabled="disabled" /></li>
+                            <li><input type="text" disabled="disabled" /></li>
+                            <li><input type="text" disabled="disabled" /></li>
+                        </ul>
+                    </li>
+                    <li class="right">2.0 X <input type="text" disabled="disabled" /> = <input type="text" disabled="disabled" /></li>
+                </ul>
+            </li>
+            <li class="c3"><!--Row 3 Totals-->
+                <ul class="vMiddle">
+                    <li class="blue left heading vMiddle">Total Routine Time</li>
+                    <li class="c2 vMiddle">
+                        <ul>
+                            <li class="center"><input type="text" disabled="disabled" /> min</li>
+                            <li class="center"><input type="text" disabled="disabled" /> sec</li>
+                        </ul>
+                    </li>
+                    <li class="c2 middle vMiddle">
+                        <ul>
+                            <li class="specialLeft">
+                                <table class="legend">
+                                    <caption>Time Deduction</caption>
+                                    <tbody>
+                                        <tr class="blue">
+                                            <th>3-5 sec</th>
+                                            <td>= 0.5</td>
+                                        </tr>
+                                        <tr class="blue">
+                                            <th>6-10 sec</th>
+                                            <td>= 1.0</td>
+                                        </tr>
+                                        <tr class="blue">
+                                            <th>11+ sec</th>
+                                            <td>= 2.0</td>
+                                        </tr>
+                                    </tbody>
+                                </table>
+                            </li>
+                            <li class="specialRight vMiddle center"><input type="text" disabled="disabled" /> pts</li>
+                        </ul>
+                    </li>
+                </ul>
+            </li>
+            <li class="c3 left row4"><!--Row 4 Totals2-->
+                <ul>
+                    <li class="empty noBorder left"></li>
+                    <li class="blue middle heading">Total Deduction</li>
+                    <li class="center"><input type="text" disabled="disabled" /></li>
+                </ul>
+            </li>			    
+        </ul>
+    </fieldset>            
+</script>

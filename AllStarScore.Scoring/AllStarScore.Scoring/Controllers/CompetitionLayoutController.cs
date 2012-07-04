@@ -16,7 +16,7 @@ namespace AllStarScore.Scoring.Controllers
         {
             var info =
                 RavenSession
-                    .Load<CompetitionImport>(id);
+                    .Load<CompetitionInfo>(id);
 
             var model = new CompetitionLayoutIndexViewModel(info, new ScoringMap());
             return PartialView(model);
