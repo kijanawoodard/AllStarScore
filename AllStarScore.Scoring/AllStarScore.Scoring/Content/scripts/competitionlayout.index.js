@@ -1,14 +1,4 @@
 ﻿$(document).ready(function () {
-
-    var mapping = {
-        'copy': ["scoringMap"],
-        'info': {
-            create: function (options) {
-                return new competitionLayoutIndexViewModel(options.data);
-            }
-        }
-    };
-
     var utilities = {
         asArray: function (obj) {
             var result = [];
@@ -32,7 +22,7 @@
         }
     };
 
-    var competitionLayoutIndexViewModel = function (data) {
+    var infoViewModel = function (data) {
         var self = this;
         $.extend(self, data);
 
@@ -42,7 +32,7 @@
         self.performances = utilities.asObject(data.performances);
     };
 
-    var info = ko.mapping.fromJS(window.competitionLayoutIndexData, mapping);
-    _.extend(window.viewModel, info, { utilities: utilities });
+    _.extend(window.viewModel, window.competitionLayoutIndexData, { utilities: utilities });
+    window.viewModel.info = new infoViewModel(window.viewModel.info);
 });
 
