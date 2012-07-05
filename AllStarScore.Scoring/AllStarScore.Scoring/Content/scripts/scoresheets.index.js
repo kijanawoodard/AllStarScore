@@ -1,26 +1,7 @@
 ﻿$(document).ready(function () {
-    viewModel.scoresheets = ko.mapping.fromJS(window.detailsScoreSheetsData, mapping);
-    viewModel.scoresheets.schedule.loadVisibilityMatrix();
+    $.extend(viewModel, window.detailsScoreSheetsData);
+    viewModel.schedule = new ScheduleModel(viewModel.schedule);
 });
-
-var mapping = {
-    'copy': ["info", "registrations", "judgePanel", "scoringMap"],
-    'schedule': {
-        create: function (options) {
-            return new ScheduleModel(options.data);
-        }
-    },
-    'days': {
-        create: function (options) {
-            return new DayModel(options.data);
-        }
-    },
-    'entries': {
-        create: function (options) {
-            return new EntryModel(options.data);
-        }
-    }
-};
 
 var ScheduleModel = function (data) {
     var self = this;
@@ -29,7 +10,7 @@ var ScheduleModel = function (data) {
     self.days = _.map(self.days, function (day) {
         return new DayModel(day);
     });
-    
+
     self.panels = ko.computed(function () {
         return _.map(_.range(self.numberOfPanels), function (i) {
             return String.fromCharCode(65 + i);
@@ -40,42 +21,38 @@ var ScheduleModel = function (data) {
     self.competitionDays = ko.observableArray();
     self.levels = ko.observableArray();
 
-    self.loadVisibilityMatrix = function () {
-        //created this function to have access to viewModel after mapping; TODO: see if this is still needed after adding copy args to mapping
-        _.each(self.panels(), function (panel) {
-            self.visibilityMatrix.push(panel);
-            _.each(window.viewModel.scoresheets.judgePanel.judges, function (judge) {
-                self.visibilityMatrix.push(panel + judge.id);
-            });
+    _.each(self.panels(), function (panel) {
+        self.visibilityMatrix.push(panel);
+        _.each(window.viewModel.judgePanel.judges, function (judge) {
+            self.visibilityMatrix.push(panel + judge.id);
         });
+    });
 
-        _.each(self.days, function (node) {
-            //this is outside of the function 'load' function to get the competitionDays 
-            //what are we doing here? normalizing the date to a string for the checkbox compare; 
-            //the value of the checkbox has to be a string not a date object;
-            //we're also divorcing what gets attached the checkbox so the formmatted value doesn't change our real day object
-            var formatted = node.day.toString('ddd MM/dd/yyyy');
-            self.visibilityMatrix.push(formatted);
-            self.competitionDays.push(formatted);
+    _.each(self.days, function (node) {
+        //what are we doing here? normalizing the date to a string for the checkbox compare; 
+        //the value of the checkbox has to be a string not a date object;
+        //we're also divorcing what gets attached the checkbox so the formmatted value doesn't change our real day object
+        var formatted = node.day.toString('ddd MM/dd/yyyy');
+        self.visibilityMatrix.push(formatted);
+        self.competitionDays.push(formatted);
 
-            _.each(node.entries, function (entry) {
-                var registration = entry.registration();
-                if (registration) {
-                    if (_.indexOf(self.visibilityMatrix(), registration.levelId) == -1) {
-                        self.visibilityMatrix.push(registration.levelId);
-                        self.levels.push({ id: registration.levelId, name: registration.levelName });
-                    }
+        _.each(node.entries, function (entry) {
+            var registration = entry.registration();
+            if (registration) {
+                if (_.indexOf(self.visibilityMatrix(), registration.levelId) == -1) {
+                    self.visibilityMatrix.push(registration.levelId);
+                    self.levels.push({ id: registration.levelId, name: registration.levelName });
                 }
-            });
+            }
         });
-    };
+    });
 
     self.shouldShow = function (entry, parents) {
         var panel = parents[2];
         var day = parents[0].day.toString('ddd MM/dd/yyyy');
         var judge = panel + parents[1].id;
         var level = entry.registration().levelId;
-        
+
         var result = _.indexOf(self.visibilityMatrix(), panel) > -1 &&
                      _.indexOf(self.visibilityMatrix(), day) > -1 &&
                      _.indexOf(self.visibilityMatrix(), judge) > -1 &&
@@ -110,7 +87,7 @@ var EntryModel = function (data) {
             return undefined;
 
         var id = getRegistrationId(this.registrationId);
-        return window.viewModel.scoresheets.registrations[id];
+        return window.viewModel.registrations[id];
     }, self);
 
     self.isMyPanel = function (panel) {
@@ -120,9 +97,9 @@ var EntryModel = function (data) {
     self.getTemplate = function (judge) {
         var division = self.registration().divisionId;
         var level = self.registration().levelId;
-        var map = window.viewModel.scoresheets.scoringMap[judge.responsibility]
-                        || window.viewModel.scoresheets.scoringMap[division] 
-                        || window.viewModel.scoresheets.scoringMap[level];
+        var map = window.viewModel.scoringMap[judge.responsibility]
+                        || window.viewModel.scoringMap[division] 
+                        || window.viewModel.scoringMap[level];
         return map;
     };
 };

@@ -8,7 +8,7 @@
 @{ Html.RegisterStylesheet("~/content/styles/scoresheets.index.css"); }
 @{ Html.RegisterScript("~/content/scripts/scoresheets.index.js"); }
 
-<div id="scoresheets_index" data-bind="with: $root.scoresheets">
+<div id="scoresheets_index">
     <fieldset class="controls">
         <legend>Controls</legend>
         <ul data-bind="foreach: schedule.panels()">
@@ -48,16 +48,16 @@
     </fieldset>
 
     <!-- ko foreach: schedule.panels() -->
-    <!-- ko foreach: $root.scoresheets.judgePanel.judges -->
-    <!-- ko foreach: $root.scoresheets.schedule.days -->
+    <!-- ko foreach: $root.judgePanel.judges -->
+    <!-- ko foreach: $root.schedule.days -->
     <!-- ko foreach: $data.entries -->
     <!-- ko if: $data.registrationId --> 
     <!-- ko if: isMyPanel($parents[2]) --> 
     &nbsp; @* space here for firefox print. without it, second page header is off. hmm *@
-    <div class="entry" data-bind="visible: $root.scoresheets.schedule.shouldShow($data, $parents)">
+    <div class="entry" data-bind="visible: $root.schedule.shouldShow($data, $parents)">
         <div class="header">
-            <div class="company" data-bind="text: $root.scoresheets.info.company.name"></div>
-            <div class="description" data-bind="text: $root.scoresheets.info.competition.display">CGA National Championship Feb 12-13, 2011</div>
+            <div class="company" data-bind="text: $root.info.company.name"></div>
+            <div class="description" data-bind="text: $root.info.competition.display">CGA National Championship Feb 12-13, 2011</div>
             <div class="name">
                 <span data-bind="text: registration().gymName"></span>
                 <span data-bind="text: registration().teamName"></span>
