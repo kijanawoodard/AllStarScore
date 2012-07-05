@@ -1,9 +1,7 @@
 using System;
 using System.Collections.Generic;
 using AllStarScore.Models;
-using AllStarScore.Scoring.Controllers;
 using AllStarScore.Scoring.Infrastructure.Commands;
-using AllStarScore.Scoring.Infrastructure.Indexes;
 using AllStarScore.Scoring.Models;
 
 namespace AllStarScore.Scoring.ViewModels
@@ -13,14 +11,12 @@ namespace AllStarScore.Scoring.ViewModels
         public string CompetitionId { get; set; }
         public Performance Performance { get; set; }
         public JudgeScore Score { get; set; }
-        public ScoringMap ScoringMap { get; set; }
 
-        public ScoringScoreEntryViewModel(Performance performance, JudgeScore score, ScoringMap scoringMap)
+        public ScoringScoreEntryViewModel(Performance performance, JudgeScore score)
         {
             CompetitionId = performance.CompetitionId;
             Performance = performance;
             Score = score;
-            ScoringMap = scoringMap;
         }
     }
 

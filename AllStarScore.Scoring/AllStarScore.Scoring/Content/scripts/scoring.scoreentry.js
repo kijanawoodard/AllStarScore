@@ -35,8 +35,8 @@ var ScoreEntryViewModel = function (data) {
         var judge = getJudgeKey(self.score.judgeId());
         var division = getJudgeKey(self.performance.divisionId());
         var level = self.performance.levelId();
-        var result = self.scoringMap.templates[judge] ? judge :
-                     self.scoringMap.templates[division] ? division :
+        var result = viewModel.scoringMap.templates[judge] ? judge :
+                     viewModel.scoringMap.templates[division] ? division :
                      level;
         return result;
     };
@@ -45,8 +45,8 @@ var ScoreEntryViewModel = function (data) {
         var judge = getJudgeKey(self.score.judgeId());
         var division = getJudgeKey(self.performance.divisionId());
         var level = self.performance.levelId();
-        var map = self.scoringMap.templates[judge] || self.scoringMap.templates[division] || self.scoringMap.templates[level];
-        return map();
+        var map = viewModel.scoringMap.templates[judge] || viewModel.scoringMap.templates[division] || viewModel.scoringMap.templates[level];
+        return map;
     };
 
     //take parms to prepare for multiple renderings
@@ -54,7 +54,7 @@ var ScoreEntryViewModel = function (data) {
         var judge = getJudgeKey(score.judgeId());
         var division = performance.divisionId();
         var level = performance.levelId();
-        var map = self.scoringMap.categories[judge] || self.scoringMap.categories[division] || self.scoringMap.categories[level];
+        var map = viewModel.scoringMap.categories[judge] || viewModel.scoringMap.categories[division] || viewModel.scoringMap.categories[level];
 
         //an array version for knockout foreach
         var categories = $.map(map, function (category, key) {
@@ -96,7 +96,7 @@ var ScoreEntryViewModel = function (data) {
 
             scores[key].total = ko.computed(function () {
                 var base = scores[key].base();
-                var execution = category.includeExectionScore() ? scores[key].execution() : 0;
+                var execution = category.includeExectionScore ? scores[key].execution() : 0;
                 var result = (parseFloat(base) + parseFloat(execution)) || 0;
                 return formatNumber(result);
             });
@@ -105,23 +105,23 @@ var ScoreEntryViewModel = function (data) {
 
             scores[key].isBaseBelowMin = ko.computed(function () {
                 var base = scores[key].base();
-                var executionFactor = category.includeExectionScore() ? executionMax : 0;
-                return parseFloat(base) != 0 && (parseFloat(base) + executionFactor) < category.min();
+                var executionFactor = category.includeExectionScore ? executionMax : 0;
+                return parseFloat(base) != 0 && (parseFloat(base) + executionFactor) < category.min;
             });
 
             scores[key].isBaseAboveMax = ko.computed(function () {
                 var base = scores[key].base();
-                var executionFactor = category.includeExectionScore() ? executionMax : 0;
-                return (parseFloat(base) + executionFactor) > category.max();
+                var executionFactor = category.includeExectionScore ? executionMax : 0;
+                return (parseFloat(base) + executionFactor) > category.max;
             });
 
             scores[key].isExecutionBelowMin = ko.computed(function () {
-                var execution = category.includeExectionScore() ? scores[key].execution() : 0;
+                var execution = category.includeExectionScore ? scores[key].execution() : 0;
                 return parseFloat(execution) < 0;
             });
 
             scores[key].isExecutionAboveMax = ko.computed(function () {
-                var execution = category.includeExectionScore() ? scores[key].execution() : 0;
+                var execution = category.includeExectionScore ? scores[key].execution() : 0;
                 return parseFloat(execution) > executionMax;
             });
         });
@@ -164,14 +164,14 @@ var ScoreEntryViewModel = function (data) {
 
         input.score.minTotal = ko.computed(function () {
             var result = _.reduce(input.map, function (memo, category) {
-                return memo + category.min();
+                return memo + category.min;
             }, 0);
             return result;
         });
 
         input.score.maxTotal = ko.computed(function () {
             var result = _.reduce(input.map, function (memo, category) {
-                return memo + category.max();
+                return memo + category.max;
             }, 0);
             return result;
         });

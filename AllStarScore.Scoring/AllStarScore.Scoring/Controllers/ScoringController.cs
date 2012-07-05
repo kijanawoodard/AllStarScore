@@ -69,7 +69,7 @@ namespace AllStarScore.Scoring.Controllers
                 RavenSession.Store(score);
             }
 
-            var model = new ScoringScoreEntryViewModel(performance, score, new ScoringMap());
+            var model = new ScoringScoreEntryViewModel(performance, score);
             return View(model);
         }
 
