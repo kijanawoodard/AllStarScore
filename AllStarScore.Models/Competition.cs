@@ -6,7 +6,24 @@ using AllStarScore.Models.Commands;
 
 namespace AllStarScore.Models
 {
-    public class Competition
+    public interface ICanBeUpdatedByCommand
+    {
+        string LastCommand { get; set; }
+        string LastCommandBy { get; set; }
+        DateTime LastCommandDate { get; set; }    
+    }
+
+    public static class CommandRegistrar
+    {
+        public static void RegisterCommand(this ICanBeUpdatedByCommand document, ICommand command)
+        {
+            document.LastCommand = "";
+            document.LastCommandBy = command.CommandByUser;
+            document.LastCommandDate = command.CommandWhen;
+        }
+    }
+
+    public class Competition : ICanBeUpdatedByCommand
     {
         public string Id { get; set; }
         public string Name { get; set; }
@@ -34,6 +51,10 @@ namespace AllStarScore.Models
             get { return string.Format("{0} {1: MMM dd, yyyy}", Name, FirstDay); }
         }
 
+        public string LastCommand { get; set; }
+        public string LastCommandBy { get; set; }
+        public DateTime LastCommandDate { get; set; }
+
         public Competition()
         {
             NumberOfDays = 1;
@@ -48,9 +69,6 @@ namespace AllStarScore.Models
             NumberOfPerformances = command.NumberOfPerformances;
             NumberOfPanels = command.NumberOfPanels;
         }
-
-
-
 
         public bool Equals(Competition other)
         {
