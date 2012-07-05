@@ -150,7 +150,6 @@
     <Compile Include="Controllers\RavenController.cs" />
     <Compile Include="Controllers\RegistrationController.cs" />
     <Compile Include="Controllers\SchedulingController.cs" />
-    <Compile Include="Controllers\ScoreSheetsController.cs" />
     <Compile Include="Controllers\SyncController.cs" />
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
@@ -174,7 +173,6 @@
     <Compile Include="ViewModels\RegistrationIndexViewModel.cs" />
     <Compile Include="ViewModels\RegistrationTeamsViewModel.cs" />
     <Compile Include="ViewModels\SchedulingEditViewModel.cs" />
-    <Compile Include="ViewModels\ScoreSheetsDetailsViewModel.cs" />
     <Compile Include="ViewModels\SyncIndexViewModel.cs" />
     <Compile Include="ViewModels\TeamRegistrationViewModel.cs" />
   </ItemGroup>
@@ -209,7 +207,6 @@
     <Content Include="Content\scripts\lib\knockout-sortable.min.js" />
     <Content Include="Content\scripts\lib\underscore-min.js" />
     <Content Include="Content\scripts\scheduling.edit.js" />
-    <Content Include="Content\scripts\scoresheets.details.js" />
     <Content Include="Content\styles\gym.edit.css" />
     <Content Include="Content\scripts\gym.create.js" />
     <Content Include="Content\scripts\global.ajax.js" />
@@ -234,7 +231,6 @@
     <Content Include="Content\styles\normalize.css" />
     <Content Include="Content\styles\registration.teams.css" />
     <Content Include="Content\styles\scheduling.edit.css" />
-    <Content Include="Content\styles\scoresheets.details.css" />
     <Content Include="Content\styles\site.mobile.css" />
     <Content Include="Content\styles\tablesorter.themes\blue\asc.gif" />
     <Content Include="Content\styles\tablesorter.themes\blue\bg.gif" />
@@ -339,9 +335,6 @@
   </ItemGroup>
   <ItemGroup>
     <Content Include="Views\Scheduling\Edit.cshtml" />
-  </ItemGroup>
-  <ItemGroup>
-    <Content Include="Views\ScoreSheets\Details.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\AllStarScore.Extensions\AllStarScore.Extensions.csproj">

@@ -18,6 +18,11 @@ namespace AllStarScore.Models
             get { return FirstDay.GetDateRange(LastDay); }
         }
 
+        public string Display
+        {
+            get { return string.Format("{0} {1: MMM dd, yyyy}", Name, FirstDay); }
+        }
+
         public void Update(CompetitionCreateCommand command)
         {
             Name = command.CompetitionName;

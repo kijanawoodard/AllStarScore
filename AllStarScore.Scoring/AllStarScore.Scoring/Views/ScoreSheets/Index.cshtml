@@ -1,13 +1,13 @@
-﻿@model AllStarScore.Admin.ViewModels.ScoreSheetsDetailsViewModel
+﻿@model AllStarScore.Scoring.ViewModels.ScoreSheetsDetailsViewModel
 
 @{
     ViewBag.Title = "Score Sheets";
 }
 
-@{ Html.RegisterStylesheet("~/content/styles/scoresheets.details.css"); }
-@{ Html.RegisterScript("~/content/scripts/scoresheets.details.js"); }
+@{ Html.RegisterStylesheet("~/content/styles/scoresheets.index.css"); }
+@{ Html.RegisterScript("~/content/scripts/scoresheets.index.js"); }
 
-<div id="scoresheets_details">
+<div id="scoresheets_index">
     <fieldset class="controls">
         <legend>Controls</legend>
         <ul data-bind="foreach: schedule.panels()">
@@ -16,11 +16,11 @@
                     <input type="checkbox" data-bind="value: $data, checked: $root.schedule.visibilityMatrix"/>
                     <span data-bind="text: 'Panel ' + $data"></span>
                 </label>
-                <ul data-bind="foreach: $root.judgePanel.judges()">
+                <ul data-bind="foreach: $root.judgePanel.judges">
                     <li>
                         <label>
-                            <input type="checkbox" data-bind="value: $parent + $data.designator(), checked: $root.schedule.visibilityMatrix"/>
-                            <span data-bind="text: $parent + $data.designator()"></span>
+                            <input type="checkbox" data-bind="value: $parent + $data.id, checked: $root.schedule.visibilityMatrix"/>
+                            <span data-bind="text: $parent + $data.id"></span>
                         </label>
                     </li>
                 </ul>
@@ -55,8 +55,8 @@
     &nbsp; @* space here for firefox print. without it, second page header is off. hmm *@
     <div class="entry" data-bind="visible: $root.schedule.shouldShow($data, $parents)">
         <div class="header">
-            <div class="company">Spirit Celebration</div>
-            <div class="description">CGA National Championship Feb 12-13, 2011</div>
+            <div class="company" data-bind="text: $root.competitionInfo.company.name"></div>
+            <div class="description" data-bind="text: $root.competitionInfo.competition.display">CGA National Championship Feb 12-13, 2011</div>
             <div class="name">
                 <span data-bind="text: registration().gymName"></span>
                 <span data-bind="text: registration().teamName"></span>
@@ -66,9 +66,9 @@
                 <span data-bind="text: registration().divisionName"></span>
             </div>
             <div data-bind="dateString: time, datePattern: 'ddd h:mm tt'" class="when"></div>     
-            <div class="judge">Judge <span data-bind="text: $parents[2] + $parents[1].designator()"></span></div>
+            <div class="judge">Judge <span><span data-bind="text: $parents[2]"></span><span data-bind="text: $parents[1].id"></span></span></div>
         </div>
-        <!-- ko template: { name: getTemplate($parents[1].id()) } --><!-- /ko -->  
+        <!-- ko template: { name: getTemplate($parents[1]) } --><!-- /ko -->  
         <div class="footer">
             info@wyldeye.com    &copy; 2012 AllStarScore.com
         </div> 

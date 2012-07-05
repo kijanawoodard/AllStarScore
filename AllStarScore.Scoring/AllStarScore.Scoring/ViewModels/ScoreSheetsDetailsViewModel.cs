@@ -1,26 +1,31 @@
 using System.Collections.Generic;
 using System.Linq;
 using AllStarScore.Models;
+using AllStarScore.Scoring.Infrastructure.Indexes;
 using AllStarScore.Scoring.Models;
 
 namespace AllStarScore.Scoring.ViewModels
 {
     public class ScoreSheetsDetailsViewModel
     {
+        public CompetitionInfo CompetitionInfo { get; set; }
         public IJudgePanel JudgePanel { get; set; }
         public Dictionary<string, string> ScoringMap { get; set; }
-        public Schedule Schedule { get; set; }
-        public Dictionary<string, TeamRegistrationByCompetitionResults> Registrations { get; set; }
+        public Schedule Schedule { get; set; } //TODO: clientside, get from competition info
+        public Dictionary<string, TeamRegistrationByCompetitionResults> Registrations { get; set; } //TODO: clientside, get from competition info
 
-        public ScoreSheetsDetailsViewModel(CompetitionInfo competition)
+        public ScoreSheetsDetailsViewModel(CompetitionInfo competitionInfo)
         {
-            Schedule = competition.Schedule;
-            Registrations = competition
-                                .Registrations
-                                .OrderBy(x => x.CreatedAt).ToDictionary(r => r.Id, r => r);
+            CompetitionInfo = competitionInfo;
 
-            //ScoringMap = new ScoringMap().All;
-            //JudgePanel = new FiveJudgePanel();
+            Schedule = competitionInfo.Schedule;
+            Registrations = competitionInfo
+                                .Registrations
+                                .OrderBy(x => x.CreatedAt)
+                                .ToDictionary(r => r.Id, r => r);
+
+            ScoringMap = new ScoreSheetMap().All;
+            JudgePanel = new FiveJudgePanel(new List<JudgeScoreIndex.Result>());
         }
     }
 }

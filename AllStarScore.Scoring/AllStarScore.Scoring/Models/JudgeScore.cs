@@ -1,5 +1,6 @@
 using System;
 using System.Collections.ObjectModel;
+using System.Globalization;
 using System.Linq;
 using System.Collections.Generic;
 using AllStarScore.Scoring.Infrastructure.Indexes;
@@ -57,19 +58,66 @@ namespace AllStarScore.Scoring.Models
         }
     }
 
+    public interface IJudge
+    {
+        string Id { get; }
+        string Responsibility { get; }
+    }
+
+    public class PanelJudge : IJudge
+    {
+        public string Responsibility { get { return "judges-panel"; } }
+        public string Id { get; private set; }
+
+        public PanelJudge(int id)
+        {
+            Id = id.ToString(CultureInfo.InvariantCulture);
+        }
+    }
+
+    public class DeductionsJudge : IJudge
+    {
+        public string Responsibility { get { return "judges-deductions"; } }
+        public string Id { get { return "D"; } }
+    }
+
+    public class LegalitiesJudge : IJudge
+    {
+        public string Responsibility { get { return "judges-legalities"; } }
+        public string Id { get { return "L"; } }
+    }
+
     public interface IJudgePanel
     {
-        IEnumerable<string> Judges { get; }
-        IEnumerable<string> PanelJudges { get; }
+        IEnumerable<IJudge> Judges { get; }
+        IEnumerable<IJudge> PanelJudges { get; }
         ITeamScoreCalculator Calculator { get; }
     }
 
     public class FiveJudgePanel : IJudgePanel
     {
-        public static readonly string[] JudgeIds = new[] {"1", "2", "3", "D", "L"};
+        public static readonly IJudge PanelJudge1 = new PanelJudge(1);
+        public static readonly IJudge PanelJudge2 = new PanelJudge(2);
+        public static readonly IJudge PanelJudge3 = new PanelJudge(3);
+        public static readonly IJudge DeductionsJudge = new DeductionsJudge();
+        public static readonly IJudge LegalitiesJudge = new LegalitiesJudge();
 
-        public IEnumerable<string> Judges { get { return JudgeIds.ToList(); } }
-        public IEnumerable<string> PanelJudges { get { return JudgeIds.Take(3).ToList(); } }
+        private static IEnumerable<IJudge> AllJudges
+        {
+            get
+            {
+                yield return PanelJudge1;
+                yield return PanelJudge2;
+                yield return PanelJudge3;
+                yield return DeductionsJudge;
+                yield return LegalitiesJudge;
+            }
+        }
+
+        public static readonly string[] JudgeIds = AllJudges.Select(x => x.Id).ToArray();
+
+        public IEnumerable<IJudge> Judges { get { return AllJudges; } }
+        public IEnumerable<IJudge> PanelJudges { get { return Judges.Take(3).ToList(); } }
 
         public ITeamScoreCalculator Calculator { get; set; }
 
@@ -111,6 +159,32 @@ namespace AllStarScore.Scoring.Models
                                         .Sum(x => x.GrandTotalServer)
                                         .RoundUp(3);
         }    
+    }
+
+    public class ScoreSheetMap
+    {
+        public Dictionary<string, string> All
+        {
+            get
+            {
+                return new Dictionary<string, string>()
+                       {
+                           {"levels-level1", "levels-level1-template"},
+                           {"levels-level2", "levels-level2-template"},
+                           {"levels-level3", "levels-level3-template"},
+                           {"levels-level4", "levels-level4-template"},
+                           {"division-42", "division-42-template"},
+                           {"levels-level5", "levels-level5-template"},
+                           {"levels-recreation", "levels-level5-template"},
+                           {"levels-worlds", "levels-level5-template"},
+                           {"levels-level6", "levels-level6-template"},
+                           {"levels-school", "levels-school-template"},
+                           {"division-jazz", "division-jazz-template"},
+                           {"judges-deductions", "judges-deductions-template"},
+                           {"judges-legalities", "judges-legalities-template"}
+                       };
+            }
+        }
     }
 
     public class ScoringMap

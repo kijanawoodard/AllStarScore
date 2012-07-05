@@ -1,15 +1,16 @@
-﻿#scoresheets_details .controls { overflow: hidden;}
-#scoresheets_details .controls ul { list-style-type: none;padding: 0;margin-right: 1em;}
-#scoresheets_details .controls ul li, #scoresheets_details .controls ul li label { display: inline;}
+﻿#scoresheets_index .controls { overflow: hidden;}
+#scoresheets_index .controls ul { list-style-type: none;padding: 0;margin-right: 1em;}
+#scoresheets_index .controls ul li, 
+#scoresheets_index .controls ul li label { display: inline;}
 
-#scoresheets_details .entry .header { margin-bottom: 5px;overflow: hidden;}
-#scoresheets_details .entry .header .company { font-size: 2em;float: left;}
-#scoresheets_details .entry .header .description { font-size: 2em;text-align: right;overflow: hidden;}
-#scoresheets_details .entry .header .name,
-#scoresheets_details .entry .header .when { font-size: 1.4em;float: left;}
-#scoresheets_details .entry .header .division,
-#scoresheets_details .entry .header .judge { font-size: 1.4em;text-align: right;overflow: hidden;padding-right: 2px;}
-#scoresheets_details .entry .header .judge span { background-color: #000;color: #fff;padding: 2px;font-weight: bold; }
+#scoresheets_index .entry .header { margin-bottom: 5px;overflow: hidden;}
+#scoresheets_index .entry .header .company { font-size: 2em;float: left;}
+#scoresheets_index .entry .header .description { font-size: 2em;text-align: right;overflow: hidden;}
+#scoresheets_index .entry .header .name,
+#scoresheets_index .entry .header .when { font-size: 1.4em;float: left;}
+#scoresheets_index .entry .header .division,
+#scoresheets_index .entry .header .judge { font-size: 1.4em;text-align: right;overflow: hidden;padding-right: 2px;}
+#scoresheets_index .entry .header .judge > span { background-color: #000;color: #fff;padding: 2px;font-weight: bold; }
 
 table.scoresheet { border: 3px solid #000; }
 table.scoresheet th, table.scoresheet td.void { background-color: #dcdcdc; }
@@ -96,11 +97,11 @@ fieldset.legalities             input {width:100px;margin: 0;padding: 0;}
 	
 @media print 
 {
-	#scoresheets_details .entry {page-break-after: always}
-	#scoresheets_details :nth-last-child(2) { page-break-after: avoid !important;}
+	#scoresheets_index .entry {page-break-after: always}
+	#scoresheets_index :nth-last-child(2) { page-break-after: avoid !important;}
 	
 	.legalities {border:solid 1px #fff;}
 	.legalities li.noBorder{border-left:solid 1px #fff;border-bottom:solid 1px #fff;}	
-	#scoresheets_details .controls { display: none;}
+	#scoresheets_index .controls { display: none;}
 }
 @page {sizex: landscape; margin:0mm;}

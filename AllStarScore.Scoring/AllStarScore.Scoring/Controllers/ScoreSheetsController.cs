@@ -6,7 +6,7 @@ namespace AllStarScore.Scoring.Controllers
 {
     public class ScoreSheetsController : RavenController
     {
-        public ActionResult Details(string id)
+        public ActionResult Index(string id)
         {
             var import =
                 RavenSession

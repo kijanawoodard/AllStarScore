@@ -264,6 +264,7 @@
     <Content Include="Content\scripts\reporting.averages.js" />
     <Content Include="Content\scripts\reporting.singleperformance.js" />
     <Content Include="Content\scripts\reporting.twoperformance.js" />
+    <Content Include="Content\scripts\scoresheets.index.js" />
     <Content Include="Content\scripts\scoring.fivejudgepanel.js" />
     <Content Include="Content\scripts\scoring.scoreentry.js" />
     <Content Include="Content\styles\competitionlayout.index.css" />
@@ -274,6 +275,7 @@
     <Content Include="Content\styles\reporting.averages.css" />
     <Content Include="Content\styles\reporting.singleperformance.css" />
     <Content Include="Content\styles\reporting.twoperformance.css" />
+    <Content Include="Content\styles\scoresheets.index.css" />
     <Content Include="Content\styles\scoring.fivejudgepanel.css" />
     <Content Include="Content\styles\scoring.scoreentry.css" />
     <Content Include="Content\styles\site.css" />
@@ -381,7 +383,9 @@
     <Content Include="Views\Reporting\Averages.cshtml" />
   </ItemGroup>
   <ItemGroup>
-    <Content Include="Views\ScoreSheets\Details.cshtml" />
+    <Content Include="Views\ScoreSheets\Index.cshtml">
+      <SubType>Code</SubType>
+    </Content>
   </ItemGroup>
   <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
   <Import Project="$(MSBuildExtensionsPath32)\Microsoft\VisualStudio\v10.0\WebApplications\Microsoft.WebApplication.targets" />
