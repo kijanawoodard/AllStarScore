@@ -4,7 +4,8 @@
         <meta charset="utf-8" />
         <title>@ViewBag.Title - AllStar Scoring</title>
         <link href="~/favicon.ico" rel="shortcut icon" type="image/x-icon" />
-        <link rel="stylesheet" href="//ajax.googleapis.com/ajax/libs/jqueryui/1.8.19/themes/base/jquery-ui.css" media="all" />
+@*        <link rel="stylesheet" href="//ajax.googleapis.com/ajax/libs/jqueryui/1.8.21/themes/base/jquery-ui.css" media="all" />*@
+        @{ Html.RegisterStylesheet("~/content/themes/base/jquery-ui.css", "global"); }
         @{ Html.RegisterStylesheet("~/content/styles/normalize.css", "global"); }
         @{ Html.RegisterStylesheet("~/content/styles/jquery-ui-timepicker-addon.css", "global"); }
 @*        @{ Html.RegisterStylesheet("~/content/styles/tablesorter.themes/blue/style.css", "global"); }*@
@@ -53,8 +54,10 @@
         </footer>
 @*        @Raven.Client.MvcIntegration.RavenProfiler.CurrentRequestSessions()*@
 
-        <script src="//ajax.googleapis.com/ajax/libs/jquery/1.7.2/jquery.min.js"></script>
-        <script src="//ajax.googleapis.com/ajax/libs/jqueryui/1.8.19/jquery-ui.min.js"></script>
+@*        <script src="//ajax.googleapis.com/ajax/libs/jquery/1.7.2/jquery.min.js"></script>*@
+@*        <script src="//ajax.googleapis.com/ajax/libs/jqueryui/1.8.21/jquery-ui.min.js"></script>*@
+        @{ Html.RegisterScript("~/content/scripts/lib/jquery-1.7.2.min.js", "global"); }
+        @{ Html.RegisterScript("~/content/scripts/lib/jquery-ui-1.8.20.min.js", "global"); }
         
         @{ Html.RegisterScript("~/content/scripts/lib/jquery.validate.min.js", "global"); }
         @{ Html.RegisterScript("~/content/scripts/lib/knockout-2.1.0.js", "global"); }
