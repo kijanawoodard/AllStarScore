@@ -33,8 +33,8 @@ var ScoreEntryViewModel = function (data) {
 
     self.getScorePanelCookieName = function () {
         var judge = getJudgeKey(self.score.judgeId());
-        var division = getJudgeKey(self.performance.divisionId());
-        var level = self.performance.levelId();
+        var division = getJudgeKey(self.performance.divisionId);
+        var level = self.performance.levelId;
         var result = viewModel.scoringMap.templates[judge] ? judge :
                      viewModel.scoringMap.templates[division] ? division :
                      level;
@@ -43,8 +43,8 @@ var ScoreEntryViewModel = function (data) {
 
     self.getTemplate = function () {
         var judge = getJudgeKey(self.score.judgeId());
-        var division = getJudgeKey(self.performance.divisionId());
-        var level = self.performance.levelId();
+        var division = getJudgeKey(self.performance.divisionId);
+        var level = self.performance.levelId;
         var map = viewModel.scoringMap.templates[judge] || viewModel.scoringMap.templates[division] || viewModel.scoringMap.templates[level];
         return map;
     };
@@ -52,8 +52,8 @@ var ScoreEntryViewModel = function (data) {
     //take parms to prepare for multiple renderings
     self.getScoring = function (performance, score) {
         var judge = getJudgeKey(score.judgeId());
-        var division = performance.divisionId();
-        var level = performance.levelId();
+        var division = performance.divisionId;
+        var level = performance.levelId;
         var map = viewModel.scoringMap.categories[judge] || viewModel.scoringMap.categories[division] || viewModel.scoringMap.categories[level];
 
         //an array version for knockout foreach
@@ -183,8 +183,10 @@ var ScoreEntryViewModel = function (data) {
 };
 
 var PerformanceModel = function (data) {
-    data.performanceTime = new Date(data.performanceTime);
-    ko.mapping.fromJS(data, mapping, this);
+    var self = this;
+    $.extend(self, data);
+
+    self.performanceTime = new Date(self.performanceTime);
 };
 
 var formatNumber = function (num) {
