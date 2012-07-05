@@ -1,5 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Linq;
+using System.Text;
 using AllStarScore.Extensions;
 using AllStarScore.Models.Commands;
 
@@ -12,10 +14,12 @@ namespace AllStarScore.Models
         public string Description { get; set; }
 
         public DateTime FirstDay { get; set; }
-        public DateTime LastDay { get; set; }
-
         public int NumberOfDays { get; set; }
+        
+        public DateTime LastDay { get { return FirstDay.AddDays(NumberOfDays - 1); } }
+
         public int NumberOfPanels { get; set; }
+        public List<string> Panels {get{ return Enumerable.Range(0, NumberOfPanels).Select(x => char.ConvertFromUtf32(65 + x)).ToList();}} 
 
         public bool IsWorldsCompetition { get; set; }
 
@@ -29,12 +33,17 @@ namespace AllStarScore.Models
             get { return string.Format("{0} {1: MMM dd, yyyy}", Name, FirstDay); }
         }
 
+        public Competition()
+        {
+            NumberOfDays = 1;
+            NumberOfPanels = 1;
+        }
+
         public void Update(CompetitionCreateCommand command)
         {
             Name = command.CompetitionName;
             Description = command.Description ?? string.Empty;
             FirstDay = command.FirstDay;
-            LastDay = command.LastDay;
         }
 
 

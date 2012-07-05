@@ -85,6 +85,42 @@ this.ScenarioSetup(scenarioInfo);
 #line hidden
             this.ScenarioCleanup();
         }
+        
+        [NUnit.Framework.TestAttribute()]
+        [NUnit.Framework.DescriptionAttribute("Set the number of panles")]
+        public virtual void SetTheNumberOfPanles()
+        {
+            TechTalk.SpecFlow.ScenarioInfo scenarioInfo = new TechTalk.SpecFlow.ScenarioInfo("Set the number of panles", ((string[])(null)));
+#line 13
+this.ScenarioSetup(scenarioInfo);
+#line 14
+ testRunner.Given("A Competition");
+#line 15
+ testRunner.When("I set the Number of Panels to 2");
+#line 16
+ testRunner.Then("there should be 2 panels");
+#line 17
+  testRunner.And("the panels should be A, B");
+#line hidden
+            this.ScenarioCleanup();
+        }
+        
+        [NUnit.Framework.TestAttribute()]
+        [NUnit.Framework.DescriptionAttribute("Competition Defaults")]
+        public virtual void CompetitionDefaults()
+        {
+            TechTalk.SpecFlow.ScenarioInfo scenarioInfo = new TechTalk.SpecFlow.ScenarioInfo("Competition Defaults", ((string[])(null)));
+#line 19
+this.ScenarioSetup(scenarioInfo);
+#line 20
+ testRunner.Given("A Competition");
+#line 21
+ testRunner.Then("the Number of Days should be 1");
+#line 22
+  testRunner.And("the Number of Panels should be 1");
+#line hidden
+            this.ScenarioCleanup();
+        }
     }
 }
 #pragma warning restore
