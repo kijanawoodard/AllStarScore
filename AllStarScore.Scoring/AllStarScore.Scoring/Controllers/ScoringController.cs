@@ -30,7 +30,7 @@ namespace AllStarScore.Scoring.Controllers
                     .Load<Performance>(performanceId);
             
             var panel = new FiveJudgePanel(scores);
-            var model = new ScoringFiveJudgePanelViewModel(performance, panel, new ScoringMap());
+            var model = new ScoringFiveJudgePanelViewModel(performance, panel);
 
             return View("FiveJudgePanelSummary", model);
         }

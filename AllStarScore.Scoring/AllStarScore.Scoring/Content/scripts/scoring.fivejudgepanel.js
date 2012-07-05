@@ -27,15 +27,15 @@ var FiveJudgePanelViewModel = function (data) {
     self.getTemplate = function () {
         var division = self.performance.divisionId();
         var level = self.performance.levelId();
-        var map = self.scoringMap.templates[division] || self.scoringMap.templates[level];
-        return map();
+        var map = viewModel.scoringMap.templates[division] || viewModel.scoringMap.templates[level];
+        return map;
     };
 
     self.getScoring = function (performance, panel) {
         var judges = panel.calculator.scores;
         var division = performance.divisionId();
         var level = performance.levelId();
-        var map = self.scoringMap.categories[division] || self.scoringMap.categories[level];
+        var map = viewModel.scoringMap.categories[division] || viewModel.scoringMap.categories[level];
 
         var categories = $.map(map, function (category, key) {
             var scores = {};
