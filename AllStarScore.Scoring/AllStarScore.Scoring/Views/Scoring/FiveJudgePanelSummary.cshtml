@@ -8,7 +8,7 @@
 @{ Html.RegisterStylesheet("~/content/styles/scoring.fivejudgepanel.css"); }
 @{ Html.RegisterScript("~/content/scripts/scoring.fivejudgepanel.js"); }
 
-<div id="scoring_fivejudgepanel" data-bind="with: $root.scoring.viewModel">
+<div id="scoring_fivejudgepanel" data-bind="with: $root.scoring">
     <div data-bind="with: performance" class="header">
         <div class="name">
             <span data-bind="text: gymName"></span>
@@ -89,7 +89,7 @@
     <nav data-bind="with: performance, visible: performance.scoringIsNotComplete() && performance.didCompete()">
         <ul data-bind="foreach: $parent.panel.judges">
             <li>
-                <a data-bind="attr: { href: $root.scoring.viewModel.scoreEntryUrl().replace('REPLACE_THIS', $data.id()) }">
+                <a data-bind="attr: { href: $root.scoring.scoreEntryUrl.replace('REPLACE_THIS', $data.id) }">
                     <span data-bind="text: $parent.panel"></span><span data-bind="text: $data.id"></span>
                 </a>
             </li>

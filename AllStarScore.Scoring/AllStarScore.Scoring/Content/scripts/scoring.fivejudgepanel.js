@@ -1,19 +1,6 @@
 ﻿$(document).ready(function () {
-    viewModel.scoring = ko.mapping.fromJS({viewModel: window.scoringFiveJudgePanelData}, mapping);
+    viewModel.scoring = new FiveJudgePanelViewModel(window.scoringFiveJudgePanelData); 
 });
-
-var mapping = {
-    'viewModel': {
-        create: function (options) {
-            return new FiveJudgePanelViewModel(options.data);
-        }
-    },
-    'performance': {
-        create: function (options) {
-            return new PerformanceModel(options.data);
-        }
-    }
-};
 
 var FiveJudgePanelViewModel = function (data) {
     var self = this;
@@ -22,19 +9,22 @@ var FiveJudgePanelViewModel = function (data) {
         return judge.judgeId;
     });
 
-    ko.mapping.fromJS(data, mapping, self);
+    $.extend(self, data);
+   
+    self.performance = new PerformanceModel(self.performance);
+    self.panel.calculator = ko.mapping.fromJS(self.panel.calculator);
 
     self.getTemplate = function () {
-        var division = self.performance.divisionId();
-        var level = self.performance.levelId();
+        var division = self.performance.divisionId;
+        var level = self.performance.levelId;
         var map = viewModel.scoringMap.templates[division] || viewModel.scoringMap.templates[level];
         return map;
     };
 
     self.getScoring = function (performance, panel) {
         var judges = panel.calculator.scores;
-        var division = performance.divisionId();
-        var level = performance.levelId();
+        var division = performance.divisionId;
+        var level = performance.levelId;
         var map = viewModel.scoringMap.categories[division] || viewModel.scoringMap.categories[level];
 
         var categories = $.map(map, function (category, key) {
@@ -52,7 +42,7 @@ var FiveJudgePanelViewModel = function (data) {
             grandTotal[judge.judgeId()] = judge.grandTotalServer().toFixed(1);
         });
 
-        return { performance: performance, grandTotal: grandTotal, categories: categories, panelJudges: panel.panelJudges() };
+        return { performance: performance, grandTotal: grandTotal, categories: categories, panelJudges: panel.panelJudges };
     };
 
     self.markTeamDidNotCompete = function () {
@@ -118,15 +108,15 @@ var FiveJudgePanelViewModel = function (data) {
 
 var PerformanceModel = function (data) {
     var self = this;
+    $.extend(self, data);
 
-    data.performanceTime = new Date(data.performanceTime);
-    ko.mapping.fromJS(data, mapping, self);
+    self.performanceTime = new Date(data.performanceTime);
 
     self.didCompete = ko.computed(function () {
-        return !self.didNotCompete();
+        return !self.didNotCompete;
     }, self);
 
     self.scoringIsNotComplete = ko.computed(function () {
-        return !self.scoringComplete();
+        return !self.scoringComplete;
     }, self);
 };
