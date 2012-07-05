@@ -20,11 +20,8 @@ namespace AllStarScore.Models
 
         public DateTime CreatedAt { get; set; }
         
-        public ICollection<ICommand> History { get; private set; }
-
         public TeamRegistration()
         {
-            History = new Collection<ICommand>();
             CreatedAt = DateTime.UtcNow;
         }
 
@@ -37,8 +34,6 @@ namespace AllStarScore.Models
             ParticipantCount = command.ParticipantCount;
             DivisionId = command.DivisionId;
             IsShowTeam = command.IsShowTeam;
-
-            History.Add(command);
         }
 
         public void Update(RegistrationEditCommand command)
@@ -47,8 +42,6 @@ namespace AllStarScore.Models
             ParticipantCount = command.ParticipantCount;
             DivisionId = command.DivisionId;
             IsShowTeam = command.IsShowTeam;
-
-            History.Add(command);
         }
 
         public override bool Equals(object obj)

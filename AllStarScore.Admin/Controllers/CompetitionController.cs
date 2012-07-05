@@ -52,22 +52,19 @@ namespace AllStarScore.Admin.Controllers
 
         public ActionResult Details(string id)
         {
-            var bye =
-                RavenSession
-                    .Query<TeamRegistration>()
-                    .Take(int.MaxValue)
-                    .ToList();
-
-            var competition = RavenSession.Advanced.Lazily.Load<Competition>(id);
-
             var stats =
                 RavenSession
                     .Query<TeamRegistration, TeamRegistrationStatsByGym>()
+                    .Customize(x => x.Include<TeamRegistrationStatsByGym.Results>(y => y.CompetitionId))
                     .Where(x => x.CompetitionId == id)
                     .As<TeamRegistrationStatsByGym.Results>()
                     .ToList();
 
-            var model = new CompetitionDetailsViewModel(competition.Value, stats);
+            var competition = 
+                RavenSession
+                    .Load<Competition>(id);
+
+            var model = new CompetitionDetailsViewModel(competition, stats);
             return View(model);
         }
 
