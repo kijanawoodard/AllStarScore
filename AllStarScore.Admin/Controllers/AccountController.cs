@@ -66,7 +66,7 @@ namespace AllStarScore.Admin.Controllers
                     }
                     else
                     {
-                        return RedirectToAction("Index", "Home");
+                        return RedirectToAction("Index", "Competition");
                     }
                 }
                 else
@@ -86,7 +86,7 @@ namespace AllStarScore.Admin.Controllers
         {
             FormsAuthentication.SignOut();
 
-            return RedirectToAction("Index", "Home");
+            return RedirectToAction("Index", "Competition");
         }
 
         //
