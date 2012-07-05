@@ -10,8 +10,14 @@ namespace AllStarScore.Models
         public string Id { get; set; }
         public string Name { get; set; }
         public string Description { get; set; }
+
         public DateTime FirstDay { get; set; }
         public DateTime LastDay { get; set; }
+
+        public int NumberOfDays { get; set; }
+        public int NumberOfPanels { get; set; }
+
+        public bool IsWorldsCompetition { get; set; }
 
         public IEnumerable<DateTime> Days
         {
@@ -31,12 +37,22 @@ namespace AllStarScore.Models
             LastDay = command.LastDay;
         }
 
+
+
+
+        public bool Equals(Competition other)
+        {
+            if (ReferenceEquals(null, other)) return false;
+            if (ReferenceEquals(this, other)) return true;
+            return Equals(other.Id, Id);
+        }
+
         public override bool Equals(object obj)
         {
-            var target = obj as Competition;
-            if (target == null) return false;
-                
-           return Id.Equals(target.Id);
+            if (ReferenceEquals(null, obj)) return false;
+            if (ReferenceEquals(this, obj)) return true;
+            if (obj.GetType() != typeof (Competition)) return false;
+            return Equals((Competition) obj);
         }
 
         public override int GetHashCode()
@@ -46,7 +62,7 @@ namespace AllStarScore.Models
 
         public override string ToString()
         {
-            return Name;
+            return string.Format("Name: {0}, Id: {1}, FirstDay: {2}", Name, Id, FirstDay);
         }
     }
 }

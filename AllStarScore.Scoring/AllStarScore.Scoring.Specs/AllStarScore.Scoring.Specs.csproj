@@ -59,6 +59,12 @@
       <DependentUpon>AverageScoreReporting.feature</DependentUpon>
     </Compile>
     <Compile Include="AveragingSteps.cs" />
+    <Compile Include="Competition.feature.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>Competition.feature</DependentUpon>
+    </Compile>
+    <Compile Include="CompetitionSteps.cs" />
     <Compile Include="NaturalGymRanking.feature.cs">
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>
@@ -84,6 +90,10 @@
     <None Include="AverageScoreReporting.feature">
       <Generator>SpecFlowSingleFileGenerator</Generator>
       <LastGenOutput>AverageScoreReporting.feature.cs</LastGenOutput>
+    </None>
+    <None Include="Competition.feature">
+      <Generator>SpecFlowSingleFileGenerator</Generator>
+      <LastGenOutput>Competition.feature.cs</LastGenOutput>
     </None>
     <None Include="NaturalGymRanking.feature">
       <Generator>SpecFlowSingleFileGenerator</Generator>
