@@ -1,6 +1,7 @@
 ﻿$(document).ready(function () {
 
     var mapping = {
+        'copy': ["scoringMap"],
         'info': {
             create: function (options) {
                 return new competitionLayoutIndexViewModel(options.data);
@@ -33,14 +34,15 @@
 
     var competitionLayoutIndexViewModel = function (data) {
         var self = this;
+        $.extend(self, data);
 
-        data.divisions = utilities.asObject(data.divisions);
-        data.levels = utilities.asObject(data.levels);
-
-        ko.mapping.fromJS(data, mapping, self);
+        self.divisions = utilities.asObject(data.divisions);
+        self.levels = utilities.asObject(data.levels);
+        self.registrations = utilities.asObject(data.registrations);
+        self.performances = utilities.asObject(data.performances);
     };
 
-    window.viewModel.lookup = ko.mapping.fromJS(window.competitionLayoutIndexData, mapping);
-    window.viewModel.utilities = utilities;
+    var info = ko.mapping.fromJS(window.competitionLayoutIndexData, mapping);
+    _.extend(window.viewModel, info, { utilities: utilities });
 });
 

@@ -24,7 +24,6 @@ var mapping = {
 
 var ScheduleModel = function (data) {
     var self = this;
-
     $.extend(self, data);
 
     self.days = _.map(self.days, function (day) {

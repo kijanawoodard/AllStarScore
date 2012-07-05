@@ -3,12 +3,12 @@
 @{ Html.RegisterStylesheet("~/content/styles/competitionlayout.index.css"); }
 @{ Html.RegisterScript("~/content/scripts/competitionlayout.index.js"); }
 
-<div id="competitionlayout_index" data-bind="with: lookup.info">
+<div id="competitionlayout_index" data-bind="with: info">
     <div  class="header">
         <div data-bind="text: companyName" class="company"></div>
         <div class="description">
             <span data-bind="text: competitionName"></span>
-            <span data-bind="dateString: new Date(days()[0]), datePattern: 'MMM dd, yyyy'"></span>
+            <span data-bind="dateString: new Date(days[0]), datePattern: 'MMM dd, yyyy'"></span>
         </div>
     </div>
 </div>
