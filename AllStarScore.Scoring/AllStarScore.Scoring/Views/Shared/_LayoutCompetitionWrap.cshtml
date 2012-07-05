@@ -1,0 +1,38 @@
+﻿@model dynamic
+
+@using System.Web.UI.WebControls
+@{
+    Layout = "_Layout.cshtml";
+}
+
+@{ Html.RegisterStylesheet("~/content/styles/competitionlayout.wrap.css"); }
+
+<script>
+    var viewModel = {};
+</script>
+
+<div class="competition_header">
+    <h2>@ViewBag.Title</h2>
+
+    <nav>
+        <ul id="menu">
+            <li>@Html.ActionLink("Performances", "Index", "Performance", new { id = @Model.CompetitionId }, new { })</li>
+            <li>@Html.ActionLink("Score Sheets", "Index", "ScoreSheets", new { id = @Model.CompetitionId }, new { })</li>
+            <li>@Html.ActionLink("Reports", "Index", "Reporting", new { id = @Model.CompetitionId }, new { })</li>
+        </ul>
+    </nav>
+</div>
+
+@RenderBody()
+
+@*https://github.com/janjongboom/Moth/issues/19#issuecomment-6504322*@
+@using(Html.BeginScript(ScriptPositionEnum.EndOfPage)) { 
+    <text>
+    $(document).ready(function () { 
+        ko.applyBindings(window.viewModel);
+    });
+    </text>
+}
+
+
+<pre data-bind="text: ko.toJSON($root, null, 2)" class="ko_output"></pre>

@@ -8,7 +8,8 @@ namespace AllStarScore.Scoring.ViewModels
 {
     public class ScoreSheetsDetailsViewModel
     {
-        public CompetitionInfo CompetitionInfo { get; set; }
+        public string CompetitionId { get; set; }
+        public CompetitionInfo Info { get; set; }
         public IJudgePanel JudgePanel { get; set; }
         public Dictionary<string, string> ScoringMap { get; set; }
         public Schedule Schedule { get; set; } //TODO: clientside, get from competition info
@@ -16,7 +17,8 @@ namespace AllStarScore.Scoring.ViewModels
 
         public ScoreSheetsDetailsViewModel(CompetitionInfo competitionInfo)
         {
-            CompetitionInfo = competitionInfo;
+            CompetitionId = competitionInfo.Id;
+            Info = competitionInfo;
 
             Schedule = competitionInfo.Schedule;
             Registrations = competitionInfo

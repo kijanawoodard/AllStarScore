@@ -1,15 +1,10 @@
-﻿var viewModel;
-
-$(document).ready(function () {
-    viewModel = ko.mapping.fromJS(window.detailsScoreSheetsData, mapping);
-    ko.applyBindings(viewModel, document.getElementById('scoresheets_index'));
-    viewModel.schedule.loadVisibilityMatrix();
-
-    console.log(viewModel);
+﻿$(document).ready(function () {
+    viewModel.scoresheets = ko.mapping.fromJS(window.detailsScoreSheetsData, mapping);
+    viewModel.scoresheets.schedule.loadVisibilityMatrix();
 });
 
 var mapping = {
-    'copy': ["competitionInfo", "registrations", "judgePanel", "scoringMap"],
+    'copy': ["info", "registrations", "judgePanel", "scoringMap"],
     'schedule': {
         create: function (options) {
             return new ScheduleModel(options.data);
@@ -50,7 +45,7 @@ var ScheduleModel = function (data) {
         //created this function to have access to viewModel after mapping
         _.each(self.panels(), function (panel) {
             self.visibilityMatrix.push(panel);
-            _.each(window.viewModel.judgePanel.judges, function (judge) {
+            _.each(window.viewModel.scoresheets.judgePanel.judges, function (judge) {
                 self.visibilityMatrix.push(panel + judge.id);
             });
         });
@@ -106,8 +101,9 @@ var getRegistrationId = function (id) {
 
 var EntryModel = function (data) {
     var self = this;
-    $.extend(self, data); //http://stackoverflow.com/questions/7488208/am-i-over-using-the-knockout-mapping-plugin-by-always-using-it-to-do-my-viewmode
     
+    $.extend(self, data); //http://stackoverflow.com/questions/7488208/am-i-over-using-the-knockout-mapping-plugin-by-always-using-it-to-do-my-viewmode
+
     self.time = new Date(data.time);
 
     self.registration = ko.computed(function () {
@@ -115,7 +111,7 @@ var EntryModel = function (data) {
             return undefined;
 
         var id = getRegistrationId(this.registrationId);
-        return viewModel.registrations[id];
+        return window.viewModel.scoresheets.registrations[id];
     }, self);
 
     self.isMyPanel = function (panel) {
@@ -125,7 +121,9 @@ var EntryModel = function (data) {
     self.getTemplate = function (judge) {
         var division = self.registration().divisionId;
         var level = self.registration().levelId;
-        var map = viewModel.scoringMap[judge.responsibility] || viewModel.scoringMap[division] || viewModel.scoringMap[level];
+        var map = window.viewModel.scoresheets.scoringMap[judge.responsibility]
+                        || window.viewModel.scoresheets.scoringMap[division] 
+                        || window.viewModel.scoresheets.scoringMap[level];
         return map;
     };
 };
