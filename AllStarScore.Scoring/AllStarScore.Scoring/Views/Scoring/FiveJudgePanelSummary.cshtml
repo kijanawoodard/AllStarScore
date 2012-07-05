@@ -89,8 +89,8 @@
     <nav data-bind="with: performance, visible: performance.scoringIsNotComplete() && performance.didCompete()">
         <ul data-bind="foreach: $parent.panel.judges">
             <li>
-                <a data-bind="attr: { href: $root.scoring.viewModel.scoreEntryUrl().replace('REPLACE_THIS', $data) }">
-                    <span data-bind="text: $parent.panel"></span><span data-bind="text: $data"></span>
+                <a data-bind="attr: { href: $root.scoring.viewModel.scoreEntryUrl().replace('REPLACE_THIS', $data.id()) }">
+                    <span data-bind="text: $parent.panel"></span><span data-bind="text: $data.id"></span>
                 </a>
             </li>
         </ul>
@@ -110,7 +110,7 @@
             <tr data-bind="with: performance.panel">
                 <th>Skills</th>
                 <!-- ko foreach:  $parent.panelJudges -->
-                <th><span data-bind="text: $parent"></span><span data-bind="text: $data"></span></th>
+                <th><span data-bind="text: $parent"></span><span data-bind="text: $data.id"></span></th>
                 <!-- /ko -->
             </tr>
         </thead>
@@ -119,14 +119,14 @@
             <tr>
                 <td data-bind="text: display"></td>
                 <!-- ko foreach:  $parent.panelJudges -->
-                <td data-bind="text: $parent.scores[$data]"></td>
+                <td data-bind="text: $parent.scores[$data.id]"></td>
                 <!-- /ko -->
             </tr>
             <!-- /ko -->
             <tr>
                 <th>Total</th>
                 <!-- ko foreach:  panelJudges -->
-                <th data-bind="text: $parent.grandTotal[$data]"></th>
+                <th data-bind="text: $parent.grandTotal[$data.id]"></th>
                 <!-- /ko -->
             </tr>
         </tbody>

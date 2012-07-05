@@ -42,7 +42,7 @@ var ScheduleModel = function (data) {
     self.levels = ko.observableArray();
 
     self.loadVisibilityMatrix = function () {
-        //created this function to have access to viewModel after mapping
+        //created this function to have access to viewModel after mapping; TODO: see if this is still needed after adding copy args to mapping
         _.each(self.panels(), function (panel) {
             self.visibilityMatrix.push(panel);
             _.each(window.viewModel.scoresheets.judgePanel.judges, function (judge) {
