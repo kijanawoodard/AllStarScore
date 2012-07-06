@@ -7,16 +7,14 @@
 @{ Html.RegisterStylesheet("~/content/styles/competition.details.css"); }
 @{ Html.RegisterScript("~/content/scripts/competition.details.js"); }
 
-<h2>Details for @Model.Competition.Name</h2>
-<h3>@Html.DisplayFor(model => model.Competition.FirstDay, "Day")</h3>
+<h2>@Model.Competition.Display</h2>
+@Html.ActionLink("Schedule", "Edit", "Scheduling", new { id = Model.Competition.Id}, new { })
+@Html.ActionLink("Sync", "Index", "Sync", new { id = Model.Competition.Id}, new { })
 
 <div class="summary">
     @Model.Stats.Count Gyms
     @Model.Stats.Sum(x => x.TeamCount) Teams
     @Model.Stats.Sum(x => x.ParticipantCount) Participants
-    @Html.ActionLink("Schedule", "Edit", "Scheduling", new { id = Model.Competition.Id}, new { })
-    @Html.ActionLink("Sync", "Index", "Sync", new { id = Model.Competition.Id}, new { })
-
 </div>
 <br/><br/>
 <div class="register">

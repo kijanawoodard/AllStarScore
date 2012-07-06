@@ -1,13 +1,15 @@
+using AllStarScore.Models;
+
 namespace AllStarScore.Admin.ViewModels
 {
     public class SyncIndexViewModel
     {
-        public string CompetitionId { get; set; }
+        public Competition Competition { get; set; }
         public string Hash { get; set; }
 
-        public SyncIndexViewModel(string competitionId)
+        public SyncIndexViewModel(Competition competition)
         {
-            CompetitionId = competitionId;
+            Competition = competition;
             Hash = "Hello";
         }
     }

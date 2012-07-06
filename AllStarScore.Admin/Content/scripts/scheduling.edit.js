@@ -77,12 +77,12 @@ var EditScheduleViewModel = (function (data) {
     };
 
     competitionDaysAreTheSame = data.schedule.days.length == data.competitionDays.length;
-    
+
     //check to see that competition days haven't changed on us
     $.each(data.schedule.days, function (index, day) {
         if (competitionDaysAreTheSame) { //once this is false, leave it false
             var comp = new Date(data.competitionDays[index]);
-            
+
             competitionDaysAreTheSame = areSameDay(new Date(day.day), comp);
         }
     });

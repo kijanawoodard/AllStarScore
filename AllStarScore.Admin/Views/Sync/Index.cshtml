@@ -4,6 +4,5 @@
     ViewBag.Title = "Synchronize with Scoring Computer";
 }
 
-<h2>Synchronize with Scoring Computer</h2>
-
-@Url.Action("Export", "Sync", new { Model.CompetitionId, Model.Hash }, "http")
+<h2>Synchronize @Html.ActionLink(Model.Competition.Display, "Details", "Competition", new {id = Model.Competition.Id}, new {}) with Scoring Computer</h2>
+@Url.Action("Export", "Sync", new { Model.Competition.Id, Model.Hash }, "http")

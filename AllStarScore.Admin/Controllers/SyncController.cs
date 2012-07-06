@@ -15,7 +15,11 @@ namespace AllStarScore.Admin.Controllers
         [HttpGet]
         public ActionResult Index(string id)
         {
-            var model = new SyncIndexViewModel(id);
+            var competition =
+                RavenSession
+                    .Load<Competition>(id);
+
+            var model = new SyncIndexViewModel(competition);
             return View(model);
         }
 
