@@ -121,6 +121,25 @@ this.ScenarioSetup(scenarioInfo);
 #line hidden
             this.ScenarioCleanup();
         }
+        
+        [NUnit.Framework.TestAttribute()]
+        [NUnit.Framework.DescriptionAttribute("Competition Created")]
+        public virtual void CompetitionCreated()
+        {
+            TechTalk.SpecFlow.ScenarioInfo scenarioInfo = new TechTalk.SpecFlow.ScenarioInfo("Competition Created", ((string[])(null)));
+#line 24
+this.ScenarioSetup(scenarioInfo);
+#line 25
+ testRunner.Given("A Competition");
+#line 26
+  testRunner.And("A Competition Create Command");
+#line 27
+ testRunner.When("The Create Command is processed by Update");
+#line 28
+ testRunner.Then("The ICanBeUpdatedByCommand Properties are Correct");
+#line hidden
+            this.ScenarioCleanup();
+        }
     }
 }
 #pragma warning restore

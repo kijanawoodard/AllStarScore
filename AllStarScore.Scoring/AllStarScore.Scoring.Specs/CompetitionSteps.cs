@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using AllStarScore.Models;
+using AllStarScore.Models.Commands;
 using NUnit.Framework;
 using TechTalk.SpecFlow;
 
@@ -12,6 +13,7 @@ namespace AllStarScore.Scoring.Specs
     public class CompetitionSteps
     {
         private Competition _competition;
+        private CompetitionCreateCommand _command;
 
         [Given(@"A Competition")]
         public void GivenACompetition()
@@ -19,6 +21,11 @@ namespace AllStarScore.Scoring.Specs
             _competition = new Competition();
         }
 
+        [Given(@"A Competition Create Command")]
+        public void GivenACompetitionCreateCommand()
+        {
+            _command = new CompetitionCreateCommand {CommandByUser = "admin", CommandWhen = DateTime.UtcNow};
+        }
 
         [Given(@"The First Day is (.*)")]
         public void GivenTheFirstDayIs(DateTime date)
@@ -75,6 +82,21 @@ namespace AllStarScore.Scoring.Specs
         {
             Assert.AreEqual(count, _competition.NumberOfPanels);
             Assert.AreEqual(count, _competition.Panels.Count);
+        }
+
+        [When(@"The Create Command is processed by Update")]
+        public void WhenTheCreateCommandIsProcessedByUpdate()
+        {
+            _competition.Update(_command);
+        }
+
+        [Then(@"The ICanBeUpdatedByCommand Properties are Correct")]
+        public void ThenTheICanBeUpdatedByCommandPropertiesAreCorrect()
+
+        {
+            Assert.AreEqual(_command.CommandByUser, _competition.LastCommandBy);
+            Assert.AreEqual(_command.CommandWhen, _competition.LastCommandDate);
+            Assert.AreEqual("CompetitionCreateCommand", _competition.LastCommand);
         }
     }
 }

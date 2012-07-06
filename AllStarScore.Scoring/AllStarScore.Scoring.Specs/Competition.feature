@@ -20,3 +20,9 @@ Scenario: Competition Defaults
 	Given A Competition
 	Then the Number of Days should be 1
 		And the Number of Panels should be 1
+
+Scenario: Competition Created
+	Given A Competition
+		And A Competition Create Command
+	When The Create Command is processed by Update
+	Then The ICanBeUpdatedByCommand Properties are Correct

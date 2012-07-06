@@ -44,6 +44,7 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="CommandRegistrar.cs" />
     <Compile Include="Commands\CompetitionCreateCommand.cs" />
     <Compile Include="Commands\GymCreateCommand.cs" />
     <Compile Include="Commands\GymEditCommand.cs" />
@@ -55,6 +56,7 @@
     <Compile Include="Competition.cs" />
     <Compile Include="Division.cs" />
     <Compile Include="Gym.cs" />
+    <Compile Include="ICanBeUpdatedByCommand.cs" />
     <Compile Include="Level.cs" />
     <Compile Include="Performance.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
