@@ -212,6 +212,7 @@
     <Compile Include="Models\SmallGymRankingCalculator.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="ViewModels\CompetitionLayoutIndexViewModel.cs" />
+    <Compile Include="ViewModels\LandingIndexViewModel.cs" />
     <Compile Include="ViewModels\PerformanceIndexViewModel.cs" />
     <Compile Include="ViewModels\ReportingIndexViewModel.cs" />
     <Compile Include="ViewModels\ScoreSheetsDetailsViewModel.cs" />

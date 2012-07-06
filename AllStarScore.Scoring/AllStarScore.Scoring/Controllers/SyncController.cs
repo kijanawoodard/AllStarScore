@@ -56,16 +56,4 @@ namespace AllStarScore.Scoring.Controllers
             }
         }
     }
-
-    public class Competition
-    {
-        public string Id { get; set; }
-        public string CompetitionId { get { return Id; } }
-
-        public string CompanyName { get; set; } //denormalized here for events run on-behalf of another company
-        public string CompetitionName { get; set; }
-        public string CompetitionDescription { get; set; }
-        public string CompetitionDisplay { get { return string.IsNullOrWhiteSpace(CompetitionDescription) ? CompetitionName : CompetitionDescription; } }
-        public List<DateTime> Days { get; set; } 
-    }
 }

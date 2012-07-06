@@ -1,18 +1,24 @@
-﻿@model dynamic
+﻿@model AllStarScore.Scoring.ViewModels.LandingIndexViewModel
 
 @{
     ViewBag.Title = "All Star Scoring";
 }
 
-<h2>Time to Score!</h2>
+<h2>Welcome to All Star Score!</h2>
 
 @using(Html.BeginForm("Import", "Sync")){
 <fieldset>
     <legend>Import</legend>
     
-    <label>Import address</label>
+    <label>Sync Url</label>
     <input type="text" value="" name="id" />
     
     <input type="submit" value="Import"/>
 </fieldset>
+}
+
+<h3>Existing Competitions</h3>
+@foreach (var info in Model.Competitions)
+{
+    @Html.ActionLink(info.Competition.Display, "Index", "Performance", new {id = info.Id}, new {})
 }
