@@ -38,7 +38,7 @@ var CreateCompetitionViewModel = (function () {
 //        self.post.lastDay($.datepicker.formatDate('mm/dd/yy', new Date()));
         self.post.numberOfDays(1);
         self.post.competitionStyle(1);
-        self.post.numberOfPanels(1);
+        self.post.numberOfPanels(2);
 
         self.post.numberOfPerformances = ko.computed(function () {
             if (self.post.competitionStyle() == 2) {
