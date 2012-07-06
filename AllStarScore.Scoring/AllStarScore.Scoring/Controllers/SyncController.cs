@@ -5,6 +5,7 @@ using System.Net;
 using System.Web;
 using System.Web.Mvc;
 using AllStarScore.Models;
+using AllStarScore.Scoring.Models;
 using Newtonsoft.Json;
 
 namespace AllStarScore.Scoring.Controllers
@@ -32,14 +33,26 @@ namespace AllStarScore.Scoring.Controllers
                     .Take(int.MaxValue) //not expecting more than 100s, but likely slighly more than 128
                     .ToList();
 
+            var scores =
+                RavenSession
+                    .Query<JudgeScore>()
+                    .Where(x => x.CompetitionId == model.CompetitionId)
+                    .Take(int.MaxValue) //TODO: page through these, could be more than 1024
+                    .ToList();
+
             foreach (var performance in performances)
             {
                 RavenSession.Delete(performance);
             }
 
+            foreach (var score in scores)
+            {
+                RavenSession.Delete(score);
+            }
+
             foreach (var performance in model.Performances)
             {
-                    RavenSession.Store(performance);
+                RavenSession.Store(performance);
             }
         }
     }

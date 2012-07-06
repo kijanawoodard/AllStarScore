@@ -205,7 +205,7 @@ var setupScorePad = function () {
     var highPadSelected = $(".scorepad table.high td").eq($.cookie(scorepad_cookie_name)) || $(".scorepad table.high td:first");
     var selectedClass = "selected";
     var lowOnly = false;
-    
+
     textboxes.focus(function () {
         scorepad.show();
 
@@ -295,10 +295,11 @@ var setupScorePad = function () {
     });
 
     $(".scorepad table.low td").click(function () {
+        
         if (!active) {
             return;
         }
-
+        
         var low = $(this).text();
         var high = highPadSelected.text();
         var value = high + low;

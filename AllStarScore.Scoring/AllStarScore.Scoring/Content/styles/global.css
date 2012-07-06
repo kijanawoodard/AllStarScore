@@ -44,3 +44,5 @@ table.tablesorter th.headerSortDown {
 }
 
 .ko_output { clear: both;}
+
+pre { display: none;}

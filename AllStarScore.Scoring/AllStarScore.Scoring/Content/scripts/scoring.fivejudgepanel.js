@@ -111,12 +111,14 @@ var PerformanceModel = function (data) {
     $.extend(self, data);
 
     self.performanceTime = new Date(data.performanceTime);
+    self.scoringComplete = ko.observable(self.scoringComplete);
+    self.didNotCompete = ko.observable(self.didNotCompete);
 
     self.didCompete = ko.computed(function () {
-        return !self.didNotCompete;
+        return !self.didNotCompete();
     }, self);
 
     self.scoringIsNotComplete = ko.computed(function () {
-        return !self.scoringComplete;
+        return !self.scoringComplete();
     }, self);
 };

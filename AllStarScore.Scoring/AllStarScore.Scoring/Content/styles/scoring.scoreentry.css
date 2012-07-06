@@ -31,12 +31,19 @@ fieldset input[type="text"] {border-color: #707070;margin: 0;padding: 0;}
 
 .scorepad {display: none; text-align: center;overflow: hidden;}
 .scorepad table { border: 1px solid #000; border-bottom: 0; background-color: #dcdcdc; margin-right: 10px; float: left;}
-.scorepad table td { border-bottom: 1px solid #000; padding: 10px 10px; }
+.scorepad table td { border-bottom: 1px solid #000; padding: 10px 10px; cursor: pointer;}
 .scorepad table td:hover { background-color: #dcffdc; }
-.scorepad table td:active { background-color: #ffdcdc; }
+.scorepad table td:active { background-color: #ffffdc; }
 .scorepad table td.selected { background-color: #dcdcff; }
 .scorepad_base .execution { display: none; }
 .scorepad_execution .high, .scorepad_execution .high td, .scorepad_execution .high td.selected {visibility: hidden; background-color: #fff; color: #fff; border: 1px solid #fff; }
 .scorepad .low .one { display: none; }
 .scorepad_execution .low .one { display: inherit; }
 
+.scorepad
+{
+  -moz-user-select: none;
+  -khtml-user-select: none;
+  -webkit-user-select: none;
+  user-select: none;
+}
