@@ -166,7 +166,7 @@
     <Compile Include="Models\User.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="ViewModels\CompetitionDetailsViewModel.cs" />
-    <Compile Include="ViewModels\CompetitionListViewModel.cs" />
+    <Compile Include="ViewModels\CompetitionIndexViewModel.cs" />
     <Compile Include="ViewModels\DivisionViewModel.cs" />
     <Compile Include="ViewModels\GymListViewModel.cs" />
     <Compile Include="ViewModels\RegistrationIndexRequestModel.cs" />
@@ -193,7 +193,7 @@
     <Content Include="Content\images\twitter.png" />
     <Content Include="Content\images\windowsLive.png" />
     <Content Include="Content\scripts\competition.details.js" />
-    <Content Include="Content\scripts\competition.list.js" />
+    <Content Include="Content\scripts\competition.index.js" />
     <Content Include="Content\scripts\competition.create.js" />
     <Content Include="Content\scripts\lib\date.js" />
     <Content Include="Content\scripts\global.datepicker.js" />
@@ -223,7 +223,7 @@
     <Content Include="Content\scripts\lib\modernizr-2.5.3.js" />
     <Content Include="Content\scripts\registration.teams.js" />
     <Content Include="Content\styles\competition.details.css" />
-    <Content Include="Content\styles\competition.list.css" />
+    <Content Include="Content\styles\competition.index.css" />
     <Content Include="Content\styles\competition.create.css" />
     <Content Include="Content\styles\global.css" />
     <Content Include="Content\styles\gym.create.css" />

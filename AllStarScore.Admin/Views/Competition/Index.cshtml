@@ -1,10 +1,20 @@
-﻿@model dynamic
+﻿@model AllStarScore.Admin.ViewModels.CompetitionIndexViewModel
 
 @{
     ViewBag.Title = "Competitions";
 }
 
+@{ Html.RegisterStylesheet("~/content/styles/competition.index.css"); }
+@{ Html.RegisterScript("~/content/scripts/competition.index.js"); }
+
 <h2>@ViewBag.Title</h2>
 
 @Html.ActionLink("Create New Competition", "Create", "Competition")
-@{ Html.RenderPartial("CompetitionListHarness"); }
+
+<div id="competition_list">
+    <p>Upcoming</p>
+    @{ Html.RenderPartial("CompetitionIndexTable", @Model.Upcoming); }
+    
+    <p>Past</p>
+    @{ Html.RenderPartial("CompetitionIndexTable", @Model.Past); }
+</div>

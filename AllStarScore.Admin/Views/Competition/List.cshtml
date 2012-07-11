@@ -1,9 +1,0 @@
-﻿@model AllStarScore.Admin.ViewModels.CompetitionListViewModel
-
-<div id="competition_list_inner">
-    <p>Upcoming</p>
-    @{ Html.RenderPartial("CompetitionListTable", @Model.Upcoming); }
-    
-    <p>Past</p>
-    @{ Html.RenderPartial("CompetitionListTable", @Model.Past); }
-</div>

@@ -7,13 +7,13 @@ using AllStarScore.Admin.Infrastructure.Indexes;
 
 namespace AllStarScore.Admin.ViewModels
 {
-    public class CompetitionListViewModel
+    public class CompetitionIndexViewModel
     {
         public List<TeamRegistrationStatsByCompetition.Results> Competitions { get; set; }
         public IEnumerable<TeamRegistrationStatsByCompetition.Results> Upcoming { get; set; }
         public IEnumerable<TeamRegistrationStatsByCompetition.Results> Past { get; set; }
 
-        public CompetitionListViewModel(List<TeamRegistrationStatsByCompetition.Results> competitions)
+        public CompetitionIndexViewModel(List<TeamRegistrationStatsByCompetition.Results> competitions)
         {
             Competitions = competitions;
             Upcoming = competitions

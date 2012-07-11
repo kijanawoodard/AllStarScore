@@ -13,11 +13,6 @@ namespace AllStarScore.Admin.Controllers
     {
         public ActionResult Index()
         {
-            return View();
-        }
-
-        public ActionResult List()
-        {
             var competitions = RavenSession
                                 .Query<Competition>()
                                 .Customize(x => x.WaitForNonStaleResultsAsOfNow())
@@ -47,8 +42,8 @@ namespace AllStarScore.Admin.Controllers
             stats.AddRange(converted);
 
 
-            var model = new CompetitionListViewModel(stats);
-            return PartialView(model);
+            var model = new CompetitionIndexViewModel(stats);
+            return View(model);
         }
 
         public ActionResult Create()
