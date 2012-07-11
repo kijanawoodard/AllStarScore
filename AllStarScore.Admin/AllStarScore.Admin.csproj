@@ -353,16 +353,10 @@
     <Content Include="Views\Competition\Index.cshtml" />
   </ItemGroup>
   <ItemGroup>
-    <Content Include="Views\Competition\List.cshtml" />
-  </ItemGroup>
-  <ItemGroup>
     <Content Include="Views\Shared\EditorTemplates\DateTime.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="Views\Shared\DisplayTemplates\DateTime.cshtml" />
-  </ItemGroup>
-  <ItemGroup>
-    <Content Include="Views\Competition\CompetitionListHarness.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="Content\Web.config">
@@ -394,7 +388,7 @@
     <Content Include="Views\Shared\DisplayTemplates\Day.cshtml" />
   </ItemGroup>
   <ItemGroup>
-    <Content Include="Views\Competition\CompetitionListTable.cshtml" />
+    <Content Include="Views\Competition\CompetitionIndexTable.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="Views\Scheduling\Edit.cshtml" />

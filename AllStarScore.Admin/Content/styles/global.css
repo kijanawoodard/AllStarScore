@@ -13,7 +13,7 @@ td.numeric { text-align: right; }
 
 
 table.tablesorter thead tr th, table.tablesorter tfoot tr th {
-	padding: 4px 36px 4px 4px;
+	padding: 4px 8px 4px 4px;
 }
 
 table.tablesorter th.header {
