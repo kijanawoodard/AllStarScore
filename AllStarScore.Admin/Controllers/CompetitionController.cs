@@ -2,6 +2,7 @@
 using System.Web.Mvc;
 using AllStarScore.Admin.Infrastructure.Indexes;
 using AllStarScore.Admin.ViewModels;
+using AllStarScore.Extensions;
 using AllStarScore.Models;
 using AllStarScore.Models.Commands;
 using Raven.Client.Linq;
@@ -50,6 +51,26 @@ namespace AllStarScore.Admin.Controllers
             return PartialView(model);
         }
 
+        public ActionResult Create()
+        {
+            return View();
+        }
+
+        [HttpPost]
+        public JsonDotNetResult Create(CompetitionCreateCommand command)
+        {
+            return Execute(
+                action: () =>
+                {
+                    var competition = new Competition();
+                    competition.Update(command);
+                    RavenSession.Store(competition);
+
+                    var url = Url.Action("Details", "Competition", new {id = competition.Id.ForMvc()});
+                    return new JsonDotNetResult(url);
+                });
+        }
+
         public ActionResult Details(string id)
         {
             var stats =
@@ -66,19 +87,6 @@ namespace AllStarScore.Admin.Controllers
 
             var model = new CompetitionDetailsViewModel(competition, stats);
             return View(model);
-        }
-
-        [HttpPost]
-        public JsonDotNetResult Create(CompetitionCreateCommand command)
-        {
-            return Execute(
-                action: () =>
-                {
-                    var competition = new Competition();
-                    competition.Update(command);
-                    RavenSession.Store(competition);
-                    return new JsonDotNetResult(competition);
-                });
         }
     }
 }

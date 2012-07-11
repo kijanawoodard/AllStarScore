@@ -1,11 +1,14 @@
-﻿@{ Html.RegisterStylesheet("~/content/styles/competition.create.css"); }
+﻿@{
+    ViewBag.Title = "Create a New Competition";
+}
+
+@{ Html.RegisterStylesheet("~/content/styles/competition.create.css"); }
 @{ Html.RegisterScript("~/content/scripts/competition.create.js"); }
 
+<h2>@ViewBag.Title</h2>
+
 <div id="competition_create">
-    <p>
-        <a href="#" data-bind="click: toggleFormVisibility">Create New Competition</a>
-    </p>
-    <form action='@Url.Action("Create", "Competition")' method="post" data-bind="css: {show: shouldShowForm}">
+    <form action='@Url.Action("Create", "Competition")' method="post">
         <fieldset>
             <legend>Create a new Competition</legend>
             
@@ -15,7 +18,7 @@
                 <label>Competition Name</label>
             </div>
             <div class="editor-field">
-                <input type="text" name="competitionName" class="required" data-bind="value: post.competitionName, hasfocus: focusName" />
+                <input type="text" name="competitionName" class="required" data-bind="value: post.competitionName" autofocus="autofocus" />
             </div>
 
 @*            <div class="editor-label">*@

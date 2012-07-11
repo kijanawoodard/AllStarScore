@@ -388,7 +388,7 @@
     <Content Include="Views\Gym\GymList.cshtml" />
   </ItemGroup>
   <ItemGroup>
-    <Content Include="Views\Competition\CompetitionCreateHarness.cshtml" />
+    <Content Include="Views\Competition\Create.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="Views\Shared\DisplayTemplates\Day.cshtml" />

@@ -10,32 +10,24 @@ var CreateCompetitionViewModel = (function () {
 
     self.post = {
         competitionName: ko.observable(),
-//        description: ko.observable(),
+        //        description: ko.observable(),
         firstDay: ko.observable(),
-//        lastDay: ko.observable(),
+        //        lastDay: ko.observable(),
         numberOfDays: ko.observable(),
         competitionStyle: ko.observable(),
         numberOfPanels: ko.observable()
     };
-
-    self.shouldShowForm = ko.observable(false);
-    self.focusName = ko.observable(true);
 
     self.cancelCreation = function () {
         self.reset();
         self.toggleFormVisibility();
     };
 
-    self.toggleFormVisibility = function () {
-        self.shouldShowForm(!self.shouldShowForm());
-        self.focusName(true);
-    };
-
     self.reset = function () {
         self.post.competitionName('');
-//        self.post.description('');
+        //        self.post.description('');
         self.post.firstDay($.datepicker.formatDate('mm/dd/yy', new Date()));
-//        self.post.lastDay($.datepicker.formatDate('mm/dd/yy', new Date()));
+        //        self.post.lastDay($.datepicker.formatDate('mm/dd/yy', new Date()));
         self.post.numberOfDays(1);
         self.post.competitionStyle(1);
         self.post.numberOfPanels(2);
@@ -59,17 +51,15 @@ var CreateCompetitionViewModel = (function () {
         });
 
         form.find('.validation-summary-errors').empty();
-        self.focusName(true);
     };
 
     self.create = function (formToPost) {
-//        console.log(ko.toJSON(self.post));
+        //        console.log(ko.toJSON(self.post));
         form.ajaxPost({
             data: ko.toJSON(self.post),
             success: function (result) {
                 //console.log(ko.toJSON(result));
-                $.publish('/competition/created');
-                self.reset();
+                window.location.href = result;
             }
         });
     };
@@ -81,7 +71,7 @@ var CreateCompetitionViewModel = (function () {
                 self.create(this.currentForm);
             }
         });
-        
+
         form.find('input[name=firstDay]')
             .datepicker({
                 numberOfMonths: 2

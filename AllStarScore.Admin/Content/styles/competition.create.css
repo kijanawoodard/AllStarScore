@@ -1,6 +1,2 @@
-﻿#competition_create form { display: none; }
-#competition_create form.show { display: inherit; }
-
-#competition_create .slider { width: 250px;}
-
+﻿#competition_create .slider { width: 250px;}
 #competition_create .editor-field { margin-bottom: 6px;}
