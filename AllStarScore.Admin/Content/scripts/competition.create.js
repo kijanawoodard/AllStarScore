@@ -18,11 +18,6 @@ var CreateCompetitionViewModel = (function () {
         numberOfPanels: ko.observable()
     };
 
-    self.cancelCreation = function () {
-        self.reset();
-        self.toggleFormVisibility();
-    };
-
     self.reset = function () {
         self.post.competitionName('');
         //        self.post.description('');
