@@ -358,7 +358,11 @@ fieldset {
     }
 
         fieldset input[type="text"]:focus,
-        fieldset input[type="password"]:focus {
+        fieldset input[type="password"]:focus,
+        fieldset input[type="submit"]:focus,
+        fieldset input[type="checkbox"]:focus,
+        fieldset button:focus,
+        fieldset a:focus {
             border: 1px solid #7ac0da;
         }
 

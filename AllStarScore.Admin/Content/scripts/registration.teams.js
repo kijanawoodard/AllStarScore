@@ -61,7 +61,7 @@
     self.totalParticipants = ko.computed(function () {
         var result = 0;
         for (var i = 0; i < self.teams().length; i++) {
-            result += self.teams()[i].participantCount();
+            result += parseInt(self.teams()[i].participantCount());
         }
         return result;
     }, self);
@@ -202,8 +202,7 @@ $(document).ready(function () {
 
     $('form.edit').validate({
         submitHandler: function () {
-            //do nothing
-            return false;
+            return false; //do nothing
         },
         rules: {
             division: { validateDivision: true },
@@ -212,14 +211,26 @@ $(document).ready(function () {
     });
 
     $('form.edit').submit(function (event) {
+
         event.preventDefault();
     });
 
     //http://blogs.mscommunity.net/blogs/borissevo/archive/2008/12/11/using-jquery-to-prevent-form-submit-when-enter-is-pressed.aspx
-    $("form").on("keypress", function (e) {
-        if (e.keyCode == 13) {
+    $("form.edit").on("keydown", 'input', function (e) {
+        var code = (e.which);
+        if (code == 13) {
+            $(this)
+                .closest('tr')
+                .find('input[type="submit"]')
+                .focus()
+                .click();
             return false;
         }
+        else if (code == 110 || code == 190) {
+            return false;
+        }
+
+        return true;
     });
 
     //console.log(data.teams);
