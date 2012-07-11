@@ -102,6 +102,7 @@
         self.createNew.participantCount('');
         self.createNew.isShowTeam(false);
         form.data('validator').resetForm(); //http://stackoverflow.com/a/2060530/214073
+        form.find('input').first().focus();
     };
 
     self.save = function (team) {
