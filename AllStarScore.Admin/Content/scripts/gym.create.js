@@ -74,7 +74,6 @@ var CreateGymViewModel = (function (data) {
                 //console.log(ko.toJSON(result));
                 var gym = ko.toJS(result);
                 $.publish('/gym/created', gym.id);
-                self.reset();
             }
         });
     };
