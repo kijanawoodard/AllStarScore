@@ -99,7 +99,7 @@
 
 <script>
     var scoringFiveJudgePanelData = JSON.parse('@Html.Raw(Model.ToJson())');
-    scoringFiveJudgePanelData.scoreEntryUrl = '@Url.Action("ScoreEntry", "Scoring", new { performanceId = @Model.Performance.Id, judgeId = "REPLACE_THIS"})';
+    scoringFiveJudgePanelData.scoreEntryUrl = '@Url.Action("ScoreEntry", "Scoring", new { performanceId = @Model.Performance.Id.ForMvc(), judgeId = "REPLACE_THIS"})';
 </script>
 
 <script type="text/html" id="all_star_template">

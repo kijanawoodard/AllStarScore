@@ -4,7 +4,7 @@
     ViewBag.Title = "Register Gym";
 }
 
-<h2>Registration for @Model.Competition.Name</h2>
+<h2>Registration for @Html.ActionLink(Model.Competition.Name, "Details", "Competition", new {id = Model.Competition.Id.ForMvc()}, new {})</h2>
 
-@{ Html.RenderAction("Edit", "Gym", new { gymid = @Model.GymId }); }
-@{ Html.RenderAction("Teams", "Registration", new { gymid = @Model.GymId, competitionid = @Model.Competition.Id }); }
+@{ Html.RenderAction("Edit", "Gym", new { gymid = @Model.GymId.ForMvc() }); }
+@{ Html.RenderAction("Teams", "Registration", new { gymid = @Model.GymId.ForMvc(), competitionid = @Model.Competition.Id.ForMvc() }); }

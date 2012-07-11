@@ -1,8 +1,10 @@
-﻿@model dynamic
+﻿@using AllStarScore.Extensions;
+@model dynamic
 
 @using System.Web.UI.WebControls
 @{
     Layout = "_Layout.cshtml";
+    var id = @Model.CompetitionId as string;
 }
 
 @{ Html.RegisterStylesheet("~/content/styles/competitionlayout.wrap.css"); }
@@ -16,9 +18,9 @@
 
     <nav>
         <ul id="menu">
-            <li>@Html.ActionLink("Performances", "Index", "Performance", new { id = @Model.CompetitionId }, new { })</li>
-            <li>@Html.ActionLink("Score Sheets", "Index", "ScoreSheets", new { id = @Model.CompetitionId }, new { })</li>
-            <li>@Html.ActionLink("Reports", "Index", "Reporting", new { id = @Model.CompetitionId }, new { })</li>
+            <li>@Html.ActionLink("Performances", "Index", "Performance", new { id = id.ForMvc() }, new { })</li>
+            <li>@Html.ActionLink("Score Sheets", "Index", "ScoreSheets", new { id = id.ForMvc() }, new { })</li>
+            <li>@Html.ActionLink("Reports", "Index", "Reporting", new { id = id.ForMvc() }, new { })</li>
         </ul>
     </nav>
 </div>

@@ -20,5 +20,5 @@
 <h3>Existing Competitions</h3>
 @foreach (var info in Model.Competitions)
 {
-    @Html.ActionLink(info.Competition.Display, "Index", "Performance", new {id = info.Id}, new {})
+    @Html.ActionLink(info.Competition.Display, "Index", "Performance", new {id = info.Id.ForMvc()}, new {})
 }

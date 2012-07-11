@@ -86,6 +86,7 @@ namespace AllStarScore.Scoring
 
             ValueProviderFactories.Factories.Insert(0, new CommandValueProviderFactory());
             ModelBinders.Binders.Add(typeof(decimal), new DecimalModelBinder()); //http://digitalbush.com/2011/04/24/asp-net-mvc3-json-decimal-binding-woes/
+            ModelBinderProviders.BinderProviders.Insert(0, new RavenIdModelBinderProvider());
 
             //BundleTable.Bundles.RegisterTemplateBundles();
 
@@ -101,7 +102,6 @@ namespace AllStarScore.Scoring
             RavenController.DocumentStore.Configuration.Port = 8085;
             RavenController.DocumentStore.RegisterListener(new NoStaleQueriesAllowedAsOfNow());
             RavenController.DocumentStore.Initialize();
-            RavenController.DocumentStore.Conventions.IdentityPartsSeparator = "-";
 
             InitializeRavenProfiler();
 

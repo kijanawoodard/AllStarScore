@@ -8,8 +8,8 @@
 @{ Html.RegisterScript("~/content/scripts/competition.details.js"); }
 
 <h2>@Model.Competition.Display</h2>
-@Html.ActionLink("Schedule", "Edit", "Scheduling", new { id = Model.Competition.Id}, new { })
-@Html.ActionLink("Sync", "Index", "Sync", new { id = Model.Competition.Id}, new { })
+@Html.ActionLink("Schedule", "Edit", "Scheduling", new { id = Model.Competition.Id.ForMvc()}, new { })
+@Html.ActionLink("Sync", "Index", "Sync", new { id = Model.Competition.Id.ForMvc()}, new { })
 
 <div class="summary">
     @Model.Stats.Count Gyms
@@ -51,7 +51,7 @@
                     <td>@gym.GymName</td>
                     <td>@gym.TeamCount</td>
                     <td>@gym.ParticipantCount</td>
-                    <td>@Html.ActionLink("edit", "Index", "Registration", new { gym.CompetitionId, gym.GymId }, new { })</td>
+                    <td>@Html.ActionLink("edit", "Index", "Registration", new { competitionId = gym.CompetitionId.ForMvc(), gymId = gym.GymId.ForMvc() }, new { })</td>
                 </tr>
             }
         </tbody>

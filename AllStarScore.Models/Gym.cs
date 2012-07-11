@@ -10,12 +10,9 @@ namespace AllStarScore.Models
         public string Name { get; set; }
         public string Location { get; set; }
         public bool IsSmallGym { get; set; }
-
-        public ICollection<ICommand> History { get; private set; }
         
         public Gym()
         {
-            History = new Collection<ICommand>();
         }
 
         public void Update(GymCreateCommand command)
@@ -23,8 +20,6 @@ namespace AllStarScore.Models
             Name = command.GymName;
             Location = command.Location;
             IsSmallGym = command.IsSmallGym;
-
-            History.Add(command);
         }
 
         public void Update(GymEditCommand command)
@@ -33,8 +28,6 @@ namespace AllStarScore.Models
             Name = command.GymName;
             Location = command.Location;
             IsSmallGym = command.IsSmallGym;
-
-            History.Add(command);
         }
 
         public override bool Equals(object obj)

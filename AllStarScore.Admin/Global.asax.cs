@@ -89,7 +89,7 @@ namespace AllStarScore.Admin
             RegisterRoutes(RouteTable.Routes);
 
             ValueProviderFactories.Factories.Insert(0, new CommandValueProviderFactory()); //TODO: Blog
-
+            ModelBinderProviders.BinderProviders.Insert(0, new RavenIdModelBinderProvider());
             //BundleTable.Bundles.EnableDefaultBundles();//.RegisterTemplateBundles();
 
             var parser = ConnectionStringParser<RavenConnectionStringOptions>.FromConnectionStringName("RavenDB");
@@ -101,7 +101,6 @@ namespace AllStarScore.Admin
                 Url = parser.ConnectionStringOptions.Url,
             };
             RavenController.DocumentStore.Initialize();
-            RavenController.DocumentStore.Conventions.IdentityPartsSeparator = "-";
 
             InitializeRavenProfiler();
 

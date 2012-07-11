@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Web;
 using System.Web.Mvc;
+using AllStarScore.Extensions;
 using AllStarScore.Models;
 using AllStarScore.Scoring.Infrastructure.Indexes;
 using AllStarScore.Scoring.Models;
@@ -91,7 +92,7 @@ namespace AllStarScore.Scoring.Controllers
                     var result = "";
                     if (performance.ScoringComplete) //must have been sitting on the page; bail out and don't update the score
                     {
-                        result = Url.Action("Summary", "Scoring", new { command.PerformanceId });
+                        result = Url.Action("Summary", "Scoring", new { performanceId = command.PerformanceId.ForMvc() });
                     }
                     else
                     {
@@ -112,13 +113,13 @@ namespace AllStarScore.Scoring.Controllers
             var result = "";
             if (judgeId.Equals(judges.Last(), StringComparison.InvariantCultureIgnoreCase))
             {
-                result = Url.Action("Summary", "Scoring", new { performanceId });
+                result = Url.Action("Summary", "Scoring", new { performanceId = performanceId.ForMvc() });
             }
             else
             {
                 var nextIndex = judges.FindIndex(x => x == judgeId) + 1;
                 var nextJudge = judges[nextIndex];
-                result = Url.Action("ScoreEntry", "Scoring", new { performanceId, judgeId = nextJudge});
+                result = Url.Action("ScoreEntry", "Scoring", new { performanceId = performanceId.ForMvc(), judgeId = nextJudge });
             }
 
             return result;

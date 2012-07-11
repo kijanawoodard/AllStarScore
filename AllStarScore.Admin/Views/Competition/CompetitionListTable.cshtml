@@ -32,7 +32,7 @@
                     @item.ParticipantCount
                 </td>
                 <td>
-                    @Html.ActionLink("Details", "Details", "Competition", new {id = item.CompetitionId}, new {})
+                    @Html.ActionLink("Details", "Details", "Competition", new {id = item.CompetitionId.ForMvc()}, new {})
                 </td>
             </tr>
         }

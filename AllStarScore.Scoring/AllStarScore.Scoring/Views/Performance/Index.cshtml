@@ -13,7 +13,7 @@
         <li>
             <span data-bind="dateString: performanceTime, datePattern: 'ddd h:mm tt'" class="when"></span>
             <span class="name">
-                <a data-bind="attr: {href: $root.performanceViewModel.scoringUrl() + id()}">
+                <a data-bind="attr: {href: $root.performanceViewModel.scoringUrl() + id().replace('/', '-')}">@* not happy with the replace ForMvc*@
                     <span data-bind="text: gymName"></span>
                     <span data-bind="text: teamName"></span>
                 </a>
