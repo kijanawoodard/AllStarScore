@@ -3,6 +3,7 @@ using System.ComponentModel.Composition.Hosting;
 using System.Diagnostics;
 using System.Linq;
 using System.Reflection;
+using System.Web;
 using System.Web.Http;
 using System.Web.Mvc;
 using System.Web.Routing;
@@ -26,6 +27,30 @@ namespace AllStarScore.Admin
 
     public class MvcApplication : System.Web.HttpApplication
     {
+        public MvcApplication()
+        {
+            //https://github.com/ayende/RaccoonBlog/blob/master/RaccoonBlog.Web/Global.asax.cs
+            BeginRequest += (sender, args) =>
+            {
+                HttpContext.Current.Items["CurrentRequestRavenSession"] = RavenController.DocumentStore.OpenSession();
+            };
+
+            EndRequest += (sender, args) =>
+            {
+                using (var session = (IDocumentSession)HttpContext.Current.Items["CurrentRequestRavenSession"])
+                {
+                    if (session == null)
+                        return;
+
+                    if (Server.GetLastError() != null)
+                        return;
+
+                    session.SaveChanges();
+                }
+                //  TaskExecutor.StartExecuting();
+            };
+        }
+
         public static void RegisterGlobalFilters(GlobalFilterCollection filters)
         {
             filters.Add(new HandleErrorAttribute());
