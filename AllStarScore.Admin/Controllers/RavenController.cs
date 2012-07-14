@@ -6,16 +6,11 @@ using Raven.Client;
 
 namespace AllStarScore.Admin.Controllers
 {
-    //https://github.com/ayende/RaccoonBlog/blob/master/HibernatingRhinos.Loci.Common/Controllers/RavenController.cs
-    public abstract class RavenController : Controller
+    public class RavenController : Controller
     {
-        public static IDocumentStore DocumentStore { get; set; }
+        //https://github.com/ayende/RaccoonBlog/blob/master/HibernatingRhinos.Loci.Common/Controllers/RavenController.cs
+    
         public IDocumentSession RavenSession { get; set; }
-
-        protected override void OnActionExecuting(ActionExecutingContext filterContext)
-        {
-            RavenSession = (IDocumentSession)HttpContext.Items["CurrentRequestRavenSession"];
-        }
 
         protected JsonDotNetResult Execute(Func<JsonDotNetResult> action)
         {

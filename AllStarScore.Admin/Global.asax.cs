@@ -19,6 +19,7 @@ using Raven.Client;
 using Raven.Client.Document;
 using Raven.Client.Indexes;
 using RouteMagic;
+using StructureMap;
 
 namespace AllStarScore.Admin
 {
@@ -32,12 +33,12 @@ namespace AllStarScore.Admin
             //https://github.com/ayende/RaccoonBlog/blob/master/RaccoonBlog.Web/Global.asax.cs
             BeginRequest += (sender, args) =>
             {
-                HttpContext.Current.Items["CurrentRequestRavenSession"] = RavenController.DocumentStore.OpenSession();
+//                HttpContext.Current.Items["CurrentRequestRavenSession"] = RavenController.DocumentStore.OpenSession();
             };
 
             EndRequest += (sender, args) =>
             {
-                using (var session = (IDocumentSession)HttpContext.Current.Items["CurrentRequestRavenSession"])
+                using (var session = ObjectFactory.GetInstance<IDocumentSession>())
                 {
                     if (session == null)
                         return;
@@ -105,7 +106,6 @@ namespace AllStarScore.Admin
         protected void Application_Start()
         {
             AreaRegistration.RegisterAllAreas();
-            
             RegisterGlobalFilters(GlobalFilters.Filters);
 
             InitializeMothForDebugging();
@@ -115,26 +115,11 @@ namespace AllStarScore.Admin
 
             ValueProviderFactories.Factories.Insert(0, new CommandValueProviderFactory()); //TODO: Blog
             ModelBinderProviders.BinderProviders.Insert(0, new RavenIdModelBinderProvider());
-            //BundleTable.Bundles.EnableDefaultBundles();//.RegisterTemplateBundles();
 
-            var parser = ConnectionStringParser<RavenConnectionStringOptions>.FromConnectionStringName("RavenDB");
-            parser.Parse();
-
-            RavenController.DocumentStore = new DocumentStore()
-            {
-                ApiKey = parser.ConnectionStringOptions.ApiKey,
-                Url = parser.ConnectionStringOptions.Url,
-            };
-            RavenController.DocumentStore.Initialize();
-
-            InitializeRavenProfiler();
-
-            IndexCreation.CreateIndexes(typeof (GymsByName).Assembly, RavenController.DocumentStore);
-
-            HackSecurity();
-            HackLevels();
-            HackDivisions();
-            HackCompany();
+//            HackSecurity();
+//            HackLevels();
+//            HackDivisions();
+//            HackCompany();
         }
 
         [Conditional("DEBUG")]
@@ -143,91 +128,85 @@ namespace AllStarScore.Admin
             MothAction.Initialize(new CustomMothProvider());
         }
 
-        [Conditional("DEBUG")]
-        private void InitializeRavenProfiler()
-        {
-            Raven.Client.MvcIntegration.RavenProfiler.InitializeFor(RavenController.DocumentStore);
-        }
         
-
-        //TODO: come up with something better and remove this
-        private void HackSecurity()
-        {
-            var session = RavenController.DocumentStore.OpenSession();
-            if (!session.Query<User>().Any())
-            {
-                var admin = new User();
-                admin.Email = "admin@wyldeye.com";
-                admin.UserName = "administrator";
-                admin.Enabled = true;
-                admin.SetPassword("hello");
-
-                session.Store(admin);
-                session.SaveChanges();
-            }            
-        }
-
-        //TODO: come up with something better and remove this
-        private void HackLevels()
-        {
-            var session = RavenController.DocumentStore.OpenSession();
-            var ok = session.Query<Level>().Any();
-            if (ok) return;
-
-            var levels = new List<Level>()
-                             {
-                                 new Level {Id = "levels-level1", Name = "All-Star Level 1", DefaultScoringDefinition = "scoring-level1"},
-                                 new Level {Id = "levels-level2", Name = "All-Star Level 2", DefaultScoringDefinition = "scoring-level2"},
-                                 new Level {Id = "levels-level3", Name = "All-Star Level 3", DefaultScoringDefinition = "scoring-level3"},
-                                 new Level {Id = "levels-level4", Name = "All-Star Level 4", DefaultScoringDefinition = "scoring-level4"},
-                                 new Level {Id = "levels-level5", Name = "All-Star Level 5", DefaultScoringDefinition = "scoring-level5"},
-                                 new Level {Id = "levels-level6", Name = "All-Star Level 6", DefaultScoringDefinition = "scoring-level6"},
-                                 new Level {Id = "levels-dance", Name = "Dance", DefaultScoringDefinition = "scoring-dance"},
-                                 new Level {Id = "levels-school", Name = "School", DefaultScoringDefinition = "scoring-school"},
-                                 new Level {Id = "levels-individual", Name = "Individual", DefaultScoringDefinition = "scoring-individual"}
-                             };
-            
-            levels.ForEach(session.Store);
-            session.SaveChanges();
-        }
-
-        //TODO: come up with something better and remove this
-        private void HackDivisions()
-        {
-            var session = RavenController.DocumentStore.OpenSession();
-            var ok = session.Query<Division>().Any();
-            if (ok) return;
-
-            var levels = session.Query<Level>().ToList();
-
-            var divisions = new List<Division>()
-                             {
-                                 new Division{ Name = "Small Youth", LevelId = "levels-level1"},
-                                 new Division{ Name = "Large Youth", LevelId = "levels-level2"},
-                                 new Division{ Name = "Small Junior", LevelId = "levels-level3"},
-                                 new Division{ Name = "Large Junior", LevelId = "levels-level4"},
-                                 new Division{ Name = "Small Senior", LevelId = "levels-level5"},
-                                 new Division{ Name = "Large Senior", LevelId = "levels-level6"}
-                             };
-
-            divisions.ForEach(session.Store);
-            session.SaveChanges();
-        }
-
-        //TODO: come up with something better and remove this
-        private void HackCompany()
-        {
-            var session = RavenController.DocumentStore.OpenSession();
-            var ok = session.Query<Company>().Any();
-            if (ok) return;
-
-            var company = new Company()
-                          {
-                              Name = "New Company"
-                          };
-
-            session.Store(company);
-            session.SaveChanges();
-        }
+//        //TODO: come up with something better and remove this
+//        private void HackSecurity()
+//        {
+//            var session = RavenController.DocumentStore.OpenSession();
+//            if (!session.Query<User>().Any())
+//            {
+//                var admin = new User();
+//                admin.Email = "admin@wyldeye.com";
+//                admin.UserName = "administrator";
+//                admin.Enabled = true;
+//                admin.SetPassword("hello");
+//
+//                session.Store(admin);
+//                session.SaveChanges();
+//            }            
+//        }
+//
+//        //TODO: come up with something better and remove this
+//        private void HackLevels()
+//        {
+//            var session = RavenController.DocumentStore.OpenSession();
+//            var ok = session.Query<Level>().Any();
+//            if (ok) return;
+//
+//            var levels = new List<Level>()
+//                             {
+//                                 new Level {Id = "levels-level1", Name = "All-Star Level 1", DefaultScoringDefinition = "scoring-level1"},
+//                                 new Level {Id = "levels-level2", Name = "All-Star Level 2", DefaultScoringDefinition = "scoring-level2"},
+//                                 new Level {Id = "levels-level3", Name = "All-Star Level 3", DefaultScoringDefinition = "scoring-level3"},
+//                                 new Level {Id = "levels-level4", Name = "All-Star Level 4", DefaultScoringDefinition = "scoring-level4"},
+//                                 new Level {Id = "levels-level5", Name = "All-Star Level 5", DefaultScoringDefinition = "scoring-level5"},
+//                                 new Level {Id = "levels-level6", Name = "All-Star Level 6", DefaultScoringDefinition = "scoring-level6"},
+//                                 new Level {Id = "levels-dance", Name = "Dance", DefaultScoringDefinition = "scoring-dance"},
+//                                 new Level {Id = "levels-school", Name = "School", DefaultScoringDefinition = "scoring-school"},
+//                                 new Level {Id = "levels-individual", Name = "Individual", DefaultScoringDefinition = "scoring-individual"}
+//                             };
+//            
+//            levels.ForEach(session.Store);
+//            session.SaveChanges();
+//        }
+//
+//        //TODO: come up with something better and remove this
+//        private void HackDivisions()
+//        {
+//            var session = RavenController.DocumentStore.OpenSession();
+//            var ok = session.Query<Division>().Any();
+//            if (ok) return;
+//
+//            var levels = session.Query<Level>().ToList();
+//
+//            var divisions = new List<Division>()
+//                             {
+//                                 new Division{ Name = "Small Youth", LevelId = "levels-level1"},
+//                                 new Division{ Name = "Large Youth", LevelId = "levels-level2"},
+//                                 new Division{ Name = "Small Junior", LevelId = "levels-level3"},
+//                                 new Division{ Name = "Large Junior", LevelId = "levels-level4"},
+//                                 new Division{ Name = "Small Senior", LevelId = "levels-level5"},
+//                                 new Division{ Name = "Large Senior", LevelId = "levels-level6"}
+//                             };
+//
+//            divisions.ForEach(session.Store);
+//            session.SaveChanges();
+//        }
+//
+//        //TODO: come up with something better and remove this
+//        private void HackCompany()
+//        {
+//            var session = RavenController.DocumentStore.OpenSession();
+//            var ok = session.Query<Company>().Any();
+//            if (ok) return;
+//
+//            var company = new Company()
+//                          {
+//                              Name = "New Company"
+//                          };
+//
+//            session.Store(company);
+//            session.SaveChanges();
+//        }
     }
 }
