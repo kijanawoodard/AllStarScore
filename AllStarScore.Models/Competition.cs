@@ -6,9 +6,11 @@ using AllStarScore.Models.Commands;
 
 namespace AllStarScore.Models
 {
-    public class Competition : ICanBeUpdatedByCommand
+    public class Competition : ICanBeUpdatedByCommand, IBelongToCompany
     {
         public string Id { get; set; }
+        public string CompanyId { get; set; }
+
         public string Name { get; set; }
         public string Description { get; set; }
 

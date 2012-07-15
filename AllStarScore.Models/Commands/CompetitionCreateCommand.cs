@@ -3,7 +3,7 @@ using System.ComponentModel.DataAnnotations;
 
 namespace AllStarScore.Models.Commands
 {
-    public class CompetitionCreateCommand : ICommand 
+    public class CompetitionCreateCommand : ICommand, ICompanyCommand
     {
         [Required]
         public string CompetitionName { get; set; }
@@ -16,6 +16,8 @@ namespace AllStarScore.Models.Commands
         public int NumberOfPerformances { get; set; }
         public int NumberOfPanels { get; set; }
         public bool IsWorldsCompetition { get; set; }
+        
+        public string CommandCompanyId { get; set; }
         
         public string CommandByUser { get; set; }
         public DateTime CommandWhen { get; set; }

@@ -6,11 +6,11 @@ using StructureMap;
 
 namespace AllStarScore.Admin.DependencyResolution
 {
-    public class SmDependencyResolver : IDependencyResolver {
+    public class StructureMapDependencyResolver : IDependencyResolver {
 
         private readonly IContainer _container;
 
-        public SmDependencyResolver(IContainer container) {
+        public StructureMapDependencyResolver(IContainer container) {
             _container = container;
         }
 

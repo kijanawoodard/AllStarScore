@@ -95,6 +95,8 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="ITenantProvider.cs" />
+    <Compile Include="TenantProvider.cs" />
     <Compile Include="ModelBinding\CommandValueProviderFactory.cs" />
     <Compile Include="ModelBinding\DecimalModelBinder.cs" />
     <Compile Include="ModelBinding\RavenIdModelBinder.cs" />
@@ -110,6 +112,10 @@
     <ProjectReference Include="..\AllStarScore.Extensions\AllStarScore.Extensions.csproj">
       <Project>{F1DB6FF8-2436-4804-A0A2-B92BC8FCE4B7}</Project>
       <Name>AllStarScore.Extensions</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\AllStarScore.Models\AllStarScore.Models.csproj">
+      <Project>{A96197C9-B52B-4692-B031-229946288C43}</Project>
+      <Name>AllStarScore.Models</Name>
     </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />

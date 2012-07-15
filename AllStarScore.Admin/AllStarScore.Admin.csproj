@@ -160,7 +160,8 @@
     <Compile Include="Controllers\SyncController.cs" />
     <Compile Include="DependencyResolution\IoC.cs" />
     <Compile Include="DependencyResolution\RavenDbRegistry.cs" />
-    <Compile Include="DependencyResolution\SmDependencyResolver.cs" />
+    <Compile Include="DependencyResolution\StructureMapControllerFactory.cs" />
+    <Compile Include="DependencyResolution\StructureMapDependencyResolver.cs" />
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
@@ -183,6 +184,8 @@
     <Compile Include="ViewModels\RegistrationIndexViewModel.cs" />
     <Compile Include="ViewModels\RegistrationTeamsViewModel.cs" />
     <Compile Include="ViewModels\SchedulingEditViewModel.cs" />
+    <Compile Include="Controllers\SuperAdminController.cs" />
+    <Compile Include="ViewModels\SuperAdminIndexViewModel.cs" />
     <Compile Include="ViewModels\SyncIndexViewModel.cs" />
     <Compile Include="ViewModels\TeamRegistrationViewModel.cs" />
   </ItemGroup>
@@ -419,6 +422,9 @@
   </ItemGroup>
   <ItemGroup>
     <Content Include="Views\Sync\Index.cshtml" />
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="Views\SuperAdmin\Index.cshtml" />
   </ItemGroup>
   <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
   <Import Project="$(MSBuildExtensionsPath32)\Microsoft\VisualStudio\v10.0\WebApplications\Microsoft.WebApplication.targets" />

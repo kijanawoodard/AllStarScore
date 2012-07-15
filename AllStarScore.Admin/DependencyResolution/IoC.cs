@@ -1,3 +1,4 @@
+using AllStarScore.Admin.Controllers;
 using Raven.Client;
 using StructureMap;
 
@@ -10,7 +11,9 @@ namespace AllStarScore.Admin.DependencyResolution {
                 x.Scan(scan =>
                 {
                     scan.TheCallingAssembly();
+                    scan.AssembliesFromApplicationBaseDirectory();
                     scan.WithDefaultConventions();
+//                    scan.AddAllTypesOf<RavenController>();
                 });
 
                 x.AddRegistry(new RavenDbRegistry("RavenDB"));

@@ -1,5 +1,6 @@
 using System.Diagnostics;
 using AllStarScore.Admin.Infrastructure.Indexes;
+using AllStarScore.Models;
 using Raven.Abstractions.Data;
 using Raven.Client;
 using Raven.Client.Document;
@@ -25,9 +26,15 @@ namespace AllStarScore.Admin.DependencyResolution
                                         {
                                             ApiKey = parser.ConnectionStringOptions.ApiKey,
                                             Url = parser.ConnectionStringOptions.Url,
-                                            //Conventions = {DocumentKeyGenerator = o => ""},
+                                            
                                         };
-
+                    
+                    var defaultGenerator = documentStore.Conventions.DocumentKeyGenerator;
+                    documentStore.Conventions.DocumentKeyGenerator = entity =>
+                    {
+                        var special = entity as IGenerateMyId;
+                        return special == null ? defaultGenerator(entity) : special.GenerateId();
+                    };
 
                     documentStore.Initialize();
                     InitializeRavenProfiler(documentStore);

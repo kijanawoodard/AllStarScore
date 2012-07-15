@@ -37,6 +37,31 @@ namespace AllStarScore.Admin.Controllers
             return new JsonDotNetResult(new { errors });
         }
 
+        protected ActionResult Execute(Action action, Func<ActionResult> onsuccess)
+        {
+            return Execute(action, onsuccess, onsuccess);
+        }
+
+        protected ActionResult Execute(Action action, Func<ActionResult> onsuccess, Func<ActionResult> onfailure)
+        {
+            try
+            {
+                if (ModelState.IsValid)
+                {
+                    action();
+                    return onsuccess();
+                }
+            }
+            catch (Exception e)
+            {
+                ModelState.AddModelError("", "An unexpected error occurred and has been logged. Please try again later" + e.Message);
+                //TODO: Make the above assertion true
+                throw;
+            }
+        
+            return onfailure();
+        }
+
         protected HttpStatusCodeResult HttpNotModified()
         {
             return new HttpStatusCodeResult(304);

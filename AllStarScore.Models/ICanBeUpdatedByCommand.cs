@@ -6,6 +6,6 @@ namespace AllStarScore.Models
     {
         string LastCommand { get; set; }
         string LastCommandBy { get; set; }
-        DateTime LastCommandDate { get; set; }    
+        DateTime LastCommandDate { get; set; }  
     }
 }

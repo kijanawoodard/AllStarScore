@@ -1,0 +1,37 @@
+﻿@model AllStarScore.Admin.ViewModels.SuperAdminIndexViewModel
+
+@{
+    ViewBag.Title = "Create Company";
+}
+
+<h2>@ViewBag.Title</h2>
+
+@using (Html.BeginForm())
+{
+    <fieldset>
+        <legend>@ViewBag.Title</legend>
+        <ol>
+            <li>
+                @Html.LabelFor(m => m.Domain)
+                @Html.DisplayFor(m => m.Domain)
+            </li>
+            <li>
+                @Html.LabelFor(m => m.Company)
+                @Html.DisplayFor(m => m.Company)
+                @if(Model.ThereIsNoCompanyForThisDomain)
+                {
+                    <i>no company yet</i>
+                }
+            </li>
+        </ol>
+        
+        @if(Model.ThereIsNoCompanyForThisDomain)
+        {
+            <button>Create</button>
+        }
+        else
+        {
+            <i>A company already exists for this domain</i>
+        }        
+    </fieldset>
+}
