@@ -13,7 +13,7 @@ namespace AllStarScore.Models
             RegisterCompanyCommand(document as IBelongToCompany, command as ICompanyCommand);
         }
 
-        public static void RegisterCompanyCommand(this IBelongToCompany document, ICompanyCommand command)
+        private static void RegisterCompanyCommand(this IBelongToCompany document, ICompanyCommand command)
         {
             if (document == null || command == null)
                 return;

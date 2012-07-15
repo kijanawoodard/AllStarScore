@@ -1,21 +1,46 @@
+using System;
+using AllStarScore.Models.Commands;
+
 namespace AllStarScore.Models
 {
-    public class Division
+    public class Division : ICanBeUpdatedByCommand, IBelongToCompany, IGenerateMyId
     {
         public string Id { get; set; }
         public string Name { get; set; }
         public string LevelId { get; set; }
+        public string ScoringDefinition { get; set; }
 
-        public Division()
+        public string CompanyId { get; set; }
+        public string LastCommand { get; set; }
+        public string LastCommandBy { get; set; }
+        public DateTime LastCommandDate { get; set; }
+
+        public void Update(DivisionCreateCommand command)
         {
+            Name = command.Name;
+            LevelId = command.LevelId;
+            
+            this.RegisterCommand(command);
+        }
+
+        public string GenerateId()
+        {
+            return LevelId + "/division/";
+        }
+
+        public bool Equals(Division other)
+        {
+            if (ReferenceEquals(null, other)) return false;
+            if (ReferenceEquals(this, other)) return true;
+            return Equals(other.Id, Id);
         }
 
         public override bool Equals(object obj)
         {
-            var target = obj as Division;
-            if (target == null) return false;
-
-            return Id.Equals(target.Id);
+            if (ReferenceEquals(null, obj)) return false;
+            if (ReferenceEquals(this, obj)) return true;
+            if (obj.GetType() != typeof (Division)) return false;
+            return Equals((Division) obj);
         }
 
         public override int GetHashCode()
@@ -25,7 +50,7 @@ namespace AllStarScore.Models
 
         public override string ToString()
         {
-            return LevelId + "/" + Name;
+            return string.Format("Id: {0}, Name: {1}", Id, Name);
         }
     }
 }

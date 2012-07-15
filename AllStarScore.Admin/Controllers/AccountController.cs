@@ -29,7 +29,7 @@ namespace AllStarScore.Admin.Controllers
         {
             if (ModelState.IsValid)
             {
-                var user = RavenSession.Query<User>().FirstOrDefault(u => u.UserName == model.UserName);
+                var user = RavenSession.Query<User>().FirstOrDefault(u => u.Name == model.UserName);
 
                 if (user != null && user.ValidatePassword(model.Password))
                 {
@@ -55,7 +55,7 @@ namespace AllStarScore.Admin.Controllers
         {
             if (ModelState.IsValid)
             {
-                var user = RavenSession.Query<User>().FirstOrDefault(u => u.UserName == model.UserName);
+                var user = RavenSession.Query<User>().FirstOrDefault(u => u.Name == model.UserName);
                 
                 if (user != null && user.ValidatePassword(model.Password))
                 {

@@ -45,10 +45,12 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="CommandRegistrar.cs" />
+    <Compile Include="Commands\UserCreateCommand.cs" />
     <Compile Include="Commands\CompetitionCreateCommand.cs" />
     <Compile Include="Commands\GymCreateCommand.cs" />
     <Compile Include="Commands\GymEditCommand.cs" />
     <Compile Include="Commands\ICommand.cs" />
+    <Compile Include="Commands\ICompanyCommand.cs" />
     <Compile Include="Commands\RegistrationCreateCommand.cs" />
     <Compile Include="Commands\RegistrationEditCommand.cs" />
     <Compile Include="Commands\SchedulingEditCommand.cs" />
