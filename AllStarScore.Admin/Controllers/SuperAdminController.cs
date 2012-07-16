@@ -132,7 +132,12 @@ namespace AllStarScore.Admin.Controllers
                              }
                          };
 
-            levels.ForEach(x => x.Id = companyId + "/level/" + x.Id);
+            levels.ForEach(x =>
+            {
+                x.Id = companyId + "/level/" + x.Id;
+                x.CompanyId = companyId;
+            });
+
             levels.ForEach(RavenSession.Store);
             RavenSession.SaveChanges();
         }
@@ -149,7 +154,14 @@ namespace AllStarScore.Admin.Controllers
                                 new DivisionCreateCommand {Name = "Large Senior", LevelId = "6"}
                             };
 
-            commands.ForEach(x => x.LevelId = companyId + "/level/" + x.LevelId);
+            commands.ForEach(x =>
+            {
+                x.LevelId = companyId + "/level/" + x.LevelId;
+                x.CommandCompanyId = companyId;
+                x.CommandByUser = src.CommandByUser;
+                x.CommandWhen = src.CommandWhen;
+
+            });
 
             var divisions =
                 commands

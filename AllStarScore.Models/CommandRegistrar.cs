@@ -1,3 +1,5 @@
+using System;
+using AllStarScore.Extensions;
 using AllStarScore.Models.Commands;
 
 namespace AllStarScore.Models
@@ -18,7 +20,15 @@ namespace AllStarScore.Models
             if (document == null || command == null)
                 return;
 
-            document.CompanyId = command.CommandCompanyId;
+            if (string.IsNullOrWhiteSpace(document.CompanyId))
+                document.CompanyId = command.CommandCompanyId;
+
+            if (document.CompanyId == command.CommandCompanyId)
+                return;
+
+            var msg = string.Format("Attempt to update different company. document: {0}. command {1}",
+                                    document.ToJson(), command.ToJson());
+            throw new AccessViolationException(msg);
         }
     }
 }
