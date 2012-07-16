@@ -95,6 +95,5 @@ namespace AllStarScore.Scoring.Specs
                 Assert.AreEqual(id, provider.GetCompanyId(uri));
             }
         }
-
     }
 }

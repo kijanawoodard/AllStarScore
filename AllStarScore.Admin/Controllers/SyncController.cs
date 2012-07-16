@@ -32,7 +32,7 @@ namespace AllStarScore.Admin.Controllers
 
             var registrations =
                 RavenSession
-                    .Query<TeamRegistration, TeamRegistrationByCompetition>()
+                    .Query<Registration, TeamRegistrationByCompetition>()
                     .Where(x => x.CompetitionId == request.CompetitionId)
                     .Take(int.MaxValue)
                     .As<TeamRegistrationByCompetitionResults>()

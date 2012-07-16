@@ -6,7 +6,7 @@ using Raven.Client.Indexes;
 
 namespace AllStarScore.Admin.Infrastructure.Indexes
 {
-    public class TeamRegistrationStatsByCompetition : AbstractIndexCreationTask<TeamRegistration, TeamRegistrationStatsByCompetition.Results>
+    public class TeamRegistrationStatsByCompetition : AbstractIndexCreationTask<Registration, TeamRegistrationStatsByCompetition.Results>
     {
         public class Results
         {

@@ -9,31 +9,19 @@ namespace AllStarScore.Models
     public class Competition : ICanBeUpdatedByCommand, IBelongToCompany
     {
         public string Id { get; set; }
-        
         public string Name { get; set; }
         public string Description { get; set; }
-
         public DateTime FirstDay { get; set; }
         public int NumberOfDays { get; set; }
-        
         public DateTime LastDay { get { return FirstDay.AddDays(NumberOfDays - 1); } }
 
         public int NumberOfPerformances { get; set; }
-
         public int NumberOfPanels { get; set; }
-        public List<string> Panels {get{ return Enumerable.Range(0, NumberOfPanels).Select(x => char.ConvertFromUtf32(65 + x)).ToList();}} 
-
         public bool IsWorldsCompetition { get; set; }
 
-        public IEnumerable<DateTime> Days
-        {
-            get { return FirstDay.GetDateRange(LastDay); }
-        }
-
-        public string Display
-        {
-            get { return string.Format("{0} {1: MMM dd, yyyy}", Name, FirstDay); }
-        }
+        public List<string> Panels { get { return Enumerable.Range(0, NumberOfPanels).Select(x => char.ConvertFromUtf32(65 + x)).ToList(); } }
+        public IEnumerable<DateTime> Days { get { return FirstDay.GetDateRange(LastDay); } }
+        public string Display { get { return string.Format("{0} {1: MMM dd, yyyy}", Name, FirstDay); } }
 
         public string CompanyId { get; set; }
         public string LastCommand { get; set; }

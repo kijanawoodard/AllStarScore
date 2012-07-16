@@ -6,7 +6,7 @@ using Raven.Client.Indexes;
 
 namespace AllStarScore.Admin.Infrastructure.Indexes
 {
-    public class TeamRegistrationByCompetition : AbstractIndexCreationTask<TeamRegistration, TeamRegistrationByCompetitionResults>
+    public class TeamRegistrationByCompetition : AbstractIndexCreationTask<Registration, TeamRegistrationByCompetitionResults>
     {
         
 
@@ -25,7 +25,7 @@ namespace AllStarScore.Admin.Infrastructure.Indexes
             
             TransformResults =
                 (database, registrations) => from registration in registrations
-                                             let tr = database.Load<TeamRegistration>(registration.Id)
+                                             let tr = database.Load<Registration>(registration.Id)
                                              let gym = database.Load<Gym>(registration.GymId)
                                              let division = database.Load<Division>(registration.DivisionId)
                                              let level = database.Load<Level>(division.LevelId)

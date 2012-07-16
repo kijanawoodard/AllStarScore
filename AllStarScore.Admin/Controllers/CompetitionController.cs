@@ -20,7 +20,7 @@ namespace AllStarScore.Admin.Controllers
 
             var stats =
                 RavenSession
-                    .Query<TeamRegistration, TeamRegistrationStatsByCompetition>()
+                    .Query<Registration, TeamRegistrationStatsByCompetition>()
                     .As<TeamRegistrationStatsByCompetition.Results>()
                     .ToList();
 
@@ -70,7 +70,7 @@ namespace AllStarScore.Admin.Controllers
         {
             var stats =
                 RavenSession
-                    .Query<TeamRegistration, TeamRegistrationStatsByGym>()
+                    .Query<Registration, TeamRegistrationStatsByGym>()
                     .Customize(x => x.Include<TeamRegistrationStatsByGym.Results>(y => y.CompetitionId))
                     .Where(x => x.CompetitionId == id)
                     .As<TeamRegistrationStatsByGym.Results>()

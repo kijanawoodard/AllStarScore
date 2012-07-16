@@ -6,12 +6,9 @@ using Newtonsoft.Json;
 
 namespace AllStarScore.Models
 {
-    public class Schedule
+    public class Schedule : ICanBeUpdatedByCommand, IBelongToCompany, IBelongToCompetition, IGenerateMyId
     {
         public string Id { get; set; }
-
-        public string CompetitionId { get; set; }
-
         public int DefaultDuration { get; set; } //in minutes
         public int DefaultWarmupTime { get; set; } //in minutes
         public int NumberOfPanels { get; set; }
@@ -29,6 +26,12 @@ namespace AllStarScore.Models
                     .Select(entry => new PerformanceEntry(entry));
             }
         }
+
+        public string CompetitionId { get; set; }
+        public string CompanyId { get; set; }
+        public string LastCommand { get; set; }
+        public string LastCommandBy { get; set; }
+        public DateTime LastCommandDate { get; set; }
 
         public Schedule()
         {
@@ -54,6 +57,13 @@ namespace AllStarScore.Models
             DefaultWarmupTime = command.DefaultWarmupTime;
             NumberOfPanels = command.NumberOfPanels;
             Days = command.Days;
+
+            this.RegisterCommand(command);
+        }
+
+        public string GenerateId()
+        {
+            return CompetitionId + "/schedule";
         }
 
         public class ScheduleDay

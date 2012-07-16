@@ -1,5 +1,4 @@
-﻿using System.Collections.Generic;
-using System.Linq;
+﻿using System.Linq;
 using System.Web.Mvc;
 using AllStarScore.Admin.Infrastructure.Indexes;
 using AllStarScore.Admin.ViewModels;
@@ -13,8 +12,9 @@ namespace AllStarScore.Admin.Controllers
     {
         public ActionResult Index(RegistrationIndexRequestModel request)
         {
-            var competition = RavenSession
-                                    .Load<Competition>(request.CompetitionId);
+            var competition =
+                RavenSession
+                    .Load<Competition>(request.CompetitionId);
 
             var model = new RegistrationIndexViewModel(competition, request.GymId);
             return View(model);
@@ -32,7 +32,7 @@ namespace AllStarScore.Admin.Controllers
 
             var teams =
                 RavenSession
-                    .Query<TeamRegistration>()
+                    .Query<Registration>()
                     .Where(t => t.CompetitionId == model.CompetitionId && t.GymId == model.GymId)
                     .Select(
                     t =>
@@ -59,7 +59,7 @@ namespace AllStarScore.Admin.Controllers
             return Execute(
                 action: () =>
                             {
-                                var registration = new TeamRegistration();
+                                var registration = new Registration();
                                 registration.Update(command);
 
                                 RavenSession.Store(registration);
@@ -73,7 +73,7 @@ namespace AllStarScore.Admin.Controllers
             return Execute(
                 action: () =>
                 {
-                    var registration = RavenSession.Load<TeamRegistration>(command.Id);
+                    var registration = RavenSession.Load<Registration>(command.Id);
                     registration.Update(command); //fyi; the registration has Id instead of RegistrationId, but we're not using this class on the client
 
                     return new JsonDotNetResult(true); 

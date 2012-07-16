@@ -4,7 +4,7 @@ using Raven.Client.Indexes;
 
 namespace AllStarScore.Admin.Infrastructure.Indexes
 {
-    public class TeamRegistrationStatsByGym : AbstractIndexCreationTask<TeamRegistration, TeamRegistrationStatsByGym.Results>
+    public class TeamRegistrationStatsByGym : AbstractIndexCreationTask<Registration, TeamRegistrationStatsByGym.Results>
     {
         public class Results
         {

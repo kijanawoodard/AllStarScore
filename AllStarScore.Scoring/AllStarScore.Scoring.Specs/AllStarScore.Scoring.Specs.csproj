@@ -127,6 +127,12 @@
     </Compile>
     <Compile Include="NoStaleQueriesAllowed.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="Registration.feature.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>Registration.feature</DependentUpon>
+    </Compile>
+    <Compile Include="RegistrationSteps.cs" />
     <Compile Include="ScoreGrouping.feature.cs">
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>
@@ -157,6 +163,10 @@
       <LastGenOutput>NaturalGymRanking.feature.cs</LastGenOutput>
     </None>
     <None Include="packages.config" />
+    <None Include="Registration.feature">
+      <Generator>SpecFlowSingleFileGenerator</Generator>
+      <LastGenOutput>Registration.feature.cs</LastGenOutput>
+    </None>
     <None Include="ScoreGrouping.feature">
       <Generator>SpecFlowSingleFileGenerator</Generator>
       <LastGenOutput>ScoreGrouping.feature.cs</LastGenOutput>

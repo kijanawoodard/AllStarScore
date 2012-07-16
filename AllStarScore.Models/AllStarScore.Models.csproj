@@ -60,6 +60,7 @@
     <Compile Include="Division.cs" />
     <Compile Include="Gym.cs" />
     <Compile Include="IBelongToCompany.cs" />
+    <Compile Include="IBelongToCompetition.cs" />
     <Compile Include="ICanBeUpdatedByCommand.cs" />
     <Compile Include="IGenerateMyId.cs" />
     <Compile Include="Level.cs" />
@@ -67,7 +68,7 @@
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="CompetitionInfo.cs" />
     <Compile Include="Schedule.cs" />
-    <Compile Include="TeamRegistration.cs" />
+    <Compile Include="Registration.cs" />
     <Compile Include="TenantMap.cs" />
   </ItemGroup>
   <ItemGroup />
