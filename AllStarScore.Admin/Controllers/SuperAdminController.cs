@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.Diagnostics;
 using System.Linq;
 using System.Web.Mvc;
@@ -46,23 +47,33 @@ namespace AllStarScore.Admin.Controllers
 
                     _tenants.SetCompanyId(Request.Url, company.Id);
 
-                    HackSecurity(company.Id, command);
                     HackLevels(company.Id);
                     HackDivisions(company.Id, command);
                 },
                 onsuccess: () => RedirectToAction("Index"));
         }
 
-        private void HackSecurity(string companyId, ICommand src)
+        [HttpGet, AllowAnonymous]
+        public ActionResult Init()
         {
+            //should only need this once
+            HackSecurity();
+            return RedirectToAction("Index");
+        }
+
+        private void HackSecurity()
+        {
+            var any = RavenSession.Query<User>().Any();
+            if (any) return;
+
             var command = new UserCreateCommand
                           {
                               Email = "admin@wyldeye.com",
-                              UserName = "administrator",
+                              UserName = AccountController.Administrator,
                               Password = "hello",
-                              CommandCompanyId = companyId,
-                              CommandByUser = src.CommandByUser,
-                              CommandWhen = src.CommandWhen
+                              CommandCompanyId = AccountController.AdministratorCompany,
+                              CommandByUser = "system",
+                              CommandWhen = DateTime.UtcNow
                           };
 
             var admin = new User();

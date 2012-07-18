@@ -72,6 +72,12 @@
     <Reference Include="Raven.Client.Lightweight, Version=1.0.0.0, Culture=neutral, PublicKeyToken=37f41c7f99471593, processorArchitecture=MSIL">
       <HintPath>..\packages\RavenDB.Client.1.0.960\lib\net40\Raven.Client.Lightweight.dll</HintPath>
     </Reference>
+    <Reference Include="Raven.Client.UniqueConstraints">
+      <HintPath>..\packages\RavenDB.Client.UniqueConstraints.1.0.960\lib\net40\Raven.Client.UniqueConstraints.dll</HintPath>
+    </Reference>
+    <Reference Include="Raven.Client.Versioning">
+      <HintPath>..\packages\RavenDB.Client.Versioning.1.0.960\lib\net40\Raven.Client.Versioning.dll</HintPath>
+    </Reference>
     <Reference Include="Raven.Database, Version=1.0.0.0, Culture=neutral, PublicKeyToken=37f41c7f99471593, processorArchitecture=MSIL">
       <HintPath>..\packages\RavenDB.Database.1.0.960\lib\net40\Raven.Database.dll</HintPath>
     </Reference>

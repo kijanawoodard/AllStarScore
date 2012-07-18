@@ -1,16 +1,21 @@
+using System;
 using System.Diagnostics;
+using System.Linq.Expressions;
 using AllStarScore.Admin.Infrastructure.Indexes;
 using AllStarScore.Models;
 using Raven.Abstractions.Data;
 using Raven.Client;
 using Raven.Client.Document;
 using Raven.Client.Indexes;
+using Raven.Client.UniqueConstraints;
 using StructureMap.Configuration.DSL;
 
 namespace AllStarScore.Admin.DependencyResolution
 {
     public class RavenDbRegistry : Registry
     {
+        private static Expression<Func<object, string>> _defaultKeyGenerator;
+
         public RavenDbRegistry(string connectionStringName)
         {
             // https://github.com/PureKrome/RavenOverflow/blob/master/Code/RavenOverflow.Web/DependencyResolution/RavenDbRegistry.cs
@@ -28,13 +33,15 @@ namespace AllStarScore.Admin.DependencyResolution
                                             Url = parser.ConnectionStringOptions.Url,
                                             
                                         };
-                    
-                    var defaultGenerator = documentStore.Conventions.DocumentKeyGenerator;
+
+                    var generator = new MultiTypeHiLoKeyGenerator(documentStore, 32);
                     documentStore.Conventions.DocumentKeyGenerator = entity =>
                     {
                         var special = entity as IGenerateMyId;
-                        return special == null ? defaultGenerator(entity) : special.GenerateId();
+                        return special == null ? generator.GenerateDocumentKey(documentStore.Conventions, entity) : special.GenerateId();
                     };
+
+                    documentStore.RegisterListener(new UniqueConstraintsStoreListener());
 
                     documentStore.Initialize();
                     InitializeRavenProfiler(documentStore);

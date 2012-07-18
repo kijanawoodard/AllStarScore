@@ -6,6 +6,7 @@ using System.Text;
 using System.Web;
 using AllStarScore.Models;
 using AllStarScore.Models.Commands;
+using Raven.Client.UniqueConstraints;
 
 namespace AllStarScore.Admin.Models
 {
@@ -25,6 +26,14 @@ namespace AllStarScore.Admin.Models
         public string LastCommand { get; set; }
         public string LastCommandBy { get; set; }
         public DateTime LastCommandDate { get; set; }
+
+        [UniqueConstraint]
+        public string UniqueName { get { return GenerateUniqueName(CompanyId, Name); } }
+
+        public static string GenerateUniqueName(string companyId, string name)
+        {
+            return string.Format("{0}/{1}", companyId, name);
+        }
 
         public User()
         {

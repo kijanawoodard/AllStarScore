@@ -5,19 +5,25 @@ using System.Web;
 using System.Web.Mvc;
 using System.Web.Security;
 using AllStarScore.Admin.Models;
+using Raven.Client.UniqueConstraints;
 
 namespace AllStarScore.Admin.Controllers
 {
     public class AccountController : RavenController
     {
-
+        public static readonly string Administrator = "administrator";
+        public static readonly string AdministratorCompany = "allstarscore";
         //
         // GET: /Account/Login
 
         [AllowAnonymous]
         public ActionResult Login()
         {
-            return ContextDependentView();
+            var model = new LoginModel();
+            model.ReturnUrl = Request.QueryString["returnUrl"];
+
+            return View(model);
+            //return ContextDependentView();
         }
 
         //
@@ -51,18 +57,30 @@ namespace AllStarScore.Admin.Controllers
 
         [AllowAnonymous]
         [HttpPost]
-        public ActionResult Login(LoginModel model, string returnUrl)
+        public ActionResult Login(LoginModel model)
         {
             if (ModelState.IsValid)
             {
-                var user = RavenSession.Query<User>().FirstOrDefault(u => u.Name == model.UserName);
-                
+                var name = model.UserName;
+                if (name == Administrator)
+                {
+                    name = AllStarScore.Admin.Models.User.GenerateUniqueName(AdministratorCompany, Administrator);
+                }
+                else
+                {
+                    //TODO: Load based on company id/username    
+                }
+
+                var user =
+                    RavenSession
+                        .LoadByUniqueConstraint<AllStarScore.Admin.Models.User>(x => x.UniqueName, name);
+
                 if (user != null && user.ValidatePassword(model.Password))
                 {
                     FormsAuthentication.SetAuthCookie(model.UserName, model.RememberMe);
-                    if (Url.IsLocalUrl(returnUrl))
+                    if (Url.IsLocalUrl(model.ReturnUrl))
                     {
-                        return Redirect(returnUrl);
+                        return Redirect(model.ReturnUrl);
                     }
                     else
                     {
