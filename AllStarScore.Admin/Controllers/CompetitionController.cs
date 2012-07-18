@@ -75,6 +75,7 @@ namespace AllStarScore.Admin.Controllers
                     .Query<Registration, TeamRegistrationStatsByGym>()
                     .Customize(x => x.Include<TeamRegistrationStatsByGym.Results>(y => y.CompetitionId))
                     .Where(x => x.CompetitionId == id)
+                    .Where(x => x.CompanyId == CurrentCompanyId)
                     .As<TeamRegistrationStatsByGym.Results>()
                     .ToList();
 

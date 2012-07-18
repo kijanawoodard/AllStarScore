@@ -9,6 +9,7 @@ namespace AllStarScore.Admin.Infrastructure.Indexes
         public class Results
         {
             public string CompetitionId { get; set; }
+            public string CompanyId { get; set; }
             public string GymId { get; set; }
             public string GymName { get; set; }
             public int TeamCount { get; set; }
@@ -22,6 +23,7 @@ namespace AllStarScore.Admin.Infrastructure.Indexes
                                        new
                                            {
                                                registration.CompetitionId,
+                                               registration.CompanyId,
                                                registration.GymId,
                                                registration.ParticipantCount,
                                                TeamCount = 1
@@ -34,6 +36,7 @@ namespace AllStarScore.Admin.Infrastructure.Indexes
                                                  {
                                                      g.Key.CompetitionId,
                                                      g.Key.GymId,
+                                                     g.First().CompanyId,
                                                      ParticipantCount = g.Sum(x => x.ParticipantCount),
                                                      TeamCount = g.Sum(x => x.TeamCount)
                                                  };
@@ -44,6 +47,7 @@ namespace AllStarScore.Admin.Infrastructure.Indexes
                                              select new
                                                         {
                                                             registration.CompetitionId,
+                                                            registration.CompanyId,
                                                             GymName = gym.Name,
                                                             registration.GymId,
                                                             registration.ParticipantCount,
