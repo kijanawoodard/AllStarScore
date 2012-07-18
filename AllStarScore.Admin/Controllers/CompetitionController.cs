@@ -69,7 +69,6 @@ namespace AllStarScore.Admin.Controllers
 
         public ActionResult Details(string id)
         {
-            //TODO: Load Registrations
             var stats =
                 RavenSession
                     .Query<Registration, TeamRegistrationStatsByGym>()
@@ -82,6 +81,9 @@ namespace AllStarScore.Admin.Controllers
             var competition = 
                 RavenSession
                     .Load<Competition>(id);
+
+            if (competition == null)
+                return new HttpNotFoundResult();
 
             var model = new CompetitionDetailsViewModel(competition, stats);
             return View(model);
