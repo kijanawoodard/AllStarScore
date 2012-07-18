@@ -6,7 +6,7 @@ using AllStarScore.Models.Commands;
 
 namespace AllStarScore.Models
 {
-    public class Competition : ICanBeUpdatedByCommand, IBelongToCompany
+    public class Competition : ICanBeUpdatedByCommand, IBelongToCompany, IGenerateMyId
     {
         public string Id { get; set; }
         public string Name { get; set; }
@@ -43,6 +43,11 @@ namespace AllStarScore.Models
             NumberOfPanels = command.NumberOfPanels;
 
             this.RegisterCommand(command);
+        }
+
+        public string GenerateId()
+        {
+            return CompanyId + "/competition/";
         }
 
         public bool Equals(Competition other)

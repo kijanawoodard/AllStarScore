@@ -10,6 +10,7 @@ using System.Web.Routing;
 using AllStarScore.Admin.Controllers;
 using AllStarScore.Admin.Infrastructure.Indexes;
 using AllStarScore.Admin.Models;
+using AllStarScore.Library;
 using AllStarScore.Library.ModelBinding;
 using AllStarScore.Library.Moth;
 using AllStarScore.Models;
@@ -28,29 +29,29 @@ namespace AllStarScore.Admin
 
     public class MvcApplication : System.Web.HttpApplication
     {
-        public MvcApplication()
-        {
-            //https://github.com/ayende/RaccoonBlog/blob/master/RaccoonBlog.Web/Global.asax.cs
-            BeginRequest += (sender, args) =>
-            {
-//                HttpContext.Current.Items["CurrentRequestRavenSession"] = RavenController.DocumentStore.OpenSession();
-            };
-
-            EndRequest += (sender, args) =>
-            {
-                using (var session = ObjectFactory.GetInstance<IDocumentSession>())
-                {
-                    if (session == null)
-                        return;
-
-                    if (Server.GetLastError() != null)
-                        return;
-
-                    session.SaveChanges();
-                }
-                //  TaskExecutor.StartExecuting();
-            };
-        }
+//        public MvcApplication()
+//        {
+//            //https://github.com/ayende/RaccoonBlog/blob/master/RaccoonBlog.Web/Global.asax.cs
+//            BeginRequest += (sender, args) =>
+//            {
+////                HttpContext.Current.Items["CurrentRequestRavenSession"] = RavenController.DocumentStore.OpenSession();
+//            };
+//
+//            EndRequest += (sender, args) =>
+//            {
+//                using (var session = ObjectFactory.GetInstance<IDocumentSession>())
+//                {
+//                    if (session == null)
+//                        return;
+//
+//                    if (Server.GetLastError() != null)
+//                        return;
+//
+//                    session.SaveChanges();
+//                }
+//                //  TaskExecutor.StartExecuting();
+//            };
+//        }
 
         public static void RegisterGlobalFilters(GlobalFilterCollection filters)
         {

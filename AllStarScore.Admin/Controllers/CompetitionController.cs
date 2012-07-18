@@ -24,7 +24,6 @@ namespace AllStarScore.Admin.Controllers
                     .As<TeamRegistrationStatsByCompetition.Results>()
                     .ToList();
 
-            var have = stats.Select(s => s.CompetitionId).ToList();
             var converted =
                 competitions.Value
                     .Select(competition => new TeamRegistrationStatsByCompetition.Results
@@ -36,11 +35,10 @@ namespace AllStarScore.Admin.Controllers
                                                    TeamCount = 0,
                                                    ParticipantCount = 0
                                                })
-                    .Except(stats) //if we have stats, frop it
+                    .Except(stats) //if we have stats, drop it
                     .ToList();
 
             stats.AddRange(converted);
-
 
             var model = new CompetitionIndexViewModel(stats);
             return View(model);
@@ -60,6 +58,7 @@ namespace AllStarScore.Admin.Controllers
                     var competition = new Competition();
                     competition.Update(command);
                     RavenSession.Store(competition);
+                    RavenSession.SaveChanges();
 
                     var url = Url.Action("Details", "Competition", new {id = competition.Id.ForMvc()});
                     return new JsonDotNetResult(url);

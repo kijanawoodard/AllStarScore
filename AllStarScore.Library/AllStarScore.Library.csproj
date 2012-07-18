@@ -55,6 +55,9 @@
     <Reference Include="Raven.Client.MvcIntegration">
       <HintPath>..\AllStarScore.Scoring\packages\RavenDB.Client.MvcIntegration.1.0.960\lib\net40\Raven.Client.MvcIntegration.dll</HintPath>
     </Reference>
+    <Reference Include="StructureMap">
+      <HintPath>..\packages\structuremap.2.6.3\lib\StructureMap.dll</HintPath>
+    </Reference>
     <Reference Include="System" />
     <Reference Include="System.ComponentModel.Composition" />
     <Reference Include="System.Core" />

@@ -23,6 +23,9 @@ namespace AllStarScore.Models
             if (string.IsNullOrWhiteSpace(document.CompanyId))
                 document.CompanyId = command.CommandCompanyId;
 
+            if (command.CommandCompanyId == null)
+                throw new ApplicationException(string.Format("Command doesn't have company id. {0}, {1}", command.GetType().Name, command.ToJson()));
+
             if (document.CompanyId == command.CommandCompanyId)
                 return;
 
