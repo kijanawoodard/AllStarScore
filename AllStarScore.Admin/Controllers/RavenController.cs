@@ -2,6 +2,7 @@ using System;
 using System.Linq;
 using System.Web.Mvc;
 using AllStarScore.Extensions;
+using AllStarScore.Library;
 using Raven.Client;
 
 namespace AllStarScore.Admin.Controllers
@@ -11,6 +12,8 @@ namespace AllStarScore.Admin.Controllers
         //https://github.com/ayende/RaccoonBlog/blob/master/HibernatingRhinos.Loci.Common/Controllers/RavenController.cs
     
         public IDocumentSession RavenSession { get; set; }
+        public ITenantProvider Tenants { get; set; }
+        public string CurrentCompanyId { get { return Tenants.GetCompanyId(HttpContext.Request.Url); } }
 
         protected JsonDotNetResult Execute(Func<JsonDotNetResult> action)
         {

@@ -45,9 +45,14 @@ namespace AllStarScore.Models
             this.RegisterCommand(command);
         }
 
+        public static string FormatId(string companyId)
+        {
+            return companyId + "/competition/";
+        }
+
         public string GenerateId()
         {
-            return CompanyId + "/competition/";
+            return FormatId(CompanyId);
         }
 
         public bool Equals(Competition other)

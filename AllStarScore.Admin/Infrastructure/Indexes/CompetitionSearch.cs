@@ -29,6 +29,7 @@ namespace AllStarScore.Admin.Infrastructure.Indexes
                                              competition.Description,
                                              competition.FirstDay,
                                              competition.LastDay,
+                                             competition.CompanyId,
 
                                              Keywords = new string[]
                                                         {
