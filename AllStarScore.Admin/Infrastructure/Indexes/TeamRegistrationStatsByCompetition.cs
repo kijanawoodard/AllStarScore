@@ -12,6 +12,7 @@ namespace AllStarScore.Admin.Infrastructure.Indexes
         {
             public string CompetitionId { get; set; }
             public string CompetitionName { get; set; }
+            public string CompanyId { get; set; }
 
             [DataType(DataType.Date)]
             public DateTime CompetitionFirstDay { get; set; }
@@ -50,6 +51,7 @@ namespace AllStarScore.Admin.Infrastructure.Indexes
                                            registration.CompetitionId,
                                            registration.GymId,
                                            registration.ParticipantCount,
+                                           registration.CompanyId,
                                            GymCount = 1,
                                            TeamCount = 1
                                        };
@@ -60,6 +62,7 @@ namespace AllStarScore.Admin.Infrastructure.Indexes
                                       select new
                                              {
                                                  g.Key.CompetitionId,
+                                                 g.First().CompanyId,
                                                  GymId = g.First().GymId,
                                                  GymCount = g.Select(x => x.GymId).Distinct().Count(), //from z in g group z by z.GymId into g2 select g2.Sum(x => x.GymCount),
                                                  ParticipantCount = g.Sum(x => x.ParticipantCount),
@@ -72,6 +75,7 @@ namespace AllStarScore.Admin.Infrastructure.Indexes
                                              select new
                                                     {
                                                         registration.CompetitionId,
+                                                        registration.CompanyId,
                                                         CompetitionName = competition.Name,
                                                         CompetitionFirstDay = competition.FirstDay,
                                                         registration.GymId,

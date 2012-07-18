@@ -22,6 +22,7 @@ namespace AllStarScore.Admin.Controllers
             var stats =
                 RavenSession
                     .Query<Registration, TeamRegistrationStatsByCompetition>()
+                    .Where(x => x.CompanyId == CurrentCompanyId)
                     .As<TeamRegistrationStatsByCompetition.Results>()
                     .ToList();
 
