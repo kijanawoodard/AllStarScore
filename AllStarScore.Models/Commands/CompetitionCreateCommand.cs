@@ -18,7 +18,6 @@ namespace AllStarScore.Models.Commands
         public bool IsWorldsCompetition { get; set; }
         
         public string CommandCompanyId { get; set; }
-        
         public string CommandByUser { get; set; }
         public DateTime CommandWhen { get; set; }
     }

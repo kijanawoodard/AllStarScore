@@ -99,7 +99,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="ITenantProvider.cs" />
-    <Compile Include="Raven\SessionExtensions.cs" />
+    <Compile Include="RavenDB\SessionExtensions.cs" />
     <Compile Include="TenantProvider.cs" />
     <Compile Include="ModelBinding\CommandValueProviderFactory.cs" />
     <Compile Include="ModelBinding\DecimalModelBinder.cs" />

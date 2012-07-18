@@ -42,13 +42,15 @@ namespace AllStarScore.Models
             Days = new List<ScheduleDay>();
         }
 
-        public Schedule(Competition competition) : this()
+        public void Update(ScheduleCreateCommand command)
         {
-            CompetitionId = competition.Id;
-            Days = competition
+            CompetitionId = command.CompetitionId;
+            Days = command
                         .Days
                         .Select(x => new ScheduleDay(x.AddHours(8))) //start at 8 am
                         .ToList();   
+
+            this.RegisterCommand(command);
         }
 
         public void Update(SchedulingEditCommand command)
@@ -61,9 +63,14 @@ namespace AllStarScore.Models
             this.RegisterCommand(command);
         }
 
+        public static string FormatId(string competitionId)
+        {
+            return competitionId + "/schedule";
+        }
+
         public string GenerateId()
         {
-            return CompetitionId + "/schedule";
+            return FormatId(CompetitionId);
         }
 
         public class ScheduleDay

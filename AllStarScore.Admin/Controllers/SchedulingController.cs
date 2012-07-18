@@ -38,12 +38,6 @@ namespace AllStarScore.Admin.Controllers
                     .Query<Schedule, ScheduleByCompetition>()
                     .FirstOrDefault(x => x.CompetitionId == id);
 
-            if (schedule == null)
-            {
-                schedule = new Schedule(competition.Value);   
-                RavenSession.Store(schedule);
-            }
-            
             var model = new SchedulingEditViewModel(schedule, competition.Value, registrations.Value, divisions.Value);
             return View(model);
         }

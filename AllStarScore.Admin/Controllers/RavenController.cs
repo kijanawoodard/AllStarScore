@@ -1,5 +1,6 @@
 using System;
 using System.Linq;
+using System.Transactions;
 using System.Web.Mvc;
 using AllStarScore.Extensions;
 using AllStarScore.Library;
@@ -14,6 +15,19 @@ namespace AllStarScore.Admin.Controllers
         public IDocumentSession RavenSession { get; set; }
         public ITenantProvider Tenants { get; set; }
         public string CurrentCompanyId { get { return Tenants.GetCompanyId(HttpContext.Request.Url); } }
+
+
+        protected JsonDotNetResult ExecuteInExplicitTransaction(Func<JsonDotNetResult> action)
+        {
+            JsonDotNetResult result;
+            using (var transaction = new TransactionScope())
+            {
+                result = action();
+                transaction.Complete();
+            }
+
+            return result;
+        }
 
         protected JsonDotNetResult Execute(Func<JsonDotNetResult> action)
         {
@@ -38,6 +52,18 @@ namespace AllStarScore.Admin.Controllers
 
             HttpContext.Response.StatusCode = 400;
             return new JsonDotNetResult(new { errors });
+        }
+
+        protected ActionResult ExecuteInExplicitTransaction(Action action, Func<ActionResult> onsuccess)
+        {
+            ActionResult result;
+            using (var transaction = new TransactionScope())
+            {
+                result = Execute(action, onsuccess, onsuccess);
+                transaction.Complete();
+            }
+
+            return result;
         }
 
         protected ActionResult Execute(Action action, Func<ActionResult> onsuccess)

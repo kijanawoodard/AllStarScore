@@ -36,7 +36,7 @@ namespace AllStarScore.Admin.Controllers
         [HttpPost]
         public ActionResult Index(CompanyCreateCommand command)
         {
-            return Execute(
+            return ExecuteInExplicitTransaction(
                 action: () =>
                 {
                     var company = new Company();
@@ -46,6 +46,7 @@ namespace AllStarScore.Admin.Controllers
                     RavenSession.SaveChanges();
 
                     _tenants.SetCompanyId(Request.Url, company.Id);
+                    RavenSession.SaveChanges();
 
                     HackLevels(company.Id);
                     HackDivisions(company.Id, command);

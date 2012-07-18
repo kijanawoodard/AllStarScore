@@ -33,5 +33,21 @@ namespace AllStarScore.Models
                                     document.ToJson(), command.ToJson());
             throw new AccessViolationException(msg);
         }
+
+        public static void CopyCommandPropertiesFrom(this ICommand target, ICommand src)
+        {
+            target.CommandByUser = src.CommandByUser;
+            target.CommandWhen = src.CommandWhen;
+
+            CopyCompanyCommandPropertiesFrom(target as ICompanyCommand, src as ICompanyCommand);
+        }
+
+        private static void CopyCompanyCommandPropertiesFrom(this ICompanyCommand target, ICompanyCommand src)
+        {
+            if (src == null || target == null)
+                return;
+
+            target.CommandCompanyId = src.CommandCompanyId;
+        }
     }
 }
