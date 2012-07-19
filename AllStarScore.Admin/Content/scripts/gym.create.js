@@ -31,7 +31,6 @@ var CreateGymViewModel = (function (data) {
     self.nameIsTaken = ko.observable(false);
 
     self.gymNameMatched = function (result) {
-        console.log(result);
         if (result.isMatch) {
             self.shouldAllowCreate(false);
             self.nameIsAvailable(false);

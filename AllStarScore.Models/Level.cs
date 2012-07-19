@@ -2,7 +2,7 @@ using System;
 
 namespace AllStarScore.Models
 {
-    public class Level
+    public class Level : IBelongToCompany
     {
         public string Id { get; set; }
 

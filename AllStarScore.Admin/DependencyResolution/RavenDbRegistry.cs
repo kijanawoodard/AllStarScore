@@ -45,7 +45,7 @@ namespace AllStarScore.Admin.DependencyResolution
 
                     documentStore.Initialize();
                     InitializeRavenProfiler(documentStore);
-                    IndexCreation.CreateIndexes(typeof(GymsByName).Assembly, documentStore);
+                    IndexCreation.CreateIndexes(typeof(CompetitionSearch).Assembly, documentStore);
 
                     return documentStore;
                 }

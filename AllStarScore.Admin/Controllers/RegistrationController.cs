@@ -21,11 +21,12 @@ namespace AllStarScore.Admin.Controllers
         }
 
         [HttpGet]
-        public ActionResult Teams(string id)
+        public ActionResult Teams(string competitionId, string gymId)
         {
             var divisions =
                 RavenSession
                     .Query<Division, DivisionsWithLevels>()
+                    .Where(x => x.CompanyId == CurrentCompanyId)
                     .Take(int.MaxValue) //there shouldn't be very many of these in practice
                     .As<DivisionViewModel>()
                     .Lazily();
@@ -33,7 +34,8 @@ namespace AllStarScore.Admin.Controllers
             var teams =
                 RavenSession
                     .Query<Registration>()
-                    .Where(t => t.GymId == id)
+                    .Where(t => t.CompetitionId == competitionId)
+                    .Where(t => t.GymId == gymId)
                     .Select(
                     t =>
                     new TeamRegistrationViewModel()
@@ -47,7 +49,7 @@ namespace AllStarScore.Admin.Controllers
                     .Take(int.MaxValue) //there shouldn't be very many of these in practice
                     .ToList();
 
-            var model = new RegistrationTeamsViewModel();
+            var model = new RegistrationTeamsViewModel(competitionId, gymId);
             model.Teams = teams;
             model.Divisions = divisions.Value.ToList();
 
@@ -64,6 +66,7 @@ namespace AllStarScore.Admin.Controllers
                                 registration.Update(command);
 
                                 RavenSession.Store(registration);
+                                RavenSession.SaveChanges();
                                 return new JsonDotNetResult(registration);
                             });
         }
@@ -77,6 +80,7 @@ namespace AllStarScore.Admin.Controllers
                     var registration = RavenSession.Load<Registration>(command.Id);
                     registration.Update(command); //fyi; the registration has Id instead of RegistrationId, but we're not using this class on the client
 
+                    RavenSession.SaveChanges();
                     return new JsonDotNetResult(true); 
                 });
         }

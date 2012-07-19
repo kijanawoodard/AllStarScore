@@ -2,7 +2,7 @@ using System;
 
 namespace AllStarScore.Models.Commands
 {
-    public class RegistrationCreateCommand : ICommand
+    public class RegistrationCreateCommand : ICommand, ICompanyCommand
     {
         public string CompetitionId { get; set; }
         public string GymId { get; set; }
@@ -12,6 +12,7 @@ namespace AllStarScore.Models.Commands
         public int ParticipantCount { get; set; }
         public bool IsShowTeam { get; set; }
 
+        public string CommandCompanyId { get; set; }
         public string CommandByUser { get; set; }
         public DateTime CommandWhen { get; set; }
     }

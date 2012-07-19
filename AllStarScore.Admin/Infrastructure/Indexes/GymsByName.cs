@@ -5,6 +5,7 @@ using Raven.Client.Indexes;
 
 namespace AllStarScore.Admin.Infrastructure.Indexes
 {
+    //TODO: Do we need this?
     public class GymsByName : AbstractIndexCreationTask<Gym>
     {
         public class Results
