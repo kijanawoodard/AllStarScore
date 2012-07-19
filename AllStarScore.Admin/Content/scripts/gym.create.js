@@ -1,7 +1,7 @@
 ﻿$(document).ready(function () {
     var viewModel = new CreateGymViewModel(window.gymCreateData);
     ko.applyBindings(viewModel, document.getElementById('gym_create'));
-
+    
     $.subscribe('/gym/create/cancelled', function () {
         viewModel.cancelCreation();
     });
@@ -15,7 +15,7 @@ var CreateGymViewModel = (function (data) {
 
     //format the data for the autocomplete dropdown
     self.gyms = $.map($.makeArray(data.gyms), function (item) {
-        return { label: item.name + " from " + item.location, id: item.gymId, match: item.gymName };
+        return { label: item.name + " from " + item.location, id: item.id, match: item.name };
     });
 
     self.post = {
