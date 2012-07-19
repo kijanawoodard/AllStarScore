@@ -1,0 +1,16 @@
+﻿@model AllStarScore.Admin.ViewModels.LevelIndexViewModel
+
+@{
+    ViewBag.Title = "Levels";
+}
+
+<h2>@ViewBag.Title</h2>
+
+<ul>
+@foreach(var level in Model.Levels)
+{
+    <li>
+        @Html.ActionLink(level.Name, "Details",  "Level", new {id = level.Id.ForMvc()}, new {})
+    </li>
+}
+</ul>

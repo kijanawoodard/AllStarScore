@@ -10,7 +10,12 @@ namespace AllStarScore.Models
         public string ScoringDefinition { get; set; }
 
         public string CompanyId { get; set; }
-        
+
+        public static string FormatId(string companyId)
+        {
+            return companyId + "/level/";
+        }
+
         public override string ToString()
         {
             return string.Format("Id: {0}, Name: {1}", Id, Name);

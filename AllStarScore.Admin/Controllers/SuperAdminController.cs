@@ -146,7 +146,7 @@ namespace AllStarScore.Admin.Controllers
 
             levels.ForEach(x =>
             {
-                x.Id = companyId + "/level/" + x.Id;
+                x.Id = Level.FormatId(companyId) + x.Id;
                 x.CompanyId = companyId;
             });
 
@@ -168,7 +168,7 @@ namespace AllStarScore.Admin.Controllers
 
             commands.ForEach(x =>
             {
-                x.LevelId = companyId + "/level/" + x.LevelId;
+                x.LevelId = Level.FormatId(companyId) + x.LevelId;
                 x.CommandCompanyId = companyId;
                 x.CommandByUser = src.CommandByUser;
                 x.CommandWhen = src.CommandWhen;

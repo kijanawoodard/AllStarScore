@@ -1,0 +1,17 @@
+﻿@model AllStarScore.Admin.ViewModels.LevelDetailsViewModel
+
+@{
+    ViewBag.Title = "Divisions";
+}
+
+<h2>Divisions for @Html.ActionLink(Model.Level.Name, "Index", "Level")</h2>
+
+<ul>
+@foreach(var division in Model.Divisions)
+{
+    <li>
+        @division.Name
+    </li>
+}
+</ul>
+

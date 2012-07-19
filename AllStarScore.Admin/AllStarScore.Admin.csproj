@@ -159,7 +159,7 @@
     <Compile Include="App_Start\StructuremapMvc.cs" />
     <Compile Include="Controllers\AccountController.cs" />
     <Compile Include="Controllers\CompetitionController.cs" />
-    <Compile Include="Controllers\DivisionController.cs" />
+    <Compile Include="Controllers\LevelController.cs" />
     <Compile Include="Controllers\GymController.cs" />
     <Compile Include="Controllers\HomeController.cs" />
     <Compile Include="Controllers\RavenController.cs" />
@@ -188,6 +188,8 @@
     <Compile Include="ViewModels\CompetitionIndexViewModel.cs" />
     <Compile Include="ViewModels\DivisionViewModel.cs" />
     <Compile Include="ViewModels\GymListViewModel.cs" />
+    <Compile Include="ViewModels\LevelDetailsViewModel.cs" />
+    <Compile Include="ViewModels\LevelIndexViewModel.cs" />
     <Compile Include="ViewModels\RegistrationIndexRequestModel.cs" />
     <Compile Include="ViewModels\RegistrationIndexViewModel.cs" />
     <Compile Include="ViewModels\RegistrationTeamsViewModel.cs" />
@@ -433,6 +435,12 @@
   </ItemGroup>
   <ItemGroup>
     <Content Include="Views\SuperAdmin\Index.cshtml" />
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="Views\Level\Index.cshtml" />
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="Views\Level\Details.cshtml" />
   </ItemGroup>
   <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
   <Import Project="$(MSBuildExtensionsPath32)\Microsoft\VisualStudio\v10.0\WebApplications\Microsoft.WebApplication.targets" />
