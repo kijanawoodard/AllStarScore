@@ -15,7 +15,7 @@ var CreateGymViewModel = (function (data) {
 
     //format the data for the autocomplete dropdown
     self.gyms = $.map($.makeArray(data.gyms), function (item) {
-        return { label: item.gymName + " from " + item.location, id: item.gymId, match: item.gymName };
+        return { label: item.name + " from " + item.location, id: item.gymId, match: item.gymName };
     });
 
     self.post = {
@@ -31,6 +31,7 @@ var CreateGymViewModel = (function (data) {
     self.nameIsTaken = ko.observable(false);
 
     self.gymNameMatched = function (result) {
+        console.log(result);
         if (result.isMatch) {
             self.shouldAllowCreate(false);
             self.nameIsAvailable(false);

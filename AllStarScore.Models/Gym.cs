@@ -36,9 +36,14 @@ namespace AllStarScore.Models
             this.RegisterCommand(command);
         }
 
+        public static string FormatId(string companyId)
+        {
+            return companyId + "/gym/";
+        }
+
         public string GenerateId()
         {
-            return CompanyId + "/gym/";
+            return FormatId(CompanyId);
         }
 
         public override string ToString()

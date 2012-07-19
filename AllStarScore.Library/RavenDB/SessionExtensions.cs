@@ -25,8 +25,7 @@ namespace AllStarScore.Library.RavenDB
                     .Advanced.DatabaseCommands.StartsWith(keyPrefix, start, pageSize)
                     .Where(x => x.Key.IndexOf("/revisions/", StringComparison.Ordinal) == -1)
                     .Where(x => x.Metadata["Raven-Clr-Type"].ToString() == targetType)
-                    .Select(inMemorySession.TrackEntity<T>)
-                    .ToList();
+                    .Select(inMemorySession.TrackEntity<T>);
 
             return result;
         }

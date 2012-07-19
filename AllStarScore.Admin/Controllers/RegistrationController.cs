@@ -21,7 +21,7 @@ namespace AllStarScore.Admin.Controllers
         }
 
         [HttpGet]
-        public ActionResult Teams(RegistrationTeamsViewModel model)
+        public ActionResult Teams(string id)
         {
             var divisions =
                 RavenSession
@@ -33,7 +33,7 @@ namespace AllStarScore.Admin.Controllers
             var teams =
                 RavenSession
                     .Query<Registration>()
-                    .Where(t => t.CompetitionId == model.CompetitionId && t.GymId == model.GymId)
+                    .Where(t => t.GymId == id)
                     .Select(
                     t =>
                     new TeamRegistrationViewModel()
@@ -47,6 +47,7 @@ namespace AllStarScore.Admin.Controllers
                     .Take(int.MaxValue) //there shouldn't be very many of these in practice
                     .ToList();
 
+            var model = new RegistrationTeamsViewModel();
             model.Teams = teams;
             model.Divisions = divisions.Value.ToList();
 

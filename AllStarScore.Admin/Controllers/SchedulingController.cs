@@ -32,13 +32,13 @@ namespace AllStarScore.Admin.Controllers
                 RavenSession
                     .Advanced.Lazily
                     .Load<Competition>(id);
-            
+
             var schedule =
                 RavenSession
-                    .Query<Schedule, ScheduleByCompetition>()
-                    .FirstOrDefault(x => x.CompetitionId == id);
-
-            var model = new SchedulingEditViewModel(schedule, competition.Value, registrations.Value, divisions.Value);
+                    .Advanced.Lazily
+                    .Load<Schedule>(Schedule.FormatId(id));
+            
+            var model = new SchedulingEditViewModel(schedule.Value, competition.Value, registrations.Value, divisions.Value);
             return View(model);
         }
 
@@ -50,6 +50,8 @@ namespace AllStarScore.Admin.Controllers
                 {
                     var schedule = RavenSession.Load<Schedule>(command.Id);
                     schedule.Update(command);
+
+                    RavenSession.SaveChanges();
 
                     return new JsonDotNetResult(true);
                 });

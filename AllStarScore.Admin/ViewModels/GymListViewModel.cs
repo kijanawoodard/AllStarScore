@@ -1,13 +1,13 @@
 using System.Collections.Generic;
-using AllStarScore.Admin.Infrastructure.Indexes;
+using AllStarScore.Models;
 
 namespace AllStarScore.Admin.ViewModels
 {
     public class GymListViewModel
     {
-        public List<GymsByName.Results> Gyms { get; set; }
+        public List<Gym> Gyms { get; set; }
 
-        public GymListViewModel(List<GymsByName.Results> gyms)
+        public GymListViewModel(List<Gym> gyms)
         {
             Gyms = gyms;
         }

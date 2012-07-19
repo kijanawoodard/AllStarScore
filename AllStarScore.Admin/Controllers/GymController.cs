@@ -6,6 +6,7 @@ using AllStarScore.Admin.Infrastructure.Indexes;
 using AllStarScore.Admin.ViewModels;
 using AllStarScore.Models;
 using AllStarScore.Models.Commands;
+using AllStarScore.Library.RavenDB;
 using Raven.Client.Linq;
 
 namespace AllStarScore.Admin.Controllers
@@ -17,9 +18,7 @@ namespace AllStarScore.Admin.Controllers
         {
             var gyms =
                 RavenSession
-                    .Query<Gym, GymsByName>()
-                    .Take(int.MaxValue) //there shouldn't be very many of these in practice
-                    .As<GymsByName.Results>()
+                    .LoadStartingWith<Gym>(Gym.FormatId(CurrentCompanyId))
                     .ToList();
 
             var model = new GymListViewModel(gyms);
@@ -42,16 +41,20 @@ namespace AllStarScore.Admin.Controllers
                             {
                                 var gym = new Gym();
                                 gym.Update(command);
+
                                 RavenSession.Store(gym);
+                                RavenSession.SaveChanges();
+
                                 return new JsonDotNetResult(gym);
                             });
         }
 
         [HttpGet]
-        public ActionResult Edit(string gymid)
+        public ActionResult Edit(string id)
         {
-            var gym = RavenSession
-                            .Load<Gym>(gymid);
+            var gym =
+                RavenSession
+                    .Load<Gym>(id);
 
             var model = new GymEditCommand(gym);
             return PartialView(model);
@@ -62,11 +65,17 @@ namespace AllStarScore.Admin.Controllers
         {
             return Execute(
                 action: () =>
-                            {
-                                var gym = RavenSession.Load<Gym>(command.GymId);
-                                gym.Update(command);
-                                return new JsonDotNetResult(command);
-                            });
+                {
+                    var gym =
+                        RavenSession
+                            .Load<Gym>(command.GymId);
+
+                    gym.Update(command);
+
+                    RavenSession.SaveChanges();
+
+                    return new JsonDotNetResult(command);
+                });
         }
     }
 }

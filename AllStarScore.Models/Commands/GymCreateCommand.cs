@@ -3,7 +3,7 @@ using System.ComponentModel.DataAnnotations;
 
 namespace AllStarScore.Models.Commands
 {
-    public class GymCreateCommand : ICommand 
+    public class GymCreateCommand : ICommand, ICompanyCommand
     {
         [Required]
         public string GymName { get; set; }
@@ -12,6 +12,7 @@ namespace AllStarScore.Models.Commands
         public string Location { get; set; }
         public bool IsSmallGym { get; set; }
 
+        public string CommandCompanyId { get; set; }
         public string CommandByUser { get; set; }
         public DateTime CommandWhen { get; set; }
 
