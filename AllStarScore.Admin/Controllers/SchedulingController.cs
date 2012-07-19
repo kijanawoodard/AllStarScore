@@ -17,6 +17,7 @@ namespace AllStarScore.Admin.Controllers
                 RavenSession
                     .Query<Registration, TeamRegistrationByCompetition>()
                     .Take(int.MaxValue)
+                    .Where(x => x.CompetitionId == id)
                     .As<TeamRegistrationByCompetitionResults>()
                     .OrderBy(x => x.CreatedAt)
                     .Lazily();

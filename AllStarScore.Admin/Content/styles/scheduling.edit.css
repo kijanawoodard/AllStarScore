@@ -64,3 +64,6 @@ li .index { left: 0; top: 0; bottom: 0;padding: .4em 0; }
 
 #scheduling_edit .setup,
 #scheduling_edit .setup .option { margin-bottom: 10px;}
+
+.save button { }
+.save .notification {display: none; background-color: #a0ffa0;color: #3a3a3a; font-size: 1.2em;padding: 8px;}

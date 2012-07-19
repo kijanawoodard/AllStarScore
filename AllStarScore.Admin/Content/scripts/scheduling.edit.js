@@ -282,11 +282,16 @@ var EditScheduleViewModel = (function (data) {
         self.displayOptions(!self.displayOptions());
     };
 
+    self.justSaved = ko.observable(false);
+
     self.save = function () {
         form.ajaxPost({
             data: ko.mapping.toJSON(self.schedule),
             success: function (result) {
-                console.log('saved');
+                self.justSaved(true);
+                setTimeout(function () {
+                    self.justSaved(false);
+                }, 2000);
             }
         });
     };

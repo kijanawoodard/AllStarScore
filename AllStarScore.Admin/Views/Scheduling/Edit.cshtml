@@ -43,8 +43,9 @@
             
             <div class="validation-summary-errors"></div>
 
-            <p>
+            <p class="save">
                 <button data-bind="click: save, enable: unscheduled().length > -1">Save</button>
+                <span class="notification" data-bind="fadeVisible: justSaved">Saved!</span>
             </p>
         </fieldset>
     </form>
