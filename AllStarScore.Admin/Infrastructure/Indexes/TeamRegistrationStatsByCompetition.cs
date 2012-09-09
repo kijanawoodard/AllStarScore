@@ -55,6 +55,7 @@ namespace AllStarScore.Admin.Infrastructure.Indexes
                                            GymCount = 1,
                                            TeamCount = 1
                                        };
+
             //http://stackoverflow.com/a/10597740/214073
             Reduce = registrations => from registration in registrations
                                       group registration by new { registration.CompetitionId }

@@ -40,7 +40,7 @@ table.tablesorter th.headerSortDown {
 	body > header { display: none; }  
 	footer { display: none; background-color: #fff;background: none;}
 	
-	.ko_output { display: none; }
+	.ko_output { displayx: none; }
 }
 
-pre { display: none;}
+pre { displayx: none;}
