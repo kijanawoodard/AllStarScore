@@ -72,7 +72,7 @@ namespace AllStarScore.Models
 
         public override string ToString()
         {
-            return string.Format("Id: {0}, TeamName: {1}, GymId: {2}, DivisionId: {3}", Id, TeamName, GymId, DivisionId);
+            return string.Format("Id: {0}, TeamName: {1}, DivisionId: {2}, IsShowTeam: {3}, IsWorldsTeam: {4}", Id, TeamName, DivisionId, IsShowTeam, IsWorldsTeam);
         }
 
         public bool Equals(Registration other)
