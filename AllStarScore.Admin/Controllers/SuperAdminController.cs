@@ -24,8 +24,6 @@ namespace AllStarScore.Admin.Controllers
         [HttpGet]
         public ActionResult Index()
         {
-            _tenants.EnsureTenantMapExists(); //no real home for this, but doesn't matter right now
-
             var model = new SuperAdminIndexViewModel();
             model.Domain = _tenants.GetKey(Request.Url);
             model.Company = _tenants.GetCompanyId(Request.Url);
@@ -46,8 +44,7 @@ namespace AllStarScore.Admin.Controllers
                     RavenSession.SaveChanges();
 
                     _tenants.SetCompanyId(Request.Url, company.Id);
-                    RavenSession.SaveChanges();
-
+                    
                     HackLevels(company.Id);
                     HackDivisions(company.Id, command);
                 },
@@ -58,7 +55,9 @@ namespace AllStarScore.Admin.Controllers
         public ActionResult Init()
         {
             //should only need this once
+            _tenants.EnsureTenantMapExists(); //no real home for this, but doesn't matter right now
             HackSecurity();
+            
             return RedirectToAction("Index");
         }
 
