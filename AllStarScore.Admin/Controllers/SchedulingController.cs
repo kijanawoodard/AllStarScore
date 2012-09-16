@@ -3,6 +3,7 @@ using System.Linq;
 using System.Web.Mvc;
 using AllStarScore.Admin.Infrastructure.Indexes;
 using AllStarScore.Admin.ViewModels;
+using AllStarScore.Library.RavenDB;
 using AllStarScore.Models;
 using AllStarScore.Models.Commands;
 using Raven.Client.Linq;
@@ -40,6 +41,33 @@ namespace AllStarScore.Admin.Controllers
                     .Load<Schedule>(Schedule.FormatId(id));
             
             var model = new SchedulingEditViewModel(schedule.Value, competition.Value, registrations.Value, divisions.Value);
+
+            model.Levels =
+                RavenSession
+                    .LoadStartingWith<Level>(Level.FormatId(CurrentCompanyId))
+                    .ToList();
+
+            model.DivisionsRaw =
+                RavenSession
+                    .LoadStartingWith<Division>(Division.FormatId(CurrentCompanyId))
+                    .ToList();
+
+            model.RegistrationsRaw =
+                RavenSession
+                    .LoadStartingWith<Registration>(Registration.FormatId(id))
+                    .ToList();
+
+            model.Performances =
+                model
+                    .RegistrationsRaw
+                    .SelectMany(x => x.GetPerformances(competition.Value))
+                    .ToList();
+                    
+            model.Gyms =
+                RavenSession
+                    .LoadStartingWith<Gym>(Gym.FormatId(CurrentCompanyId))
+                    .ToList();
+
             return View(model);
         }
 

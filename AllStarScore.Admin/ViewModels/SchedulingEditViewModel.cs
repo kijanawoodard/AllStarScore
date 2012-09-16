@@ -15,6 +15,12 @@ namespace AllStarScore.Admin.ViewModels
         public List<DivisionViewModel> Divisions { get; set; }
         public IEnumerable<DateTime> CompetitionDays { get; set; }
 
+        public List<Level> Levels { get; set; }
+        public List<Division> DivisionsRaw { get; set; }
+        public List<Registration> RegistrationsRaw { get; set; }
+        public List<Gym> Gyms { get; set; }
+        public List<PerformaceVM> Performances { get; set; } 
+            
         public SchedulingEditViewModel(Schedule schedule
                                      , Competition competition
                                      , IEnumerable<TeamRegistrationByCompetitionResults> registrations

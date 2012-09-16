@@ -29,6 +29,33 @@ namespace AllStarScore.Models
             CreatedAt = DateTime.UtcNow;
         }
 
+        public IEnumerable<PerformaceVM> GetPerformances(Competition competition)
+        {
+            var performance = GeneratePerformance("1");
+            yield return performance;
+
+            if (competition.NumberOfDays == 1)
+                yield break;
+
+            performance = GeneratePerformance("2");
+            if (IsWorldsTeam)
+            {
+                performance.DivisionId = performance.DivisionId; //TODO: get Worlds Division Id onto competition
+            }
+
+            yield return performance;
+        }
+
+        private PerformaceVM GeneratePerformance(string id)
+        {
+            return new PerformaceVM
+                   {
+                       Id = string.Format("{0}/performance/{1}", Id.Substring(Id.IndexOf("gym/", System.StringComparison.Ordinal)), id),
+                       RegistrationId = Id,
+                       DivisionId = DivisionId
+                   };
+        }
+
         public void Update(RegistrationCreateCommand command)
         {
             CompetitionId = command.CompetitionId;
@@ -56,12 +83,12 @@ namespace AllStarScore.Models
 
         public static string FormatId(string competitionId)
         {
-            return competitionId + "/registrations";
+            return competitionId + "/registrations/";
         }
 
         public static string FormatId(string competitionId, string gymId, string companyId)
         {
-            var result = string.Format("{0}{1}/registration/", FormatId(competitionId), gymId.Replace(companyId, string.Empty));
+            var result = string.Format("{0}{1}registration/", FormatId(competitionId), gymId.Replace(companyId, string.Empty));
             return result;
         }
 

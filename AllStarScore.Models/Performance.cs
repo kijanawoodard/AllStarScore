@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 
@@ -35,5 +36,12 @@ namespace AllStarScore.Models
         public bool ScoringComplete { get; set; }
 
         public decimal FinalScore { get; set; }
+    }
+
+    public class PerformaceVM
+    {
+        public string Id { get; set; }
+        public string RegistrationId { get; set; }
+        public string DivisionId { get; set; }
     }
 }

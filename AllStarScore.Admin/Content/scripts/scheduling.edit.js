@@ -12,6 +12,29 @@ $(document).ready(function () {
     viewModel.loadUnscheduled();
 });
 
+var utilities = {
+    asArray: function (obj) {
+        var result = [];
+        for (var key in obj) {
+            result.push({ key: key, value: obj[key] });
+        }
+
+        return result;
+    },
+    asObject: function (array, keyFunc) {
+        keyFunc = keyFunc || function (item) {
+            return item.id;
+        };
+
+        var result = {};
+        _.each(array, function (item, index) {
+            result[keyFunc(item)] = item;
+        });
+
+        return result;
+    }
+};
+
 var DayModel = function (data) {
     data.day = new Date(data.day);
     ko.mapping.fromJS(data, mapping, this);
@@ -89,6 +112,13 @@ var EditScheduleViewModel = (function (data) {
 
     //map divisions to just id
     data.divisions = _.pluck(data.divisions, 'divisionId');
+
+    self.competition = data.competition;
+    self.levels = utilities.asObject(data.levels);
+    self.divisionsRaw = utilities.asObject(data.divisionsRaw);
+    self.gyms = utilities.asObject(data.gyms);
+    self.registrationsRaw = utilities.asObject(data.registrationsRaw);
+    self.performancesRaw = utilities.asObject(data.performances);
 
     self.schedule = ko.mapping.fromJS(data.schedule, mapping);
     self.registrations = ko.mapping.fromJS(data.registrations);
