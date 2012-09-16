@@ -119,6 +119,24 @@ var EditScheduleViewModel = (function (data) {
     self.gyms = utilities.asObject(data.gyms);
     self.registrationsRaw = utilities.asObject(data.registrationsRaw);
     self.performancesRaw = utilities.asObject(data.performances);
+    _.each(self.performancesRaw, function (performance) {
+        var division = self.divisionsRaw[performance.divisionId];
+        performance.division = division.name;
+        performance.level = self.levels[division.levelId].name;
+
+        var registration = self.registrationsRaw[performance.registrationId];
+        performance.team = registration.teamName;
+        performance.particpants = registration.participantCount;
+        performance.isShowTeam = registration.isShowTeam;
+
+        var gym = self.gyms[registration.gymId];
+        performance.gym = gym.name;
+        performance.isSmallGym = gym.isSmallGym;
+        performance.location = gym.location;
+
+        performance.order = [, '1st', '2nd', '3rd', '4th', '5th'][performance.id.substr(performance.id.length - 1)];
+    });
+
 
     self.schedule = ko.mapping.fromJS(data.schedule, mapping);
     self.registrations = ko.mapping.fromJS(data.registrations);
