@@ -11,6 +11,7 @@ namespace AllStarScore.Models.Commands
         public string DivisionId { get; set; }
         public int ParticipantCount { get; set; }
         public bool IsShowTeam { get; set; }
+        public bool IsWorldsTeam { get; set; }
 
         public string CommandCompanyId { get; set; }
         public string CommandByUser { get; set; }

@@ -13,6 +13,7 @@ namespace AllStarScore.Models
         public int ParticipantCount { get; set; }
         public string DivisionId { get; set; }
         public bool IsShowTeam { get; set; }
+        public bool IsWorldsTeam { get; set; }
 
         public DateTime CreatedAt { get; set; }
 
@@ -37,6 +38,7 @@ namespace AllStarScore.Models
             ParticipantCount = command.ParticipantCount;
             DivisionId = command.DivisionId;
             IsShowTeam = command.IsShowTeam;
+            IsWorldsTeam = command.IsWorldsTeam;
 
             this.RegisterCommand(command);
         }
@@ -47,14 +49,25 @@ namespace AllStarScore.Models
             ParticipantCount = command.ParticipantCount;
             DivisionId = command.DivisionId;
             IsShowTeam = command.IsShowTeam;
+            IsWorldsTeam = command.IsWorldsTeam;
 
             this.RegisterCommand(command);
         }
 
+        public static string FormatId(string competitionId)
+        {
+            return competitionId + "/registrations";
+        }
+
+        public static string FormatId(string competitionId, string gymId, string companyId)
+        {
+            var result = string.Format("{0}{1}/registration/", FormatId(competitionId), gymId.Replace(companyId, string.Empty));
+            return result;
+        }
+
         public string GenerateId()
         {
-            var result = string.Format("{0}{1}/registration/", CompetitionId, GymId.Replace(CompanyId, string.Empty));
-            return result;
+            return FormatId(CompetitionId, GymId, CompanyId);
         }
 
         public override string ToString()

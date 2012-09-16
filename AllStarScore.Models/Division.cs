@@ -25,13 +25,18 @@ namespace AllStarScore.Models
 
         public static string FormatId(string companyId)
         {
-            return companyId + "/divisions/";
+            return companyId + "/divisions";
+        }
+
+        public static string FormatId(string companyId, string levelId)
+        {
+            var result = string.Format("{0}{1}/division/", FormatId(companyId), levelId.Replace(companyId, string.Empty));
+            return result;
         }
 
         public string GenerateId()
         {
-            var result = string.Format("{0}{1}/division/", FormatId(CompanyId), LevelId.Replace(CompanyId, string.Empty));
-            return result;
+            return FormatId(CompanyId, LevelId);
         }
 
         public bool Equals(Division other)

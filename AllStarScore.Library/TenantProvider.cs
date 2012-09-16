@@ -19,8 +19,8 @@ namespace AllStarScore.Library
 
         public string GetCompanyId(Uri uri)
         {
-            using (_session.Advanced.DocumentStore.AggressivelyCacheFor(TimeSpan.FromMinutes(30)))
-            {
+//            using (_session.Advanced.DocumentStore.AggressivelyCacheFor(TimeSpan.FromMinutes(30)))
+//            {
                 var map =
                    _session
                        .Load<TenantMap>(TenantMapId);
@@ -28,7 +28,7 @@ namespace AllStarScore.Library
                 var key = GetKey(uri);
                 var result = map.Tenants.ContainsKey(key) ? map.Tenants[key] : null;
                 return result;
-            }
+//            }
         }
 
         public void SetCompanyId(Uri uri, string companyId)
