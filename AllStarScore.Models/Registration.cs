@@ -83,12 +83,12 @@ namespace AllStarScore.Models
 
         public static string FormatId(string competitionId)
         {
-            return competitionId + "/registrations/";
+            return competitionId + "/registrations";
         }
 
         public static string FormatId(string competitionId, string gymId, string companyId)
         {
-            var result = string.Format("{0}{1}registration/", FormatId(competitionId), gymId.Replace(companyId, string.Empty));
+            var result = string.Format("{0}{1}/registration/", FormatId(competitionId), gymId.Replace(companyId, string.Empty));
             return result;
         }
 

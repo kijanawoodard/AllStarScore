@@ -58,7 +58,7 @@ var EntryModel = function (data) {
     }, self);
 
     self.isRegistration = ko.computed(function () {
-        return self.registration();
+        return self.registration() ? true : false;
     }, self);
 
     self.isNonTeamEntry = ko.computed(function () {

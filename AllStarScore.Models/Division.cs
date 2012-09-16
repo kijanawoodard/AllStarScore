@@ -25,12 +25,12 @@ namespace AllStarScore.Models
 
         public static string FormatId(string companyId)
         {
-            return companyId + "/divisions/";
+            return companyId + "/divisions";
         }
 
         public static string FormatId(string companyId, string levelId)
         {
-            var result = string.Format("{0}{1}division/", FormatId(companyId), levelId.Replace(companyId, string.Empty));
+            var result = string.Format("{0}{1}/division/", FormatId(companyId), levelId.Replace(companyId, string.Empty));
             return result;
         }
 
