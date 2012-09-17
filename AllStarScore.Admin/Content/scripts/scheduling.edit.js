@@ -69,9 +69,9 @@ var EntryModel = function (data, viewmodel) {
     }, self);
 };
 
-var getRegistrationId = function(id) {
-    return id.charAt(0).toLowerCase() + id.slice(1); //might change name of registration class in raven to avoid this
-};
+//var getRegistrationId = function(id) {
+//    return id.charAt(0).toLowerCase() + id.slice(1); //might change name of registration class in raven to avoid this
+//};
 
 var mapping = {
     'include': ["panel"],
@@ -108,20 +108,20 @@ var EditScheduleViewModel = (function (data) {
     });
 
     //map divisions to just id
-    data.divisions = _.pluck(data.divisions, 'divisionId');
+    //data.divisions = _.pluck(data.divisions, 'divisionId');
 
     self.competition = data.competition;
     self.levels = utilities.asObject(data.levels);
-    self.divisionsRaw = utilities.asObject(data.divisionsRaw);
+    self.divisions = utilities.asObject(data.divisions);
     self.gyms = utilities.asObject(data.gyms);
-    self.registrationsRaw = utilities.asObject(data.registrationsRaw);
-    self.performancesRaw = utilities.asObject(data.performances);
-    _.each(self.performancesRaw, function (performance) {
-        var division = self.divisionsRaw[performance.divisionId];
+    self.registrations = utilities.asObject(data.registrations);
+    self.performances = utilities.asObject(data.performances);
+    _.each(self.performances, function (performance) {
+        var division = self.divisions[performance.divisionId];
         performance.division = division.name;
         performance.level = self.levels[division.levelId].name;
 
-        var registration = self.registrationsRaw[performance.registrationId];
+        var registration = self.registrations[performance.registrationId];
         performance.team = registration.teamName;
         performance.particpants = registration.participantCount;
         performance.isShowTeam = registration.isShowTeam;
@@ -136,25 +136,25 @@ var EditScheduleViewModel = (function (data) {
 
 
     self.schedule = ko.mapping.fromJS(data.schedule, mapping);
-    self.registrations = ko.mapping.fromJS(data.registrations);
+    //self.registrations = ko.mapping.fromJS(data.registrations);
 
-    self.performances = ko.computed(function () {
-        return _.chain(self.schedule.days())
-                    .map(function (day) {
-                        return day.entries();
-                    })
-                    .flatten()
-                    .filter(function (item) {
-                        return item.registrationId;
-                    })
-                    .map(function (item) {
-                        return { registrationId: item.registrationId(), time: item.time(), item: item };
-                    })
-                    .groupBy(function (item) {
-                        return item.registrationId;
-                    })
-                    .value();
-    }, self);
+//    self.performances = ko.computed(function () {
+//        return _.chain(self.schedule.days())
+//                    .map(function (day) {
+//                        return day.entries();
+//                    })
+//                    .flatten()
+//                    .filter(function (item) {
+//                        return item.registrationId;
+//                    })
+//                    .map(function (item) {
+//                        return { registrationId: item.registrationId(), time: item.time(), item: item };
+//                    })
+//                    .groupBy(function (item) {
+//                        return item.registrationId;
+//                    })
+//                    .value();
+//    }, self);
 
     self.competitionDays = data.competitionDays;
 
@@ -164,23 +164,22 @@ var EditScheduleViewModel = (function (data) {
         });
     });
 
-    self.divisions = data.divisions;
+    //self.divisions = data.divisions;
 
     self.divisionPanels = {};
 
     //initialize division panels
     _.each(data.schedule.days, function (day) {
         _.each(day.entries, function (entry) {
-            if (entry.registrationId) {
-                var id = getRegistrationId(entry.registrationId);
-                var division = self.registrations[id].divisionId();
-                self.divisionPanels[division] = self.divisionPanels[division] || ko.observable(entry.panel);
+            if (entry.performanceId) {
+                var divisionId = self.performances[performanceId].divisionId;
+                self.divisionPanels[divisionId] = self.divisionPanels[divisionId] || ko.observable(entry.panel);
             }
         });
     });
 
     self.getPanel = function (performanceId) {
-        var divisionId = self.performancesRaw[performanceId].divisionId;
+        var divisionId = self.performances[performanceId].divisionId;
         var result =
             self.divisionPanels[divisionId] ?
                 self.divisionPanels[divisionId] :
@@ -199,9 +198,9 @@ var EditScheduleViewModel = (function (data) {
         dp(result);
     };
 
-    self.calculateWarmup = function (node) {
-        return new Date(node.time().getTime() - node.warmupTime() * 60 * 1000);
-    };
+//    self.calculateWarmup = function (node) {
+//        return new Date(node.time().getTime() - node.warmupTime() * 60 * 1000);
+//    };
 
     //    self.scheduleTeams = function (day, registrations) {
     //        ko.utils.arrayForEach(registrations, function (registration) {
@@ -249,12 +248,12 @@ var EditScheduleViewModel = (function (data) {
                 .value();
 
         var unscheduled =
-            _.chain(_.keys(self.performancesRaw))
+            _.chain(_.keys(self.performances))
                 .without(scheduled)
                 .value();
 
         _.each(unscheduled, function (id) {
-            var performance = self.performancesRaw[id];
+            var performance = self.performances[id];
             addPerformance(performance);
         });
     };
@@ -263,7 +262,7 @@ var EditScheduleViewModel = (function (data) {
 
     self.toPerformance = function (entry) {
         //console.log(entry);
-        return self.performancesRaw[entry.performanceId()];
+        return self.performances[entry.performanceId()];
     };
 
     //    self.loadUnscheduled = function () {
@@ -367,7 +366,7 @@ var EditScheduleViewModel = (function (data) {
     //        return [, '1st', '2nd', '3rd', '4th', '5th'][result];
     //    };
 
-    self.displayOptions = ko.observable(self.performances().length == 0);
+    self.displayOptions = ko.observable(self.performances.length == 0);
     self.toggleOptions = function () {
         self.displayOptions(!self.displayOptions());
     };

@@ -11,26 +11,32 @@ namespace AllStarScore.Admin.ViewModels
     {
         public Schedule Schedule { get; set; }
         public Competition Competition { get; set; }
-        public Dictionary<string, TeamRegistrationByCompetitionResults> Registrations { get; set; }
-        public List<DivisionViewModel> Divisions { get; set; }
         public IEnumerable<DateTime> CompetitionDays { get; set; }
 
-        public List<Level> Levels { get; set; }
-        public List<Division> DivisionsRaw { get; set; }
-        public List<Registration> RegistrationsRaw { get; set; }
-        public List<Gym> Gyms { get; set; }
-        public List<PerformaceVM> Performances { get; set; } 
+        public IEnumerable<Level> Levels { get; set; }
+        public IEnumerable<Division> Divisions { get; set; }
+        public IEnumerable<Registration> Registrations { get; set; }
+        public IEnumerable<Gym> Gyms { get; set; }
+        public IEnumerable<PerformaceVM> Performances { get; set; } 
             
         public SchedulingEditViewModel(Schedule schedule
                                      , Competition competition
-                                     , IEnumerable<TeamRegistrationByCompetitionResults> registrations
-                                     , IEnumerable<DivisionViewModel> divisions)
+                                     , IEnumerable<Level> levels
+                                     , IEnumerable<Division> divisions
+                                     , IEnumerable<Gym> gyms 
+                                     , IEnumerable<Registration> registrations
+                                     , IEnumerable<PerformaceVM> performances 
+                                     )
         {
             Schedule = schedule;
             Competition = competition;
-            Registrations = registrations.ToDictionary(r => r.Id, r => r);
-            Divisions = divisions.ToList();
             CompetitionDays = competition.Days.ToList();
+
+            Levels = levels;
+            Divisions = divisions;
+            Gyms = gyms;
+            Registrations = registrations;
+            Performances = performances;
         }
     }
 }
