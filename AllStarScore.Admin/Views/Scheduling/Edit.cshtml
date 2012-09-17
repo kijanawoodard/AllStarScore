@@ -60,13 +60,13 @@
             <div class='handle'><span class='ui-icon ui-icon-star'></span></div>
             <span class="display" data-bind="css: { break: isNonTeamEntry}">
                 <span class="group">
-                    <span data-bind="dateString: $root.calculateWarmup($data), datePattern : 'ddd h:mm tt'" class="warmup"></span>
+                    <span data-bind="dateString: warmup, datePattern : 'ddd h:mm tt'" class="warmup"></span>
                     <span data-bind="dateString: time, datePattern: 'ddd h:mm tt'"></span>
                     <span data-bind="text: panel, click: $root.shiftPanel" class="shift-panel"></span>
                 </span>
-                <span data-bind="template: { name: template(), data: $data.registration() || $data }" class="core"></span>
+                <span data-bind="template: { name: template(), data: $root.toPerformance($data) }" class="core"></span>
 @*                <!-- ko template: { name: template(), data: $data.registration() || $data } --><!-- /ko -->*@
-                <span data-bind="text: $root.calculatePerformancePosition($data)" class="order"></span>
+                <span data-bind="text: $root.toPerformance($data).order" class="order"></span>
 @*                <span data-bind="text: duration"></span>*@
             </span>
         </div>
@@ -75,13 +75,13 @@
 
 <script type="text/html" id="registration-template">
     <span class="name group">
-        <span data-bind="text: gymName"></span>
-        <span data-bind="text: teamName"></span>
+        <span data-bind="text: gym"></span>
+        <span data-bind="text: team"></span>
         <span data-bind="text: isShowTeam ? 'Show' : ''" class="show"></span>
     </span>
     <span class="division group">
-        <span data-bind="text: levelName"></span>
-        <span data-bind="text: divisionName"></span>
+        <span data-bind="text: level"></span>
+        <span data-bind="text: division"></span>
     </span>
     
     @*    <span data-bind="text: participantCount"></span>*@

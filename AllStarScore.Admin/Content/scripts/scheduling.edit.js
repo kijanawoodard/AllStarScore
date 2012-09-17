@@ -9,7 +9,7 @@ $(document).ready(function () {
     ko.applyBindings(viewModel, document.getElementById('scheduling_edit'));
 
     $('#scheduling_edit .sortable').disableSelection(); //http://stackoverflow.com/a/9993099/214073 sortable and selectable
-    viewModel.loadUnscheduled();
+//    viewModel.loadUnscheduled();
 });
 
 var utilities = {
@@ -44,31 +44,28 @@ var DayModel = function (data) {
     }
 };
 
-var EntryModel = function (data) {
+var EntryModel = function (data, viewmodel) {
     data.time = new Date(data.time);
     ko.mapping.fromJS(data, {}, this);
 
     var self = this;
-    self.registration = ko.computed(function () {
-        if (!this.registrationId)
-            return undefined;
-
-        var id = getRegistrationId(this.registrationId());
-        return window.viewModel ? window.viewModel.registrations[id] : {};
-    }, self);
-
-    self.isRegistration = ko.computed(function () {
-        return self.registration() ? true : false;
+    
+    self.isPerformance = ko.computed(function () {
+        return self.peformanceId ? true : false;
     }, self);
 
     self.isNonTeamEntry = ko.computed(function () {
-        return !self.isRegistration();
+        return !self.isPerformance;
     }, self);
 
     self.originalPanel = data.panel;
-    
+
     self.panel = ko.computed(function () {
-        return self.registration() && window.viewModel ? viewModel.getPanel(self.registration().divisionId())() : '';
+        return self.isPerformance ? viewmodel.getPanel(self.performanceId())() : '';
+    }, self);
+
+    self.warmup = ko.computed(function () {
+        return new Date(self.time().getTime() - self.warmupTime() * 60 * 1000);
     }, self);
 };
 
@@ -182,8 +179,8 @@ var EditScheduleViewModel = (function (data) {
         });
     });
 
-    self.getPanel = function (divisionId) {
-
+    self.getPanel = function (performanceId) {
+        var divisionId = self.performancesRaw[performanceId].divisionId;
         var result =
             self.divisionPanels[divisionId] ?
                 self.divisionPanels[divisionId] :
@@ -193,7 +190,7 @@ var EditScheduleViewModel = (function (data) {
     };
 
     self.shiftPanel = function (node) {
-        var dp = self.getPanel(node.registration().divisionId());
+        var dp = self.getPanel(node.performanceId());
 
         var panels = ko.toJS(self.panels);
         var index = _.indexOf(panels, dp()) + 1;
@@ -206,53 +203,98 @@ var EditScheduleViewModel = (function (data) {
         return new Date(node.time().getTime() - node.warmupTime() * 60 * 1000);
     };
 
-    self.scheduleTeams = function (day, registrations) {
-        ko.utils.arrayForEach(registrations, function (registration) {
-            var json = {}; // prototype();
-            json.registrationId = registration.id();
-            json.time = day.day ? day.day().clone().clearTime() : new Date();
-            json.duration = self.schedule.defaultDuration();
-            json.warmupTime = self.schedule.defaultWarmupTime(),
-            json.index = -1,
-            json.template = 'registration-template';
-
-            json = new EntryModel(json, self);
-
-            day.entries.push(json);
-        });
-    };
+    //    self.scheduleTeams = function (day, registrations) {
+    //        ko.utils.arrayForEach(registrations, function (registration) {
+    //            var json = {}; // prototype();
+    //            json.registrationId = registration.id();
+    //            json.time = day.day ? day.day().clone().clearTime() : new Date();
+    //            json.duration = self.schedule.defaultDuration();
+    //            json.warmupTime = self.schedule.defaultWarmupTime(),
+    //            json.index = -1,
+    //            json.template = 'registration-template';
+    //
+    //            json = new EntryModel(json, self);
+    //
+    //            day.entries.push(json);
+    //        });
+    //    };
 
     self.unscheduled = ko.observableArray();
 
-    self.loadUnscheduled = function () {
-        var list = _.filter(self.registrations, function (item) {
-            return item.id;
-        });
+    var addPerformance = function (performance) {
+        var json = {};
+        json.performanceId = performance.id;
+        json.time = new Date(); // day.day ? day.day().clone().clearTime() : new Date();
+        json.duration = self.schedule.defaultDuration();
+        json.warmupTime = self.schedule.defaultWarmupTime(),
+        json.index = -1,
+        json.template = 'registration-template';
 
-        var sorted = _.sortBy(list, function (item) {
-            return _.indexOf(data.divisions, item.divisionId());
-        });
+        json = new EntryModel(json, self);
 
-        self.unscheduled([]); //clear any existing values
-        var result = {};
-        result.entries = self.unscheduled; //HACK to reuse scheduleTeams
-
-        for (var i = 0; i < self.schedule.numberOfPerformances(); i++) {
-            var registrations = _.filter(sorted, function (registration) {
-                var node = self.performances()[registration.id()];
-                var count = node ? node.length : 0;
-
-                return count <= i; //first get all the ones that haven't been registered at all; then get those that have 1 registration and none; and so forth.
-            });
-            self.scheduleTeams(result, registrations);
-        }
+        self.unscheduled.push(json);
     };
 
-    self.watchPerformanceCount = ko.computed(function () {
-        self.schedule.numberOfPerformances(); //just here so the computed will listen for changes
-        if (window.viewModel) //i did the ko stuff wrong since i didn't know what i was doing; so i'm hacking around my mistakes; the viewModel isn't ready first time
-            self.loadUnscheduled();
-    }, self);
+    var load = function () {
+        var scheduled =
+            _.chain(self.schedule.days())
+                .map(function (day) {
+                    return day.entries();
+                })
+                .flatten()
+                .filter(function (item) {
+                    return item.performanceId;
+                })
+                .pluck("performanceId")
+                .value();
+
+        var unscheduled =
+            _.chain(_.keys(self.performancesRaw))
+                .without(scheduled)
+                .value();
+
+        _.each(unscheduled, function (id) {
+            var performance = self.performancesRaw[id];
+            addPerformance(performance);
+        });
+    };
+
+    load();
+
+    self.toPerformance = function (entry) {
+        //console.log(entry);
+        return self.performancesRaw[entry.performanceId()];
+    };
+
+    //    self.loadUnscheduled = function () {
+    //        var list = _.filter(self.registrations, function (item) {
+    //            return item.id;
+    //        });
+    //
+    //        var sorted = _.sortBy(list, function (item) {
+    //            return _.indexOf(data.divisions, item.divisionId());
+    //        });
+    //
+    //        self.unscheduled([]); //clear any existing values
+    //        var result = {};
+    //        result.entries = self.unscheduled; //HACK to reuse scheduleTeams
+    //
+    //        for (var i = 0; i < self.schedule.numberOfPerformances(); i++) {
+    //            var registrations = _.filter(sorted, function (registration) {
+    //                var node = self.performances()[registration.id()];
+    //                var count = node ? node.length : 0;
+    //
+    //                return count <= i; //first get all the ones that haven't been registered at all; then get those that have 1 registration and none; and so forth.
+    //            });
+    //            self.scheduleTeams(result, registrations);
+    //        }
+    //    };
+
+    //    self.watchPerformanceCount = ko.computed(function () {
+    //        self.schedule.numberOfPerformances(); //just here so the computed will listen for changes
+    //        if (window.viewModel) //i did the ko stuff wrong since i didn't know what i was doing; so i'm hacking around my mistakes; the viewModel isn't ready first time
+    //            self.loadUnscheduled();
+    //    }, self);
 
     var prototype = function () {
         return new EntryModel({
@@ -308,22 +350,22 @@ var EditScheduleViewModel = (function (data) {
 
     self.schedule.days.valueHasMutated(); //we loaded the items before subscribe, so force subscribe function now
 
-    self.calculatePerformancePosition = function (target) {
-
-        var result;
-        if (!target.registration())
-            return '';
-
-        var times = _.chain(self.performances()[target.registrationId()])
-                    .values()
-                    .map(function (item) {
-                        return item.time;
-                    })
-                    .value();
-        result = _.indexOf(times, target.time()) + 1;
-
-        return [, '1st', '2nd', '3rd', '4th', '5th'][result];
-    };
+    //    self.calculatePerformancePosition = function (target) {
+    //
+    //        var result;
+    //        if (!target.registration())
+    //            return '';
+    //
+    //        var times = _.chain(self.performances()[target.registrationId()])
+    //                    .values()
+    //                    .map(function (item) {
+    //                        return item.time;
+    //                    })
+    //                    .value();
+    //        result = _.indexOf(times, target.time()) + 1;
+    //
+    //        return [, '1st', '2nd', '3rd', '4th', '5th'][result];
+    //    };
 
     self.displayOptions = ko.observable(self.performances().length == 0);
     self.toggleOptions = function () {
