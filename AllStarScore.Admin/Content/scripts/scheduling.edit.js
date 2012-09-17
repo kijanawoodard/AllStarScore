@@ -37,7 +37,7 @@ var utilities = {
 var DayModel = function (data) {
     data.day = new Date(data.day);
     ko.mapping.fromJS(data, mapping, this);
-
+    
     if (!competitionDaysAreTheSame) {
         this.entries.removeAll();
     }
@@ -102,13 +102,14 @@ var EditScheduleViewModel = (function (data) {
         }
     });
 
+    self.raw = data.schedule;
     self.competition = data.competition;
     self.levels = utilities.asObject(data.levels);
     self.divisions = utilities.asObject(data.divisions);
     self.gyms = utilities.asObject(data.gyms);
     self.registrations = utilities.asObject(data.registrations);
     self.performances = utilities.asObject(data.performances);
-    
+
     _.each(self.performances, function (performance) {
         var division = self.divisions[performance.divisionId];
         performance.division = division.name;
@@ -127,7 +128,6 @@ var EditScheduleViewModel = (function (data) {
         performance.order = [, '1st', '2nd', '3rd', '4th', '5th'][performance.id.substr(performance.id.length - 1)];
     });
 
-
     self.schedule = ko.mapping.fromJS(data.schedule, mapping);
     self.competitionDays = data.competitionDays;
 
@@ -143,7 +143,7 @@ var EditScheduleViewModel = (function (data) {
     _.each(data.schedule.days, function (day) {
         _.each(day.entries, function (entry) {
             if (entry.performanceId) {
-                var divisionId = self.performances[performanceId].divisionId;
+                var divisionId = self.performances[entry.performanceId].divisionId;
                 self.divisionPanels[divisionId] = self.divisionPanels[divisionId] || ko.observable(entry.panel);
             }
         });
@@ -207,7 +207,7 @@ var EditScheduleViewModel = (function (data) {
             var performance = self.performances[id];
             addPerformance(performance);
         });
-    }(); //self executing
+    } (); //self executing
 
     self.toPerformance = function (entry) {
         //console.log(entry);
@@ -266,7 +266,7 @@ var EditScheduleViewModel = (function (data) {
         }, unit.entries);
     });
 
-//    self.schedule.days.valueHasMutated(); //we loaded the items before subscribe, so force subscribe function now
+    //    self.schedule.days.valueHasMutated(); //we loaded the items before subscribe, so force subscribe function now
 
     self.displayOptions = ko.observable(self.performances.length == 0);
     self.toggleOptions = function () {

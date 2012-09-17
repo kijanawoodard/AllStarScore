@@ -50,7 +50,7 @@ namespace AllStarScore.Models
         {
             return new PerformaceVM
                    {
-                       Id = string.Format("{0}/performance/{1}", Id.Substring(Id.IndexOf("gym/", System.StringComparison.Ordinal)), id),
+                       Id = string.Format("{0}/performances/{1}/performance/{2}", CompetitionId, Id.Substring(Id.IndexOf("gym/", System.StringComparison.Ordinal)), id),
                        RegistrationId = Id,
                        DivisionId = DivisionId
                    };
