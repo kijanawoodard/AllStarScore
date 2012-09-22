@@ -16,6 +16,11 @@ namespace AllStarScore.Models.Commands
         public string CommandCompanyId { get; set; }
         public string CommandByUser { get; set; }
         public DateTime CommandWhen { get; set; }
+
+    	public SchedulingEditCommand()
+    	{
+    		DivisionPanels = new Dictionary<string, string>();
+    	}
     }
 
     public class ScheduleCreateCommand : ICommand, ICompanyCommand, IBelongToCompetition

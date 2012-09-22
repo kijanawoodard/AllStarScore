@@ -78,7 +78,6 @@ namespace AllStarScore.Admin.Controllers
                                                DivisionId = registration.DivisionId,
                                                LevelId = registration.LevelId,
                                                PerformanceTime = entry.PerformanceTime,
-                                               Panel = entry.Panel,
                                                WarmupTime = entry.WarmupTime,
                                                Duration = entry.Duration,
                                                GymName = registration.GymName,

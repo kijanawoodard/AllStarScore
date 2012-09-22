@@ -13,7 +13,8 @@ namespace AllStarScore.Models
         public int DefaultWarmupTime { get; set; } //in minutes
         public int NumberOfPanels { get; set; }
         public int NumberOfPerformances { get; set; }
-        public List<ScheduleDay> Days { get; set; } 
+        public List<ScheduleDay> Days { get; set; }
+		public Dictionary<string, string> DivisionPanels { get; set; }
 
         [JsonIgnore]
         public IEnumerable<PerformanceEntry> PerformanceEntries
@@ -40,6 +41,7 @@ namespace AllStarScore.Models
             NumberOfPanels = 2;
             NumberOfPerformances = 1;
             Days = new List<ScheduleDay>();
+			DivisionPanels = new Dictionary<string, string>();
         }
 
         public void Update(ScheduleCreateCommand command)
@@ -59,6 +61,7 @@ namespace AllStarScore.Models
             DefaultWarmupTime = command.DefaultWarmupTime;
             NumberOfPanels = command.NumberOfPanels;
             Days = command.Days;
+        	DivisionPanels = command.DivisionPanels;
 
             this.RegisterCommand(command);
         }
@@ -92,7 +95,6 @@ namespace AllStarScore.Models
         public class PerformanceEntry
         {
             public string RegistrationId { get; set; }
-            public string Panel { get; set; }
             public DateTime PerformanceTime { get; set; }
             public int WarmupTime { get; set; }
             public int Duration { get; set; }
@@ -102,7 +104,6 @@ namespace AllStarScore.Models
             public PerformanceEntry(Dictionary<string, string> entry)
             {
                 RegistrationId = entry["registrationId"];
-                Panel = entry["panel"];
                 PerformanceTime = DateTime.Parse(entry["time"]);
                 WarmupTime = int.Parse(entry["warmupTime"]);
                 Duration = int.Parse(entry["duration"]);

@@ -38,17 +38,17 @@ var DayModel = function (data) {
     data.day = new Date(data.day);
     ko.mapping.fromJS(data, mapping, this);
     
-    if (!competitionDaysAreTheSame) {
-        this.entries.removeAll();
-    }
+//    if (!competitionDaysAreTheSame) {
+//        this.entries.removeAll();
+//    }
 };
 
-var EntryModel = function (data, viewmodel) {
+var EntryModel = function (data) {
     data.time = new Date(data.time);
     ko.mapping.fromJS(data, {}, this);
 
     var self = this;
-    
+
     self.isPerformance = ko.computed(function () {
         return self.peformanceId ? true : false;
     }, self);
@@ -57,19 +57,13 @@ var EntryModel = function (data, viewmodel) {
         return !self.isPerformance;
     }, self);
 
-    self.originalPanel = data.panel;
-
-    self.panel = ko.computed(function () {
-        return self.isPerformance ? viewmodel.getPanel(self.performanceId())() : '';
-    }, self);
-
     self.warmup = ko.computed(function () {
         return new Date(self.time().getTime() - self.warmupTime() * 60 * 1000);
     }, self);
 };
 
 var mapping = {
-    'include': ["panel"],
+    'include' : [],
     'days': {
         create: function (options) {
             return new DayModel(options.data);
@@ -91,18 +85,17 @@ var EditScheduleViewModel = (function (data) {
         return a.clone().clearTime().equals(b.clone().clearTime()); //have to clone otherwise original is modified
     };
 
-    competitionDaysAreTheSame = data.schedule.days.length == data.competitionDays.length;
+    //competitionDaysAreTheSame = data.schedule.days.length == data.competitionDays.length;
 
     //check to see that competition days haven't changed on us
-    $.each(data.schedule.days, function (index, day) {
-        if (competitionDaysAreTheSame) { //once this is false, leave it false
-            var comp = new Date(data.competitionDays[index]);
+    //    $.each(data.schedule.days, function (index, day) {
+    //                if (competitionDaysAreTheSame) { //once this is false, leave it false
+    //                    var comp = new Date(data.competitionDays[index]);
+    //        
+    //                    competitionDaysAreTheSame = areSameDay(new Date(day.day), comp);
+    //                }
+    //    });
 
-            competitionDaysAreTheSame = areSameDay(new Date(day.day), comp);
-        }
-    });
-
-    self.raw = data.schedule;
     self.competition = data.competition;
     self.levels = utilities.asObject(data.levels);
     self.divisions = utilities.asObject(data.divisions);
@@ -128,6 +121,10 @@ var EditScheduleViewModel = (function (data) {
         performance.order = [, '1st', '2nd', '3rd', '4th', '5th'][performance.id.substr(performance.id.length - 1)];
     });
 
+    _.each(data.divisions, function(division) {
+        mapping.include.push(division.id); //skirt this issue: https://groups.google.com/forum/?fromgroups=#!topic/knockoutjs/QoubswdzIxI; this works because we know all the possible keys
+    });
+    
     self.schedule = ko.mapping.fromJS(data.schedule, mapping);
     self.competitionDays = data.competitionDays;
 
@@ -137,30 +134,21 @@ var EditScheduleViewModel = (function (data) {
         });
     });
 
-    self.divisionPanels = {};
+    self.getPanel = function (node) {
+        if (!node.performanceId) return "";
 
-    //initialize division panels
-    _.each(data.schedule.days, function (day) {
-        _.each(day.entries, function (entry) {
-            if (entry.performanceId) {
-                var divisionId = self.performances[entry.performanceId].divisionId;
-                self.divisionPanels[divisionId] = self.divisionPanels[divisionId] || ko.observable(entry.panel);
-            }
-        });
-    });
-
-    self.getPanel = function (performanceId) {
+        var performanceId = node.performanceId();
         var divisionId = self.performances[performanceId].divisionId;
         var result =
-            self.divisionPanels[divisionId] ?
-                self.divisionPanels[divisionId] :
-                self.divisionPanels[divisionId] = ko.observable(self.panels()[0]);
+            self.schedule.divisionPanels[divisionId] ?
+                self.schedule.divisionPanels[divisionId] :
+                self.schedule.divisionPanels[divisionId] = ko.observable(self.panels()[0]);
 
         return result;
     };
 
     self.shiftPanel = function (node) {
-        var dp = self.getPanel(node.performanceId());
+        var dp = self.getPanel(node);
 
         var panels = ko.toJS(self.panels);
         var index = _.indexOf(panels, dp()) + 1;
@@ -195,13 +183,12 @@ var EditScheduleViewModel = (function (data) {
                 .filter(function (item) {
                     return item.performanceId;
                 })
-                .pluck("performanceId")
+                .map(function (item) {
+                    return item.performanceId();
+                })
                 .value();
 
-        var unscheduled =
-            _.chain(_.keys(self.performances))
-                .without(scheduled)
-                .value();
+        var unscheduled = _.difference(_.keys(self.performances), scheduled);
 
         _.each(unscheduled, function (id) {
             var performance = self.performances[id];
@@ -210,7 +197,7 @@ var EditScheduleViewModel = (function (data) {
     } (); //self executing
 
     self.toPerformance = function (entry) {
-        //console.log(entry);
+        if (!entry.performanceId) return entry;
         return self.performances[entry.performanceId()];
     };
 
@@ -219,7 +206,6 @@ var EditScheduleViewModel = (function (data) {
             type: '',
             time: '',
             text: '',
-            panel: '',
             index: -1,
             duration: 20,
             warmupTime: self.schedule.defaultWarmupTime(),
@@ -276,8 +262,10 @@ var EditScheduleViewModel = (function (data) {
     self.justSaved = ko.observable(false);
 
     self.save = function () {
+        var json = ko.mapping.toJSON(self.schedule);
+        
         form.ajaxPost({
-            data: ko.mapping.toJSON(self.schedule),
+            data: json,
             success: function (result) {
                 self.justSaved(true);
                 setTimeout(function () {
