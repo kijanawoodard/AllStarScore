@@ -35,7 +35,7 @@ var utilities = {
 
 var DayModel = function (data) {
     data.day = new Date(data.day);
-    ko.mapping.fromJS(data, mapping, this);
+    ko.mapping.fromJS(data, dayMapping, this);
 };
 
 var EntryModel = function (data) {
@@ -57,13 +57,16 @@ var EntryModel = function (data) {
     }, self);
 };
 
-var mapping = {
+var scheduleMapping = {
     'include' : [],
     'days': {
         create: function (options) {
             return new DayModel(options.data);
         }
-    },
+    }
+};
+
+var dayMapping = {
     'entries': {
         create: function (options) {
             return new EntryModel(options.data);
@@ -75,10 +78,6 @@ var EditScheduleViewModel = (function (data) {
     var self = this;
     var hook = $('#scheduling_edit');
     var form = hook.find('form');
-
-    var areSameDay = function (a, b) {
-        return a.clone().clearTime().equals(b.clone().clearTime()); //have to clone otherwise original is modified
-    };
 
     self.competition = data.competition;
     self.levels = utilities.asObject(data.levels);
@@ -106,10 +105,10 @@ var EditScheduleViewModel = (function (data) {
     });
 
     _.each(data.divisions, function(division) {
-        mapping.include.push(division.id); //skirt this issue: https://groups.google.com/forum/?fromgroups=#!topic/knockoutjs/QoubswdzIxI; this works because we know all the possible keys
+        scheduleMapping.include.push(division.id); //skirt this issue: https://groups.google.com/forum/?fromgroups=#!topic/knockoutjs/QoubswdzIxI; this works because we know all the possible keys
     });
-    
-    self.schedule = ko.mapping.fromJS(data.schedule, mapping);
+
+    self.schedule = ko.mapping.fromJS(data.schedule, scheduleMapping);
     self.competitionDays = data.competitionDays;
 
     self.panels = ko.computed(function () {
