@@ -104,12 +104,16 @@ var EditScheduleViewModel = (function (data) {
         performance.order = [, '1st', '2nd', '3rd', '4th', '5th'][performance.id.substr(performance.id.length - 1)];
     });
 
-    _.each(data.divisions, function(division) {
+    _.each(data.divisions, function (division) {
         scheduleMapping.include.push(division.id); //skirt this issue: https://groups.google.com/forum/?fromgroups=#!topic/knockoutjs/QoubswdzIxI; this works because we know all the possible keys
     });
 
     self.schedule = ko.mapping.fromJS(data.schedule, scheduleMapping);
-    self.competitionDays = data.competitionDays;
+    self.day1hours = ko.observable(3);
+    self.day1hours.subscribe(function () {
+        var time = self.schedule.days()[0].day;
+        time(time().set({ hour: self.day1hours() }));
+    });
 
     self.panels = ko.computed(function () {
         return _.map(_.range(self.schedule.numberOfPanels()), function (i) {
@@ -219,9 +223,9 @@ var EditScheduleViewModel = (function (data) {
     };
 
     //recalculate time when we move items around
-    $.each(self.schedule.days(), function (index, unit) {
-        unit.entries.subscribe(function () {
-            var entries = unit.entries();
+    $.each(self.schedule.days(), function (index, day) {
+        day.entries.subscribe(function () {
+            var entries = day.entries();
             for (var i = 0, j = entries.length; i < j; i++) {
                 var entry = entries[i];
                 if (i == 0) {
@@ -232,7 +236,7 @@ var EditScheduleViewModel = (function (data) {
                     entry.time(new Date(prev.time().getTime() + prev.duration() * 60 * 1000));
                 }
             }
-        }, unit.entries);
+        }, day.entries);
     });
 
     //    self.schedule.days.valueHasMutated(); //we loaded the items before subscribe, so force subscribe function now
@@ -246,7 +250,7 @@ var EditScheduleViewModel = (function (data) {
 
     self.save = function () {
         var json = ko.mapping.toJSON(self.schedule);
-        
+
         form.ajaxPost({
             data: json,
             success: function (result) {

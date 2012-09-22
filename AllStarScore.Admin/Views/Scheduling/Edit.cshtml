@@ -9,10 +9,15 @@
         <a href="#" data-bind="visible: !displayOptions(), click: toggleOptions">Show Options</a>
         <a  href="#" data-bind="visible: displayOptions, click: toggleOptions">Hide Options</a>    
         <div data-bind='fadeVisible: displayOptions'>
-            <div class="option">
-                <div>How many panels do you want? <span data-bind="text: panels().length"></span>: <span data-bind="text: panels"></span></div>
-                <div data-bind="ko_slider: { source: schedule.numberOfPanels, options: { step: 1, max: 6}}" class="slider"></div>
-            </div>
+			<div class="option">
+				<div>How many panels do you want? <span data-bind="text: panels().length"></span>: <span data-bind="text: panels"></span></div>
+				<div data-bind="ko_slider: { source: schedule.numberOfPanels, options: { step: 1, max: 6}}" class="slider"></div>
+			</div>
+			<div class="option">
+				<span data-bind="text: schedule.days()[0].day"></span>
+				<div>What time to start on Day 1? <span data-bind="dateString: schedule.days()[0].day, datePattern : 'h:mm tt'"></span></div>
+				<div data-bind="ko_slider: { source: day1hours, options: { step: 1, max: 6}}" class="slider"></div>
+			</div>
         </div>
         <br/>
     </div>
