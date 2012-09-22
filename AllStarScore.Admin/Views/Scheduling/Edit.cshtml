@@ -50,7 +50,7 @@
         </fieldset>
     </form>
 
-    <pre data-bind="text: ko.toJSON($root, null, 2)"></pre>
+@*    <pre data-bind="text: ko.toJSON($root, null, 2)"></pre>*@
 </div>
 
 <script type="text/html" id="scheduled-template">
@@ -65,7 +65,6 @@
                     <span data-bind="text: $root.getPanel($data), click: $root.shiftPanel" class="shift-panel"></span>
                 </span>
                 <span data-bind="template: { name: template(), data: $root.toPerformance($data) }" class="core"></span>
-@*                <!-- ko template: { name: template(), data: $data.registration() || $data } --><!-- /ko -->*@
                 <span data-bind="text: $root.toPerformance($data).order" class="order"></span>
 @*                <span data-bind="text: duration"></span>*@
             </span>
@@ -84,11 +83,9 @@
         <span data-bind="text: division"></span>
     </span>
     
-    @*    <span data-bind="text: participantCount"></span>*@
-    @*    <span data-bind="text: gymLocation"></span>*@
-    @*    <span data-bind="text: isSmallGym ? 'Small' : 'Large'"></span>*@
-    
-    @*    <span data-bind="text: viewModel.performancesToBeScheduled(id)"></span>*@
+@*    <span data-bind="text: participants"></span>*@
+@*    <span data-bind="text: location"></span>*@
+@*    <span data-bind="text: isSmallGym ? 'Small' : 'Large'"></span>*@
 </script>
 
 <script type="text/html" id="block-template">

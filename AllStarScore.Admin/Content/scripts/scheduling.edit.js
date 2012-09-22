@@ -1,5 +1,4 @@
 ﻿var viewModel;
-var competitionDaysAreTheSame = true; //look out for this edge case; //TODO: need to recreate days; server?
 
 $(document).ready(function () {
 
@@ -37,10 +36,6 @@ var utilities = {
 var DayModel = function (data) {
     data.day = new Date(data.day);
     ko.mapping.fromJS(data, mapping, this);
-    
-//    if (!competitionDaysAreTheSame) {
-//        this.entries.removeAll();
-//    }
 };
 
 var EntryModel = function (data) {
@@ -85,17 +80,6 @@ var EditScheduleViewModel = (function (data) {
         return a.clone().clearTime().equals(b.clone().clearTime()); //have to clone otherwise original is modified
     };
 
-    //competitionDaysAreTheSame = data.schedule.days.length == data.competitionDays.length;
-
-    //check to see that competition days haven't changed on us
-    //    $.each(data.schedule.days, function (index, day) {
-    //                if (competitionDaysAreTheSame) { //once this is false, leave it false
-    //                    var comp = new Date(data.competitionDays[index]);
-    //        
-    //                    competitionDaysAreTheSame = areSameDay(new Date(day.day), comp);
-    //                }
-    //    });
-
     self.competition = data.competition;
     self.levels = utilities.asObject(data.levels);
     self.divisions = utilities.asObject(data.divisions);
@@ -110,7 +94,7 @@ var EditScheduleViewModel = (function (data) {
 
         var registration = self.registrations[performance.registrationId];
         performance.team = registration.teamName;
-        performance.particpants = registration.participantCount;
+        performance.participants = registration.participantCount;
         performance.isShowTeam = registration.isShowTeam;
 
         var gym = self.gyms[registration.gymId];
