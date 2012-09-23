@@ -1,4 +1,5 @@
 using System;
+using System.Configuration;
 using System.Diagnostics;
 using System.Linq.Expressions;
 using AllStarScore.Admin.Infrastructure.Indexes;
@@ -24,7 +25,8 @@ namespace AllStarScore.Admin.DependencyResolution
                 .Singleton()
                 .Use(x =>
                 {
-                    var parser = ConnectionStringParser<RavenConnectionStringOptions>.FromConnectionStringName(connectionStringName);
+                	var connectionString = ConfigurationManager.AppSettings[connectionStringName];
+                    var parser = ConnectionStringParser<RavenConnectionStringOptions>.FromConnectionString(connectionString);
                     parser.Parse();
 
                     var documentStore = new DocumentStore
