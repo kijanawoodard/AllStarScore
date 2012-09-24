@@ -79,7 +79,9 @@ namespace AllStarScore.Admin.Controllers
             var admin = new User();
             admin.Update(command);
 
+        	RavenSession.Advanced.UseOptimisticConcurrency = true;
             RavenSession.Store(admin);
+			RavenSession.Store(UniqueUser.FromUser(admin));
             RavenSession.SaveChanges();
         }
 

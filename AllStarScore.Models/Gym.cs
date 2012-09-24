@@ -38,7 +38,7 @@ namespace AllStarScore.Models
 
         public static string FormatId(string companyId)
         {
-            return companyId + "/gym/";
+            return companyId + "/gyms/";
         }
 
         public string GenerateId()

@@ -10,6 +10,26 @@ using Raven.Client.UniqueConstraints;
 
 namespace AllStarScore.Admin.Models
 {
+	public class UniqueUser
+	{
+		public string Id { get; set; }
+		public string UserId { get; set; }
+		
+		public static string GenerateUniqueName(string companyId, string name)
+		{
+			return string.Format("{0}/{1}", companyId, name);
+		}
+
+		public static UniqueUser FromUser(User user)
+		{
+			return new UniqueUser
+			       {
+			       		Id = GenerateUniqueName(user.CompanyId, user.Name),
+			       		UserId = user.Id
+			       };
+		}
+	}
+
     public class User : ICanBeUpdatedByCommand, IBelongToCompany, IGenerateMyId
     {
         public string Id { get; set; }
@@ -26,14 +46,6 @@ namespace AllStarScore.Admin.Models
         public string LastCommand { get; set; }
         public string LastCommandBy { get; set; }
         public DateTime LastCommandDate { get; set; }
-
-        [UniqueConstraint]
-        public string UniqueName { get { return GenerateUniqueName(CompanyId, Name); } }
-
-        public static string GenerateUniqueName(string companyId, string name)
-        {
-            return string.Format("{0}/{1}", companyId, name);
-        }
 
         public User()
         {
@@ -71,7 +83,7 @@ namespace AllStarScore.Admin.Models
 
         public string GenerateId()
         {
-            return CompanyId + "/user/";
+            return CompanyId + "/users/" + Name;
         }
 
         public override string ToString()

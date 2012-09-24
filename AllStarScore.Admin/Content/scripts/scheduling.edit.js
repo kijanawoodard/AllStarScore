@@ -268,7 +268,7 @@ var EditScheduleViewModel = (function (data) {
         return result;
     };
 
-    self.displayOptions = ko.observable(_.keys(self.performances).length == 0);
+    self.displayOptions = ko.observable(false);
     self.toggleOptions = function () {
         self.displayOptions(!self.displayOptions());
     };

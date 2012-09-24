@@ -50,7 +50,7 @@ namespace AllStarScore.Models
         {
             return new PerformaceVM
                    {
-                       Id = string.Format("{0}/performances/{1}/performance/{2}", CompetitionId, Id.Substring(Id.IndexOf("gym/", System.StringComparison.Ordinal)), id),
+                       Id = string.Format("{0}/performances/{1}/performance/{2}", CompetitionId, Id.Substring(Id.IndexOf("gyms/", System.StringComparison.Ordinal)), id),
                        RegistrationId = Id,
                        DivisionId = DivisionId
                    };
@@ -88,7 +88,7 @@ namespace AllStarScore.Models
 
         public static string FormatId(string competitionId, string gymId, string companyId)
         {
-            var result = string.Format("{0}{1}/registration/", FormatId(competitionId), gymId.Replace(companyId, string.Empty));
+            var result = string.Format("{0}{1}/team/", FormatId(competitionId), gymId.Replace(companyId, string.Empty));
             return result;
         }
 

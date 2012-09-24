@@ -64,16 +64,20 @@ namespace AllStarScore.Admin.Controllers
                 var name = model.UserName;
                 if (name == Administrator)
                 {
-                    name = AllStarScore.Admin.Models.User.GenerateUniqueName(AdministratorCompany, Administrator);
+                    name = AllStarScore.Admin.Models.UniqueUser.GenerateUniqueName(AdministratorCompany, Administrator);
                 }
                 else
                 {
                     //TODO: Load based on company id/username    
                 }
 
-                var user =
+                var unique =
                     RavenSession
-                        .LoadByUniqueConstraint<AllStarScore.Admin.Models.User>(x => x.UniqueName, name);
+						.Include<UniqueUser>(x => x.UserId)
+						.Load<AllStarScore.Admin.Models.UniqueUser>(name);
+
+            	var user =
+            		RavenSession.Load<User>(unique.UserId);
 
                 if (user != null && user.ValidatePassword(model.Password))
                 {
