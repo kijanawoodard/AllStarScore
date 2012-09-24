@@ -61,6 +61,8 @@ namespace AllStarScore.Models
         {
             DefaultDuration = command.DefaultDuration;
             DefaultWarmupTime = command.DefaultWarmupTime;
+        	DefaultBreakDuration = command.DefaultBreakDuration;
+        	DefaultAwardsDuration = command.DefaultAwardsDuration;
             NumberOfPanels = command.NumberOfPanels;
             Days = command.Days;
         	DivisionPanels = command.DivisionPanels;

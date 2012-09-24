@@ -51,10 +51,6 @@ var EntryModel = function (data) {
     self.isNonTeamEntry = ko.computed(function () {
         return !self.isPerformance;
     }, self);
-
-    self.warmup = ko.computed(function () {
-        return new Date(self.time().getTime() - self.warmupTime() * 60 * 1000);
-    }, self);
 };
 
 var scheduleMapping = {
@@ -117,15 +113,11 @@ var EditScheduleViewModel = (function (data) {
         day.starthour.subscribe(function () {
             var time = day.day; //yes, i know the day.day thing is weird. bad name.
             time(time().set({ hour: day.starthour() }));
-
-            //day.entries.valueHasMutated();
         });
 
         day.startminutes.subscribe(function () {
-            var time = day.day; //yes, i know the day.day thing is weird. bad name.
+            var time = day.day; 
             time(time().set({ minute: day.startminutes() }));
-
-            //day.entries.valueHasMutated();
         });
     });
 
@@ -163,18 +155,18 @@ var EditScheduleViewModel = (function (data) {
     var addPerformance = function (performance) {
         var json = {};
         json.performanceId = performance.id;
-        json.time = new Date(); // day.day ? day.day().clone().clearTime() : new Date();
-        json.duration = self.schedule.defaultDuration();
+        json.type = 'Performance';
+        json.time = new Date();
         json.warmupTime = self.schedule.defaultWarmupTime(),
         json.index = -1,
         json.template = 'registration-template';
 
-        json = new EntryModel(json, self);
+        json = new EntryModel(json);
 
         self.unscheduled.push(json);
     };
 
-    var load = function () {
+    (function () {
         var scheduled =
             _.chain(self.schedule.days())
                 .map(function (day) {
@@ -195,7 +187,7 @@ var EditScheduleViewModel = (function (data) {
             var performance = self.performances[id];
             addPerformance(performance);
         });
-    } (); //self executing
+    } ()); //self executing
 
     self.toPerformance = function (entry) {
         if (!entry.performanceId) return entry;
@@ -208,10 +200,9 @@ var EditScheduleViewModel = (function (data) {
             time: '',
             text: '',
             index: -1,
-            duration: 20,
             warmupTime: self.schedule.defaultWarmupTime(),
             template: 'block-template'
-        }, self);
+        });
     };
 
     self.addBreak = function (day) {
@@ -232,16 +223,28 @@ var EditScheduleViewModel = (function (data) {
         var item = prototype();
         item.type('Open');
         item.text(item.type());
-        item.duration(self.schedule.defaultDuration());
         day.entries.push(item);
     };
+
+    self.entryTypeDurations = {
+        'Performance': self.schedule.defaultDuration,
+        'Open': self.schedule.defaultDuration,
+        'Break': self.schedule.defaultBreakDuration,
+        'Awards': self.schedule.defaultAwardsDuration
+    };
+
 
     //recalculate time when we move items around
     $.each(self.schedule.days(), function (index, day) {
         day.change = ko.computed(function () {
+            //invoke all the things that should trigger the update
             day.day();
             day.entries();
-        }).extend({ throttle: 250 });
+            self.schedule.defaultDuration();
+            self.schedule.defaultWarmupTime();
+            self.schedule.defaultBreakDuration();
+            self.schedule.defaultAwardsDuration();
+        }).extend({ throttle: 1 });
 
         day.change.subscribe(function () {
             var entries = day.entries();
@@ -252,13 +255,20 @@ var EditScheduleViewModel = (function (data) {
                 }
                 else {
                     var prev = entries[i - 1];
-                    entry.time(new Date(prev.time().getTime() + prev.duration() * 60 * 1000));
+                    var duration = prev.duration || self.entryTypeDurations[prev.type()];
+                    entry.time(new Date(prev.time().getTime() + duration() * 60 * 1000));
                 }
             }
         }, day.entries);
     });
 
-    self.displayOptions = ko.observable(_.keys(self.performances).length > -1);
+    self.calculateWarmup = function (entry) {
+        var warmup = entry.warmupTime || self.schedule.defaultWarmupTime;
+        var result = new Date(entry.time().getTime() - warmup() * 60 * 1000);
+        return result;
+    };
+
+    self.displayOptions = ko.observable(_.keys(self.performances).length == 0);
     self.toggleOptions = function () {
         self.displayOptions(!self.displayOptions());
     };

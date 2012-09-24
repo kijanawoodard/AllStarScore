@@ -91,13 +91,12 @@
             <div class='handle'><span class='ui-icon ui-icon-star'></span></div>
             <span class="display" data-bind="css: { break: isNonTeamEntry}">
                 <span class="group">
-                    <span data-bind="dateString: warmup, datePattern : 'ddd h:mm tt'" class="warmup"></span>
+                    <span data-bind="dateString: $root.calculateWarmup($data), datePattern : 'ddd h:mm tt'" class="warmup"></span>
                     <span data-bind="dateString: time, datePattern: 'ddd h:mm tt'"></span>
                     <span data-bind="text: $root.getPanel($data), click: $root.shiftPanel" class="shift-panel"></span>
                 </span>
                 <span data-bind="template: { name: template(), data: $root.toPerformance($data) }" class="core"></span>
                 <span data-bind="text: $root.toPerformance($data).order" class="order"></span>
-@*                <span data-bind="text: duration"></span>*@
             </span>
         </div>
     </li>
