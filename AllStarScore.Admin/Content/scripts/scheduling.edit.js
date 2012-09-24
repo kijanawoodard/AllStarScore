@@ -157,7 +157,6 @@ var EditScheduleViewModel = (function (data) {
         json.performanceId = performance.id;
         json.type = 'Performance';
         json.time = new Date();
-        json.warmupTime = self.schedule.defaultWarmupTime(),
         json.index = -1,
         json.template = 'registration-template';
 
@@ -200,7 +199,6 @@ var EditScheduleViewModel = (function (data) {
             time: '',
             text: '',
             index: -1,
-            warmupTime: self.schedule.defaultWarmupTime(),
             template: 'block-template'
         });
     };
