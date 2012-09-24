@@ -13,12 +13,27 @@
 				<div>How many panels do you want? <span data-bind="text: panels().length"></span>: <span data-bind="text: panels"></span></div>
 				<div data-bind="ko_slider: { source: schedule.numberOfPanels, options: { step: 1, max: 6}}" class="slider"></div>
 			</div>
-			<div class="option">
-				<span data-bind="text: schedule.days()[0].day"></span>
-				<div>What time to start on Day 1? <span data-bind="dateString: schedule.days()[0].day, datePattern : 'h:mm tt'"></span></div>
-				<div data-bind="ko_slider: { source: day1hours, options: { step: 1, max: 6}}" class="slider"></div>
+@*			<div class="option">*@
+@*				<span data-bind="text: schedule.days()[0].day"></span>*@
+@*				<div>What time to start on Day 1? <span data-bind="dateString: schedule.days()[0].day, datePattern : 'h:mm tt'"></span></div>*@
+@*				<div data-bind="ko_slider: { source: day1hours, options: { step: 1, max: 6}}" class="slider"></div>*@
+@*			</div>*@
+            
+			<!-- ko foreach: schedule.days -->
+            <div class="option">
+				<div>
+					What time to start on <span data-bind="dateString: day, datePattern : 'ddd'"></span>? 
+					<span data-bind="dateString: day, datePattern : 'h:mm tt'"></span>
+				</div>
+				<div>
+					Hour: <div data-bind="ko_slider: { source: starthour, options: { step: 1, min: 0, max: 23}}" class="slider"></div>
+				</div>
+                <div>
+					Minute: <div data-bind="ko_slider: { source: startminutes, options: { step: 1, min: 0, max: 59}}" class="slider"></div>
+				</div>
 			</div>
-        </div>
+            <!-- /ko -->
+		</div>
         <br/>
     </div>
     

@@ -109,10 +109,24 @@ var EditScheduleViewModel = (function (data) {
     });
 
     self.schedule = ko.mapping.fromJS(data.schedule, scheduleMapping);
-    self.day1hours = ko.observable(3);
-    self.day1hours.subscribe(function () {
-        var time = self.schedule.days()[0].day;
-        time(time().set({ hour: self.day1hours() }));
+
+    _.each(self.schedule.days(), function (day) {
+        day.starthour = ko.observable(day.day().getHours());
+        day.startminutes = ko.observable(day.day().getMinutes());
+
+        day.starthour.subscribe(function () {
+            var time = day.day; //yes, i know the day.day thing is weird. bad name.
+            time(time().set({ hour: day.starthour() }));
+
+            //day.entries.valueHasMutated();
+        });
+
+        day.startminutes.subscribe(function () {
+            var time = day.day; //yes, i know the day.day thing is weird. bad name.
+            time(time().set({ minute: day.startminutes() }));
+
+            //day.entries.valueHasMutated();
+        });
     });
 
     self.panels = ko.computed(function () {
@@ -224,12 +238,17 @@ var EditScheduleViewModel = (function (data) {
 
     //recalculate time when we move items around
     $.each(self.schedule.days(), function (index, day) {
-        day.entries.subscribe(function () {
+        day.change = ko.computed(function () {
+            day.day();
+            day.entries();
+        }).extend({ throttle: 250 });
+
+        day.change.subscribe(function () {
             var entries = day.entries();
             for (var i = 0, j = entries.length; i < j; i++) {
                 var entry = entries[i];
                 if (i == 0) {
-                    entry.time(unit.day());
+                    entry.time(day.day());
                 }
                 else {
                     var prev = entries[i - 1];
@@ -239,9 +258,7 @@ var EditScheduleViewModel = (function (data) {
         }, day.entries);
     });
 
-    //    self.schedule.days.valueHasMutated(); //we loaded the items before subscribe, so force subscribe function now
-
-    self.displayOptions = ko.observable(self.performances.length == 0);
+    self.displayOptions = ko.observable(_.keys(self.performances).length > -1);
     self.toggleOptions = function () {
         self.displayOptions(!self.displayOptions());
     };
