@@ -86,7 +86,7 @@
 
 <script type="text/html" id="scheduled-template">
     <li>
-        <div class="index" data-bind="text: $index() + 1 + '.', syncIndex: index($index())"></div>
+        <div class="index" data-bind="text: $index() + 1 + '.'"></div>
         <div class="wrap ui-corner-all">
             <div class='handle'><span class='ui-icon ui-icon-star'></span></div>
             <span class="display" data-bind="css: { break: isNonTeamEntry}">
@@ -95,7 +95,7 @@
                     <span data-bind="dateString: time, datePattern: 'ddd h:mm tt'"></span>
                     <span data-bind="text: $root.getPanel($data), click: $root.shiftPanel" class="shift-panel"></span>
                 </span>
-                <span data-bind="template: { name: template(), data: $root.toPerformance($data) }" class="core"></span>
+                <span data-bind="template: { name: $root.getTemplate($data), data: $root.toPerformance($data) }" class="core"></span>
                 <span data-bind="text: $root.toPerformance($data).order" class="order"></span>
             </span>
         </div>

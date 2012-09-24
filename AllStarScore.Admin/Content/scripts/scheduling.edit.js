@@ -116,7 +116,7 @@ var EditScheduleViewModel = (function (data) {
         });
 
         day.startminutes.subscribe(function () {
-            var time = day.day; 
+            var time = day.day;
             time(time().set({ minute: day.startminutes() }));
         });
     });
@@ -157,8 +157,6 @@ var EditScheduleViewModel = (function (data) {
         json.performanceId = performance.id;
         json.type = 'Performance';
         json.time = new Date();
-        json.index = -1,
-        json.template = 'registration-template';
 
         json = new EntryModel(json);
 
@@ -197,9 +195,7 @@ var EditScheduleViewModel = (function (data) {
         return new EntryModel({
             type: '',
             time: '',
-            text: '',
-            index: -1,
-            template: 'block-template'
+            text: ''
         });
     };
 
@@ -224,11 +220,11 @@ var EditScheduleViewModel = (function (data) {
         day.entries.push(item);
     };
 
-    self.entryTypeDurations = {
-        'Performance': self.schedule.defaultDuration,
-        'Open': self.schedule.defaultDuration,
-        'Break': self.schedule.defaultBreakDuration,
-        'Awards': self.schedule.defaultAwardsDuration
+    self.entryTypes = {
+        'Performance': { duration: self.schedule.defaultDuration, template: 'registration-template' },
+        'Open': { duration: self.schedule.defaultDuration, template: 'block-template' },
+        'Break': { duration: self.schedule.defaultBreakDuration, template: 'block-template' },
+        'Awards': { duration: self.schedule.defaultAwardsDuration, template: 'block-template' }
     };
 
 
@@ -253,7 +249,7 @@ var EditScheduleViewModel = (function (data) {
                 }
                 else {
                     var prev = entries[i - 1];
-                    var duration = prev.duration || self.entryTypeDurations[prev.type()];
+                    var duration = prev.duration || self.entryTypes[prev.type()].duration;
                     entry.time(new Date(prev.time().getTime() + duration() * 60 * 1000));
                 }
             }
@@ -264,6 +260,10 @@ var EditScheduleViewModel = (function (data) {
         var warmup = entry.warmupTime || self.schedule.defaultWarmupTime;
         var result = new Date(entry.time().getTime() - warmup() * 60 * 1000);
         return result;
+    };
+
+    self.getTemplate = function (entry) {
+        return self.entryTypes[entry.type()].template;
     };
 
     self.displayOptions = ko.observable(false);
