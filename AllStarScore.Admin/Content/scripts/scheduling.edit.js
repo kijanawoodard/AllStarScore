@@ -51,6 +51,11 @@ var EntryModel = function (data) {
     self.isNonTeamEntry = ko.computed(function () {
         return !self.isPerformance;
     }, self);
+
+    self.display = ko.computed(function () {
+        return (self.text || self.type)();
+    }, self);
+
 };
 
 var scheduleMapping = {
@@ -153,14 +158,14 @@ var EditScheduleViewModel = (function (data) {
     self.unscheduled = ko.observableArray();
 
     var addPerformance = function (performance) {
-        var json = {};
-        json.performanceId = performance.id;
-        json.type = 'Performance';
-        json.time = new Date();
+        var model = {
+            'performanceId': performance.id,
+            'type': 'Performance',
+            'time': new Date()
+        };
 
-        json = new EntryModel(json);
-
-        self.unscheduled.push(json);
+        model = new EntryModel(model);
+        self.unscheduled.push(model);
     };
 
     (function () {
@@ -193,30 +198,26 @@ var EditScheduleViewModel = (function (data) {
 
     var prototype = function () {
         return new EntryModel({
-            type: '',
-            time: '',
-            text: ''
+            'type': '',
+            'time': new Date()
         });
     };
 
     self.addBreak = function (day) {
         var item = prototype();
         item.type('Break');
-        item.text(item.type());
         day.entries.push(item);
     };
 
     self.addAwards = function (day) {
         var item = prototype();
         item.type('Awards');
-        item.text(item.type());
         day.entries.push(item);
     };
 
     self.addOpen = function (day) {
         var item = prototype();
         item.type('Open');
-        item.text(item.type());
         day.entries.push(item);
     };
 
