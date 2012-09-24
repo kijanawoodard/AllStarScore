@@ -11,6 +11,8 @@ namespace AllStarScore.Models
         public string Id { get; set; }
         public int DefaultDuration { get; set; } //in minutes
         public int DefaultWarmupTime { get; set; } //in minutes
+		public int DefaultBreakDuration { get; set; } //in minutes
+		public int DefaultAwardsDuration { get; set; } //in minutes
         public int NumberOfPanels { get; set; }
         public List<ScheduleDay> Days { get; set; }
 		public Dictionary<string, string> DivisionPanels { get; set; }
@@ -37,6 +39,8 @@ namespace AllStarScore.Models
         {
             DefaultDuration = 3;
             DefaultWarmupTime = 40;
+        	DefaultBreakDuration = 15;
+        	DefaultAwardsDuration = 30;
             NumberOfPanels = 2;
             Days = new List<ScheduleDay>();
 			DivisionPanels = new Dictionary<string, string>();
