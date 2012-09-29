@@ -1,42 +1,20 @@
-﻿$(document).ready(function () {
+﻿AllStarScore.Scheduling = {
+    Start: function() {
+        $('#scheduling_edit .selectable').selectable({ filter: "li" });
 
-    $('#scheduling_edit .selectable').selectable({ filter: "li" });
+        var viewModel = new AllStarScore.Scheduling.EditViewModel();
+        ko.applyBindings(viewModel, document.getElementById('scheduling_edit'));
 
-    var viewModel = new EditScheduleViewModel(window.editScheduleData);
-    ko.applyBindings(viewModel, document.getElementById('scheduling_edit'));
-
-    $('#scheduling_edit .sortable').disableSelection(); //http://stackoverflow.com/a/9993099/214073 sortable and selectable
-});
-
-var utilities = {
-    asArray: function (obj) {
-        var result = [];
-        for (var key in obj) {
-            result.push({ key: key, value: obj[key] });
-        }
-
-        return result;
-    },
-    asObject: function (array, keyFunc) {
-        keyFunc = keyFunc || function (item) {
-            return item.id;
-        };
-
-        var result = {};
-        _.each(array, function (item, index) {
-            result[keyFunc(item)] = item;
-        });
-
-        return result;
+        $('#scheduling_edit .sortable').disableSelection(); //http://stackoverflow.com/a/9993099/214073 sortable and selectable
     }
 };
 
-var DayModel = function (data) {
+AllStarScore.Scheduling.DayModel = function (data) {
     data.day = new Date(data.day);
-    ko.mapping.fromJS(data, dayMapping, this);
+    ko.mapping.fromJS(data, AllStarScore.Scheduling.DayMapping, this);
 };
 
-var EntryModel = function (data) {
+AllStarScore.Scheduling.EntryModel = function (data) {
     data.time = new Date(data.time);
     ko.mapping.fromJS(data, {}, this);
 
@@ -56,58 +34,36 @@ var EntryModel = function (data) {
 
 };
 
-var scheduleMapping = {
-    'include' : [],
+AllStarScore.Scheduling.ScheduleMapping = {
+    'include': [],
     'days': {
         create: function (options) {
-            return new DayModel(options.data);
+            return new AllStarScore.Scheduling.DayModel(options.data);
         }
     }
 };
 
-var dayMapping = {
+AllStarScore.Scheduling.DayMapping = {
     'entries': {
         create: function (options) {
-            return new EntryModel(options.data);
+            return new AllStarScore.Scheduling.EntryModel(options.data);
         }
     }
 };
 
-var EditScheduleViewModel = (function (data) {
+AllStarScore.Scheduling.EditViewModel = function () {
     var self = this;
     var hook = $('#scheduling_edit');
     var form = hook.find('form');
 
-    self.competition = data.competition;
-    self.levels = utilities.asObject(data.levels);
-    self.divisions = utilities.asObject(data.divisions);
-    self.gyms = utilities.asObject(data.gyms);
-    self.registrations = utilities.asObject(data.registrations);
-    self.performances = utilities.asObject(data.performances);
-
-    _.each(self.performances, function (performance) {
-        var division = self.divisions[performance.divisionId];
-        performance.division = division.name;
-        performance.level = self.levels[division.levelId].name;
-
-        var registration = self.registrations[performance.registrationId];
-        performance.team = registration.teamName;
-        performance.participants = registration.participantCount;
-        performance.isShowTeam = registration.isShowTeam;
-
-        var gym = self.gyms[registration.gymId];
-        performance.gym = gym.name;
-        performance.isSmallGym = gym.isSmallGym;
-        performance.location = gym.location;
-
-        performance.order = [, '1st', '2nd', '3rd', '4th', '5th'][performance.id.substr(performance.id.length - 1)];
+    var data = AllStarScore.CompetitionData;
+    self.performances = data.performances;
+    
+    _.each(data.raw.divisions, function (division) {
+        AllStarScore.Scheduling.ScheduleMapping.include.push(division.id); //skirt this issue: https://groups.google.com/forum/?fromgroups=#!topic/knockoutjs/QoubswdzIxI; this works because we know all the possible keys
     });
 
-    _.each(data.divisions, function (division) {
-        scheduleMapping.include.push(division.id); //skirt this issue: https://groups.google.com/forum/?fromgroups=#!topic/knockoutjs/QoubswdzIxI; this works because we know all the possible keys
-    });
-
-    self.schedule = ko.mapping.fromJS(data.schedule, scheduleMapping);
+    self.schedule = ko.mapping.fromJS(data.schedule, AllStarScore.Scheduling.ScheduleMapping);
 
     _.each(self.schedule.days(), function (day) {
         day.starthour = ko.observable(day.day().getHours());
@@ -287,4 +243,4 @@ var EditScheduleViewModel = (function (data) {
     };
 
     return self;
-});
+};

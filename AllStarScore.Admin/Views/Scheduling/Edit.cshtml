@@ -1,9 +1,9 @@
 ﻿@model AllStarScore.Admin.ViewModels.SchedulingEditViewModel
 
+@{ Html.RenderAction("Index", "CompetitionData"); }
+
 @{ Html.RegisterStylesheet("~/content/styles/scheduling.edit.css"); }
 @{ Html.RegisterScript("~/content/scripts/scheduling.edit.js"); }
-
-@{ Html.RenderAction("Index", "CompetitionData"); }
 
 <div id="scheduling_edit">
     <h2>Schedule for @Html.ActionLink(Model.Competition.Display, "Details", "Competition", new { id = Model.Competition.Id.ForMvc() }, new { })</h2>
@@ -123,6 +123,10 @@
     <span data-bind="text: display"></span>
 </script>
 
-<script>
-    var editScheduleData = JSON.parse('@Html.Raw(Model.ToJson())');
-</script>
+@using(Html.BeginScript(ScriptPositionEnum.EndOfPage)) { 
+	<text>
+		$(document).ready(function () { 
+            window.AllStarScore.Scheduling.Start();
+		});
+	</text>
+}
