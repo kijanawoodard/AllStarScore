@@ -11,7 +11,6 @@ namespace AllStarScore.Admin.ViewModels
     {
         public Schedule Schedule { get; set; }
         public Competition Competition { get; set; }
-        public IEnumerable<DateTime> CompetitionDays { get; set; }
 
         public IEnumerable<Level> Levels { get; set; }
         public IEnumerable<Division> Divisions { get; set; }
@@ -30,7 +29,6 @@ namespace AllStarScore.Admin.ViewModels
         {
             Schedule = schedule;
             Competition = competition;
-            CompetitionDays = competition.Days.ToList();
 
             Levels = levels;
             Divisions = divisions;

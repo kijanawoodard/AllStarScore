@@ -3,6 +3,8 @@
 @{ Html.RegisterStylesheet("~/content/styles/scheduling.edit.css"); }
 @{ Html.RegisterScript("~/content/scripts/scheduling.edit.js"); }
 
+@{ Html.RenderAction("Index", "CompetitionData"); }
+
 <div id="scheduling_edit">
     <h2>Schedule for @Html.ActionLink(Model.Competition.Display, "Details", "Competition", new { id = Model.Competition.Id.ForMvc() }, new { })</h2>
     <div class="setup">

@@ -1,0 +1,5 @@
+﻿@model AllStarScore.Admin.ViewModels.CompetitionDataIndexViewModel
+
+<script>
+    var competitionData = JSON.parse('@Html.Raw(Model.ToJson())');
+</script>

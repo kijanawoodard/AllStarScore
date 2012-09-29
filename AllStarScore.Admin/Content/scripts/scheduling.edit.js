@@ -1,10 +1,8 @@
-﻿var viewModel;
-
-$(document).ready(function () {
+﻿$(document).ready(function () {
 
     $('#scheduling_edit .selectable').selectable({ filter: "li" });
 
-    viewModel = new EditScheduleViewModel(window.editScheduleData);
+    var viewModel = new EditScheduleViewModel(window.editScheduleData);
     ko.applyBindings(viewModel, document.getElementById('scheduling_edit'));
 
     $('#scheduling_edit .sortable').disableSelection(); //http://stackoverflow.com/a/9993099/214073 sortable and selectable
