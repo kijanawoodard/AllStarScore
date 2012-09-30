@@ -46,11 +46,11 @@ namespace AllStarScore.Models
             yield return performance;
         }
 
-        private Performance GeneratePerformance(string id)
+        private Performance GeneratePerformance(string performanceId)
         {
             return new Performance
                    {
-                       Id = string.Format("{0}/performances/{1}/performance/{2}", CompetitionId, Id.Substring(Id.IndexOf("gyms/", System.StringComparison.Ordinal)), id),
+                       Id = string.Format("{0}/performance/{1}", Id, performanceId),
                        RegistrationId = Id,
                        DivisionId = DivisionId
                    };
