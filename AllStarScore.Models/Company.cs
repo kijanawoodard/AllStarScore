@@ -23,7 +23,7 @@ namespace AllStarScore.Models
         }
 
         public void Update(CompanyCreateCommand command)
-        {
+        {	
             this.RegisterCommand(command);
         }
 

@@ -1,10 +1,10 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Diagnostics;
 using System.Linq;
 using System.Web.Mvc;
 using AllStarScore.Admin.Models;
 using AllStarScore.Admin.ViewModels;
+using AllStarScore.Extensions;
 using AllStarScore.Library;
 using AllStarScore.Models;
 using AllStarScore.Models.Commands;
@@ -27,6 +27,7 @@ namespace AllStarScore.Admin.Controllers
             var model = new SuperAdminIndexViewModel();
             model.Domain = _tenants.GetKey(Request.Url);
             model.Company = _tenants.GetCompanyId(Request.Url);
+        	model.Token = RavenSession.Load<Synchronization>(Synchronization.FormatId(CurrentCompanyId)).Token;
 
             return View(model);
         }
@@ -44,7 +45,8 @@ namespace AllStarScore.Admin.Controllers
                     RavenSession.SaveChanges();
 
                     _tenants.SetCompanyId(Request.Url, company.Id);
-                    
+
+					CheckSynchronization(company.Id);
                     HackLevels(company.Id);
                     HackDivisions(company.Id, command);
                 },
@@ -61,7 +63,22 @@ namespace AllStarScore.Admin.Controllers
             return RedirectToAction("Index");
         }
 
-        private void HackSecurity()
+		void CheckSynchronization(string companyid)
+		{
+			var doc = new Synchronization
+			          {
+			          	CompanyId = companyid,
+			          	Token = ShortGuid.NewGuid(),
+			          	Url = string.Empty
+			          };
+
+			doc.Token = doc.Token.Replace("-", "q"); //don't want hypens
+
+			RavenSession.Store(doc);
+			RavenSession.SaveChanges();
+		}
+
+        void HackSecurity()
         {
             var any = RavenSession.Query<User>().Any();
             if (any) return;
@@ -85,7 +102,7 @@ namespace AllStarScore.Admin.Controllers
             RavenSession.SaveChanges();
         }
 
-        private void HackLevels(string companyId)
+        void HackLevels(string companyId)
         {
             var levels = new List<Level>()
                          {
@@ -155,7 +172,7 @@ namespace AllStarScore.Admin.Controllers
             RavenSession.SaveChanges();
         }
 
-        private void HackDivisions(string companyId, ICommand src)
+        void HackDivisions(string companyId, ICommand src)
         {
             var commands = new List<DivisionCreateCommand>()
                             {

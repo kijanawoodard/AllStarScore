@@ -87,6 +87,7 @@
     <Compile Include="CompetitionInfo.cs" />
     <Compile Include="Schedule.cs" />
     <Compile Include="Registration.cs" />
+    <Compile Include="Synchronization.cs" />
     <Compile Include="TenantMap.cs" />
   </ItemGroup>
   <ItemGroup>

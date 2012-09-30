@@ -15,13 +15,17 @@
                 @Html.LabelFor(m => m.Domain)
                 @Html.DisplayFor(m => m.Domain)
             </li>
+			<li>
+				@Html.LabelFor(m => m.Company)
+				@Html.DisplayFor(m => m.Company)
+				@if(Model.ThereIsNoCompanyForThisDomain)
+				{
+					<i>no company yet</i>
+				}
+			</li>
             <li>
-                @Html.LabelFor(m => m.Company)
-                @Html.DisplayFor(m => m.Company)
-                @if(Model.ThereIsNoCompanyForThisDomain)
-                {
-                    <i>no company yet</i>
-                }
+                @Html.LabelFor(m => m.Token)
+                @Html.DisplayFor(m => m.Token)
             </li>
         </ol>
         

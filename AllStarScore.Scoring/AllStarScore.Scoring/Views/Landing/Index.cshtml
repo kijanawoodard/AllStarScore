@@ -8,16 +8,16 @@
 
 @using(Html.BeginForm("Import", "Sync")){
 <fieldset>
-    <legend>Import</legend>
+    <legend>Download</legend>
     
-    <label>Sync Url</label>
+    <label>Compeition Number</label>
     <input type="text" value="" name="id" />
     
-    <input type="submit" value="Import"/>
+    <input type="submit" value="Download"/>
 </fieldset>
 }
 
-<h3>Existing Competitions</h3>
+<h3>Local Competitions</h3>
 @foreach (var info in Model.Competitions)
 {
     @Html.ActionLink(info.Competition.Display, "Index", "Performance", new {id = info.Id.ForMvc()}, new {})

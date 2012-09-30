@@ -5,4 +5,4 @@
 }
 
 <h2>Synchronize @Html.ActionLink(Model.Competition.Display, "Details", "Competition", new { id = Model.Competition.Id.ForMvc() }, new { }) with Scoring Computer</h2>
-@Url.Action("Export", "Sync", new { id = Model.Competition.Id.ForMvc(), Model.Hash }, "http")
+@Url.Action("Download", "Sync", new { id = Model.Competition.Id.ForMvc(), Model.Hash }, "http")

@@ -23,12 +23,19 @@ namespace AllStarScore.Admin.Controllers
             return View(model);
         }
 
-        [HttpGet, AllowAnonymous]
-        public ActionResult Export(ExportRequestModel request)
-        {
-            var company =
-                RavenSession.Query<Company>()
-                    .First();
+		[HttpGet, AllowAnonymous]
+        public ActionResult Download(DownloadRequestModel request)
+		{
+			var security =
+				RavenSession
+					.Load<Synchronization>(Synchronization.FormatId(CurrentCompanyId));
+
+			var ok = security.Token.Equals(request.Token);
+			if (!ok) return HttpNotFound();
+
+			var company =
+				RavenSession
+					.Load<Company>(CurrentCompanyId);
 
             var registrations =
                 RavenSession
@@ -108,10 +115,10 @@ namespace AllStarScore.Admin.Controllers
             return new JsonDotNetResult(model);
         }
 
-        public class ExportRequestModel
+        public class DownloadRequestModel
         {
             public string CompetitionId { get; set; }
-            public string Hash { get; set; }
+            public string Token { get; set; }
         }
     }
 }

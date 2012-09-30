@@ -81,8 +81,8 @@ namespace AllStarScore.Admin
 
             routes.MapRoute(
                 name: null,
-                url: "synchronize/{hash}/{competitionid}",
-                defaults: new { controller = "Sync", action = "Export" }
+                url: "download/{token}/{competitionid}",
+                defaults: new { controller = "Sync", action = "Download" }
             );
 
             routes.MapRoute(

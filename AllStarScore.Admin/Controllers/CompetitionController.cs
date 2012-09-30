@@ -12,7 +12,7 @@ namespace AllStarScore.Admin.Controllers
 {
     public class CompetitionController : RavenController
     {
-        public ActionResult Index()
+		public ActionResult Index()
         {
             //TODO: can i make load starting with work with Lazily. See if it's already there in 1.2
             var competitions =

@@ -12,10 +12,18 @@ namespace AllStarScore.Scoring.Controllers
 {
     public class SyncController : RavenController
     {
+    	public static readonly string TenantName = "local";
+
         public ActionResult Import(string id)
         {
+			var security =
+				RavenSession
+					.Load<Synchronization>(Synchronization.FormatId(TenantName));
+
+			var url = string.Format("{0}{1}/competitions-{2}", security.Url, security.Token, id);
+
             var client = new WebClient();
-            var data = client.DownloadString(id);
+            var data = client.DownloadString(url);
             var model = JsonConvert.DeserializeObject<CompetitionInfo>(data);
 
             RavenSession.Store(model); 
@@ -55,5 +63,24 @@ namespace AllStarScore.Scoring.Controllers
                 RavenSession.Store(performance);
             }
         }
+
+		public ActionResult Init(string id)
+		{
+			var doc =
+				RavenSession
+					.Load<Synchronization>(Synchronization.FormatId(TenantName));
+
+			if (doc == null && id != null)
+			{
+				doc = new Synchronization
+				      {
+				      	CompanyId = TenantName,
+				      	Token = id
+				      };
+				RavenSession.Store(doc);
+			}
+
+			return new JsonDotNetResult("ok");
+		}
     }
 }
