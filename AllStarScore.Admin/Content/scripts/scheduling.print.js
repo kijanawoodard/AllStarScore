@@ -16,7 +16,7 @@ AllStarScore.Scheduling.PrintViewModel = function () {
     self.schedule = data.schedule;
 
     self.entryTypes = {
-        'Performance': { duration: self.schedule.defaultDuration, template: 'registration-template' },
+        'Performance': { duration: self.schedule.defaultDuration, template: 'performance-template' },
         'Open': { duration: self.schedule.defaultDuration, template: 'block-template' },
         'Break': { duration: self.schedule.defaultBreakDuration, template: 'block-template' },
         'Awards': { duration: self.schedule.defaultAwardsDuration, template: 'block-template' }
