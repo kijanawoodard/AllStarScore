@@ -116,7 +116,7 @@ AllStarScore.Scheduling.EditViewModel = function () {
             'time': new Date()
         };
 
-        model = new EntryModel(model);
+        model = new AllStarScore.Scheduling.EntryModel(model);
         self.unscheduled.push(model);
     };
 
@@ -149,7 +149,7 @@ AllStarScore.Scheduling.EditViewModel = function () {
     };
 
     var prototype = function () {
-        return new EntryModel({
+        return new AllStarScore.Scheduling.EntryModel({
             'type': '',
             'time': new Date()
         });
@@ -174,7 +174,7 @@ AllStarScore.Scheduling.EditViewModel = function () {
     };
 
     self.entryTypes = {
-        'Performance': { duration: self.schedule.defaultDuration, template: 'registration-template' },
+        'Performance': { duration: self.schedule.defaultDuration, template: 'performance-template' },
         'Open': { duration: self.schedule.defaultDuration, template: 'block-template' },
         'Break': { duration: self.schedule.defaultBreakDuration, template: 'block-template' },
         'Awards': { duration: self.schedule.defaultAwardsDuration, template: 'block-template' }
