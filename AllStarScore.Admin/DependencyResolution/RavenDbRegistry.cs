@@ -8,7 +8,6 @@ using Raven.Abstractions.Data;
 using Raven.Client;
 using Raven.Client.Document;
 using Raven.Client.Indexes;
-using Raven.Client.UniqueConstraints;
 using StructureMap.Configuration.DSL;
 
 namespace AllStarScore.Admin.DependencyResolution
@@ -42,8 +41,6 @@ namespace AllStarScore.Admin.DependencyResolution
                         var special = entity as IGenerateMyId;
                         return special == null ? generator.GenerateDocumentKey(documentStore.Conventions, entity) : special.GenerateId();
                     };
-
-                    documentStore.RegisterListener(new UniqueConstraintsStoreListener());
 
                     documentStore.Initialize();
                     InitializeRavenProfiler(documentStore);

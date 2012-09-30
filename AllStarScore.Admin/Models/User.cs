@@ -6,7 +6,6 @@ using System.Text;
 using System.Web;
 using AllStarScore.Models;
 using AllStarScore.Models.Commands;
-using Raven.Client.UniqueConstraints;
 
 namespace AllStarScore.Admin.Models
 {

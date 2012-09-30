@@ -59,9 +59,6 @@
     <Reference Include="Raven.Client.MvcIntegration, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL">
       <HintPath>..\packages\RavenDB.Client.MvcIntegration.1.0.960\lib\net40\Raven.Client.MvcIntegration.dll</HintPath>
     </Reference>
-    <Reference Include="Raven.Client.UniqueConstraints">
-      <HintPath>..\packages\RavenDB.Client.UniqueConstraints.1.0.960\lib\net40\Raven.Client.UniqueConstraints.dll</HintPath>
-    </Reference>
     <Reference Include="Raven.Client.Versioning">
       <HintPath>..\packages\RavenDB.Client.Versioning.1.0.960\lib\net40\Raven.Client.Versioning.dll</HintPath>
     </Reference>

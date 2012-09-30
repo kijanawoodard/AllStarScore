@@ -5,7 +5,6 @@ using System.Web;
 using System.Web.Mvc;
 using System.Web.Security;
 using AllStarScore.Admin.Models;
-using Raven.Client.UniqueConstraints;
 
 namespace AllStarScore.Admin.Controllers
 {
