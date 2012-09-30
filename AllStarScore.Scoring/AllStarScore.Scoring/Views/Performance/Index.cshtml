@@ -8,31 +8,49 @@
 @{ Html.RegisterStylesheet("~/content/styles/performances.index.css"); }
 @{ Html.RegisterScript("~/content/scripts/performances.index.js"); }
 
-<div id="performance_index" data-bind="with: $root.performanceViewModel">
-    <ol data-bind="foreach: performances" class="performances">
-        <li>
-            <span data-bind="dateString: performanceTime, datePattern: 'ddd h:mm tt'" class="when"></span>
-            <span class="name">
-                <a data-bind="attr: {href: $root.performanceViewModel.scoringUrl() + id().replace('/', '-')}">@* not happy with the replace ForMvc*@
-                    <span data-bind="text: gymName"></span>
-                    <span data-bind="text: teamName"></span>
-                </a>
-            </span>
-            <span class="division">
-                <span data-bind="text: levelName"></span>
-                <span data-bind="text: divisionName"></span>
-            </span>
-            <span class="status">
-                <span data-bind="visible: isShowTeam">Show Team</span>
-                <span data-bind="visible: didNotCompete">Did Not Compete</span>
-                <span data-bind="visible: scoringComplete" class="complete">Complete</span>
-            </span>
-        </li>
-    </ol>
-    <pre data-bind="text: ko.toJSON($root, null, 2)" class="ko_output"></pre>
+<div id="performance_index" data-bind="with: CompetitionData">
+	<div data-bind="foreach: schedule.days">
+	    <ol data-bind="template: { name: templateToUse, foreach: entries }" class="performances">
+		    
+	    </ol>
+    </div>
+	<pre data-bind="text: ko.toJSON($root, null, 2)" class="ko_output"></pre>
 </div>
 
-<script>
-    var performanceIndexData = JSON.parse('@Html.Raw(Model.ToJson())');
-    performanceIndexData.scoringUrl = '@Url.Action("Summary", "Scoring")/';
+<script type="text/html" id="block-template">
+	<li data-bind="with: dataToUse($data)">
+		<span data-bind="dateString: time, datePattern: 'ddd h:mm tt'" class="when"></span>
+        <span data-bind="text: display"></span>
+    </li>
 </script>
+
+<script type="text/html" id="performance-template">
+	<li data-bind="with: dataToUse($data)">
+		<span data-bind="dateString: time, datePattern: 'ddd h:mm tt'" class="when"></span>
+		<span class="name">
+			<a data-bind="attr: {href: $root.scoringUrl + id.replace('/', '-')}">@* not happy with the replace ForMvc*@
+				<span data-bind="text: gym"></span>
+				<span data-bind="text: team"></span>
+			</a>
+		</span>
+		<span class="division">
+			<span data-bind="text: level"></span>
+			<span data-bind="text: division"></span>
+		</span>
+		<span class="status">
+			<span data-bind="visible: isShowTeam">Show Team</span>
+@*			<span data-bind="visible: didNotCompete">Did Not Compete</span>*@
+@*			<span data-bind="visible: scoringComplete" class="complete">Complete</span>*@
+		</span>
+	</li>
+</script>
+
+@using(Html.BeginScript(ScriptPositionEnum.EndOfPage)) { 
+	<text>
+		$(document).ready(function () { 
+		    AllStarScore.scoringUrl = '@Url.Action("Summary", "Scoring")/';
+            var data = JSON.parse('@Html.Raw(Model.ToJson())');
+            //window.AllStarScore.CompetitionData = new window.AllStarScore.CompetitionData.ViewModel(data);
+		});
+	</text>
+}

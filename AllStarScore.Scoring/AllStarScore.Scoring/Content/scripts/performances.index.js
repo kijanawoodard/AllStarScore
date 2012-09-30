@@ -1,17 +1,18 @@
-﻿$(document).ready(function () {
+﻿AllStarScore.PerformanceViewModel = (function () {
+    var self = this;
 
-    var mapping = {
-        'performances': {
-            create: function (options) {
-                return new performanceModel(options.data);
-            }
+    self.templateToUse = function (entry) {
+        return entry.performanceId ? 'performance-template' : 'block-template';
+    };
+
+    self.dataToUse = function (entry) {
+        if (entry.performanceId) {
+            entry = $.extend(entry, AllStarScore.CompetitionData.performances[entry.performanceId]);
+
+        } else {
+            entry.display = entry.text || entry.type;
         }
-    };
 
-    var performanceModel = function (data) {
-        data.performanceTime = new Date(data.performanceTime);
-        ko.mapping.fromJS(data, mapping, this);
+        return entry;
     };
-
-    window.viewModel.performanceViewModel = ko.mapping.fromJS(window.performanceIndexData, mapping);
-});
+} ()); //by self execucting these, function are available without going specifying model
