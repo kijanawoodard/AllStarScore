@@ -21,10 +21,10 @@ namespace AllStarScore.Scoring.ViewModels
             Info = competitionInfo;
 
             Schedule = competitionInfo.Schedule;
-            Registrations = competitionInfo
-                                .Registrations
-                                .OrderBy(x => x.CreatedAt)
-                                .ToDictionary(r => r.Id, r => r);
+//            Registrations = competitionInfo
+//                                .Registrations
+//                                .OrderBy(x => x.CreatedAt)
+//                                .ToDictionary(r => r.Id, r => r);
 
             ScoringMap = new ScoreSheetMap().All;
             JudgePanel = new FiveJudgePanel(new List<JudgeScoreIndex.Result>());

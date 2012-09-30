@@ -28,42 +28,42 @@ namespace AllStarScore.Scoring.Controllers
             var model = JsonConvert.DeserializeObject<CompetitionInfo>(data);
 
             RavenSession.Store(model); 
-            UpdatePerformances(model);
+            //UpdatePerformances(model);
 
-            return RedirectToAction("Index", "Performance", new {id = model.CompetitionId.ForMvc()});
+            return RedirectToAction("Index", "Performance", new {id = model.Id.ForMvc()});
         }
 
-        public void UpdatePerformances(CompetitionInfo model)
-        {
-            var performances =
-                RavenSession
-                    .Query<Performance>()
-                    .Where(x => x.CompetitionId == model.CompetitionId)
-                    .Take(int.MaxValue) //not expecting more than 100s, but likely slighly more than 128
-                    .ToList();
-
-            var scores =
-                RavenSession
-                    .Query<JudgeScore>()
-                    .Where(x => x.CompetitionId == model.CompetitionId)
-                    .Take(int.MaxValue) //TODO: page through these, could be more than 1024
-                    .ToList();
-
-            foreach (var performance in performances)
-            {
-                RavenSession.Delete(performance);
-            }
-
-            foreach (var score in scores)
-            {
-                RavenSession.Delete(score);
-            }
-
-            foreach (var performance in model.Performances)
-            {
-                RavenSession.Store(performance);
-            }
-        }
+//        public void UpdatePerformances(CompetitionInfo model)
+//        {
+//            var performances =
+//                RavenSession
+//                    .Query<Performance>()
+//                    .Where(x => x.CompetitionId == model.CompetitionId)
+//                    .Take(int.MaxValue) //not expecting more than 100s, but likely slighly more than 128
+//                    .ToList();
+//
+//            var scores =
+//                RavenSession
+//                    .Query<JudgeScore>()
+//                    .Where(x => x.CompetitionId == model.CompetitionId)
+//                    .Take(int.MaxValue) //TODO: page through these, could be more than 1024
+//                    .ToList();
+//
+//            foreach (var performance in performances)
+//            {
+//                RavenSession.Delete(performance);
+//            }
+//
+//            foreach (var score in scores)
+//            {
+//                RavenSession.Delete(score);
+//            }
+//
+//            foreach (var performance in model.Performances)
+//            {
+//                RavenSession.Store(performance);
+//            }
+//        }
 
 		public ActionResult Init(string id)
 		{

@@ -5,6 +5,7 @@ using System.Web;
 using System.Web.Mvc;
 using AllStarScore.Admin.Infrastructure.Indexes;
 using AllStarScore.Admin.ViewModels;
+using AllStarScore.Library.RavenDB;
 using AllStarScore.Models;
 using Raven.Client.Linq;
 
@@ -35,80 +36,47 @@ namespace AllStarScore.Admin.Controllers
 
 			var company =
 				RavenSession
+					.Advanced.Lazily
 					.Load<Company>(CurrentCompanyId);
 
-            var registrations =
-                RavenSession
-                    .Query<Registration, TeamRegistrationByCompetition>()
-                    .Where(x => x.CompetitionId == request.CompetitionId)
-                    .Take(int.MaxValue)
-                    .As<TeamRegistrationByCompetitionResults>()
-                    .OrderBy(x => x.CreatedAt)
-                    .Lazily();
+			var competition =
+				RavenSession
+					.Advanced.Lazily
+					.Load<Competition>(request.CompetitionId);
 
-            var competition =
-                RavenSession
-                    .Advanced.Lazily
-                    .Load<Competition>(request.CompetitionId);
+			var schedule =
+				RavenSession
+					.Advanced.Lazily
+					.Load<Schedule>(Schedule.FormatId(request.CompetitionId));
 
-            var divisions =
-                RavenSession
-                    .Query<Division>()
-                    .Take(int.MaxValue)
-                    .Lazily();
+			var levels =
+				RavenSession
+					.LoadStartingWith<Level>(Level.FormatId(CurrentCompanyId));
 
-            var levels =
-                RavenSession
-                    .Query<Level>()
-                    .Take(int.MaxValue)
-                    .Lazily();
-                    
-            var schedule = RavenSession
-                            .Query<Schedule, ScheduleByCompetition>()
-                            .FirstOrDefault(x => x.CompetitionId == request.CompetitionId);
+			var divisions =
+				RavenSession
+					.LoadStartingWith<Division>(Division.FormatId(CurrentCompanyId));
+
+			var gyms =
+				RavenSession
+					.LoadStartingWith<Gym>(Gym.FormatId(CurrentCompanyId));
+
+			var registrations =
+				RavenSession
+					.LoadStartingWith<Registration>(Registration.FormatId(request.CompetitionId));
 
             if (schedule == null)
                 return new HttpNotFoundResult();
 
             var model = new CompetitionInfo
                         {
-                            Performances = schedule
-                                .PerformanceEntries
-                                .Select(entry =>
-                                {
-                                    var registration = registrations.Value.First(r => r.Id == entry.RegistrationId);
-                                    return new Performance
-                                           {
-                                               CompetitionId = competition.Value.Id,
-                                               RegistrationId = registration.Id,
-                                               GymId = registration.GymId,
-                                               DivisionId = registration.DivisionId,
-                                               LevelId = registration.LevelId,
-                                               PerformanceTime = entry.PerformanceTime,
-                                               WarmupTime = entry.WarmupTime,
-                                               Duration = entry.Duration,
-                                               GymName = registration.GymName,
-                                               TeamName = registration.TeamName,
-                                               DivisionName = registration.DivisionName,
-                                               LevelName = registration.LevelName,
-                                               IsSmallGym = registration.IsSmallGym,
-                                               IsShowTeam = registration.IsShowTeam,
-                                               GymLocation = registration.GymLocation,
-                                               ParticipantCount = registration.ParticipantCount,
-                                           };
-                                })
-                                .ToList(),
-
-                            Company = company,
-                            Competition = competition.Value,
-                            Registrations = registrations.Value.ToList(),
-                            Schedule = schedule,
-                            CompetitionId = competition.Value.Id,
-                            CompetitionName = competition.Value.Name,
-                            CompetitionDescription = competition.Value.Description,
-                            Days = competition.Value.Days.ToList(),
-                            Divisions = divisions.Value.ToList(),
-                            Levels = levels.Value.ToList()
+                            Company = company.Value,
+                            Levels = levels.ToList(),
+							Divisions = divisions.ToList(),
+							Gyms = gyms.ToList(),
+							Competition = competition.Value,
+							Schedule = schedule.Value,
+                            Registrations = registrations.ToList(),
                         };
             
 

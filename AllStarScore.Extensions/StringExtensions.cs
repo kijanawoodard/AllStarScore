@@ -7,13 +7,24 @@ namespace AllStarScore.Extensions
             return (target ?? string.Empty).Trim();
         }
 
+		public static string StripCompanyId(this string target)
+		{
+			var working = target.TrimSafely();
+
+			if (working.StartsWith("company/"))
+			{
+				var index = working.IndexOf("/", "company/".Length, System.StringComparison.Ordinal);
+				working = working.Substring(index + 1);
+			}
+
+			return working;
+		}
+
         public static string ForMvc(this string target)
         {
             //strip company id; will put it back in the model binder - reduces security surface dramatically
-            var working = target.TrimSafely();
-            var index = working.IndexOf("/", "company/".Length, System.StringComparison.Ordinal);
+        	var working = target.StripCompanyId();
             return working
-                    .Substring(index + 1)
                     .Replace("/", "-");
         }
 
