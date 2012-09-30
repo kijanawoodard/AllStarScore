@@ -24,9 +24,14 @@ namespace AllStarScore.Extensions
         {
             //strip company id; will put it back in the model binder - reduces security surface dramatically
         	var working = target.StripCompanyId();
-            return working
-                    .Replace("/", "-");
+        	return working.ForScoringMvc();
         }
+
+		public static string ForScoringMvc(this string target)
+		{
+			return target
+					.Replace("/", "-");
+		}
 
         public static string FromMvc(this string target)
         {

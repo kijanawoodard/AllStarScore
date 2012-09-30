@@ -30,7 +30,7 @@ namespace AllStarScore.Scoring.Controllers
             RavenSession.Store(model); 
             //UpdatePerformances(model);
 
-            return RedirectToAction("Index", "Performance", new {id = model.Id.ForMvc()});
+			return RedirectToAction("Index", "Performance", new { id = model.Id.ForScoringMvc() });
         }
 
 //        public void UpdatePerformances(CompetitionInfo model)

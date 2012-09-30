@@ -18,9 +18,9 @@
 
     <nav>
         <ul id="menu">
-            <li>@Html.ActionLink("Performances", "Index", "Performance", new { id = id.ForMvc() }, new { })</li>
-            <li>@Html.ActionLink("Score Sheets", "Index", "ScoreSheets", new { id = id.ForMvc() }, new { })</li>
-            <li>@Html.ActionLink("Reports", "Index", "Reporting", new { id = id.ForMvc() }, new { })</li>
+            <li>@Html.ActionLink("Performances", "Index", "Performance", new { id = id.ForScoringMvc() }, new { })</li>
+            <li>@Html.ActionLink("Score Sheets", "Index", "ScoreSheets", new { id = id.ForScoringMvc() }, new { })</li>
+            <li>@Html.ActionLink("Reports", "Index", "Reporting", new { id = id.ForScoringMvc() }, new { })</li>
         </ul>
     </nav>
 </div>

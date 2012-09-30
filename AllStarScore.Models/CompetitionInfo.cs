@@ -6,7 +6,7 @@ namespace AllStarScore.Models
 {
     public class CompetitionInfo
     {
-        public string Id { get { return Competition.Id.StripCompanyId(); } }
+        public string Id { get { return Competition.Id; } }
 
         public Company Company { get; set; }
 		public List<Level> Levels { get; set; }

@@ -92,7 +92,7 @@ namespace AllStarScore.Scoring.Controllers
                     var result = "";
 					if (true) //TODO: MARK (performance.ScoringComplete) //must have been sitting on the page; bail out and don't update the score
                     {
-                        result = Url.Action("Summary", "Scoring", new { performanceId = command.PerformanceId.ForMvc() });
+						result = Url.Action("Summary", "Scoring", new { performanceId = command.PerformanceId.ForScoringMvc() });
                     }
                     else
                     {
@@ -113,13 +113,13 @@ namespace AllStarScore.Scoring.Controllers
             var result = "";
             if (judgeId.Equals(judges.Last(), StringComparison.InvariantCultureIgnoreCase))
             {
-                result = Url.Action("Summary", "Scoring", new { performanceId = performanceId.ForMvc() });
+				result = Url.Action("Summary", "Scoring", new { performanceId = performanceId.ForScoringMvc() });
             }
             else
             {
                 var nextIndex = judges.FindIndex(x => x == judgeId) + 1;
                 var nextJudge = judges[nextIndex];
-                result = Url.Action("ScoreEntry", "Scoring", new { performanceId = performanceId.ForMvc(), judgeId = nextJudge });
+				result = Url.Action("ScoreEntry", "Scoring", new { performanceId = performanceId.ForScoringMvc(), judgeId = nextJudge });
             }
 
             return result;
