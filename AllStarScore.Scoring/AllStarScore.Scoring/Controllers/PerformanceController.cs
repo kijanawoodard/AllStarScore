@@ -12,15 +12,7 @@ namespace AllStarScore.Scoring.Controllers
     {
         public ActionResult Index(string id)
         {
-            var performances =
-                RavenSession
-                    .Query<Performance>()
-                    .Where(x => x.CompetitionId == id)
-                    .OrderBy(x => x.PerformanceTime)
-                    .Take(int.MaxValue) //not expecting more than 100s, but likely slighly more than 128
-                    .ToList();
-
-            var model = new PerformanceIndexViewModel(id, performances);
+            var model = new PerformanceIndexViewModel(id);
             return View(model);
         }
     }

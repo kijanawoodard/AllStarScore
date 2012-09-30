@@ -23,7 +23,7 @@ namespace AllStarScore.Scoring.Controllers
             var performances =
                 RavenSession
                     .Query<Performance>()
-                    .Where(x => x.CompetitionId == id)
+				//                    .Where(x => x.CompetitionId == id) //TODO: MARK
                     .Take(int.MaxValue)
                     .ToList();
 
@@ -42,7 +42,7 @@ namespace AllStarScore.Scoring.Controllers
             var performances =
                 RavenSession
                     .Query<Performance>()
-                    .Where(x => x.CompetitionId == id)
+				//TODO: MARK              .Where(x => x.CompetitionId == id)
                     .Take(int.MaxValue)
                     .ToList();
 
@@ -62,7 +62,7 @@ namespace AllStarScore.Scoring.Controllers
             var performances =
                 RavenSession
                     .Query<Performance>()
-                    .Where(x => x.CompetitionId == id)
+				//TODO: MARK          .Where(x => x.CompetitionId == id)
                     .Take(int.MaxValue)
                     .ToList();
 

@@ -14,7 +14,7 @@ namespace AllStarScore.Scoring.ViewModels
 
         public ScoringScoreEntryViewModel(Performance performance, JudgeScore score)
         {
-            CompetitionId = performance.CompetitionId;
+//            CompetitionId = performance.CompetitionId;  //TODO: MARK
             Performance = performance;
             Score = score;
         }

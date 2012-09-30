@@ -198,7 +198,6 @@
     <Compile Include="Controllers\ScoreSheetsController.cs" />
     <Compile Include="Infrastructure\Commands\ICommand.cs" />
     <Compile Include="Infrastructure\Indexes\JudgeScoreIndex.cs" />
-    <Compile Include="Infrastructure\Indexes\PerformancesIndex.cs" />
     <Compile Include="Infrastructure\RavenQueryListeners\NoStaleQueriesAllowedAsOfNow.cs" />
     <Compile Include="Models\JudgeScore.cs" />
     <Compile Include="Controllers\LandingController.cs" />

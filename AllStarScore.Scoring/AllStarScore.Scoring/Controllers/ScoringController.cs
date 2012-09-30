@@ -66,7 +66,7 @@ namespace AllStarScore.Scoring.Controllers
 
             if (score == null)
             {
-                score = new JudgeScore(performance.CompetitionId, request.PerformanceId, request.JudgeId);
+				score = new JudgeScore("1", request.PerformanceId, request.JudgeId);//TODO: MARK
                 RavenSession.Store(score);
             }
 
@@ -90,7 +90,7 @@ namespace AllStarScore.Scoring.Controllers
                             .Load<Performance>(command.PerformanceId);
 
                     var result = "";
-                    if (performance.ScoringComplete) //must have been sitting on the page; bail out and don't update the score
+					if (true) //TODO: MARK (performance.ScoringComplete) //must have been sitting on the page; bail out and don't update the score
                     {
                         result = Url.Action("Summary", "Scoring", new { performanceId = command.PerformanceId.ForMvc() });
                     }
@@ -136,7 +136,7 @@ namespace AllStarScore.Scoring.Controllers
                             .Load<Performance>(command.PerformanceId);
 
                     //hmmm - shared model coming back to bite
-                    performance.DidNotCompete = true;
+					//TODO: MARK performance.DidNotCompete = true;
 
                     return new JsonDotNetResult(true);
                 });
@@ -153,7 +153,7 @@ namespace AllStarScore.Scoring.Controllers
                             .Load<Performance>(command.PerformanceId);
 
                     //hmmm - shared model coming back to bite
-                    performance.DidNotCompete = false;
+					//TODO: MARK performance.DidNotCompete = false;
 
                     return new JsonDotNetResult(false);
                 });
@@ -173,8 +173,10 @@ namespace AllStarScore.Scoring.Controllers
                             .Load<Performance>(command.PerformanceId);
 
                     //hmmm - shared model coming back to bite
-                    performance.ScoringComplete = true;
-                    performance.FinalScore = panel.Calculator.FinalScore;
+					//TODO: MARK
+
+//                    performance.ScoringComplete = true;
+//                    performance.FinalScore = panel.Calculator.FinalScore;
 
                     return new JsonDotNetResult(true);
                 });
@@ -191,8 +193,9 @@ namespace AllStarScore.Scoring.Controllers
                             .Load<Performance>(command.PerformanceId);
 
                     //hmmm - shared model coming back to bite
-                    performance.ScoringComplete = false;
-                    performance.FinalScore = 0;
+					//TODO: MARK
+//                    performance.ScoringComplete = false;
+//                    performance.FinalScore = 0;
 
                     return new JsonDotNetResult(true);
                 });

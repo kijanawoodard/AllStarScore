@@ -12,7 +12,7 @@ namespace AllStarScore.Scoring.ViewModels
 
         public ScoringFiveJudgePanelViewModel(Performance performance, IJudgePanel panel)
         {
-            CompetitionId = performance.CompetitionId;
+			//CompetitionId = performance.CompetitionId;//TODO: MARK
             Performance = performance;
             Panel = panel;
         }

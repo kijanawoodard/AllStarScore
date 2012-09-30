@@ -29,7 +29,7 @@ namespace AllStarScore.Models
             CreatedAt = DateTime.UtcNow;
         }
 
-        public IEnumerable<PerformaceVM> GetPerformances(Competition competition)
+        public IEnumerable<Performance> GetPerformances(Competition competition)
         {
             var performance = GeneratePerformance("1");
             yield return performance;
@@ -46,9 +46,9 @@ namespace AllStarScore.Models
             yield return performance;
         }
 
-        private PerformaceVM GeneratePerformance(string id)
+        private Performance GeneratePerformance(string id)
         {
-            return new PerformaceVM
+            return new Performance
                    {
                        Id = string.Format("{0}/performances/{1}/performance/{2}", CompetitionId, Id.Substring(Id.IndexOf("gyms/", System.StringComparison.Ordinal)), id),
                        RegistrationId = Id,

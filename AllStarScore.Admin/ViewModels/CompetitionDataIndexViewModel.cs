@@ -12,7 +12,7 @@ namespace AllStarScore.Admin.ViewModels
 		public IEnumerable<Division> Divisions { get; set; }
 		public IEnumerable<Registration> Registrations { get; set; }
 		public IEnumerable<Gym> Gyms { get; set; }
-		public IEnumerable<PerformaceVM> Performances { get; set; }
+		public IEnumerable<Performance> Performances { get; set; }
 
 		public CompetitionDataIndexViewModel(Schedule schedule
 		                                     , Competition competition
@@ -20,7 +20,7 @@ namespace AllStarScore.Admin.ViewModels
 		                                     , IEnumerable<Division> divisions
 		                                     , IEnumerable<Gym> gyms
 		                                     , IEnumerable<Registration> registrations
-		                                     , IEnumerable<PerformaceVM> performances
+		                                     , IEnumerable<Performance> performances
 			)
 		{
 			Schedule = schedule;

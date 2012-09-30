@@ -129,29 +129,29 @@ namespace AllStarScore.Scoring.Models
     public class TeamScoreGenerator
     {
         public IEnumerable<TeamScore> From(IEnumerable<Performance> performances)
-        {
+		{//TODO: MARK
             var scores =
                 performances
                     .GroupBy(x => x.RegistrationId)
                     .Select(x => new TeamScore
-                    {
-                        CompetitionId = x.First().CompetitionId,
-                        RegistrationId = x.First().RegistrationId,
-                        LevelId = x.First().LevelId,
-                        DivisionId = x.First().DivisionId,
-                        PerformanceScores =
-                            x.OrderBy(p => p.PerformanceTime)
-                            .Select(p => p.FinalScore)
-                            .ToList(),
-                        GymName = x.First().GymName,
-                        DivisionName = x.First().DivisionName,
-                        LevelName = x.First().LevelName,
-                        TeamName = x.First().TeamName,
-                        GymLocation = x.First().GymLocation,
-                        IsSmallGym = x.First().IsSmallGym,
-                        IsShowTeam = x.First().IsShowTeam,
-                        DidNotCompete = x.First().DidNotCompete,
-                        ScoringComplete = x.First().ScoringComplete,
+                    {//TODO: MARK
+//                        CompetitionId = x.First().CompetitionId,
+//                        RegistrationId = x.First().RegistrationId,
+//                        LevelId = x.First().LevelId,
+//                        DivisionId = x.First().DivisionId,
+//                        PerformanceScores =
+//                            x.OrderBy(p => p.PerformanceTime)
+//                            .Select(p => p.FinalScore)
+//                            .ToList(),
+//                        GymName = x.First().GymName,
+//                        DivisionName = x.First().DivisionName,
+//                        LevelName = x.First().LevelName,
+//                        TeamName = x.First().TeamName,
+//                        GymLocation = x.First().GymLocation,
+//                        IsSmallGym = x.First().IsSmallGym,
+//                        IsShowTeam = x.First().IsShowTeam,
+//                        DidNotCompete = x.First().DidNotCompete,
+//                        ScoringComplete = x.First().ScoringComplete,
                     });
 
             return scores;
