@@ -30,7 +30,7 @@ namespace AllStarScore.Admin.Controllers
 
             var divisions =
                 RavenSession
-                    .LoadStartingWith<Division>(id)
+                    .LoadStartingWith<Division>(Division.FormatId(CurrentCompanyId, id))
                     .ToList();
 
             var model = new LevelDetailsViewModel(level, divisions);

@@ -236,6 +236,7 @@
     <Content Include="Content\scripts\lib\knockout-sortable.min.js" />
     <Content Include="Content\scripts\lib\underscore-min.js" />
     <Content Include="Content\scripts\scheduling.edit.js" />
+    <Content Include="Content\scripts\scheduling.print.js" />
     <Content Include="Content\styles\gym.edit.css" />
     <Content Include="Content\scripts\gym.create.js" />
     <Content Include="Content\scripts\global.ajax.js" />
@@ -260,6 +261,7 @@
     <Content Include="Content\styles\normalize.css" />
     <Content Include="Content\styles\registration.teams.css" />
     <Content Include="Content\styles\scheduling.edit.css" />
+    <Content Include="Content\styles\scheduling.print.css" />
     <Content Include="Content\styles\site.mobile.css" />
     <Content Include="Content\styles\tablesorter.themes\blue\asc.gif" />
     <Content Include="Content\styles\tablesorter.themes\blue\bg.gif" />
@@ -448,6 +450,9 @@
   </ItemGroup>
   <ItemGroup>
     <Content Include="Views\CompetitionData\Index.cshtml" />
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="Views\Scheduling\Print.cshtml" />
   </ItemGroup>
   <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
   <Import Project="$(MSBuildExtensionsPath32)\Microsoft\VisualStudio\v10.0\WebApplications\Microsoft.WebApplication.targets" />
