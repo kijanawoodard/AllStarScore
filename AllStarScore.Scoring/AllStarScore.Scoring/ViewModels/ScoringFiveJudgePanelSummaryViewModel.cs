@@ -1,20 +1,19 @@
-using System.Collections.Generic;
-using AllStarScore.Models;
+using AllStarScore.Extensions;
 using AllStarScore.Scoring.Models;
 
 namespace AllStarScore.Scoring.ViewModels
 {
     public class ScoringFiveJudgePanelViewModel
     {
-        public string CompetitionId { get; set; }
-        public Performance Performance { get; set; }
-        public IJudgePanel Panel { get; set; }
+		public string CompetitionId { get; set; }
+    	public string PerformanceId { get; set; }
+    	public IJudgePanel Panel { get; set; }
 
-        public ScoringFiveJudgePanelViewModel(Performance performance, IJudgePanel panel)
+        public ScoringFiveJudgePanelViewModel(string performanceId, IJudgePanel panel)
         {
-			//CompetitionId = performance.CompetitionId;//TODO: MARK
-            Performance = performance;
-            Panel = panel;
+        	CompetitionId = performanceId.ExtractCompetitionId();
+        	PerformanceId = performanceId;
+        	Panel = panel;
         }
     }
 }

@@ -3,16 +3,16 @@ using System.Collections.ObjectModel;
 using System.Globalization;
 using System.Linq;
 using System.Collections.Generic;
+using AllStarScore.Models;
 using AllStarScore.Scoring.Infrastructure.Indexes;
 using AllStarScore.Scoring.ViewModels;
 using AllStarScore.Extensions;
 
 namespace AllStarScore.Scoring.Models
 {
-    public class JudgeScore : IJudgeScoreId
+	public class JudgeScore : IJudgeScoreId, IGenerateMyId
     {
-        public string Id { get { return this.CalculateJudgeScoreId(); } }
-        public string CompetitionId { get; set; } //why, we could get this from performance; but then it makes it hard to just get all the scores. case in point average scores
+		public string Id { get; set; }
         public string PerformanceId { get; set; }
         public string JudgeId { get; set; }
 
@@ -44,9 +44,8 @@ namespace AllStarScore.Scoring.Models
             Scores = new Dictionary<string, ScoreEntry>();
         }
 
-        public JudgeScore(string competitionId, string performanceId, string judgeId) : this()
+        public JudgeScore(string performanceId, string judgeId) : this()
         {
-            CompetitionId = competitionId;
             PerformanceId = performanceId;
             JudgeId = judgeId;
         }
@@ -56,6 +55,21 @@ namespace AllStarScore.Scoring.Models
             Scores = command.Scores;
             GrandTotal = command.GrandTotal;
         }
+
+		public static string FormatId(string performanceId)
+		{
+			return performanceId + "/scores/";
+		}
+
+		public static string FormatId(string performanceId, string judgeId)
+		{
+			return FormatId(performanceId) + judgeId;
+		}
+
+		public string GenerateId()
+		{
+			return FormatId(PerformanceId, JudgeId);
+		}
     }
 
     public interface IJudge
@@ -121,7 +135,7 @@ namespace AllStarScore.Scoring.Models
 
         public ITeamScoreCalculator Calculator { get; set; }
 
-        public FiveJudgePanel(List<JudgeScoreIndex.Result> scores)
+		public FiveJudgePanel(List<JudgeScore> scores)
         {
             Calculator = new FiveJudgePanelPerformanceScoreCalculator(scores);
         }
@@ -129,18 +143,18 @@ namespace AllStarScore.Scoring.Models
 
     public interface ITeamScoreCalculator
     {
-        List<JudgeScoreIndex.Result> Scores { get; set; }
+        List<JudgeScore> Scores { get; set; }
         decimal AveragePanelScore { get; set; }
         decimal FinalScore { get; set; }
     }
 
     public class FiveJudgePanelPerformanceScoreCalculator : ITeamScoreCalculator
     {
-        public List<JudgeScoreIndex.Result> Scores { get; set; }
+        public List<JudgeScore> Scores { get; set; }
         public decimal AveragePanelScore { get; set; }
         public decimal FinalScore { get; set; }
 
-        public FiveJudgePanelPerformanceScoreCalculator(List<JudgeScoreIndex.Result> scores)
+        public FiveJudgePanelPerformanceScoreCalculator(List<JudgeScore> scores)
         {
             Scores = scores;
 

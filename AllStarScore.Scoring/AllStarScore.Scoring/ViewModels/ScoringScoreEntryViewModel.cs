@@ -81,12 +81,4 @@ namespace AllStarScore.Scoring.ViewModels
         string PerformanceId { get; set; }
         string JudgeId { get; set; }
     }
-
-    public static class ScoreExtensions
-    {
-        public static string CalculateJudgeScoreId(this IJudgeScoreId score)
-        {
-            return score.PerformanceId + "/scores-" + score.JudgeId;
-        }
-    }
 }

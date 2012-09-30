@@ -32,7 +32,7 @@ namespace AllStarScore.Scoring.Infrastructure.Indexes
                                        score.Id,
                                        score.PerformanceId,
                                        score.JudgeId,
-                                       score.CompetitionId
+                                       //score.CompetitionId
                                    };
         
             TransformResults =

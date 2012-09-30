@@ -4,6 +4,7 @@ using System.Linq;
 using System.Web;
 using System.Web.Mvc;
 using AllStarScore.Extensions;
+using AllStarScore.Library.RavenDB;
 using AllStarScore.Models;
 using AllStarScore.Scoring.Infrastructure.Indexes;
 using AllStarScore.Scoring.Models;
@@ -24,27 +25,20 @@ namespace AllStarScore.Scoring.Controllers
         [HttpGet]
         public ActionResult FiveJudgePanelSummary(string performanceId)
         {
-            var scores = GetScores(performanceId);
+        	var scores = GetScores(performanceId);
 
-            var performance =
-                RavenSession
-                    .Load<Performance>(performanceId);
-            
             var panel = new FiveJudgePanel(scores);
-            var model = new ScoringFiveJudgePanelViewModel(performance, panel);
+            var model = new ScoringFiveJudgePanelViewModel(performanceId, panel);
 
             return View("FiveJudgePanelSummary", model);
         }
 
-        private List<JudgeScoreIndex.Result> GetScores(string performanceId)
+        private List<JudgeScore> GetScores(string performanceId)
         {
             var result =
                 RavenSession
-                    .Query<JudgeScore, JudgeScoreIndex>()
-                    .Customize(x => x.Include<JudgeScoreIndex.Result>(r => r.PerformanceId))
-                    .Where(x => x.PerformanceId == performanceId)
-                    .As<JudgeScoreIndex.Result>()
-                    .ToList();
+        			.LoadStartingWith<JudgeScore>(JudgeScore.FormatId(performanceId))
+					.ToList();
 
             return result;
         }
@@ -58,7 +52,7 @@ namespace AllStarScore.Scoring.Controllers
             var score =
                 RavenSession
                     .Include<JudgeScore>(x => x.PerformanceId)
-                    .Load<JudgeScore>(request.CalculateJudgeScoreId());
+                    .Load<JudgeScore>(JudgeScore.FormatId(request.PerformanceId, request.JudgeId));
 
             var performance =
                 RavenSession
@@ -66,7 +60,7 @@ namespace AllStarScore.Scoring.Controllers
 
             if (score == null)
             {
-				score = new JudgeScore("1", request.PerformanceId, request.JudgeId);//TODO: MARK
+				score = new JudgeScore(request.PerformanceId, request.JudgeId);//TODO: MARK
                 RavenSession.Store(score);
             }
 
@@ -83,7 +77,7 @@ namespace AllStarScore.Scoring.Controllers
                     var score =
                         RavenSession
                             .Include<JudgeScore>(x => x.PerformanceId)
-                            .Load<JudgeScore>(command.CalculateJudgeScoreId());
+							.Load<JudgeScore>(JudgeScore.FormatId(command.PerformanceId, command.JudgeId));
 
                     var performance =
                         RavenSession

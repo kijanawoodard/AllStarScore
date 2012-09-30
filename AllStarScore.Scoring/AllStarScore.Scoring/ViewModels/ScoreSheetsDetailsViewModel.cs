@@ -27,7 +27,7 @@ namespace AllStarScore.Scoring.ViewModels
 //                                .ToDictionary(r => r.Id, r => r);
 
             ScoringMap = new ScoreSheetMap().All;
-            JudgePanel = new FiveJudgePanel(new List<JudgeScoreIndex.Result>());
+            JudgePanel = new FiveJudgePanel(new List<JudgeScore>());
         }
     }
 }
