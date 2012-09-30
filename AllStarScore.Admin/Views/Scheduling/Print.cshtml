@@ -1,0 +1,70 @@
+﻿@model AllStarScore.Admin.ViewModels.SchedulingEditViewModel
+
+@{
+	ViewBag.Title = "Print Schedule";
+}
+
+@{ Html.RenderAction("Index", "CompetitionData"); }
+
+@{ Html.RegisterStylesheet("~/content/styles/scheduling.print.css"); }
+@{ Html.RegisterScript("~/content/scripts/scheduling.print.js"); }
+
+<div id="scheduling_print">
+	<h2>Schedule for @Html.ActionLink(Model.Competition.Display, "Details", "Competition", new { id = Model.Competition.Id.ForMvc() }, new { })</h2>
+    
+	<div data-bind="foreach: schedule.days">
+		<span data-bind="dateString: day, datePattern: 'dddd MMM dd, yyyy'"></span>
+		<table>
+			<thead>
+				<tr>
+					<th>Warmup</th>
+					<th>Perform</th>
+					<th>Panel</th>
+					<th>Gym</th>
+					<th>Team</th>
+					<th>Level</th>
+					<th>Division</th>
+					<th>Location</th>
+					<th>Gym Size</th>
+					<th></th>
+                    <th>Partipants</th>
+				</tr>
+			</thead>
+			<tbody data-bind="foreach: entries">
+				<tr data-bind="template: { name: $root.entryTypes[type].template, data: $root.toPerformance($data) }">
+				</tr>
+			</tbody>
+		</table>
+        
+	</div>
+    
+	<pre class="ko_output" data-bind="text: ko.toJSON($root, null, 2)"></pre>
+</div>
+
+<script type="text/html" id="registration-template">
+	<td data-bind="dateString: $root.calculateWarmup($data), datePattern : 'h:mm tt'" class="warmup"></td>
+	<td data-bind="dateString: time, datePattern: 'h:mm tt'"></td>
+	<td data-bind="text: $root.schedule.divisionPanels[divisionId]" class="nice"></td>
+	<td data-bind="text: gym"></td>
+	<td data-bind="text: team"></td>
+	<td data-bind="text: level"></td>
+	<td data-bind="text: division"></td>
+	@*	    <td data-bind="text: order" class="order"></td>*@
+	<td data-bind="text: location"></td>
+	<td data-bind="text: isSmallGym ? 'Small' : 'Large'" class="nice"></td>
+    <td data-bind="text: isShowTeam ? 'Show' : ''" class="show"></td>
+	<td data-bind="text: participants" class="numeric"></td>
+</script>
+
+<script type="text/html" id="block-template">
+	<td></td>
+	<td data-bind="text: $root.display($data)"></td>
+</script>
+
+@using(Html.BeginScript(ScriptPositionEnum.EndOfPage)) { 
+	<text>
+		$(document).ready(function () { 
+            window.AllStarScore.Scheduling.Print.Start();
+		});
+	</text>
+}

@@ -18,6 +18,17 @@ namespace AllStarScore.Admin.Controllers
             return View(model);
         }
 
+		[HttpGet]
+		public ActionResult Print(string id)
+		{
+			var competition =
+				RavenSession
+					.Load<Competition>(id);
+
+			var model = new SchedulingEditViewModel(competition);
+			return View(model);
+		}
+
         [HttpPost]
         public JsonDotNetResult Edit(SchedulingEditCommand command)
         {

@@ -220,6 +220,8 @@
     <Content Include="Content\scripts\competition.details.js" />
     <Content Include="Content\scripts\competition.index.js" />
     <Content Include="Content\scripts\competition.create.js" />
+    <Content Include="Content\scripts\allstarscore.js" />
+    <Content Include="Content\scripts\competitionData.index.js" />
     <Content Include="Content\scripts\lib\date.js" />
     <Content Include="Content\scripts\global.datepicker.js" />
     <Content Include="Content\scripts\global.knockout.bindings.js" />

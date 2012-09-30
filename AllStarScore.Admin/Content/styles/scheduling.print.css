@@ -1,0 +1,9 @@
+﻿table { width: 100%; }
+.nice { text-align: center; }
+
+@media print 
+{
+	table { page-break-after: always; }
+	table:last-of-type { page-break-after: auto; }
+	@page {size: landscape; }
+}

@@ -8,7 +8,8 @@
 @{ Html.RegisterScript("~/content/scripts/competition.details.js"); }
 
 <h2>@Model.Competition.Display</h2>
-@Html.ActionLink("Schedule", "Edit", "Scheduling", new { id = Model.Competition.Id.ForMvc()}, new { })
+@Html.ActionLink("Edit Schedule", "Edit", "Scheduling", new { id = Model.Competition.Id.ForMvc()}, new { }) |
+@Html.ActionLink("Print Schedule", "Print", "Scheduling", new { id = Model.Competition.Id.ForMvc()}, new { }) | 
 @Html.ActionLink("Sync", "Index", "Sync", new { id = Model.Competition.Id.ForMvc()}, new { })
 
 <div class="summary">

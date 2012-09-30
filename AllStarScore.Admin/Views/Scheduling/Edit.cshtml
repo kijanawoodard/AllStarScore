@@ -70,20 +70,22 @@
         </div>
     </div>
     
-    <form action='@Url.Action("Edit", "Scheduling")' method="post">
-        <fieldset>
-            <legend>Save Schedule</legend>
+	<form action='@Url.Action("Edit", "Scheduling")' method="post">
+		<fieldset>
+			<legend>Save Schedule</legend>
             
-            <div class="validation-summary-errors"></div>
+			<div class="validation-summary-errors"></div>
 
-            <p class="save">
-                <button data-bind="click: save, enable: unscheduled().length > -1">Save</button>
-                <span class="notification" data-bind="fadeVisible: justSaved">Saved!</span>
-            </p>
-        </fieldset>
-    </form>
+			<p class="save">
+				<button data-bind="click: save, enable: unscheduled().length > -1">Save</button>
+				<span class="notification" data-bind="fadeVisible: justSaved">Saved!</span>
+			</p>
+		</fieldset>
+	</form>
+    
+    <p>@Html.ActionLink("Printable Schedule", "Print", "Scheduling", new { id = Model.Competition.Id.ForMvc() }, new { })</p>
 
-    <pre data-bind="text: ko.toJSON($root, null, 2)"></pre>
+	<pre class="ko_output" data-bind="text: ko.toJSON($root, null, 2)"></pre>
 </div>
 
 <script type="text/html" id="scheduled-template">
@@ -98,23 +100,23 @@
                     <span data-bind="text: $root.getPanel($data), click: $root.shiftPanel" class="shift-panel"></span>
                 </span>
                 <span data-bind="template: { name: $root.getTemplate($data), data: $root.toPerformance($data) }" class="core"></span>
-                <span data-bind="text: $root.toPerformance($data).order" class="order"></span>
             </span>
         </div>
     </li>
 </script>
 
 <script type="text/html" id="registration-template">
-    <span class="name group">
-        <span data-bind="text: gym"></span>
-        <span data-bind="text: team"></span>
-        <span data-bind="text: isShowTeam ? 'Show' : ''" class="show"></span>
-    </span>
-    <span class="division group">
-        <span data-bind="text: level"></span>
-        <span data-bind="text: division"></span>
-    </span>    
-@*    <span data-bind="text: participants"></span>*@
+	<span class="name group">
+		<span data-bind="text: gym"></span>
+		<span data-bind="text: team"></span>
+		<span data-bind="text: isShowTeam ? 'Show' : ''" class="show"></span>
+	</span>
+	<span class="division group">
+		<span data-bind="text: level"></span>
+		<span data-bind="text: division"></span>
+	</span>    
+    <span data-bind="text: order" class="order"></span>
+	@*    <span data-bind="text: participants"></span>*@
 @*    <span data-bind="text: location"></span>*@
 @*    <span data-bind="text: isSmallGym ? 'Small' : 'Large'"></span>*@
 </script>

@@ -31,5 +31,12 @@ AllStarScore.CompetitionData.ViewModel = function (data) {
         performance.order = [, '1st', '2nd', '3rd', '4th', '5th'][performance.id.substr(performance.id.length - 1)];
     });
 
+    _.each(self.schedule.days, function (day) {
+        day.day = new Date(day.day);
+        _.each(day.entries, function(entry) {
+            entry.time = new Date(entry.time);
+        });
+    });
+
     return self;
 };

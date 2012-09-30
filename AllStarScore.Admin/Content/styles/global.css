@@ -8,10 +8,6 @@ fieldset td { padding: 0; }
 td.numeric { text-align: right; }
 
 
-
-
-
-
 table.tablesorter thead tr th, table.tablesorter tfoot tr th {
 	padding: 4px 8px 4px 4px;
 }
@@ -36,11 +32,11 @@ table.tablesorter th.headerSortDown {
 {
 	body  { border: none;-webkit-print-color-adjust:exact;}
 	#body { background-color: #fff;}
-	#body .main-content { background: none;}
+	#body .main-content { background: none;padding-top: 0px;}
 	body > header { display: none; }  
 	footer { display: none; background-color: #fff;background: none;}
 	
-	.ko_output { displayx: none; }
+	.ko_output { display: none; }
 }
 
 pre { displayx: none;}

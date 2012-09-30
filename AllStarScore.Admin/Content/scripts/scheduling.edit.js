@@ -10,12 +10,10 @@
 };
 
 AllStarScore.Scheduling.DayModel = function (data) {
-    data.day = new Date(data.day);
     ko.mapping.fromJS(data, AllStarScore.Scheduling.DayMapping, this);
 };
 
 AllStarScore.Scheduling.EntryModel = function (data) {
-    data.time = new Date(data.time);
     ko.mapping.fromJS(data, {}, this);
 
     var self = this;
