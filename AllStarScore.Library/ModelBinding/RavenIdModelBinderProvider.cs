@@ -10,4 +10,12 @@ namespace AllStarScore.Library.ModelBinding
             return new RavenIdModelBinder();
         }
     }
+
+	public class SimpleRavenIdModelBinderProvider : IModelBinderProvider
+	{
+		public IModelBinder GetBinder(Type modelType)
+		{
+			return new SimpleRavenIdModelBinder();
+		}
+	}
 }

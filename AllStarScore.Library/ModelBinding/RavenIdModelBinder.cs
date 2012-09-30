@@ -27,4 +27,21 @@ namespace AllStarScore.Library.ModelBinding
             return result;
         }
     }
+
+
+	public class SimpleRavenIdModelBinder : DefaultModelBinder
+	{
+		public override object BindModel(ControllerContext controllerContext, ModelBindingContext bindingContext)
+		{
+			var result = base.BindModel(controllerContext, bindingContext);
+
+			//convert any id fields back to RavenFormat
+			if (bindingContext.ModelName.ToLower().EndsWith("id") && result is string)
+			{
+				result = result.FromMvc();
+			}
+
+			return result;
+		}
+	}
 }
