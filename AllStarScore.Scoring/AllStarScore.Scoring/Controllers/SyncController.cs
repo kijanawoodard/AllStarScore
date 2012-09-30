@@ -4,6 +4,7 @@ using System.Linq;
 using System.Net;
 using System.Web;
 using System.Web.Mvc;
+using AllStarScore.Extensions;
 using AllStarScore.Models;
 using AllStarScore.Scoring.Models;
 using Newtonsoft.Json;
@@ -29,7 +30,7 @@ namespace AllStarScore.Scoring.Controllers
             RavenSession.Store(model); 
             UpdatePerformances(model);
 
-            return RedirectToAction("Index", "Performance", new {id = model.CompetitionId});
+            return RedirectToAction("Index", "Performance", new {id = model.CompetitionId.ForMvc()});
         }
 
         public void UpdatePerformances(CompetitionInfo model)
