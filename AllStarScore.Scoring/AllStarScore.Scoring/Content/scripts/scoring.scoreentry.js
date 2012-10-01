@@ -79,7 +79,8 @@ var ScoreEntryViewModel = function (data) {
                 //                console.log('saved');
                 //                $('.validation-summary-errors').empty();
                 console.log(result);
-                //window.location = result;
+                window.location = result;
+                console.log('hi');
             }
         });
     };

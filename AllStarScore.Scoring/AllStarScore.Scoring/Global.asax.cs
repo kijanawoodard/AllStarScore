@@ -9,11 +9,13 @@ using System.Web.Optimization;
 using System.Web.Routing;
 using AllStarScore.Library.ModelBinding;
 using AllStarScore.Library.Moth;
+using AllStarScore.Models;
 using AllStarScore.Scoring.Controllers;
 using AllStarScore.Scoring.Infrastructure.Indexes;
 using AllStarScore.Scoring.Infrastructure.RavenQueryListeners;
 using Moth.Core;
 using Raven.Abstractions.Data;
+using Raven.Client.Document;
 using Raven.Client.Embedded;
 using System.Diagnostics;
 using Raven.Client.Indexes;
@@ -84,7 +86,7 @@ namespace AllStarScore.Scoring
 
             RegisterRoutes(RouteTable.Routes);
 
-            //ValueProviderFactories.Factories.Insert(0, new CommandValueProviderFactory());
+            ValueProviderFactories.Factories.Insert(0, new SimpleCommandValueProviderFactory());
             ModelBinders.Binders.Add(typeof(decimal), new DecimalModelBinder()); //http://digitalbush.com/2011/04/24/asp-net-mvc3-json-decimal-binding-woes/
 			ModelBinderProviders.BinderProviders.Insert(0, new SimpleRavenIdModelBinderProvider());
 
@@ -101,6 +103,15 @@ namespace AllStarScore.Scoring
             Raven.Database.Server.NonAdminHttp.EnsureCanListenToWhenInNonAdminContext(8085);
             RavenController.DocumentStore.Configuration.Port = 8085;
             RavenController.DocumentStore.RegisterListener(new NoStaleQueriesAllowedAsOfNow());
+			
+			var generator = new MultiTypeHiLoKeyGenerator(RavenController.DocumentStore, 32);
+			RavenController.DocumentStore.Conventions.DocumentKeyGenerator = entity =>
+			{
+				var special = entity as IGenerateMyId;
+				return special == null ? generator.GenerateDocumentKey(RavenController.DocumentStore.Conventions, entity) : special.GenerateId();
+			};
+
+
             RavenController.DocumentStore.Initialize();
 
             InitializeRavenProfiler();

@@ -22,4 +22,19 @@ namespace AllStarScore.Library.ModelBinding
             return new NameValueCollectionValueProvider(nvc, CultureInfo.InvariantCulture);
         }
     }
+
+	public class SimpleCommandValueProviderFactory : ValueProviderFactory
+	{
+		public override IValueProvider GetValueProvider(ControllerContext controllerContext)
+		{
+			var nvc = new NameValueCollection
+                      {
+                          {"commandCompanyId", ""},
+                          {"CommandByUser", controllerContext.HttpContext.User.Identity.Name},
+                          {"CommandWhen", DateTime.UtcNow.ToString(CultureInfo.InvariantCulture)}
+                      };
+
+			return new NameValueCollectionValueProvider(nvc, CultureInfo.InvariantCulture);
+		}
+	}
 }
