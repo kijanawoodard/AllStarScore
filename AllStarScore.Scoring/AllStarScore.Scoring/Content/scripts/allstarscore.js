@@ -1,4 +1,5 @@
-﻿window.AllStarScore = {};
+﻿window.AllStarScore = window.AllStarScore || {};
+window.Input = window.Input || { };
 
 AllStarScore.Utilities = {
     asArray: function (obj) {

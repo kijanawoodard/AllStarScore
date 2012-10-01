@@ -50,7 +50,6 @@
 		$(document).ready(function () { 
 		    AllStarScore.scoringUrl = '@Url.Action("Summary", "Scoring")/';
             var data = JSON.parse('@Html.Raw(Model.ToJson())');
-            //window.AllStarScore.CompetitionData = new window.AllStarScore.CompetitionData.ViewModel(data);
 		});
 	</text>
 }

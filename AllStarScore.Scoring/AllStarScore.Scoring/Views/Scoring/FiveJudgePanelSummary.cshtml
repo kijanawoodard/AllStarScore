@@ -8,89 +8,89 @@
 @{ Html.RegisterStylesheet("~/content/styles/scoring.fivejudgepanel.css"); }
 @{ Html.RegisterScript("~/content/scripts/scoring.fivejudgepanel.js"); }
 
-<div id="scoring_fivejudgepanel" data-bind="with: $root.scoring">
-    <div data-bind="with: performance" class="header">
-        <div class="name">
-            <span data-bind="text: gymName"></span>
-            <span data-bind="text: teamName"></span>
-        </div>
-        <div class="division">
-            <span data-bind="text: levelName"></span>
-            <span data-bind="text: divisionName"></span>
-        </div>
-        <div data-bind="dateString: performanceTime, datePattern: 'ddd h:mm tt'" class="when"></div>     
-    </div>
-        
-    <!-- ko template: { name: getTemplate, data: getScoring(performance, panel) } --><!-- /ko -->
-    
-    <form action='@Url.Action("MarkTeamDidCompete", "Scoring")' method="post" class="did_compete"  data-bind="visible: performance.didNotCompete">
-        <fieldset>
-            <legend>Did Not Compete</legend>
-            <div class="validation-summary-errors"></div>
-            <p>This team has been marked as<br />"Did Not Compete".</p>
-            <p>If the team is going to be able to compete, please click the button below.</p>
+<div id="scoring_fivejudgepanel" data-bind="with: $root.Scoring">
+	<div data-bind="with: performance" class="header">
+	    <div class="name">
+	        <span data-bind="text: gym"></span>
+	        <span data-bind="text: team"></span>
+	    </div>
+	    <div class="division">
+	        <span data-bind="text: level"></span>
+	        <span data-bind="text: division"></span>
+	    </div>
+	    <div data-bind="dateString: time, datePattern: 'ddd h:mm tt'" class="when"></div>     
+	</div>
+	        
+	<!-- ko template: { name: getTemplate, data: getScoring(performance, panel) } --><!-- /ko -->
+	    
+	<form action='@Url.Action("MarkTeamDidCompete", "Scoring")' method="post" class="did_compete"  data-bind="visible: performance.didNotCompete">
+	    <fieldset>
+	        <legend>Did Not Compete</legend>
+	        <div class="validation-summary-errors"></div>
+	        <p>This team has been marked as<br />"Did Not Compete".</p>
+	        <p>If the team is going to be able to compete, please click the button below.</p>
+	
+	        <button data-bind="click: markTeamDidCompete">The Team will Compete</button>
+	    </fieldset>
+	</form>
+	
+	<div class="final_score" data-bind="visible: performance.didCompete">
+	    <table>
+	        <tbody>
+	            <tr>
+	                <th>Average</th>
+	                <td data-bind="text: panel.calculator.averagePanelScore().toFixed(3)"></td>
+	            </tr>
+	            <!-- ko with: getScoring(performance, panel) -->
+	            <tr>
+	                <th>Point Deductions</th>
+	                <td data-bind="text: grandTotal['D']"></td>
+	            </tr>
+	            <tr>
+	                <th>Safety Deductions</th>
+	                <td data-bind="text: grandTotal['L']"></td>
+	            </tr>
+	            <!-- /ko -->
+	            <tr>
+	                <th>Final Score</th>
+	                <td data-bind="text: panel.calculator.finalScore().toFixed(3)"></td>
+	            </tr>
+	        </tbody>
+	    </table>
+	        
+	    <form action='@Url.Action("MarkTeamDidNotCompete", "Scoring")' method="post" class="did_not_compete" data-bind="visible: panel.calculator.scores().length == 0">
+	        <fieldset>
+	            <legend>Did Not Compete</legend>
+	            <div class="validation-summary-errors"></div>
+	            <button data-bind="click: markTeamDidNotCompete">The Team did not Compete</button>
+	        </fieldset>
+	    </form>
+	        
+	    <form action='@Url.Action("MarkTeamScoringComplete", "Scoring")' method="post" class="scoring_complete" data-bind="visible: panel.calculator.scores().length == 5 && performance.scoringIsNotComplete()">
+	        <fieldset>
+	            <legend>Scoring Complete</legend>
+	            <div class="validation-summary-errors"></div>
+	            <button data-bind="click: markTeamScoringCompete">Scoring Complete</button>
+	        </fieldset>
+	    </form>
+	</div>
+	    
+	<form action='@Url.Action("MarkTeamScoringOpen", "Scoring")' method="post" class="scoring_open"  data-bind="visible: performance.scoringComplete">
+	    <fieldset>
+	        <legend>re-open Scoring</legend>
+	        <div class="validation-summary-errors"></div>
+	        <p>This team has been marked as<br />"Scoring Complete".</p>
+	        <p>If the score needs to be adjusted, please click the button below.</p>
+	
+	        <button data-bind="click: markTeamScoringOpen">Re-Open Scoring</button>
+	    </fieldset>
+	</form>
 
-            <button data-bind="click: markTeamDidCompete">The Team will Compete</button>
-        </fieldset>
-    </form>
-
-    <div class="final_score" data-bind="visible: performance.didCompete">
-        <table>
-            <tbody>
-                <tr>
-                    <th>Average</th>
-                    <td data-bind="text: panel.calculator.averagePanelScore().toFixed(3)"></td>
-                </tr>
-                <!-- ko with: getScoring(performance, panel) -->
-                <tr>
-                    <th>Point Deductions</th>
-                    <td data-bind="text: grandTotal['D']"></td>
-                </tr>
-                <tr>
-                    <th>Safety Deductions</th>
-                    <td data-bind="text: grandTotal['L']"></td>
-                </tr>
-                <!-- /ko -->
-                <tr>
-                    <th>Final Score</th>
-                    <td data-bind="text: panel.calculator.finalScore().toFixed(3)"></td>
-                </tr>
-            </tbody>
-        </table>
-        
-        <form action='@Url.Action("MarkTeamDidNotCompete", "Scoring")' method="post" class="did_not_compete" data-bind="visible: panel.calculator.scores().length == 0">
-            <fieldset>
-                <legend>Did Not Compete</legend>
-                <div class="validation-summary-errors"></div>
-                <button data-bind="click: markTeamDidNotCompete">The Team did not Compete</button>
-            </fieldset>
-        </form>
-        
-        <form action='@Url.Action("MarkTeamScoringComplete", "Scoring")' method="post" class="scoring_complete" data-bind="visible: panel.calculator.scores().length == 5 && performance.scoringIsNotComplete()">
-            <fieldset>
-                <legend>Scoring Complete</legend>
-                <div class="validation-summary-errors"></div>
-                <button data-bind="click: markTeamScoringCompete">Scoring Complete</button>
-            </fieldset>
-        </form>
-    </div>
-    
-    <form action='@Url.Action("MarkTeamScoringOpen", "Scoring")' method="post" class="scoring_open"  data-bind="visible: performance.scoringComplete">
-        <fieldset>
-            <legend>re-open Scoring</legend>
-            <div class="validation-summary-errors"></div>
-            <p>This team has been marked as<br />"Scoring Complete".</p>
-            <p>If the score needs to be adjusted, please click the button below.</p>
-
-            <button data-bind="click: markTeamScoringOpen">Re-Open Scoring</button>
-        </fieldset>
-    </form>
-
-    <nav data-bind="with: performance, visible: performance.scoringIsNotComplete() && performance.didCompete()">
+	<nav data-bind="with: performance">@*, visible: performance.scoringIsNotComplete() && performance.didCompete()">*@
         <ul data-bind="foreach: $parent.panel.judges">
             <li>
-                <a data-bind="attr: { href: $root.scoring.scoreEntryUrl.replace('REPLACE_THIS', $data.id) }">
-                    <span data-bind="text: $parent.panel"></span><span data-bind="text: $data.id"></span>
+                <a data-bind="attr: { href: $root.Scoring.scoreEntryUrl.replace('REPLACE_THIS', $data.id) }">
+                    <span data-bind="text: $root.Scoring.performance.panel"></span><span data-bind="text: $data.id"></span>
                 </a>
             </li>
         </ul>
@@ -98,8 +98,8 @@
 </div>
 
 <script>
-    var scoringFiveJudgePanelData = JSON.parse('@Html.Raw(Model.ToJson())');
-    scoringFiveJudgePanelData.scoreEntryUrl = '@Url.Action("ScoreEntry", "Scoring", new { performanceId = @Model.PerformanceId.ForScoringMvc(), judgeId = "REPLACE_THIS"})';
+    Input.scoreEntryUrl = '@Url.Action("ScoreEntry", "Scoring", new { performanceId = @Model.PerformanceId.ForScoringMvc(), judgeId = "REPLACE_THIS"})';
+    Input.Scoring = JSON.parse('@Html.Raw(Model.ToJson())');
 </script>
 
 <script type="text/html" id="all_star_template">

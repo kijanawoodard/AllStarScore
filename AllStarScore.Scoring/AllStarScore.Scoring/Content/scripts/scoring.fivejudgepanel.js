@@ -1,5 +1,7 @@
 ﻿$(document).ready(function () {
-    viewModel.scoring = new FiveJudgePanelViewModel(window.scoringFiveJudgePanelData); 
+    console.log(AllStarScore);
+    AllStarScore.Scoring = new FiveJudgePanelViewModel(Input.Scoring); //assigned the data in the view
+    AllStarScore.Scoring.scoreEntryUrl = Input.scoreEntryUrl;
 });
 
 var FiveJudgePanelViewModel = function (data) {
@@ -10,28 +12,29 @@ var FiveJudgePanelViewModel = function (data) {
     });
 
     $.extend(self, data);
-   
-    self.performance = new PerformanceModel(self.performance);
+
+    self.performance = AllStarScore.CompetitionData.performances[self.performanceId];
     self.panel.calculator = ko.mapping.fromJS(self.panel.calculator);
 
     self.getTemplate = function () {
-        var division = self.performance.divisionId;
-        var level = self.performance.levelId;
-        var map = viewModel.scoringMap.templates[division] || viewModel.scoringMap.templates[level];
+        var division = self.performance.divisionIdWithoutCompany;
+        var level = self.performance.levelIdWithoutCompany;
+        var map = AllStarScore.ScoringMap.templates[division] || AllStarScore.ScoringMap.templates[level];
         return map;
     };
 
     self.getScoring = function (performance, panel) {
         var judges = panel.calculator.scores;
-        var division = performance.divisionId;
-        var level = performance.levelId;
-        var map = viewModel.scoringMap.categories[division] || viewModel.scoringMap.categories[level];
+        var division = performance.divisionIdWithoutCompany;
+        var level = performance.levelIdWithoutCompany;
+        var map = AllStarScore.ScoringMap.categories[division] || AllStarScore.ScoringMap.categories[level];
 
         var categories = $.map(map, function (category, key) {
             var scores = {};
 
             _.each(judges(), function (judge) {
-                scores[judge.judgeId()] = judge.scores[key] ? judge.scores[key].total().toFixed(1) : '';
+
+                scores[judge.judgeId()] = judge.scores[key] ? judge.scores[key].total().toFixed(1) : 0;
             });
 
             return { key: key, display: category.display, scores: scores };
@@ -41,7 +44,7 @@ var FiveJudgePanelViewModel = function (data) {
         _.each(judges(), function (judge) {
             grandTotal[judge.judgeId()] = judge.grandTotalServer().toFixed(1);
         });
-
+        
         return { performance: performance, grandTotal: grandTotal, categories: categories, panelJudges: panel.panelJudges };
     };
 
@@ -110,15 +113,15 @@ var PerformanceModel = function (data) {
     var self = this;
     $.extend(self, data);
 
-    self.performanceTime = new Date(data.performanceTime);
-    self.scoringComplete = ko.observable(self.scoringComplete);
-    self.didNotCompete = ko.observable(self.didNotCompete);
-
-    self.didCompete = ko.computed(function () {
-        return !self.didNotCompete();
-    }, self);
-
-    self.scoringIsNotComplete = ko.computed(function () {
-        return !self.scoringComplete();
-    }, self);
+//    self.performanceTime = new Date(data.performanceTime);
+//    self.scoringComplete = ko.observable(self.scoringComplete);
+//    self.didNotCompete = ko.observable(self.didNotCompete);
+//
+//    self.didCompete = ko.computed(function () {
+//        return !self.didNotCompete();
+//    }, self);
+//
+//    self.scoringIsNotComplete = ko.computed(function () {
+//        return !self.scoringComplete();
+//    }, self);
 };

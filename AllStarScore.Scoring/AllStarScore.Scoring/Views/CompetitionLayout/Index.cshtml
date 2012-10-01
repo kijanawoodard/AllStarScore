@@ -12,11 +12,6 @@
     </div>
 </div>
 
-@using(Html.BeginScript(ScriptPositionEnum.EndOfPage)) { 
-	<text>
-		$(document).ready(function () { 
-		    var competitionData = JSON.parse('@Html.Raw(Model.ToJson())');
-            window.AllStarScore.CompetitionData = new window.AllStarScore.CompetitionData.ViewModel(competitionData);
-		});
-	</text>
-}
+<script>
+    Input.CompetitionData = JSON.parse('@Html.Raw(Model.ToJson())');
+</script>
