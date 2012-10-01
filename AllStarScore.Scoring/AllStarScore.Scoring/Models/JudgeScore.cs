@@ -1,10 +1,8 @@
 using System;
-using System.Collections.ObjectModel;
 using System.Globalization;
 using System.Linq;
 using System.Collections.Generic;
 using AllStarScore.Models;
-using AllStarScore.Scoring.Infrastructure.Indexes;
 using AllStarScore.Scoring.ViewModels;
 using AllStarScore.Extensions;
 
@@ -72,7 +70,90 @@ namespace AllStarScore.Scoring.Models
 		}
     }
 
-    public interface IJudge
+	public class RegistrationScore :  IGenerateMyId
+	{
+		public string Id { get; set; }
+		public string RegistrationId { get; set; }
+		public Dictionary<string, PerformanceScore> PerformanceScores { get; set; } 
+
+//		public void AddPerformanceScore
+
+		public RegistrationScore()
+		{
+			PerformanceScores = new Dictionary<string, PerformanceScore>();
+		}
+
+		public void Update(ITeamScoreCalculator calculator)
+		{
+			var performanceId = calculator.Scores.First().PerformanceId;
+			var score = new PerformanceScore
+			            {
+			            	PerformanceId = performanceId,
+							TotalScore = calculator.FinalScore,
+			            	//Scores = calculator.Scores.SelectMany(x => x.Scores.ToDictionary(d => d.Key, d => d.Value.Total)).Average()
+
+			            };
+
+			PerformanceScores[performanceId] = score;
+		}
+
+		public void Update(MarkTeamScoringCompleteCommand command)
+		{
+			PerformanceScores[command.PerformanceId].IsScoringComplete = true;
+		}
+
+		public void Update(MarkTeamScoringOpenCommand command)
+		{
+			PerformanceScores[command.PerformanceId].IsScoringComplete = false;
+		}
+
+		public void Update(MarkTeamDidNotCompeteCommand command)
+		{
+			PerformanceScores[command.PerformanceId] = new PerformanceScore
+			                                           {
+			                                           		PerformanceId = command.PerformanceId,
+			                                           		DidNotCompete = true
+			                                           };
+		}
+
+		public void Update(MarkTeamDidCompeteCommand command)
+		{
+			PerformanceScores[command.PerformanceId].DidNotCompete = false;
+		}
+
+		public static string FormatIdFromPerformanceId(string performanceId)
+		{
+			return FormatId(Registration.ExtractRegistrationId(performanceId));
+		}
+
+		public static string FormatId(string registrationId)
+		{
+			return registrationId.Replace("/registrations/", "/scores/");
+		}
+		
+		public string GenerateId()
+		{
+			return FormatId(RegistrationId);
+		}
+	}
+
+	public class PerformanceScore
+	{
+		public string PerformanceId { get; set; }
+		public string LevelId { get; set; }
+		public string DivisionId { get; set; }
+		public decimal TotalScore { get; set; }
+		public Dictionary<string, Decimal> Scores { get; set; }
+		public bool IsScoringComplete { get; set; }
+		public bool DidNotCompete { get; set; }
+
+		public PerformanceScore()
+		{
+			Scores = new Dictionary<string, decimal>();
+		}
+	}
+	
+	public interface IJudge
     {
         string Id { get; }
         string Responsibility { get; }

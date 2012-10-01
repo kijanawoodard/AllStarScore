@@ -23,7 +23,7 @@
 	        
 	<!-- ko template: { name: getTemplate, data: getScoring(performance, panel) } --><!-- /ko -->
 	    
-	<form action='@Url.Action("MarkTeamDidCompete", "Scoring")' method="post" class="did_compete"  data-bind="visible: performance.didNotCompete">
+	<form action='@Url.Action("MarkTeamDidCompete", "Scoring")' method="post" class="did_compete"  data-bind="visible: !performance.didCompete()">
 	    <fieldset>
 	        <legend>Did Not Compete</legend>
 	        <div class="validation-summary-errors"></div>
@@ -44,11 +44,11 @@
 	            <!-- ko with: getScoring(performance, panel) -->
 	            <tr>
 	                <th>Point Deductions</th>
-	                <td data-bind="text: grandTotal['D']"></td>
+	                <td data-bind="text: grandTotal['D'].toFixed(3)"></td>
 	            </tr>
 	            <tr>
 	                <th>Safety Deductions</th>
-	                <td data-bind="text: grandTotal['L']"></td>
+	                <td data-bind="text: grandTotal['L'].toFixed(3)"></td>
 	            </tr>
 	            <!-- /ko -->
 	            <tr>
@@ -66,7 +66,7 @@
 	        </fieldset>
 	    </form>
 	        
-	    <form action='@Url.Action("MarkTeamScoringComplete", "Scoring")' method="post" class="scoring_complete" data-bind="visible: panel.calculator.scores().length == 5 && performance.scoringIsNotComplete()">
+	    <form action='@Url.Action("MarkTeamScoringComplete", "Scoring")' method="post" class="scoring_complete" data-bind="visible: panel.calculator.scores().length == 5 && !performance.scoringComplete()">
 	        <fieldset>
 	            <legend>Scoring Complete</legend>
 	            <div class="validation-summary-errors"></div>
@@ -86,7 +86,7 @@
 	    </fieldset>
 	</form>
 
-	<nav data-bind="with: performance">@*, visible: performance.scoringIsNotComplete() && performance.didCompete()">*@
+	<nav data-bind="with: performance, visible: !performance.scoringComplete() && performance.didCompete()">
         <ul data-bind="foreach: $parent.panel.judges">
             <li>
                 <a data-bind="attr: { href: $root.Scoring.scoreEntryUrl.replace('REPLACE_THIS', $data.id) }">
@@ -124,7 +124,7 @@
             <tr>
                 <th>Total</th>
                 <!-- ko foreach:  panelJudges -->
-                <th data-bind="text: $parent.grandTotal[$data.id]"></th>
+                <th data-bind="text: $parent.grandTotal[$data.id].toFixed(1)"></th>
                 <!-- /ko -->
             </tr>
         </tbody>

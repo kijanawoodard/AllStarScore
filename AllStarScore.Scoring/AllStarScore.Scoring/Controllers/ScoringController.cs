@@ -28,7 +28,8 @@ namespace AllStarScore.Scoring.Controllers
         	var scores = GetScores(performanceId);
 
             var panel = new FiveJudgePanel(scores);
-            var model = new ScoringFiveJudgePanelViewModel(performanceId, panel);
+			var score = GetPerformanceScore(performanceId);
+            var model = new ScoringFiveJudgePanelViewModel(performanceId, score, panel);
 
             return View("FiveJudgePanelSummary", model);
         }
@@ -42,6 +43,21 @@ namespace AllStarScore.Scoring.Controllers
 
             return result;
         }
+
+		private PerformanceScore GetPerformanceScore(string performanceId)
+		{
+			var registration = GetRegistrationScore(performanceId);
+			return registration.PerformanceScores.ContainsKey(performanceId) 
+				? registration.PerformanceScores[performanceId] 
+				: new PerformanceScore();
+		}
+		private RegistrationScore GetRegistrationScore(string performanceId)
+		{
+			var registrationId = RegistrationScore.FormatIdFromPerformanceId(performanceId);
+			var result = RavenSession.Load<RegistrationScore>(registrationId);
+
+			return result ?? new RegistrationScore { RegistrationId = registrationId};
+		}
 
         [HttpGet]
         public ActionResult ScoreEntry(ScoreEntryRequestModel request)
@@ -115,12 +131,8 @@ namespace AllStarScore.Scoring.Controllers
             return Execute(
                 action: () =>
                 {
-                    var performance =
-                        RavenSession
-                            .Load<Performance>(command.PerformanceId);
-
-                    //hmmm - shared model coming back to bite
-					//TODO: MARK performance.DidNotCompete = true;
+					var score = GetRegistrationScore(command.PerformanceId);
+					score.Update(command);
 
                     return new JsonDotNetResult(true);
                 });
@@ -132,12 +144,8 @@ namespace AllStarScore.Scoring.Controllers
             return Execute(
                 action: () =>
                 {
-                    var performance =
-                        RavenSession
-                            .Load<Performance>(command.PerformanceId);
-
-                    //hmmm - shared model coming back to bite
-					//TODO: MARK performance.DidNotCompete = false;
+					var score = GetRegistrationScore(command.PerformanceId);
+					score.Update(command);
 
                     return new JsonDotNetResult(false);
                 });
@@ -149,18 +157,12 @@ namespace AllStarScore.Scoring.Controllers
             return Execute(
                 action: () =>
                 {
-                    var scores = GetScores(command.PerformanceId); //don't trust the client
-                    var panel = new FiveJudgePanel(scores);
+					var score = GetRegistrationScore(command.PerformanceId);
+                	var scores = GetScores(command.PerformanceId);
 
-                    var performance =
-                        RavenSession
-                            .Load<Performance>(command.PerformanceId);
-
-                    //hmmm - shared model coming back to bite
-					//TODO: MARK
-
-//                    performance.ScoringComplete = true;
-//                    performance.FinalScore = panel.Calculator.FinalScore;
+					score.Update(new FiveJudgePanelPerformanceScoreCalculator(scores));
+					score.Update(command);
+					RavenSession.Store(score);
 
                     return new JsonDotNetResult(true);
                 });
@@ -172,14 +174,8 @@ namespace AllStarScore.Scoring.Controllers
             return Execute(
                 action: () =>
                 {
-                    var performance =
-                        RavenSession
-                            .Load<Performance>(command.PerformanceId);
-
-                    //hmmm - shared model coming back to bite
-					//TODO: MARK
-//                    performance.ScoringComplete = false;
-//                    performance.FinalScore = 0;
+					var score = GetRegistrationScore(command.PerformanceId);
+					score.Update(command);
 
                     return new JsonDotNetResult(true);
                 });

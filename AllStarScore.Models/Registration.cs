@@ -56,6 +56,15 @@ namespace AllStarScore.Models
                    };
         }
 
+		public static string ExtractRegistrationId(string performanceId)
+		{
+			var index = performanceId.IndexOf("/performance/", System.StringComparison.Ordinal);
+			if (index < 0) return string.Empty;
+
+			var result = performanceId.Substring(0, index);
+			return result;
+		}
+
         public void Update(RegistrationCreateCommand command)
         {
             CompetitionId = command.CompetitionId;
@@ -81,7 +90,7 @@ namespace AllStarScore.Models
             this.RegisterCommand(command);
         }
 
-        public static string FormatId(string competitionId)
+		public static string FormatId(string competitionId)
         {
             return competitionId + "/registrations";
         }

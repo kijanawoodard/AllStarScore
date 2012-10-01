@@ -14,6 +14,9 @@ var FiveJudgePanelViewModel = function (data) {
     $.extend(self, data);
 
     self.performance = AllStarScore.CompetitionData.performances[self.performanceId];
+    self.performance.scoringComplete = ko.observable(data.score.isScoringComplete);
+    self.performance.didCompete = ko.observable(!data.score.didNotCompete);
+
     self.panel.calculator = ko.mapping.fromJS(self.panel.calculator);
 
     self.getTemplate = function () {
@@ -24,7 +27,7 @@ var FiveJudgePanelViewModel = function (data) {
     };
 
     self.getScoring = function (performance, panel) {
-        var judges = panel.calculator.scores;
+        var judgeScores = panel.calculator.scores;
         var division = performance.divisionIdWithoutCompany;
         var level = performance.levelIdWithoutCompany;
         var map = AllStarScore.ScoringMap.categories[division] || AllStarScore.ScoringMap.categories[level];
@@ -32,7 +35,7 @@ var FiveJudgePanelViewModel = function (data) {
         var categories = $.map(map, function (category, key) {
             var scores = {};
 
-            _.each(judges(), function (judge) {
+            _.each(judgeScores(), function (judge) {
 
                 scores[judge.judgeId()] = judge.scores[key] ? judge.scores[key].total().toFixed(1) : 0;
             });
@@ -41,8 +44,13 @@ var FiveJudgePanelViewModel = function (data) {
         });
 
         var grandTotal = {};
-        _.each(judges(), function (judge) {
-            grandTotal[judge.judgeId()] = judge.grandTotalServer().toFixed(1);
+        _.each(judgeScores(), function (judge) {
+            
+            grandTotal[judge.judgeId()] = judge.grandTotalServer();
+        });
+
+        _.each(panel.judges, function (judge) {
+            grandTotal[judge.id] = grandTotal[judge.id] || 0;
         });
         
         return { performance: performance, grandTotal: grandTotal, categories: categories, panelJudges: panel.panelJudges };
@@ -58,7 +66,7 @@ var FiveJudgePanelViewModel = function (data) {
                 console.log('saved');
                 $('.validation-summary-errors').empty();
 
-                self.performance.didNotCompete(true);
+                self.performance.didCompete(false);
             }
         });
     };
@@ -73,7 +81,7 @@ var FiveJudgePanelViewModel = function (data) {
                 console.log('saved');
                 $('.validation-summary-errors').empty();
 
-                self.performance.didNotCompete(false);
+                self.performance.didCompete(true);
             }
         });
     };
@@ -107,21 +115,4 @@ var FiveJudgePanelViewModel = function (data) {
             }
         });
     };
-};
-
-var PerformanceModel = function (data) {
-    var self = this;
-    $.extend(self, data);
-
-//    self.performanceTime = new Date(data.performanceTime);
-//    self.scoringComplete = ko.observable(self.scoringComplete);
-//    self.didNotCompete = ko.observable(self.didNotCompete);
-//
-//    self.didCompete = ko.computed(function () {
-//        return !self.didNotCompete();
-//    }, self);
-//
-//    self.scoringIsNotComplete = ko.computed(function () {
-//        return !self.scoringComplete();
-//    }, self);
 };
