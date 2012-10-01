@@ -15,6 +15,9 @@ namespace AllStarScore.Library.ModelBinding
 	{
 		public IModelBinder GetBinder(Type modelType)
 		{
+			var ok = modelType == typeof (string);
+			if (!ok) return null;
+
 			return new SimpleRavenIdModelBinder();
 		}
 	}

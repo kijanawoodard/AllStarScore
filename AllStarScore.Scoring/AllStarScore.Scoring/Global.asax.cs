@@ -88,6 +88,7 @@ namespace AllStarScore.Scoring
 
             ValueProviderFactories.Factories.Insert(0, new SimpleCommandValueProviderFactory());
             ModelBinders.Binders.Add(typeof(decimal), new DecimalModelBinder()); //http://digitalbush.com/2011/04/24/asp-net-mvc3-json-decimal-binding-woes/
+			ModelBinders.Binders.Add(typeof(decimal?), new DecimalModelBinder()); 
 			ModelBinderProviders.BinderProviders.Insert(0, new SimpleRavenIdModelBinderProvider());
 
             //BundleTable.Bundles.RegisterTemplateBundles();
