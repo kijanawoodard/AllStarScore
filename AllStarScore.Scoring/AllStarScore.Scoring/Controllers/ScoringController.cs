@@ -51,12 +51,7 @@ namespace AllStarScore.Scoring.Controllers
 
             var score =
                 RavenSession
-                    .Include<JudgeScore>(x => x.PerformanceId)
                     .Load<JudgeScore>(JudgeScore.FormatId(request.PerformanceId, request.JudgeId));
-
-            var performance =
-                RavenSession
-                    .Load<Performance>(request.PerformanceId);
 
             if (score == null)
             {
@@ -64,7 +59,7 @@ namespace AllStarScore.Scoring.Controllers
                 RavenSession.Store(score);
             }
 
-            var model = new ScoringScoreEntryViewModel(performance, score);
+            var model = new ScoringScoreEntryViewModel(score);
             return View(model);
         }
 

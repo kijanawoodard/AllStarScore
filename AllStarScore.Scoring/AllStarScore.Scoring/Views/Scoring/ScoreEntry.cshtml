@@ -8,18 +8,18 @@
 @{ Html.RegisterStylesheet("~/content/styles/scoring.scoreentry.css"); }
 @{ Html.RegisterScript("~/content/scripts/scoring.scoreentry.js"); }
 
-<div id="scoring_scoreentry" data-bind="with: $root.entry.viewModel">
+<div id="scoring_scoreentry" data-bind="with: Entry.viewModel">
     <div data-bind="with: performance" class="header">
         <div class="name">
-            <span data-bind="text: gymName"></span>
-            <span data-bind="text: teamName"></span>
+            <span data-bind="text: gym"></span>
+            <span data-bind="text: team"></span>
         </div>
         <div class="division">
-            <span data-bind="text: levelName"></span>
-            <span data-bind="text: divisionName"></span>
+            <span data-bind="text: level"></span>
+            <span data-bind="text: division"></span>
         </div>
-        <div data-bind="dateString: performanceTime, datePattern: 'ddd h:mm tt'" class="when"></div>     
-        <div class="judge">Judge <span data-bind="text: panel + $root.entry.viewModel.score.judgeId()"></span></div>
+        <div data-bind="dateString: time, datePattern: 'ddd h:mm tt'" class="when"></div>     
+        <div class="judge">Judge <span data-bind="text: panel + $root.Entry.viewModel.score.judgeId()"></span></div>
     </div>
     
     <form action='@Url.Action("ScoreEntry", "Scoring")' method="post">
@@ -33,7 +33,7 @@
                     <span class="below_min" data-bind="visible: score.isGrandTotalBelowMin">The total score is below the minimum</span>
                     <span class="above_max" data-bind="visible: score.isGrandTotalAboveMax">The total score is above the maximum</span>
                     <br/>
-                    @Html.ActionLink("Cancel", "Summary", "Scoring", new { performanceId = @Model.Performance.Id.ForScoringMvc() }, new { })
+                    @Html.ActionLink("Cancel", "Summary", "Scoring", new { performanceId = @Model.PerformanceId.ForScoringMvc() }, new { })
                     <button data-bind="click: save">Save</button>
                 </div>        
             </div>

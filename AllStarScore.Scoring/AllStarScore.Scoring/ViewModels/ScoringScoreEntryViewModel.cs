@@ -1,5 +1,6 @@
 using System;
 using System.Collections.Generic;
+using AllStarScore.Extensions;
 using AllStarScore.Models;
 using AllStarScore.Scoring.Infrastructure.Commands;
 using AllStarScore.Scoring.Models;
@@ -9,13 +10,13 @@ namespace AllStarScore.Scoring.ViewModels
     public class ScoringScoreEntryViewModel
     {
         public string CompetitionId { get; set; }
-        public Performance Performance { get; set; }
+        public string PerformanceId { get; set; }
         public JudgeScore Score { get; set; }
 
-        public ScoringScoreEntryViewModel(Performance performance, JudgeScore score)
+        public ScoringScoreEntryViewModel(JudgeScore score)
         {
-//            CompetitionId = performance.CompetitionId;  //TODO: MARK
-            Performance = performance;
+            CompetitionId = score.PerformanceId.ExtractCompetitionId();  //TODO: MARK
+            PerformanceId = score.PerformanceId;
             Score = score;
         }
     }

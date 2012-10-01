@@ -1,7 +1,7 @@
 ﻿var scorepad_cookie_name = 'scorepad.high.';
 
 $(document).ready(function() {
-    viewModel.entry = ko.mapping.fromJS({ viewModel: window.scoringScoreEntryData }, mapping);
+    AllStarScore.Entry = ko.mapping.fromJS({ viewModel: window.scoringScoreEntryData }, mapping);
 });
 
 var mapping = {
@@ -21,6 +21,8 @@ var ScoreEntryViewModel = function (data) {
     var self = this;
     ko.mapping.fromJS(data, mapping, this);
 
+    self.performance = AllStarScore.CompetitionData.performances[self.performanceId()];
+
     var getJudgeKey = function (id) {
         //not sure about this; but move ahead for now; refactor later
         if (id == 'D')
@@ -35,27 +37,30 @@ var ScoreEntryViewModel = function (data) {
         var judge = getJudgeKey(self.score.judgeId());
         var division = getJudgeKey(self.performance.divisionId);
         var level = self.performance.levelId;
-        var result = viewModel.scoringMap.templates[judge] ? judge :
-                     viewModel.scoringMap.templates[division] ? division :
+        var result = AllStarScore.ScoringMap.templates[judge] ? judge :
+                     AllStarScore.ScoringMap.templates[division] ? division :
                      level;
         return result;
     };
 
     self.getTemplate = function () {
         var judge = getJudgeKey(self.score.judgeId());
-        var division = getJudgeKey(self.performance.divisionId);
-        var level = self.performance.levelId;
-        var map = viewModel.scoringMap.templates[judge] || viewModel.scoringMap.templates[division] || viewModel.scoringMap.templates[level];
+        var division = self.performance.divisionIdWithoutCompany;
+        var level = self.performance.levelIdWithoutCompany;
+        var map = AllStarScore.ScoringMap.templates[judge] || AllStarScore.ScoringMap.templates[division] || AllStarScore.ScoringMap.templates[level];
         return map;
     };
 
     //take parms to prepare for multiple renderings
     self.getScoring = function (performance, score) {
         var judge = getJudgeKey(score.judgeId());
-        var division = performance.divisionId;
-        var level = performance.levelId;
-        var map = viewModel.scoringMap.categories[judge] || viewModel.scoringMap.categories[division] || viewModel.scoringMap.categories[level];
-
+        var division = performance.divisionIdWithoutCompany;
+        var level = performance.levelIdWithoutCompany;
+        var map = AllStarScore.ScoringMap.categories[judge] || AllStarScore.ScoringMap.categories[division] || AllStarScore.ScoringMap.categories[level];
+        //        console.log(judge);
+        //        console.log(division);
+        //        console.log(level);
+        //        console.log(map);
         //an array version for knockout foreach
         var categories = $.map(map, function (category, key) {
             return { key: key, category: category };
@@ -74,7 +79,7 @@ var ScoreEntryViewModel = function (data) {
                 //                console.log('saved');
                 //                $('.validation-summary-errors').empty();
                 console.log(result);
-                window.location = result;
+                //window.location = result;
             }
         });
     };
