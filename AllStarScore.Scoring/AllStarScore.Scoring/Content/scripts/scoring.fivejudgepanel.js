@@ -20,16 +20,16 @@ var FiveJudgePanelViewModel = function (data) {
     self.panel.calculator = ko.mapping.fromJS(self.panel.calculator);
 
     self.getTemplate = function () {
-        var division = self.performance.divisionIdWithoutCompany;
-        var level = self.performance.levelIdWithoutCompany;
+        var division = self.performance.divisionIdWithoutCompanyId;
+        var level = self.performance.levelIdWithoutCompanyId;
         var map = AllStarScore.ScoringMap.templates[division] || AllStarScore.ScoringMap.templates[level];
         return map;
     };
 
     self.getScoring = function (performance, panel) {
         var judgeScores = panel.calculator.scores;
-        var division = performance.divisionIdWithoutCompany;
-        var level = performance.levelIdWithoutCompany;
+        var division = performance.divisionIdWithoutCompanyId;
+        var level = performance.levelIdWithoutCompanyId;
         var map = AllStarScore.ScoringMap.categories[division] || AllStarScore.ScoringMap.categories[level];
 
         var categories = $.map(map, function (category, key) {

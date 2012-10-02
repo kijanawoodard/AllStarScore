@@ -97,11 +97,15 @@ fieldset.legalities             input {width:100px;margin: 0;padding: 0;}
 	
 @media print 
 {
+	.competition_header, .scripts { display: none; }
 	#scoresheets_index .entry {page-break-after: always}
-	#scoresheets_index :nth-last-child(2) { page-break-after: avoid !important;}
+	#scoresheets_index .entry:last-of-type {page-break-after: avoid !important;}
 	
 	.legalities {border:solid 1px #fff;}
 	.legalities li.noBorder{border-left:solid 1px #fff;border-bottom:solid 1px #fff;}	
 	#scoresheets_index .controls { display: none;}
 }
+
+#competitionlayout_index { display: none; }
+
 @page {sizex: landscape; margin:0mm;}

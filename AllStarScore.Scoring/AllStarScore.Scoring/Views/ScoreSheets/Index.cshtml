@@ -2,25 +2,25 @@
 
 @{
     ViewBag.Title = "Score Sheets";
-    Layout = "~/Views/Shared/_LayoutCompetitionWrap.cshtml";
+    Layout = "~/Views/Shared/_LayoutCompetition.cshtml";
 }
 
 @{ Html.RegisterStylesheet("~/content/styles/scoresheets.index.css"); }
 @{ Html.RegisterScript("~/content/scripts/scoresheets.index.js"); }
 
-<div id="scoresheets_index">
+<div id="scoresheets_index" data-bind="with: ScoreSheets"> 
     <fieldset class="controls">
         <legend>Controls</legend>
-        <ul data-bind="foreach: schedule.panels()">
+        <ul data-bind="foreach: panels">
             <li>
                 <label>
-                    <input type="checkbox" data-bind="value: $data, checked: $parent.schedule.visibilityMatrix"/>
+                    <input type="checkbox" data-bind="value: $data, checked: $parent.visibilityMatrix"/>
                     <span data-bind="text: 'Panel ' + $data"></span>
                 </label>
-                <ul data-bind="foreach: $parent.judgePanel.judges">
+                <ul data-bind="foreach: $parent.judges">
                     <li>
                         <label>
-                            <input type="checkbox" data-bind="value: $parent + $data.id, checked: $parents[1].schedule.visibilityMatrix"/>
+                            <input type="checkbox" data-bind="value: $parent + $data.id, checked: $parents[1].visibilityMatrix"/>
                             <span data-bind="text: $parent + $data.id"></span>
                         </label>
                     </li>
@@ -28,59 +28,61 @@
             </li>
         </ul>
         
-        <ul data-bind="foreach: schedule.competitionDays">
+        <ul data-bind="foreach: competitionDays">
             <li>
                 <label>
-                    <input type="checkbox" data-bind="value: $data, checked: $parent.schedule.visibilityMatrix"/>
+                    <input type="checkbox" data-bind="value: $data, checked: $parent.visibilityMatrix"/>
                     <span data-bind="text: $data"></span>
                 </label>
             </li>
         </ul>
         
-        <ul data-bind="foreach: schedule.levels">
+        <ul data-bind="foreach: levels">
             <li>
                 <label>
-                    <input type="checkbox" data-bind="value: $data.id, checked: $parent.schedule.visibilityMatrix"/>
+                    <input type="checkbox" data-bind="value: $data.id, checked: $parent.visibilityMatrix"/>
                     <span data-bind="text: $data.name"></span>
                 </label>
             </li>
         </ul>
     </fieldset>
 
-    <!-- ko foreach: schedule.panels() -->
-    <!-- ko foreach: $root.judgePanel.judges -->
-    <!-- ko foreach: $root.schedule.days -->
+    <!-- ko foreach: panels -->
+    <!-- ko foreach: $root.ScoreSheets.judges -->
+    <!-- ko foreach: $root.CompetitionData.schedule.days -->
     <!-- ko foreach: $data.entries -->
-    <!-- ko if: $data.registrationId --> 
-    <!-- ko if: isMyPanel($parents[2]) --> 
-    &nbsp; @* space here for firefox print. without it, second page header is off. hmm *@
-    <div class="entry" data-bind="visible: $root.schedule.shouldShow($data, $parents)">
+	<!-- ko if: $data.performanceId --> 
+    <!-- ko with: $root.ScoreSheets.toPerformance($data.performanceId) --> 
+	<!-- ko if: $data.panel == $parents[3] --> 
+	&nbsp; @* space here for firefox print. without it, second page header is off. hmm *@
+    
+    <div class="entry" data-bind="visible: $root.ScoreSheets.shouldShow($data, $parents)">
         <div class="header">
-            <div class="company" data-bind="text: $root.info.company.name"></div>
-            <div class="description" data-bind="text: $root.info.competition.display">CGA National Championship Feb 12-13, 2011</div>
+            <div class="company" data-bind="text: $root.CompetitionData.company.name"></div>
+            <div class="description" data-bind="text: $root.CompetitionData.competition.display">CGA National Championship Feb 12-13, 2011</div>
             <div class="name">
-                <span data-bind="text: registration().gymName"></span>
-                <span data-bind="text: registration().teamName"></span>
+                <span data-bind="text: gym"></span>
+                <span data-bind="text: team"></span>
             </div>
             <div class="division">
-                <span data-bind="text: registration().levelName"></span>
-                <span data-bind="text: registration().divisionName"></span>
+                <span data-bind="text: level"></span>
+                <span data-bind="text: division"></span>
             </div>
             <div data-bind="dateString: time, datePattern: 'ddd h:mm tt'" class="when"></div>     
-            <div class="judge">Judge <span><span data-bind="text: $parents[2]"></span><span data-bind="text: $parents[1].id"></span></span></div>
+            <div class="judge">Judge <span><span data-bind="text: $parents[3]"></span><span data-bind="text: $parents[3].id"></span></span></div>
         </div>
-        <!-- ko template: { name: getTemplate($parents[1]) } --><!-- /ko -->  
+        <!-- ko template: { name: $root.ScoreSheets.getTemplate($data, $parents[2]) } --><!-- /ko -->  
         <div class="footer">
             info@wyldeye.com    &copy; 2012 AllStarScore.com
         </div> 
     </div>
+	<!-- /ko -->
     <!-- /ko -->
     <!-- /ko -->
     <!-- /ko -->
     <!-- /ko -->
     <!-- /ko -->
     <!-- /ko -->
-    <pre data-bind="text: ko.toJSON($root, null, 2)" class="ko_output"></pre>
 </div>
 
 <script>
@@ -1073,181 +1075,181 @@
 </script>
 
 <script type="text/html" id="judges-legalities-template">
-    <fieldset class="legalities">
-        <ul>
-            <li class="c2 row1"><!--Row 1-->
-                <ul>
-                    <li class="left blue heading">Number of Participants</li>
-                    <li class="right">
-                        <input type="text" disabled="disabled" />
-                    </li>
-                </ul>
-            </li>
-            <li class="c2"><!--Row 2-->
-                <ul>
-                    <li class="left blue heading">Boundary Violations</li>
-                    <li class="right">2.0 X <input type="text" disabled="disabled" /> = <input type="text" disabled="disabled" /></li>
-                </ul>
-            </li>
-            <li class="c3"><!--Row 3 header?-->
-                <ul class="solidRow">
-                    <li class="blue left heading">Safety Violations (list)</li>
-                    <li class="c3 blue middle">
-                        <ul class="specialBorders">
-                            <li class="heading">Warning</li>
-                            <li class="heading">Category</li>
-                            <li class="heading">Page #</li>
-                        </ul>
-                    </li>
-                    <li class="empty blue right"></li>
-                </ul>
-            </li>
-            <li class="c3 row3"><!--Row 3-->
-                <ul class="solidRow light">
-                    <li class="left"><input type="text" disabled="disabled" /></li>
-                    <li class="c3 middle">
-                        <ul class="specialBorders">
-                            <li><input type="text" disabled="disabled" /></li>
-                            <li><input type="text" disabled="disabled" /></li>
-                            <li><input type="text" disabled="disabled" /></li>
-                        </ul>
-                    </li>
-                    <li class="right">2.0 X <input type="text" disabled="disabled" /> = <input type="text" disabled="disabled" /></li>
-                </ul>
-            </li>
-            <li class="c3 row3"><!--Row 3-->
-                <ul class="solidRow light">
-                    <li class="left"><input type="text" disabled="disabled" /></li>
-                    <li class="c3 middle">
-                        <ul class="specialBorders">
-                            <li><input type="text" disabled="disabled" /></li>
-                            <li><input type="text" disabled="disabled" /></li>
-                            <li><input type="text" disabled="disabled" /></li>
-                        </ul>
-                    </li>
-                    <li class="right">2.0 X <input type="text" disabled="disabled" /> = <input type="text" disabled="disabled" /></li>
-                </ul>
-            </li>
-            <li class="c3 row3"><!--Row 3-->
-                <ul class="solidRow light">
-                    <li class="left"><input type="text" disabled="disabled" /></li>
-                    <li class="c3 middle">
-                        <ul class="specialBorders">
-                            <li><input type="text" disabled="disabled" /></li>
-                            <li><input type="text" disabled="disabled" /></li>
-                            <li><input type="text" disabled="disabled" /></li>
-                        </ul>
-                    </li>
-                    <li class="right">2.0 X <input type="text" disabled="disabled" /> = <input type="text" disabled="disabled" /></li>
-                </ul>
-            </li>
-            <li class="c3 row3"><!--Row 3-->
-                <ul class="solidRow light">
-                    <li class="left"><input type="text" disabled="disabled" /></li>
-                    <li class="c3 middle">
-                        <ul class="specialBorders">
-                            <li><input type="text" disabled="disabled" /></li>
-                            <li><input type="text" disabled="disabled" /></li>
-                            <li><input type="text" disabled="disabled" /></li>
-                        </ul>
-                    </li>
-                    <li class="right">2.0 X <input type="text" disabled="disabled" /> = <input type="text" disabled="disabled" /></li>
-                </ul>
-            </li>
-            <li class="c3 row3"><!--Row 3-->
-                <ul class="solidRow light">
-                    <li class="left"><input type="text" disabled="disabled" /></li>
-                    <li class="c3 middle">
-                        <ul class="specialBorders">
-                            <li><input type="text" disabled="disabled" /></li>
-                            <li><input type="text" disabled="disabled" /></li>
-                            <li><input type="text" disabled="disabled" /></li>
-                        </ul>
-                    </li>
-                    <li class="right">2.0 X <input type="text" disabled="disabled" /> = <input type="text" disabled="disabled" /></li>
-                </ul>
-            </li>
-            <li class="c3 row3"><!--Row 3-->
-                <ul class="solidRow light">
-                    <li class="left"><input type="text" disabled="disabled" /></li>
-                    <li class="c3 middle">
-                        <ul class="specialBorders">
-                            <li><input type="text" disabled="disabled" /></li>
-                            <li><input type="text" disabled="disabled" /></li>
-                            <li><input type="text" disabled="disabled" /></li>
-                        </ul>
-                    </li>
-                    <li class="right">2.0 X <input type="text" disabled="disabled" /> = <input type="text" disabled="disabled" /></li>
-                </ul>
-            </li>
-            <li class="c3 row3"><!--Row 3-->
-                <ul class="solidRow light">
-                    <li class="left"><input type="text" disabled="disabled" /></li>
-                    <li class="c3 middle">
-                        <ul class="specialBorders">
-                            <li><input type="text" disabled="disabled" /></li>
-                            <li><input type="text" disabled="disabled" /></li>
-                            <li><input type="text" disabled="disabled" /></li>
-                        </ul>
-                    </li>
-                    <li class="right">2.0 X <input type="text" disabled="disabled" /> = <input type="text" disabled="disabled" /></li>
-                </ul>
-            </li>
-            <li class="c3 row3"><!--Row 3-->
-                <ul class="solidRow light">
-                    <li class="left"><input type="text" disabled="disabled" /></li>
-                    <li class="c3 middle">
-                        <ul class="specialBorders">
-                            <li><input type="text" disabled="disabled" /></li>
-                            <li><input type="text" disabled="disabled" /></li>
-                            <li><input type="text" disabled="disabled" /></li>
-                        </ul>
-                    </li>
-                    <li class="right">2.0 X <input type="text" disabled="disabled" /> = <input type="text" disabled="disabled" /></li>
-                </ul>
-            </li>
-            <li class="c3"><!--Row 3 Totals-->
-                <ul class="vMiddle">
-                    <li class="blue left heading vMiddle">Total Routine Time</li>
-                    <li class="c2 vMiddle">
-                        <ul>
-                            <li class="center"><input type="text" disabled="disabled" /> min</li>
-                            <li class="center"><input type="text" disabled="disabled" /> sec</li>
-                        </ul>
-                    </li>
-                    <li class="c2 middle vMiddle">
-                        <ul>
-                            <li class="specialLeft">
-                                <table class="legend">
-                                    <caption>Time Deduction</caption>
-                                    <tbody>
-                                        <tr class="blue">
-                                            <th>3-5 sec</th>
-                                            <td>= 0.5</td>
-                                        </tr>
-                                        <tr class="blue">
-                                            <th>6-10 sec</th>
-                                            <td>= 1.0</td>
-                                        </tr>
-                                        <tr class="blue">
-                                            <th>11+ sec</th>
-                                            <td>= 2.0</td>
-                                        </tr>
-                                    </tbody>
-                                </table>
-                            </li>
-                            <li class="specialRight vMiddle center"><input type="text" disabled="disabled" /> pts</li>
-                        </ul>
-                    </li>
-                </ul>
-            </li>
-            <li class="c3 left row4"><!--Row 4 Totals2-->
-                <ul>
-                    <li class="empty noBorder left"></li>
-                    <li class="blue middle heading">Total Deduction</li>
-                    <li class="center"><input type="text" disabled="disabled" /></li>
-                </ul>
-            </li>			    
-        </ul>
-    </fieldset>            
+	<fieldset class="legalities">
+		<ul>
+			<li class="c2 row1"><!--Row 1-->
+				<ul>
+					<li class="left blue heading">Number of Participants</li>
+					<li class="right">
+						<input type="text" disabled="disabled" />
+					</li>
+				</ul>
+			</li>
+			<li class="c2"><!--Row 2-->
+				<ul>
+					<li class="left blue heading">Boundary Violations</li>
+					<li class="right">2.0 X <input type="text" disabled="disabled" /> = <input type="text" disabled="disabled" /></li>
+				</ul>
+			</li>
+			<li class="c3"><!--Row 3 header?-->
+				<ul class="solidRow">
+					<li class="blue left heading">Safety Violations (list)</li>
+					<li class="c3 blue middle">
+						<ul class="specialBorders">
+							<li class="heading">Warning</li>
+							<li class="heading">Category</li>
+							<li class="heading">Page #</li>
+						</ul>
+					</li>
+					<li class="empty blue right"></li>
+				</ul>
+			</li>
+			<li class="c3 row3"><!--Row 3-->
+				<ul class="solidRow light">
+					<li class="left"><input type="text" disabled="disabled" /></li>
+					<li class="c3 middle">
+						<ul class="specialBorders">
+							<li><input type="text" disabled="disabled" /></li>
+							<li><input type="text" disabled="disabled" /></li>
+							<li><input type="text" disabled="disabled" /></li>
+						</ul>
+					</li>
+					<li class="right">2.0 X <input type="text" disabled="disabled" /> = <input type="text" disabled="disabled" /></li>
+				</ul>
+			</li>
+			<li class="c3 row3"><!--Row 3-->
+				<ul class="solidRow light">
+					<li class="left"><input type="text" disabled="disabled" /></li>
+					<li class="c3 middle">
+						<ul class="specialBorders">
+							<li><input type="text" disabled="disabled" /></li>
+							<li><input type="text" disabled="disabled" /></li>
+							<li><input type="text" disabled="disabled" /></li>
+						</ul>
+					</li>
+					<li class="right">2.0 X <input type="text" disabled="disabled" /> = <input type="text" disabled="disabled" /></li>
+				</ul>
+			</li>
+			<li class="c3 row3"><!--Row 3-->
+				<ul class="solidRow light">
+					<li class="left"><input type="text" disabled="disabled" /></li>
+					<li class="c3 middle">
+						<ul class="specialBorders">
+							<li><input type="text" disabled="disabled" /></li>
+							<li><input type="text" disabled="disabled" /></li>
+							<li><input type="text" disabled="disabled" /></li>
+						</ul>
+					</li>
+					<li class="right">2.0 X <input type="text" disabled="disabled" /> = <input type="text" disabled="disabled" /></li>
+				</ul>
+			</li>
+			<li class="c3 row3"><!--Row 3-->
+				<ul class="solidRow light">
+					<li class="left"><input type="text" disabled="disabled" /></li>
+					<li class="c3 middle">
+						<ul class="specialBorders">
+							<li><input type="text" disabled="disabled" /></li>
+							<li><input type="text" disabled="disabled" /></li>
+							<li><input type="text" disabled="disabled" /></li>
+						</ul>
+					</li>
+					<li class="right">2.0 X <input type="text" disabled="disabled" /> = <input type="text" disabled="disabled" /></li>
+				</ul>
+			</li>
+			<li class="c3 row3"><!--Row 3-->
+				<ul class="solidRow light">
+					<li class="left"><input type="text" disabled="disabled" /></li>
+					<li class="c3 middle">
+						<ul class="specialBorders">
+							<li><input type="text" disabled="disabled" /></li>
+							<li><input type="text" disabled="disabled" /></li>
+							<li><input type="text" disabled="disabled" /></li>
+						</ul>
+					</li>
+					<li class="right">2.0 X <input type="text" disabled="disabled" /> = <input type="text" disabled="disabled" /></li>
+				</ul>
+			</li>
+			<li class="c3 row3"><!--Row 3-->
+				<ul class="solidRow light">
+					<li class="left"><input type="text" disabled="disabled" /></li>
+					<li class="c3 middle">
+						<ul class="specialBorders">
+							<li><input type="text" disabled="disabled" /></li>
+							<li><input type="text" disabled="disabled" /></li>
+							<li><input type="text" disabled="disabled" /></li>
+						</ul>
+					</li>
+					<li class="right">2.0 X <input type="text" disabled="disabled" /> = <input type="text" disabled="disabled" /></li>
+				</ul>
+			</li>
+			<li class="c3 row3"><!--Row 3-->
+				<ul class="solidRow light">
+					<li class="left"><input type="text" disabled="disabled" /></li>
+					<li class="c3 middle">
+						<ul class="specialBorders">
+							<li><input type="text" disabled="disabled" /></li>
+							<li><input type="text" disabled="disabled" /></li>
+							<li><input type="text" disabled="disabled" /></li>
+						</ul>
+					</li>
+					<li class="right">2.0 X <input type="text" disabled="disabled" /> = <input type="text" disabled="disabled" /></li>
+				</ul>
+			</li>
+			<li class="c3 row3"><!--Row 3-->
+				<ul class="solidRow light">
+					<li class="left"><input type="text" disabled="disabled" /></li>
+					<li class="c3 middle">
+						<ul class="specialBorders">
+							<li><input type="text" disabled="disabled" /></li>
+							<li><input type="text" disabled="disabled" /></li>
+							<li><input type="text" disabled="disabled" /></li>
+						</ul>
+					</li>
+					<li class="right">2.0 X <input type="text" disabled="disabled" /> = <input type="text" disabled="disabled" /></li>
+				</ul>
+			</li>
+			<li class="c3"><!--Row 3 Totals-->
+				<ul class="vMiddle">
+					<li class="blue left heading vMiddle">Total Routine Time</li>
+					<li class="c2 vMiddle">
+						<ul>
+							<li class="center"><input type="text" disabled="disabled" /> min</li>
+							<li class="center"><input type="text" disabled="disabled" /> sec</li>
+						</ul>
+					</li>
+					<li class="c2 middle vMiddle">
+						<ul>
+							<li class="specialLeft">
+								<table class="legend">
+									<caption>Time Deduction</caption>
+									<tbody>
+										<tr class="blue">
+											<th>3-5 sec</th>
+											<td>= 0.5</td>
+										</tr>
+										<tr class="blue">
+											<th>6-10 sec</th>
+											<td>= 1.0</td>
+										</tr>
+										<tr class="blue">
+											<th>11+ sec</th>
+											<td>= 2.0</td>
+										</tr>
+									</tbody>
+								</table>
+							</li>
+							<li class="specialRight vMiddle center"><input type="text" disabled="disabled" /> pts</li>
+						</ul>
+					</li>
+				</ul>
+			</li>
+			<li class="c3 left row4"><!--Row 4 Totals2-->
+				<ul>
+					<li class="empty noBorder left"></li>
+					<li class="blue middle heading">Total Deduction</li>
+					<li class="center"><input type="text" disabled="disabled" /></li>
+				</ul>
+			</li>			    
+		</ul>
+	</fieldset>            
 </script>

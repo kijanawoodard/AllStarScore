@@ -45,8 +45,8 @@ var ScoreEntryViewModel = function (data) {
 
     self.getTemplate = function () {
         var judge = getJudgeKey(self.score.judgeId());
-        var division = self.performance.divisionIdWithoutCompany;
-        var level = self.performance.levelIdWithoutCompany;
+        var division = self.performance.divisionIdWithoutCompanyId;
+        var level = self.performance.levelIdWithoutCompanyId;
         var map = AllStarScore.ScoringMap.templates[judge] || AllStarScore.ScoringMap.templates[division] || AllStarScore.ScoringMap.templates[level];
         return map;
     };
@@ -54,8 +54,8 @@ var ScoreEntryViewModel = function (data) {
     //take parms to prepare for multiple renderings
     self.getScoring = function (performance, score) {
         var judge = getJudgeKey(score.judgeId());
-        var division = performance.divisionIdWithoutCompany;
-        var level = performance.levelIdWithoutCompany;
+        var division = performance.divisionIdWithoutCompanyId;
+        var level = performance.levelIdWithoutCompanyId;
         var map = AllStarScore.ScoringMap.categories[judge] || AllStarScore.ScoringMap.categories[division] || AllStarScore.ScoringMap.categories[level];
         //        console.log(judge);
         //        console.log(division);

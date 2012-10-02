@@ -1,7 +1,76 @@
 ﻿$(document).ready(function () {
-    $.extend(viewModel, window.detailsScoreSheetsData);
-    viewModel.schedule = new ScheduleModel(viewModel.schedule);
+    console.log(AllStarScore);
+//    console.log(window.detailsScoreSheetsData);
+    AllStarScore.ScoreSheets = new AllStarScore.ScoreSheetViewModel(window.detailsScoreSheetsData);
 });
+
+AllStarScore.ScoreSheetViewModel = function () {
+    var self = this;
+
+    var competitionData = AllStarScore.CompetitionData;
+    self.levels = competitionData.raw.levels;
+    self.judges = competitionData.raw.judges;
+    var templates = AllStarScore.ScoreSheetMap.all;
+
+    self.panels = ko.computed(function () {
+        return _.map(_.range(competitionData.schedule.numberOfPanels), function (i) {
+            return String.fromCharCode(65 + i);
+        });
+    }, self);
+
+    self.visibilityMatrix = ko.observableArray();
+    self.competitionDays = ko.observableArray();
+
+    _.each(self.panels(), function (panel) {
+        self.visibilityMatrix.push(panel);
+        _.each(self.judges, function (judge) {
+            self.visibilityMatrix.push(panel + judge.id);
+        });
+    });
+
+    _.each(competitionData.competition.days, function (day) {
+        //what are we doing here? normalizing the date to a string for the checkbox compare; 
+        //the value of the checkbox has to be a string not a date object;
+        //we're also divorcing what gets attached the checkbox so the formmatted value doesn't change our real day object
+        var formatted = day.toString('ddd MM/dd/yyyy');
+        self.visibilityMatrix.push(formatted);
+        self.competitionDays.push(formatted);
+    });
+
+    _.each(self.levels, function (level) {
+        self.visibilityMatrix.push(level.id);
+    });
+
+    self.toPerformance = function (performanceId) {
+        return competitionData.performances[performanceId];
+    };
+
+    self.shouldShow = function (performance, parents) {
+        var panel = parents[3];
+        var day = parents[1].day.toString('ddd MM/dd/yyyy');
+        var judge = panel + parents[2].id;
+        var level = performance.levelId;
+
+        var result = _.indexOf(self.visibilityMatrix(), panel) > -1 &&
+                     _.indexOf(self.visibilityMatrix(), day) > -1 &&
+                     _.indexOf(self.visibilityMatrix(), judge) > -1 &&
+                    _.indexOf(self.visibilityMatrix(), level) > -1;
+        
+        return result;
+    };
+
+    self.getTemplate = function (performance, judge) {
+        var division = performance.divisionIdWithoutCompanyId;
+        var level = performance.levelIdWithoutCompanyId;
+        var map = templates[judge.responsibility]
+                        || templates[division]
+                        || templates[level];
+
+        return map;
+    };
+
+    return self;
+};
 
 var ScheduleModel = function (data) {
     var self = this;
@@ -34,7 +103,7 @@ var ScheduleModel = function (data) {
         //we're also divorcing what gets attached the checkbox so the formmatted value doesn't change our real day object
         var formatted = node.day.toString('ddd MM/dd/yyyy');
         self.visibilityMatrix.push(formatted);
-        self.competitionDays.push(formatted);
+        self.competitionDays.push(formatted);   
 
         _.each(node.entries, function (entry) {
             var registration = entry.registration();
