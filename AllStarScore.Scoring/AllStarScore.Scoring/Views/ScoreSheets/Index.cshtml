@@ -46,8 +46,9 @@
             </li>
         </ul>
     </fieldset>
-
-    <!-- ko foreach: panels -->
+    
+	<div id="section_to_print">
+	<!-- ko foreach: panels -->
     <!-- ko foreach: $root.ScoreSheets.judges -->
     <!-- ko foreach: $root.CompetitionData.schedule.days -->
     <!-- ko foreach: $data.entries -->
@@ -82,7 +83,8 @@
     <!-- /ko -->
     <!-- /ko -->
     <!-- /ko -->
-    <!-- /ko -->
+	<!-- /ko -->
+    </div>
 </div>
 
 <script>

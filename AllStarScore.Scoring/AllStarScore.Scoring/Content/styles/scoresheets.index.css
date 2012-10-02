@@ -42,7 +42,7 @@ table.schooldance th.comments, table.schooldance td.comments { width: 790px; }
 .deductions_scoresheet table.score tr td.blank, table.score tr td:empty { border-bottom: 1px solid #000; width: 80px; padding-top: 30px; }
 
 .deductions_scoresheet div.comments { width: 100%; }
-.deductions_scoresheet div.comments div { border: 1px solid #000; height: 135px; }
+.deductions_scoresheet div.comments div { border: 1px solid #000; height: 125px; }
 
 div.legalities table.score { float: none; }
 div.legalities { border: 2px solid black; }
@@ -98,12 +98,23 @@ fieldset.legalities             input {width:100px;margin: 0;padding: 0;}
 @media print 
 {
 	.competition_header, .scripts { display: none; }
-	#scoresheets_index .entry {page-break-after: always}
-	#scoresheets_index .entry:last-of-type {page-break-after: avoid !important;}
-	
-	.legalities {border:solid 1px #fff;}
-	.legalities li.noBorder{border-left:solid 1px #fff;border-bottom:solid 1px #fff;}	
 	#scoresheets_index .controls { display: none;}
+	
+	
+	xmp body * { visibility:hidden; }
+	xmp #section_to_print, #section_to_print * { visibility:visible; }
+	xmp #section_to_print {
+		position:absolute;
+		left:0;
+		top:0;
+		padding: 5px 10px;
+	}
+	  
+	#section_to_print .entry {page-break-after: always}
+	#section_to_print .entry:last-of-type {page-break-after: avoid !important;}
+	
+	#section_to_print .legalities {border:solid 1px #fff;}
+	#section_to_print .legalities li.noBorder{border-left:solid 1px #fff;border-bottom:solid 1px #fff;}	
 }
 
 #competitionlayout_index { display: none; }
