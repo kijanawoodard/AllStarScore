@@ -13,14 +13,14 @@ namespace AllStarScore.Scoring.Specs
     [Binding]
     public class AveragingSteps
     {
-        private List<Performance> _performances;
+        private List<PerformanceScore> _performances;
         private List<JudgeScore> _scores;
         private AverageScoreReporting _reporting;
 
         [Given(@"a set of Performances to average")]
         public void GivenASetOfPerformancesToAverage(Table table)
         {
-            _performances = table.CreateSet<Performance>().ToList();
+            _performances = table.CreateSet<PerformanceScore>().ToList();
         }
 
         [Given(@"a set of scores")]
@@ -50,7 +50,7 @@ namespace AllStarScore.Scoring.Specs
         [When(@"I Average the Scores")]
         public void WhenIAverageTheScores()
         {
-            _reporting = new AverageScoreReporting(_performances, _scores);
+            _reporting = new AverageScoreReporting(_performances);
         }
 
         [Then(@"(.*) should have (.*) score equal ([\d\.]*)")]

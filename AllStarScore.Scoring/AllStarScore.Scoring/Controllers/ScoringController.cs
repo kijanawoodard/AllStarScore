@@ -152,8 +152,9 @@ namespace AllStarScore.Scoring.Controllers
                 {
 					var score = GetPerformanceScore(command.PerformanceId);
                 	var scores = GetScores(command.PerformanceId);
+                	var calculator = new FiveJudgePanelPerformanceScoreCalculator(scores);
 
-					score.Update(new FiveJudgePanelPerformanceScoreCalculator(scores));
+					score.Update(calculator);
 					score.Update(command);
 					RavenSession.Store(score);
 

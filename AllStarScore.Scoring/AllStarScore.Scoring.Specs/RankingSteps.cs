@@ -16,7 +16,7 @@ namespace AllStarScore.Scoring.Specs
         private IRankingCalculator _calculator;
         private TeamScoreReporting _reporting;
         private List<TeamScore> _first { get { return _reporting.Divisions.First().Scores.ToList(); } } 
-        private List<Performance> _performances;
+        private List<PerformanceScore> _performances;
 
         [Given(@"a Small Gym Ranking Calculator")]
         public void GivenASmallGymRankingCalculator()
@@ -34,23 +34,23 @@ namespace AllStarScore.Scoring.Specs
         [Given(@"a set of Performances:")]
         public void GivenIHaveASetOfPerformances(Table table)
         {
-            var performances = table.CreateSet<Performance>().ToList();
+			var performances = table.CreateSet<PerformanceScore>().ToList();
             var generator = new TeamScoreGenerator();
-            var scores = generator.From(performances);
+            var scores = generator.From(performances, null);
             _reporting = new TeamScoreReporting(scores);
         }
 
         [Given(@"a set of Performances to be grouped:")]
         public void GivenIHaveASetOfPerformances2(Table table)
         {
-            _performances = table.CreateSet<Performance>().ToList();
+            _performances = table.CreateSet<PerformanceScore>().ToList();
         }
 
         [When(@"Performances are Grouped")]
         public void WhenPerformancesAreGrouped()
         {
             var generator = new TeamScoreGenerator();
-            var scores = generator.From(_performances);
+            var scores = generator.From(_performances, null);
             _reporting = new TeamScoreReporting(scores);
         }
 

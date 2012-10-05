@@ -3,7 +3,7 @@
 @{ Html.RegisterStylesheet("~/content/styles/reporting.averages.css"); }
 @{ Html.RegisterScript("~/content/scripts/reporting.averages.js"); }
 
-<div id="reporting_averages" data-bind="with: $root.averagesViewModel">
+<div id="reporting_averages" data-bind="with: AveragesViewModel">
     
     <h3>Averages</h3>
     <!-- ko template: { name: 'average_template', data: reporting } --><!-- /ko -->
@@ -30,7 +30,7 @@
                 </thead>
                 <tbody>
                     <tr data-bind="foreach: scores">
-                        <td data-bind="text: value().toFixed(1)" class="numeric"></td>
+                        <td data-bind="text: value.toFixed(1)" class="numeric"></td>
                     </tr>
                 </tbody>
             </table>

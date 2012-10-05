@@ -7,6 +7,7 @@ using AllStarScore.Models;
 using AllStarScore.Scoring.Infrastructure.Indexes;
 using AllStarScore.Scoring.Models;
 using AllStarScore.Scoring.ViewModels;
+using AllStarScore.Library.RavenDB;
 
 namespace AllStarScore.Scoring.Controllers
 {
@@ -20,16 +21,17 @@ namespace AllStarScore.Scoring.Controllers
 
         public ActionResult SinglePerformance(string id)
         {
-            var performances =
-                RavenSession
-                    .Query<Performance>()
-				//                    .Where(x => x.CompetitionId == id) //TODO: MARK
-                    .Take(int.MaxValue)
-                    .ToList();
+        	var performances =
+        		RavenSession
+        			.LoadStartingWith<PerformanceScore>(id + "/scores/");
+
+			var info =
+				RavenSession
+					.Load<CompetitionInfo>(id);
 
             var calculator = new SmallGymRankingCalculator(); //TODO: indirect
             var generator = new TeamScoreGenerator();
-            var scores = generator.From(performances);
+            var scores = generator.From(performances, info);
             var reporting = new TeamScoreReporting(scores);
             reporting.Rank(calculator);
 
@@ -39,16 +41,17 @@ namespace AllStarScore.Scoring.Controllers
 
         public ActionResult TwoPerformance(string id)
         {
-            var performances =
-                RavenSession
-                    .Query<Performance>()
-				//TODO: MARK              .Where(x => x.CompetitionId == id)
-                    .Take(int.MaxValue)
-                    .ToList();
+			var performances =
+				RavenSession
+					.LoadStartingWith<PerformanceScore>(id + "/scores/");
+
+			var info =
+				RavenSession
+					.Load<CompetitionInfo>(id);
 
             var calculator = new SmallGymRankingCalculator(); //TODO: indirect
             var generator = new TeamScoreGenerator();
-            var scores = generator.From(performances).Where(x => x.PerformanceScores.Count == 2);
+            var scores = generator.From(performances, info).Where(x => x.PerformanceScores.Count == 2);
             var reporting = new TeamScoreReporting(scores);
             reporting.Rank(calculator);
 
@@ -59,21 +62,11 @@ namespace AllStarScore.Scoring.Controllers
         [ChildActionOnly]
         public ActionResult Averages(string id)
         {
-            var performances =
-                RavenSession
-                    .Query<Performance>()
-				//TODO: MARK          .Where(x => x.CompetitionId == id)
-                    .Take(int.MaxValue)
-                    .ToList();
+			var performances =
+				RavenSession
+					.LoadStartingWith<PerformanceScore>(id + "/scores/");
 
-            var scores =
-                RavenSession
-                    .Query<JudgeScore, JudgeScoreIndex>()
-				//TODO: MARK         .Where(x => x.CompetitionId == id)
-                    .Take(int.MaxValue)
-                    .ToList();
-
-            var averages = new AverageScoreReporting(performances, scores);
+            var averages = new AverageScoreReporting(performances);
 
             var model = new ReportingAveragesViewModel(averages);
             return PartialView(model);

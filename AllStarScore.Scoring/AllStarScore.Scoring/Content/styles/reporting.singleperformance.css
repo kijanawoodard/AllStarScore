@@ -2,3 +2,5 @@
 #reporting_singleperformance td.numeric { padding-right: 2em;}
 
 #reporting_singleperformance td .gym_size { color: #a0a0a0;font-size: .7em;font-style: italic;}
+
+#reporting_singleperformance .levels .division_name { display: none;}

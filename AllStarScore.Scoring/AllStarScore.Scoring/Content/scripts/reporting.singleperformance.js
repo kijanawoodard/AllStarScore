@@ -1,3 +1,4 @@
 ﻿$(document).ready(function () {
-    window.viewModel.reportingViewModel = ko.mapping.fromJS(window.reportingData);
+    //console.log(AllStarScore);
+    AllStarScore.ReportingViewModel = ko.mapping.fromJS(window.reportingData);
 });

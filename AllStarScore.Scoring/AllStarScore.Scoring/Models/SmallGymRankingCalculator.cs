@@ -128,33 +128,52 @@ namespace AllStarScore.Scoring.Models
     //creates TeamScore records from performances
     public class TeamScoreGenerator
     {
-        public IEnumerable<TeamScore> From(IEnumerable<Performance> performances)
-		{//TODO: MARK
-            var scores =
-                performances
-                    .GroupBy(x => x.RegistrationId)
-                    .Select(x => new TeamScore
-                    {//TODO: MARK
-//                        CompetitionId = x.First().CompetitionId,
-//                        RegistrationId = x.First().RegistrationId,
-//                        LevelId = x.First().LevelId,
-//                        DivisionId = x.First().DivisionId,
-//                        PerformanceScores =
-//                            x.OrderBy(p => p.PerformanceTime)
-//                            .Select(p => p.FinalScore)
-//                            .ToList(),
-//                        GymName = x.First().GymName,
-//                        DivisionName = x.First().DivisionName,
-//                        LevelName = x.First().LevelName,
-//                        TeamName = x.First().TeamName,
-//                        GymLocation = x.First().GymLocation,
-//                        IsSmallGym = x.First().IsSmallGym,
-//                        IsShowTeam = x.First().IsShowTeam,
-//                        DidNotCompete = x.First().DidNotCompete,
-//                        ScoringComplete = x.First().ScoringComplete,
-                    });
+        public IEnumerable<TeamScore> From(IEnumerable<PerformanceScore> scores, CompetitionInfo info)
+        {
+        	var performances =
+        		info.Registrations
+					.SelectMany(r => r.GetPerformances(info.Competition))
+					.ToList();
 
-            return scores;
+        	var result =
+        		scores
+        			.Select(s =>
+        			{
+        				var performance =
+							performances.First(x => x.Id == s.PerformanceId);
+
+        				var registration =
+        					info.Registrations.First(x => x.Id == performance.RegistrationId);
+
+        				var gym =
+        					info.Gyms.First(x => x.Id == registration.GymId);
+
+        				var division =
+        					info.Divisions.First(x => x.Id == performance.DivisionId);
+
+        				var level =
+        					info.Levels.First(x => x.Id == division.LevelId);
+        				return new TeamScore
+        				{
+        					CompetitionId = info.Competition.Id,
+							RegistrationId = registration.Id,
+							LevelId = level.Id,
+							DivisionId = division.Id,
+        					PerformanceScores = new List<decimal>(){s.TotalScore},
+        					GymName = gym.Name,
+        					DivisionName = division.Name,
+        					LevelName = level.Name,
+        					TeamName = registration.TeamName,
+        					GymLocation = gym.Location,
+        					IsSmallGym = gym.IsSmallGym,
+        					IsShowTeam = registration.IsShowTeam,
+        					DidNotCompete = s.DidNotCompete,
+        					ScoringComplete = s.IsScoringComplete,
+        				};
+        			}
+    );
+
+            return result;
         }
     }
 
@@ -199,18 +218,17 @@ namespace AllStarScore.Scoring.Models
     public class AverageScoreReporting
     {
         public Dictionary<string, Dictionary<string, decimal>> Averages { get; set; }
-        
-        public AverageScoreReporting(IEnumerable<Performance> performances, IEnumerable<JudgeScore> scores)
+
+		public AverageScoreReporting(IEnumerable<PerformanceScore> performances)
         {
             var all =
-                from item in scores
-                from score in item.Scores
-                let divisionid = performances.First(p => p.Id == item.PerformanceId).DivisionId
+                from performanceScore in performances
+                from score in performanceScore.Scores
                 select new
                        {
-                           DivisionId = divisionid,
+						   performanceScore.DivisionId,
                            Category = score.Key,
-                           score.Value.Total 
+                           Total = score.Value 
                        };
 
             var averaged =

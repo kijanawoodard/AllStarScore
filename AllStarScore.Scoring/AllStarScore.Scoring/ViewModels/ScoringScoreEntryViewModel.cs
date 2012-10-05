@@ -64,6 +64,7 @@ namespace AllStarScore.Scoring.ViewModels
     public class MarkTeamScoringCompleteCommand : ICommand
     {
         public string PerformanceId { get; set; }
+		public string DivisionId { get; set; }
 
         public string CommandByUser { get; set; }
         public DateTime CommandWhen { get; set; }
