@@ -46,17 +46,10 @@ namespace AllStarScore.Scoring.Controllers
 
 		private PerformanceScore GetPerformanceScore(string performanceId)
 		{
-			var registration = GetRegistrationScore(performanceId);
-			return registration.PerformanceScores.ContainsKey(performanceId) 
-				? registration.PerformanceScores[performanceId] 
-				: new PerformanceScore();
-		}
-		private RegistrationScore GetRegistrationScore(string performanceId)
-		{
-			var registrationId = RegistrationScore.FormatIdFromPerformanceId(performanceId);
-			var result = RavenSession.Load<RegistrationScore>(registrationId);
+			var id = PerformanceScore.FormatId(performanceId);
+			var result = RavenSession.Load<PerformanceScore>(id);
 
-			return result ?? new RegistrationScore { RegistrationId = registrationId};
+			return result ?? new PerformanceScore { PerformanceId = id };
 		}
 
         [HttpGet]
@@ -131,7 +124,7 @@ namespace AllStarScore.Scoring.Controllers
             return Execute(
                 action: () =>
                 {
-					var score = GetRegistrationScore(command.PerformanceId);
+					var score = GetPerformanceScore(command.PerformanceId);
 					score.Update(command);
 
                     return new JsonDotNetResult(true);
@@ -144,7 +137,7 @@ namespace AllStarScore.Scoring.Controllers
             return Execute(
                 action: () =>
                 {
-					var score = GetRegistrationScore(command.PerformanceId);
+					var score = GetPerformanceScore(command.PerformanceId);
 					score.Update(command);
 
                     return new JsonDotNetResult(false);
@@ -157,7 +150,7 @@ namespace AllStarScore.Scoring.Controllers
             return Execute(
                 action: () =>
                 {
-					var score = GetRegistrationScore(command.PerformanceId);
+					var score = GetPerformanceScore(command.PerformanceId);
                 	var scores = GetScores(command.PerformanceId);
 
 					score.Update(new FiveJudgePanelPerformanceScoreCalculator(scores));
@@ -174,7 +167,7 @@ namespace AllStarScore.Scoring.Controllers
             return Execute(
                 action: () =>
                 {
-					var score = GetRegistrationScore(command.PerformanceId);
+					var score = GetPerformanceScore(command.PerformanceId);
 					score.Update(command);
 
                     return new JsonDotNetResult(true);

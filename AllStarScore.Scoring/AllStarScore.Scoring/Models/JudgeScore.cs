@@ -70,74 +70,71 @@ namespace AllStarScore.Scoring.Models
 		}
     }
 
-	public class RegistrationScore :  IGenerateMyId
-	{
-		public string Id { get; set; }
-		public string RegistrationId { get; set; }
-		public Dictionary<string, PerformanceScore> PerformanceScores { get; set; } 
+//	public class RegistrationScore :  IGenerateMyId
+//	{
+//		public string Id { get; set; }
+//		public string RegistrationId { get; set; }
+//		public Dictionary<string, PerformanceScore> PerformanceScores { get; set; } 
+//
+//		public RegistrationScore()
+//		{
+//			PerformanceScores = new Dictionary<string, PerformanceScore>();
+//		}
+//
+//		public void Update(ITeamScoreCalculator calculator)
+//		{
+//			var performanceId = calculator.Scores.First().PerformanceId;
+//			var score = new PerformanceScore
+//			            {
+//			            	PerformanceId = performanceId,
+//							TotalScore = calculator.FinalScore,
+//			            	Scores = calculator.Scores.SelectMany(x => x.Scores).ToDictionary(d => d.Key, d => d.Value.Total),
+//			            };
+//
+//			PerformanceScores[performanceId] = score;
+//		}
+//
+//		public void Update(MarkTeamScoringCompleteCommand command)
+//		{
+//			PerformanceScores[command.PerformanceId].IsScoringComplete = true;
+//		}
+//
+//		public void Update(MarkTeamScoringOpenCommand command)
+//		{
+//			PerformanceScores[command.PerformanceId].IsScoringComplete = false;
+//		}
+//
+//		public void Update(MarkTeamDidNotCompeteCommand command)
+//		{
+//			PerformanceScores[command.PerformanceId] = new PerformanceScore
+//			                                           {
+//			                                           		PerformanceId = command.PerformanceId,
+//			                                           		DidNotCompete = true
+//			                                           };
+//		}
+//
+//		public void Update(MarkTeamDidCompeteCommand command)
+//		{
+//			PerformanceScores[command.PerformanceId].DidNotCompete = false;
+//		}
+//
+//		public static string FormatIdFromPerformanceId(string performanceId)
+//		{
+//			return FormatId(Registration.ExtractRegistrationId(performanceId));
+//		}
+//
+//		public static string FormatId(string registrationId)
+//		{
+//			return registrationId.Replace("/registrations/", "/scores/");
+//		}
+//		
+//		public string GenerateId()
+//		{
+//			return FormatId(RegistrationId);
+//		}
+//	}
 
-//		public void AddPerformanceScore
-
-		public RegistrationScore()
-		{
-			PerformanceScores = new Dictionary<string, PerformanceScore>();
-		}
-
-		public void Update(ITeamScoreCalculator calculator)
-		{
-			var performanceId = calculator.Scores.First().PerformanceId;
-			var score = new PerformanceScore
-			            {
-			            	PerformanceId = performanceId,
-							TotalScore = calculator.FinalScore,
-			            	//Scores = calculator.Scores.SelectMany(x => x.Scores.ToDictionary(d => d.Key, d => d.Value.Total)).Average()
-
-			            };
-
-			PerformanceScores[performanceId] = score;
-		}
-
-		public void Update(MarkTeamScoringCompleteCommand command)
-		{
-			PerformanceScores[command.PerformanceId].IsScoringComplete = true;
-		}
-
-		public void Update(MarkTeamScoringOpenCommand command)
-		{
-			PerformanceScores[command.PerformanceId].IsScoringComplete = false;
-		}
-
-		public void Update(MarkTeamDidNotCompeteCommand command)
-		{
-			PerformanceScores[command.PerformanceId] = new PerformanceScore
-			                                           {
-			                                           		PerformanceId = command.PerformanceId,
-			                                           		DidNotCompete = true
-			                                           };
-		}
-
-		public void Update(MarkTeamDidCompeteCommand command)
-		{
-			PerformanceScores[command.PerformanceId].DidNotCompete = false;
-		}
-
-		public static string FormatIdFromPerformanceId(string performanceId)
-		{
-			return FormatId(Registration.ExtractRegistrationId(performanceId));
-		}
-
-		public static string FormatId(string registrationId)
-		{
-			return registrationId.Replace("/registrations/", "/scores/");
-		}
-		
-		public string GenerateId()
-		{
-			return FormatId(RegistrationId);
-		}
-	}
-
-	public class PerformanceScore
+	public class PerformanceScore : IGenerateMyId
 	{
 		public string PerformanceId { get; set; }
 		public string LevelId { get; set; }
@@ -150,6 +147,50 @@ namespace AllStarScore.Scoring.Models
 		public PerformanceScore()
 		{
 			Scores = new Dictionary<string, decimal>();
+		}
+
+		public void Update(ITeamScoreCalculator calculator)
+		{
+			var performanceId = calculator.Scores.First().PerformanceId;
+			PerformanceId = performanceId;
+			TotalScore = calculator.FinalScore; 
+			Scores = 
+				calculator.Scores.SelectMany(x => x.Scores)
+					.Select(x => new {Category = x.Key, Score = x.Value.Total})
+					.GroupBy(x => x.Category)	
+					.Select(g => new {Category = g.Key, AverageScore = g.Average(x => x.Score)})
+					.ToDictionary(d => d.Category, d => d.AverageScore);
+		}
+
+		public void Update(MarkTeamScoringCompleteCommand command)
+		{
+			IsScoringComplete = true;
+		}
+
+		public void Update(MarkTeamScoringOpenCommand command)
+		{
+			IsScoringComplete = false;
+		}
+
+		public void Update(MarkTeamDidNotCompeteCommand command)
+		{
+			PerformanceId = command.PerformanceId;
+			DidNotCompete = true;
+		}
+
+		public void Update(MarkTeamDidCompeteCommand command)
+		{
+			DidNotCompete = false;
+		}
+
+		public static string FormatId(string performanceId)
+		{
+			return performanceId.Replace("/registrations/", "/scores/");
+		}
+
+		public string GenerateId()
+		{
+			return FormatId(PerformanceId);
 		}
 	}
 	
