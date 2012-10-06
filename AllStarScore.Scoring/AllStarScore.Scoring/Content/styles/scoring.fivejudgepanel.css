@@ -44,4 +44,5 @@
 {
 	form, nav { display: none; }
 	#scoring_fivejudgepanel .score_summary { width: 45%; }
+	#scoring_reports .comment { page-break-inside: avoid;}
 }
