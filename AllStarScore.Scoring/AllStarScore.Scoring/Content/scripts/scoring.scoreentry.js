@@ -1,25 +1,13 @@
 ﻿var scorepad_cookie_name = 'scorepad.high.';
 
 $(document).ready(function() {
-    AllStarScore.Entry = ko.mapping.fromJS({ viewModel: window.scoringScoreEntryData }, mapping);
+    AllStarScore.ScoreEntry = new AllStarScore.ScoreEntryViewModel(window.scoringScoreEntryData);
 });
 
-var mapping = {
-    'viewModel': {
-        create: function (options) {
-            return new ScoreEntryViewModel(options.data);
-        }
-    },
-    'performance': {
-        create: function (options) {
-            return new PerformanceModel(options.data);
-        }
-    }
-};
-
-var ScoreEntryViewModel = function (data) {
+AllStarScore.ScoreEntryViewModel = function (data) {
     var self = this;
-    ko.mapping.fromJS(data, mapping, this);
+    
+    ko.mapping.fromJS(data, {}, this);
 
     self.performance = AllStarScore.CompetitionData.performances[self.performanceId()];
 
@@ -186,13 +174,6 @@ var ScoreEntryViewModel = function (data) {
         scorepad_cookie_name += self.getScorePanelCookieName();
 
     } ()); //define it and run it; a startup script
-};
-
-var PerformanceModel = function (data) {
-    var self = this;
-    $.extend(self, data);
-
-    self.performanceTime = new Date(self.performanceTime);
 };
 
 var formatNumber = function (num) {
