@@ -1,10 +1,41 @@
 ﻿$(document).ready(function () {
     //console.log(AllStarScore);
-    AllStarScore.Scoring = new FiveJudgePanelViewModel(Input.Scoring); //assigned the data in the view
+    AllStarScore.Scoring = new AllStarScore.FiveJudgePanelViewModel(Input.Scoring); //assigned the data in the view
     AllStarScore.Scoring.scoreEntryUrl = Input.scoreEntryUrl;
+
+    AllStarScore.ScoringReports = new AllStarScore.ScoringReports();
 });
 
-var FiveJudgePanelViewModel = function (data) {
+AllStarScore.ScoringReports = function () {
+    var self = this;
+
+    if (AllStarScore.Scoring) {
+        self.panelJudges = _.pluck(AllStarScore.Scoring.panel.panelJudges, "id");
+        var judgeScores = AllStarScore.Scoring.panel.calculator.scores;
+        var division = AllStarScore.Scoring.performance.divisionIdWithoutCompanyId;
+        var level = AllStarScore.Scoring.performance.levelIdWithoutCompanyId;
+        var map = AllStarScore.ScoringMap.categories[division] || AllStarScore.ScoringMap.categories[level];
+
+        self.panel = AllStarScore.Scoring.performance.panel;
+
+        self.categories = $.map(map, function (category, key) {
+            var scores = {};
+
+            _.each(judgeScores, function (judge) {
+                var ok = _.contains(self.panelJudges, judge.judgeId);
+                if (ok) {
+                    scores[judge.judgeId] = judge.scores[key] ? judge.scores[key] : { base: 0.0, execution: 0.0, total: 0.0 };
+                }
+            });
+
+            return { key: key, display: category.display, scores: AllStarScore.Utilities.asArray(scores) };
+        });
+    }
+
+    console.log(self);
+};
+    
+AllStarScore.FiveJudgePanelViewModel = function (data) {
     var self = this;
 
     //sort the scores by judge - results in 1,2,3,D,L - Hackish, might need to keep the sorting in a document
@@ -17,8 +48,6 @@ var FiveJudgePanelViewModel = function (data) {
     self.performance = AllStarScore.CompetitionData.performances[self.performanceId];
     self.performance.scoringComplete = ko.observable(data.score.isScoringComplete);
     self.performance.didCompete = ko.observable(!data.score.didNotCompete);
-
-    //self.panel.calculator = ko.mapping.fromJS(self.panel.calculator);
 
     self.getTemplate = function () {
         var division = self.performance.divisionIdWithoutCompanyId;

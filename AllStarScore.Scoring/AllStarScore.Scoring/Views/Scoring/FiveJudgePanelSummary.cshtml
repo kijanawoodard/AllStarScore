@@ -97,6 +97,48 @@
     </nav>
 </div>
 
+<div id="scoring_reports" data-bind="with: $root.ScoringReports">
+	<table class="scoring">
+		<colgroup>
+		    <col/>
+        </colgroup>
+		<!--ko foreach: panelJudges-->
+		<colgroup>
+			<col span="3"/>
+            <col class="spacer"/>
+		</colgroup>
+        <!-- /ko -->
+		<thead>
+			<tr>
+				<th></th>
+				<!--ko foreach: panelJudges-->
+				<th colspan="3" data-bind="text: $root.ScoringReports.panel + $data"></th>
+                <th></th>
+				<!-- /ko -->
+			</tr>
+			<tr>
+				<th>Skills</th>
+				<!--ko foreach: panelJudges-->
+				<th>Base</th>
+				<th>Exec</th>
+				<th>Total</th>
+                <th></th>
+				<!-- /ko -->
+			</tr>
+		</thead>
+		<tbody data-bind="foreach: categories">
+			<tr>
+				<td data-bind="text: display"></td>
+				<!--ko foreach: scores-->
+				<td data-bind="text: base" class="numeric"></td>
+				<td data-bind="text: execution" class="numeric"></td>
+				<td data-bind="text: total" class="numeric"></td>
+                <td></td>
+				<!-- /ko -->
+			</tr>
+		</tbody>
+	</table>
+</div>
 <script>
     Input.scoreEntryUrl = '@Url.Action("ScoreEntry", "Scoring", new { performanceId = @Model.PerformanceId.ForScoringMvc(), judgeId = "REPLACE_THIS"})';
     Input.Scoring = JSON.parse('@Html.Raw(Model.ToJson())');

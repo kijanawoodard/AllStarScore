@@ -30,3 +30,11 @@
 
 #scoring_fivejudgepanel form p { font-size: 2em;margin-top: 0;}
 #scoring_fivejudgepanel form.scoring_open { overflow: hidden;}
+
+#scoring_reports table.scoring .spacer { width: 50px;}
+
+@media print 
+{
+	form, nav { display: none; }
+	#scoring_fivejudgepanel .score_summary { width: 45%; }
+}
