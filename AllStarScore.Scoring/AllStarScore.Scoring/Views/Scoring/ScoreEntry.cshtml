@@ -78,7 +78,7 @@
 </div>
 
 <script>
-    var scoringScoreEntryData = JSON.parse('@Html.Raw(Model.ToJson())');
+    var scoringScoreEntryData = JSON.parse(NormalizeLineEndings('@Html.Raw(Model.ToJson())'));
 </script>
 
 <script type="text/html" id="all_star_template">

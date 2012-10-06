@@ -151,12 +151,7 @@
 </div>
 <script>
     Input.scoreEntryUrl = '@Url.Action("ScoreEntry", "Scoring", new { performanceId = @Model.PerformanceId.ForScoringMvc(), judgeId = "REPLACE_THIS"})';
-    Input.Scoring = '@Html.Raw(Model.ToJson())';
-    //http://stackoverflow.com/questions/395379/problem-when-retrieving-text-in-json-format-containing-line-breaks-with-jquery
-    Input.Scoring = Input.Scoring.replace(/\r\n/g, '\\n');
-    Input.Scoring = Input.Scoring.replace(/\r/g, '\\n');
-    Input.Scoring = Input.Scoring.replace(/\n/g, '\\n');
-    Input.Scoring = JSON.parse(Input.Scoring);
+    Input.Scoring = JSON.parse(NormalizeLineEndings('@Html.Raw(Model.ToJson())'));
 </script>
 
 <script type="text/html" id="all_star_template">
