@@ -60,7 +60,7 @@ var FiveJudgePanelViewModel = function (data) {
         var form = $('#scoring_fivejudgepanel form.did_not_compete');
 
         form.ajaxPost({
-            data: ko.mapping.toJSON({ performanceId: self.performance.id }),
+            data: ko.mapping.toJSON({ performanceId: self.performance.id, divisionId: self.performance.divisionId, registrationId: self.performance.registrationId }),
             success: function (result) {
                 //console.log(ko.toJSON(result));
                 console.log('saved');
@@ -90,7 +90,7 @@ var FiveJudgePanelViewModel = function (data) {
         var form = $('#scoring_fivejudgepanel form.scoring_complete');
 
         form.ajaxPost({
-            data: ko.mapping.toJSON({ performanceId: self.performance.id, divisionId: self.performance.divisionId }),
+            data: ko.mapping.toJSON({ performanceId: self.performance.id, divisionId: self.performance.divisionId, registrationId: self.performance.registrationId }),
             success: function (result) {
                 //console.log(ko.toJSON(result));
                 console.log('saved');

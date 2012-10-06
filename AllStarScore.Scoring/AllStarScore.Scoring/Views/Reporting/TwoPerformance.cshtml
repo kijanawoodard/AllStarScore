@@ -8,12 +8,15 @@
 @{ Html.RegisterStylesheet("~/content/styles/reporting.twoperformance.css"); }
 @{ Html.RegisterScript("~/content/scripts/reporting.twoperformance.js"); }
 
-<div id="reporting_twoperformance" data-bind="with: $root.reportingViewModel">
+<div id="reporting_twoperformance" data-bind="with: $root.ReportingViewModel">
     <h3>Divisions</h3>
     <!-- ko template: { name: 'group_template', data: reporting.divisions } --><!-- /ko -->
     
-    <h3>Levels</h3>
-    <!-- ko template: { name: 'group_template', data: reporting.levels } --><!-- /ko -->
+	<div class="levels">
+		<h3>Levels</h3>
+		<!-- ko template: { name: 'group_template', data: reporting.levels } --><!-- /ko -->
+	</div>
+
 @*    <pre data-bind="text: ko.toJSON($root, null, 2)" class="ko_output"></pre>*@
 </div>
 
@@ -28,7 +31,7 @@
         <li>
             <h4>
                 <span data-bind="text: scores()[0].levelName()"></span>
-                <span data-bind="text: scores()[0].divisionName()"></span>
+                <span data-bind="text: scores()[0].divisionName()" class="division_name"></span>
             </h4>
             <table>
                 <thead>

@@ -73,12 +73,23 @@ namespace AllStarScore.Scoring.Models
 	public class PerformanceScore : IGenerateMyId
 	{
 		public string PerformanceId { get; set; }
-		public string LevelId { get; set; }
+		public string RegistrationId { get; set; }
 		public string DivisionId { get; set; }
+
 		public decimal TotalScore { get; set; }
 		public Dictionary<string, Decimal> Scores { get; set; }
 		public bool IsScoringComplete { get; set; }
 		public bool DidNotCompete { get; set; }
+
+		public bool IsFirstPerformance
+		{
+			get { return PerformanceId.EndsWith("/1"); }
+		}
+
+		public bool IsSecondPerformance
+		{
+			get { return PerformanceId.EndsWith("/2"); }
+		}
 
 		public PerformanceScore()
 		{
@@ -100,6 +111,8 @@ namespace AllStarScore.Scoring.Models
 
 		public void Update(MarkTeamScoringCompleteCommand command)
 		{
+			PerformanceId = command.PerformanceId;
+			RegistrationId = command.RegistrationId;
 			DivisionId = command.DivisionId;
 			IsScoringComplete = true;
 		}
@@ -112,6 +125,8 @@ namespace AllStarScore.Scoring.Models
 		public void Update(MarkTeamDidNotCompeteCommand command)
 		{
 			PerformanceId = command.PerformanceId;
+			RegistrationId = command.RegistrationId;
+			DivisionId = command.DivisionId;
 			DidNotCompete = true;
 		}
 

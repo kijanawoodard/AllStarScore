@@ -103,7 +103,22 @@ namespace AllStarScore.Scoring.Models
         public string DivisionId { get; set; }
 
         public List<decimal> PerformanceScores { get; set; }
-        public decimal TotalScore { get { return PerformanceScores.Sum(); } }
+		public decimal TotalScore
+		{
+			get
+			{
+				if (PerformanceScores.Count == 0)
+					return 0.0M;
+
+				var first = PerformanceScores[0]*FirstScorePercentage;
+
+				if (PerformanceScores.Count == 1)
+					return first;
+
+				var second = PerformanceScores[1] * SecondScorePercentage;
+				return first + second;
+			} 
+		}
 
         public string GymName { get; set; }
         public string TeamName { get; set; }
@@ -119,37 +134,33 @@ namespace AllStarScore.Scoring.Models
         public bool DidNotCompete { get; set; }
         public bool ScoringComplete { get; set; }
 
+		public decimal FirstScorePercentage { get; set; }
+		private decimal SecondScorePercentage {get { return 1.0M - FirstScorePercentage; }}
+
         public TeamScore()
         {
             PerformanceScores = new List<decimal>();
+        	FirstScorePercentage = 0.5M;
         }
     }
 
-    //creates TeamScore records from performances
+    //creates TeamScore records from performance scores
     public class TeamScoreGenerator
     {
         public IEnumerable<TeamScore> From(IEnumerable<PerformanceScore> scores, CompetitionInfo info)
         {
-        	var performances =
-        		info.Registrations
-					.SelectMany(r => r.GetPerformances(info.Competition))
-					.ToList();
-
         	var result =
         		scores
         			.Select(s =>
         			{
-        				var performance =
-							performances.First(x => x.Id == s.PerformanceId);
-
         				var registration =
-        					info.Registrations.First(x => x.Id == performance.RegistrationId);
+        					info.Registrations.First(x => x.Id == s.RegistrationId);
 
         				var gym =
         					info.Gyms.First(x => x.Id == registration.GymId);
 
         				var division =
-        					info.Divisions.First(x => x.Id == performance.DivisionId);
+        					info.Divisions.First(x => x.Id == s.DivisionId);
 
         				var level =
         					info.Levels.First(x => x.Id == division.LevelId);

@@ -7,6 +7,7 @@ namespace AllStarScore.Models
     public class CompetitionInfo
     {
         public string Id { get { return Competition.Id; } }
+		public Decimal FirstPerformancePercentage { get; set; }
 
         public Company Company { get; set; }
 		public List<Level> Levels { get; set; }
@@ -15,5 +16,10 @@ namespace AllStarScore.Models
 		public Competition Competition { get; set; }
 		public Schedule Schedule { get; set; }
 		public List<Registration> Registrations { get; set; }
+
+    	public CompetitionInfo()
+    	{
+    		FirstPerformancePercentage = 0.5M;
+    	}
     }
 }

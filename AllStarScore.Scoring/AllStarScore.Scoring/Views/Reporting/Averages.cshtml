@@ -6,7 +6,7 @@
 <div id="reporting_averages" data-bind="with: AveragesViewModel">
     
     <h3>Averages</h3>
-    <!-- ko template: { name: 'average_template', data: reporting } --><!-- /ko -->
+    <!-- ko template: { name: 'average_template', data: averages } --><!-- /ko -->
     
 @*    <pre data-bind="text: ko.toJSON($data, null, 2)" class="ko_output"></pre>*@
 </div>
@@ -16,8 +16,8 @@
 </script>
 
 <script type="text/html" id="average_template">
-    <ul data-bind="foreach: $data.asArray()">
-        <li data-bind="with: $parent.getScoring($data)">
+    <ul data-bind="foreach: AllStarScore.Utilities.asArray($data)">
+        <li data-bind="with: $root.AveragesViewModel.getScoring($data)">
             <h4>
                 <span data-bind="text: level"></span>
                 <span data-bind="text: division"></span>

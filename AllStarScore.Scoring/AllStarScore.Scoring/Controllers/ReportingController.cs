@@ -4,7 +4,6 @@ using System.Linq;
 using System.Web;
 using System.Web.Mvc;
 using AllStarScore.Models;
-using AllStarScore.Scoring.Infrastructure.Indexes;
 using AllStarScore.Scoring.Models;
 using AllStarScore.Scoring.ViewModels;
 using AllStarScore.Library.RavenDB;
@@ -23,8 +22,9 @@ namespace AllStarScore.Scoring.Controllers
         {
         	var performances =
         		RavenSession
-        			.LoadStartingWith<PerformanceScore>(id + "/scores/");
-
+        			.LoadStartingWith<PerformanceScore>(id + "/scores/")
+        			.Where(x => x.IsFirstPerformance);
+					
 			var info =
 				RavenSession
 					.Load<CompetitionInfo>(id);
@@ -43,15 +43,41 @@ namespace AllStarScore.Scoring.Controllers
         {
 			var performances =
 				RavenSession
-					.LoadStartingWith<PerformanceScore>(id + "/scores/");
+					.LoadStartingWith<PerformanceScore>(id + "/scores/")
+					.ToList();
 
 			var info =
 				RavenSession
 					.Load<CompetitionInfo>(id);
 
+        	var registrations =
+				info.Registrations
+					.Where(x => x.GetPerformances(info.Competition).Count() == 2)
+					.Select(x => x.Id)
+					.ToList();
+
+			performances = performances.Where(x => registrations.Contains(x.RegistrationId)).ToList();
+        	var firsts = performances.Where(x => x.IsFirstPerformance);
+        	var seconds = performances.Where(x => x.IsSecondPerformance);
+
             var calculator = new SmallGymRankingCalculator(); //TODO: indirect
             var generator = new TeamScoreGenerator();
-            var scores = generator.From(performances, info).Where(x => x.PerformanceScores.Count == 2);
+        	var scores = generator.From(firsts, info).ToList();
+			scores.ForEach(x =>
+			{
+				x.FirstScorePercentage = info.FirstPerformancePercentage;
+
+				var second = seconds.FirstOrDefault(s => s.RegistrationId == x.RegistrationId);
+				var total = 0.0M;
+				if (second != null)
+				{
+					//TODO: for worlds, switch division/level to "Worlds"
+					total = second.TotalScore;
+				}
+
+				x.PerformanceScores.Add(total);
+			});
+
             var reporting = new TeamScoreReporting(scores);
             reporting.Rank(calculator);
 
