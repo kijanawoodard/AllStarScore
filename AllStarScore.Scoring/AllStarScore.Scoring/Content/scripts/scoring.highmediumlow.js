@@ -1,6 +1,11 @@
 ﻿$(document).ready(function () {
     //console.log(AllStarScore);
-    AllStarScore.HighMediumLow = new AllStarScore.HighMediumLow(window.highMediumLowData);
+    $.getJSON(window.dataLink, function (data) {
+        console.log(data);
+        //window.highMediumLowData = JSON.parse(window.NormalizeLineEndings(data));
+    });
+
+    AllStarScore.HighMediumLow = new AllStarScore.HighMediumLow({ panelJudges: [], panel: {calculator: {scores: []}} });
 });
 
 AllStarScore.HighMediumLow = function (data) {
@@ -30,10 +35,14 @@ AllStarScore.HighMediumLow = function (data) {
                 scores[judge.judgeId].isLow = base > 0 && base <= .3;
                 scores[judge.judgeId].isMedium = base > .3 && base <= .6;
                 scores[judge.judgeId].isHigh = base > .6 && base <= .9;
-                scores[judge.judgeId].display = val.isLow ? "Low " : val.isMedium ? "Medium " : val.isHigh ? "High " : "";
+                scores[judge.judgeId].display = ko.observable(val.isLow ? "Low " : val.isMedium ? "Medium " : val.isHigh ? "High " : "");
             }
         });
 
-        return { key: key, display: category.display, scores: AllStarScore.Utilities.asArray(scores) };
+        return { key: key, display: category.display};//, scores: AllStarScore.Utilities.asArray(scores) };
+    });
+
+    $('#scoring_highmediumlow').on('click', 'button', function () {
+        AllStarScore.HighMediumLow.categories[0].scores[0].display("HAHAHAHHA");
     });
 };
