@@ -1,5 +1,5 @@
 ﻿$(document).ready(function () {
-    console.log(AllStarScore);
+    //console.log(AllStarScore);
     AllStarScore.Scoring = new AllStarScore.FiveJudgePanelViewModel(Input.Scoring); //assigned the data in the view
     AllStarScore.Scoring.scoreEntryUrl = Input.scoreEntryUrl;
 
@@ -30,7 +30,7 @@ AllStarScore.ScoringReports = function () {
                     scores[judge.judgeId] = judge.scores[key] ? judge.scores[key] : { base: 0.0, execution: 0.0, total: 0.0 };
                 }
             });
-            console.log(scores);
+            
             return { key: key, display: category.display, scores: AllStarScore.Utilities.asArray(scores) };
         });
     }

@@ -8,7 +8,7 @@ AllStarScore.ScoreEntryViewModel = function (data) {
     var self = this;
 
     ko.mapping.fromJS(data, {}, this);
-    console.log(self);
+    
     self.performance = AllStarScore.CompetitionData.performances[self.performanceId()];
 
     var getJudgeKey = function (id) {
@@ -147,14 +147,7 @@ AllStarScore.ScoreEntryViewModel = function (data) {
             var result = parseFloat(input.score.totalBase()) + parseFloat(input.score.totalExecution());
             return formatNumber(result);
         });
-
-        input.score.isGrandTotalBelowMin = ko.computed(function () {
-            return input.score.allBaseScoresInputted() && input.score.grandTotal() < input.score.minTotal();
-        });
-
-        input.score.isGrandTotalAboveMax = ko.computed(function () {
-            return input.score.allBaseScoresInputted() > 0 && input.score.grandTotal() > input.score.maxTotal();
-        });
+        
 
         input.score.minTotal = ko.computed(function () {
             var result = _.reduce(input.map, function (memo, category) {
@@ -170,6 +163,14 @@ AllStarScore.ScoreEntryViewModel = function (data) {
             return result;
         });
 
+        input.score.isGrandTotalBelowMin = ko.computed(function () {
+            return input.score.allBaseScoresInputted() && input.score.grandTotal() < input.score.minTotal();
+        });
+
+        input.score.isGrandTotalAboveMax = ko.computed(function () {
+            return input.score.allBaseScoresInputted() > 0 && input.score.grandTotal() > input.score.maxTotal();
+        });
+        
         //we will save scorepad settings in a cookie; establish the cookie name
         scorepad_cookie_name += self.getScorePanelCookieName();
 
@@ -237,7 +238,7 @@ var setupScorePad = function () {
     $(textboxes).keydown(function (evt) {
         var event = evt || window.event;
         var key = event.keyCode || event.which;
-
+        console.log(key);
         //move next on enter
         if (key == 13) {
             moveNext(this);
@@ -282,11 +283,11 @@ var setupScorePad = function () {
     });
 
     $(".scorepad table.low td").click(function () {
-        
+
         if (!active) {
             return;
         }
-        
+
         var low = $(this).text();
         var high = highPadSelected.text();
         var value = high + low;

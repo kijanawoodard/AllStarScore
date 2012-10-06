@@ -32,9 +32,9 @@
 #scoring_fivejudgepanel form p { font-size: 2em;margin-top: 0;}
 #scoring_fivejudgepanel form.scoring_open { overflow: hidden;}
 
-#scoring_reports table.scoring .spacer { width: 100px;}
-#scoring_reports table.scoring .spacer:last-of-type() { width: 0px;}
 #scoring_reports table.scoring { margin-bottom: 1em; }
+#scoring_reports table.scoring .spacer { width: 100px;}
+#scoring_reports table.scoring colgroup:last-of-type .spacer { width: 0px;}
 
 #scoring_reports .comments label { font-weight: bold;display: block;}
 #scoring_reports .comment { margin-bottom: 1em; }

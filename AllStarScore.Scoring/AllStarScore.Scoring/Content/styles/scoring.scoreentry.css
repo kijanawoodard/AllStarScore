@@ -8,7 +8,7 @@
 #scoring_scoreentry .header .judge span { background-color: #000;color: #fff;padding: 2px;font-weight: bold; }
 
 #scoring_scoreentry .score_entry { width: 70%;float: left;margin-right: 20px;}
-#scoring_scoreentry .score_entry.single_value_template { width: 15%;}
+#scoring_scoreentry .score_entry.single_value_template { width: 40%;}
 #scoring_scoreentry .score_entry.single_column_template { width: 40%;}
 
 #scoring_scoreentry .score_entry table { text-align: center;width: 100%; }
