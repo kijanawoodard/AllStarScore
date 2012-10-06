@@ -6,9 +6,9 @@ $(document).ready(function() {
 
 AllStarScore.ScoreEntryViewModel = function (data) {
     var self = this;
-    
-    ko.mapping.fromJS(data, {}, this);
 
+    ko.mapping.fromJS(data, {}, this);
+    console.log(self);
     self.performance = AllStarScore.CompetitionData.performances[self.performanceId()];
 
     var getJudgeKey = function (id) {

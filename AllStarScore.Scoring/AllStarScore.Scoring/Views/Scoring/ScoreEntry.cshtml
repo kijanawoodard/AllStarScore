@@ -22,55 +22,59 @@
         <div class="judge">Judge <span data-bind="text: panel + $root.ScoreEntry.score.judgeId()"></span></div>
     </div>
     
-    <form action='@Url.Action("ScoreEntry", "Scoring")' method="post">
-        <fieldset>
-            <legend>Score Entry</legend>
-            <div class="validation-summary-errors"></div>
+	<form action='@Url.Action("ScoreEntry", "Scoring")' method="post">
+		<fieldset>
+			<legend>Score Entry</legend>
+			<div class="validation-summary-errors"></div>
             
-            <div class="score_entry" data-bind="ko_cssClass: getTemplate">
-                <!-- ko template: { name: getTemplate, data: getScoring(performance, score), afterRender: onAfterRender } --><!-- /ko -->
-                <div class="controls">
-                    <span class="below_min" data-bind="visible: score.isGrandTotalBelowMin">The total score is below the minimum</span>
-                    <span class="above_max" data-bind="visible: score.isGrandTotalAboveMax">The total score is above the maximum</span>
-                    <br/>
-                    @Html.ActionLink("Cancel", "Summary", "Scoring", new { performanceId = @Model.PerformanceId.ForScoringMvc() }, new { })
-                    <button data-bind="click: save">Save</button>
-                </div>        
-            </div>
+			<div class="score_entry" data-bind="ko_cssClass: getTemplate">
+				<!-- ko template: { name: getTemplate, data: getScoring(performance, score), afterRender: onAfterRender } --><!-- /ko -->
+                <div class="comments">
+		            <label>Comments</label>
+		            <textarea data-bind="value: score.comments"></textarea>
+	            </div>
+				<div class="controls">
+					<span class="below_min" data-bind="visible: score.isGrandTotalBelowMin">The total score is below the minimum</span>
+					<span class="above_max" data-bind="visible: score.isGrandTotalAboveMax">The total score is above the maximum</span>
+					<br/>
+					@Html.ActionLink("Cancel", "Summary", "Scoring", new { performanceId = @Model.PerformanceId.ForScoringMvc() }, new { })
+					<button data-bind="click: save">Save</button>
+				</div>        
+			</div>
 
-            <div class="scorepad">
-                <table class="high">
-                    <tr><td>0</td></tr>
-                    <tr><td>1</td></tr>
-                    <tr><td>2</td></tr>
-                    <tr><td>3</td></tr>
-                    <tr><td>4</td></tr>
-                    <tr><td>5</td></tr>
-                    <tr><td>6</td></tr>
-                    <tr><td>7</td></tr>
-                    <tr><td>8</td></tr>
-                    <tr><td>9</td></tr>
-                    <tr><td>10</td></tr>
-                    <tr><td>11</td></tr>
-                    <tr><td>12</td></tr>
-                </table>
+			<div class="scorepad">
+				<table class="high">
+					<tr><td>0</td></tr>
+					<tr><td>1</td></tr>
+					<tr><td>2</td></tr>
+					<tr><td>3</td></tr>
+					<tr><td>4</td></tr>
+					<tr><td>5</td></tr>
+					<tr><td>6</td></tr>
+					<tr><td>7</td></tr>
+					<tr><td>8</td></tr>
+					<tr><td>9</td></tr>
+					<tr><td>10</td></tr>
+					<tr><td>11</td></tr>
+					<tr><td>12</td></tr>
+				</table>
         
-                <table class="low">
-                    <tr><td>.0</td></tr>
-                    <tr><td>.1</td></tr>
-                    <tr><td>.2</td></tr>
-                    <tr><td>.3</td></tr>
-                    <tr><td>.4</td></tr>
-                    <tr><td>.5</td></tr>
-                    <tr><td>.6</td></tr>
-                    <tr><td>.7</td></tr>
-                    <tr><td>.8</td></tr>
-                    <tr><td>.9</td></tr>
-                    <tr class="one"><td>1.0</td></tr>
-                </table>
-            </div>    
-        </fieldset>
-    </form>
+				<table class="low">
+					<tr><td>.0</td></tr>
+					<tr><td>.1</td></tr>
+					<tr><td>.2</td></tr>
+					<tr><td>.3</td></tr>
+					<tr><td>.4</td></tr>
+					<tr><td>.5</td></tr>
+					<tr><td>.6</td></tr>
+					<tr><td>.7</td></tr>
+					<tr><td>.8</td></tr>
+					<tr><td>.9</td></tr>
+					<tr class="one"><td>1.0</td></tr>
+				</table>
+			</div>    
+		</fieldset>
+	</form>
 </div>
 
 <script>

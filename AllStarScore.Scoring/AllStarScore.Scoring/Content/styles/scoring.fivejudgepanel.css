@@ -1,4 +1,5 @@
-﻿#scoring_fivejudgepanel .header { margin-bottom: 5px;overflow: hidden;}
+﻿#scoring_fivejudgepanel { overflow: hidden; margin-bottom: 15px; }
+#scoring_fivejudgepanel .header { margin-bottom: 5px;overflow: hidden;}
 #scoring_fivejudgepanel .header .company { font-size: 2em;float: left;}
 #scoring_fivejudgepanel .header .description { font-size: 2em;text-align: right;overflow: hidden;}
 #scoring_fivejudgepanel .header .name,
@@ -31,7 +32,13 @@
 #scoring_fivejudgepanel form p { font-size: 2em;margin-top: 0;}
 #scoring_fivejudgepanel form.scoring_open { overflow: hidden;}
 
-#scoring_reports table.scoring .spacer { width: 50px;}
+#scoring_reports table.scoring .spacer { width: 100px;}
+#scoring_reports table.scoring .spacer:last-of-type() { width: 0px;}
+#scoring_reports table.scoring { margin-bottom: 1em; }
+
+#scoring_reports .comments label { font-weight: bold;display: block;}
+#scoring_reports .comment { margin-bottom: 1em; }
+#scoring_reports .comment pre { margin: 0; }
 
 @media print 
 {

@@ -15,6 +15,8 @@ namespace AllStarScore.Scoring.Models
         public string JudgeId { get; set; }
 
         public Dictionary<string, ScoreEntry> Scores { get; set; }
+		public string Comments { get; set; }
+
         public decimal GrandTotal { get; set; }
 
         public decimal GrandTotalServer
@@ -40,6 +42,7 @@ namespace AllStarScore.Scoring.Models
         public JudgeScore()
         {
             Scores = new Dictionary<string, ScoreEntry>();
+        	Comments = string.Empty;
         }
 
         public JudgeScore(string performanceId, string judgeId) : this()
@@ -51,6 +54,7 @@ namespace AllStarScore.Scoring.Models
         public void Update(ScoreEntryUpdateCommand command)
         {
             Scores = command.Scores;
+        	Comments = command.Comments;
             GrandTotal = command.GrandTotal;
         }
 

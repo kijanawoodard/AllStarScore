@@ -74,17 +74,19 @@ namespace AllStarScore.Scoring.Controllers
             return Execute(
                 action: () =>
                 {
-                    var score =
-                        RavenSession
-							.Load<JudgeScore>(JudgeScore.FormatId(command.PerformanceId, command.JudgeId));
+                    var ps = GetPerformanceScore(command.PerformanceId);
 
                     var result = "";
-					if (false) //TODO: MARK (performance.ScoringComplete) //must have been sitting on the page; bail out and don't update the score
+					if (ps.IsScoringComplete) //must have been sitting on the page; bail out and don't update the score
                     {
 						result = Url.Action("Summary", "Scoring", new { performanceId = command.PerformanceId.ForScoringMvc() });
                     }
                     else
                     {
+						var score =
+						RavenSession
+							.Load<JudgeScore>(JudgeScore.FormatId(command.PerformanceId, command.JudgeId));
+
                         score.Update(command);
                         result = GetNextScoreEntryUrl(command.PerformanceId, command.JudgeId);  
                     }

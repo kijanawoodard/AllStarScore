@@ -34,6 +34,7 @@ namespace AllStarScore.Scoring.ViewModels
         public string JudgeId { get; set; }
 
         public Dictionary<string, ScoreEntry> Scores { get; set; }
+		public string Comments { get; set; }
         public decimal GrandTotal { get; set; }
 
         public string CommandByUser { get; set; }

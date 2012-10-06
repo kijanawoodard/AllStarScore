@@ -1,5 +1,5 @@
 ﻿$(document).ready(function () {
-    //console.log(AllStarScore);
+    console.log(AllStarScore);
     AllStarScore.Scoring = new AllStarScore.FiveJudgePanelViewModel(Input.Scoring); //assigned the data in the view
     AllStarScore.Scoring.scoreEntryUrl = Input.scoreEntryUrl;
 
@@ -17,6 +17,9 @@ AllStarScore.ScoringReports = function () {
         var map = AllStarScore.ScoringMap.categories[division] || AllStarScore.ScoringMap.categories[level];
 
         self.panel = AllStarScore.Scoring.performance.panel;
+        self.comments = $.map(judgeScores, function (score) {
+            return { judgeId: score.judgeId, comment: score.comments };
+        });
 
         self.categories = $.map(map, function (category, key) {
             var scores = {};
@@ -27,14 +30,12 @@ AllStarScore.ScoringReports = function () {
                     scores[judge.judgeId] = judge.scores[key] ? judge.scores[key] : { base: 0.0, execution: 0.0, total: 0.0 };
                 }
             });
-
+            console.log(scores);
             return { key: key, display: category.display, scores: AllStarScore.Utilities.asArray(scores) };
         });
     }
-
-    console.log(self);
 };
-    
+
 AllStarScore.FiveJudgePanelViewModel = function (data) {
     var self = this;
 
@@ -66,8 +67,11 @@ AllStarScore.FiveJudgePanelViewModel = function (data) {
             var scores = {};
 
             _.each(judgeScores, function (judge) {
+                scores[judge.judgeId] = judge.scores[key] ? judge.scores[key].total : 0;
+            });
 
-                scores[judge.judgeId] = judge.scores[key] ? judge.scores[key].total.toFixed(1) : 0;
+            _.each(panel.panelJudges, function (judge) {
+                scores[judge.id] = scores[judge.id] || 0;
             });
 
             return { key: key, display: category.display, scores: scores };
@@ -75,14 +79,13 @@ AllStarScore.FiveJudgePanelViewModel = function (data) {
 
         var grandTotal = {};
         _.each(judgeScores, function (judge) {
-            
             grandTotal[judge.judgeId] = judge.grandTotalServer;
         });
 
         _.each(panel.judges, function (judge) {
             grandTotal[judge.id] = grandTotal[judge.id] || 0;
         });
-        
+
         return { performance: performance, grandTotal: grandTotal, categories: categories, panelJudges: panel.panelJudges };
     };
 
