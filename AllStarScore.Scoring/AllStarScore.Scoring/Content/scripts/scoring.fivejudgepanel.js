@@ -9,31 +9,29 @@
 AllStarScore.ScoringReports = function () {
     var self = this;
 
-    if (AllStarScore.Scoring) {
-        self.panelJudges = _.pluck(AllStarScore.Scoring.panel.panelJudges, "id");
-        var judgeScores = AllStarScore.Scoring.panel.calculator.scores;
-        var division = AllStarScore.Scoring.performance.divisionIdWithoutCompanyId;
-        var level = AllStarScore.Scoring.performance.levelIdWithoutCompanyId;
-        var map = AllStarScore.ScoringMap.categories[division] || AllStarScore.ScoringMap.categories[level];
+    self.panelJudges = _.pluck(AllStarScore.Scoring.panel.panelJudges, "id");
+    var judgeScores = AllStarScore.Scoring.panel.calculator.scores;
+    var division = AllStarScore.Scoring.performance.divisionIdWithoutCompanyId;
+    var level = AllStarScore.Scoring.performance.levelIdWithoutCompanyId;
+    var map = AllStarScore.ScoringMap.categories[division] || AllStarScore.ScoringMap.categories[level];
 
-        self.panel = AllStarScore.Scoring.performance.panel;
-        self.comments = $.map(judgeScores, function (score) {
-            return { judgeId: score.judgeId, comment: score.comments };
+    self.panel = AllStarScore.Scoring.performance.panel;
+    self.comments = $.map(judgeScores, function (score) {
+        return { judgeId: score.judgeId, comment: score.comments };
+    });
+
+    self.categories = $.map(map, function (category, key) {
+        var scores = {};
+
+        _.each(judgeScores, function (judge) {
+            var ok = _.contains(self.panelJudges, judge.judgeId);
+            if (ok) {
+                scores[judge.judgeId] = judge.scores[key] ? judge.scores[key] : { base: 0.0, execution: 0.0, total: 0.0 };
+            }
         });
-
-        self.categories = $.map(map, function (category, key) {
-            var scores = {};
-
-            _.each(judgeScores, function (judge) {
-                var ok = _.contains(self.panelJudges, judge.judgeId);
-                if (ok) {
-                    scores[judge.judgeId] = judge.scores[key] ? judge.scores[key] : { base: 0.0, execution: 0.0, total: 0.0 };
-                }
-            });
             
-            return { key: key, display: category.display, scores: AllStarScore.Utilities.asArray(scores) };
-        });
-    }
+        return { key: key, display: category.display, scores: AllStarScore.Utilities.asArray(scores) };
+    });
 };
 
 AllStarScore.FiveJudgePanelViewModel = function (data) {

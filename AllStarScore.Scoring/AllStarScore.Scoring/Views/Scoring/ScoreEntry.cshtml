@@ -8,6 +8,9 @@
 @{ Html.RegisterStylesheet("~/content/styles/scoring.scoreentry.css"); }
 @{ Html.RegisterScript("~/content/scripts/scoring.scoreentry.js"); }
 
+@{ Html.RegisterStylesheet("~/content/styles/scoring.highmediumlow.css"); }
+@{ Html.RegisterScript("~/content/scripts/scoring.highmediumlow.js"); }
+
 <div id="scoring_scoreentry" data-bind="with: ScoreEntry">
     <div data-bind="with: performance" class="header">
         <div class="name">
@@ -76,6 +79,8 @@
 		</fieldset>
 	</form>
 </div>
+
+@{ Html.RenderAction("HighMediumLow", "Scoring", new { Model.PerformanceId }); }
 
 <script>
     var scoringScoreEntryData = JSON.parse(NormalizeLineEndings('@Html.Raw(Model.ToJson())'));

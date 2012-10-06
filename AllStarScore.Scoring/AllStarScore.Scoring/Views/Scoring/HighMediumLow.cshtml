@@ -1,0 +1,26 @@
+﻿@model AllStarScore.Scoring.ViewModels.HighMediumLowViewModel
+
+<div id="scoring_highmediumlow" data-bind="with: HighMediumLow">
+	<table class="scoring">
+		<thead>
+			<tr>
+				<th>Skills</th>
+				<!--ko foreach: panelJudges-->
+				<th data-bind="text: $root.HighMediumLow.panel + $data"></th>
+				<!-- /ko -->
+			</tr>
+		</thead>
+		<tbody data-bind="foreach: categories">
+			<tr>
+				<td data-bind="text: display"></td>
+				<!--ko foreach: scores-->
+				<td data-bind="text: display + base.toFixed(1), css: {low: isLow, medium: isMedium, high: isHigh }" class="numeric"></td>
+				<!-- /ko -->
+			</tr>
+		</tbody>
+	</table>
+
+</div>
+<script>
+    var highMediumLowData = JSON.parse(NormalizeLineEndings('@Html.Raw(Model.ToJson())'));
+</script>

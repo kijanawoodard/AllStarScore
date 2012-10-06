@@ -30,6 +30,15 @@ namespace AllStarScore.Scoring.Controllers
             return View("FiveJudgePanelSummary", model);
         }
 
+		[HttpGet, ChildActionOnly]
+		public ActionResult HighMediumLow(string performanceId)
+		{
+			var scores = GetScores(performanceId);
+			var panel = new FiveJudgePanel(scores);
+			var model = new HighMediumLowViewModel(panel);
+			return PartialView(model);
+		}
+
         private List<JudgeScore> GetScores(string performanceId)
         {
             var result =

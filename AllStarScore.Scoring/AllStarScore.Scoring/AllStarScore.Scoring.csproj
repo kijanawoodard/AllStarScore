@@ -265,6 +265,7 @@
     <Content Include="Content\scripts\reporting.twoperformance.js" />
     <Content Include="Content\scripts\scoresheets.index.js" />
     <Content Include="Content\scripts\scoring.fivejudgepanel.js" />
+    <Content Include="Content\scripts\scoring.highmediumlow.js" />
     <Content Include="Content\scripts\scoring.scoreentry.js" />
     <Content Include="Content\styles\competitionlayout.index.css" />
     <Content Include="Content\styles\competitionlayout.wrap.css" />
@@ -277,6 +278,7 @@
     <Content Include="Content\styles\reporting.twoperformance.css" />
     <Content Include="Content\styles\scoresheets.index.css" />
     <Content Include="Content\styles\scoring.fivejudgepanel.css" />
+    <Content Include="Content\styles\scoring.highmediumlow.css" />
     <Content Include="Content\styles\scoring.scoreentry.css" />
     <Content Include="Content\styles\site.css" />
     <Content Include="Content\styles\site.mobile.css" />
@@ -449,6 +451,9 @@
   </ItemGroup>
   <ItemGroup>
     <Content Include="Views\Shared\_LayoutCompetitionWrap.cshtml" />
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="Views\Scoring\HighMediumLow.cshtml" />
   </ItemGroup>
   <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
   <Import Project="$(MSBuildExtensionsPath32)\Microsoft\VisualStudio\v10.0\WebApplications\Microsoft.WebApplication.targets" />

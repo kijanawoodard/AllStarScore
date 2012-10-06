@@ -18,4 +18,14 @@ namespace AllStarScore.Scoring.ViewModels
         	Panel = panel;
         }
     }
+
+	public class HighMediumLowViewModel
+	{
+		public IJudgePanel Panel { get; set; }
+
+		public HighMediumLowViewModel(IJudgePanel panel)
+		{
+			Panel = panel;
+		}
+	}
 }
