@@ -1,15 +1,11 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Web;
 using System.Web.Mvc;
 using AllStarScore.Extensions;
 using AllStarScore.Library.RavenDB;
-using AllStarScore.Models;
-using AllStarScore.Scoring.Infrastructure.Indexes;
 using AllStarScore.Scoring.Models;
 using AllStarScore.Scoring.ViewModels;
-using Raven.Client.Linq;
 
 namespace AllStarScore.Scoring.Controllers
 {

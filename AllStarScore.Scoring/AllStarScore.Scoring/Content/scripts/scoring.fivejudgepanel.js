@@ -1,5 +1,5 @@
 ﻿$(document).ready(function () {
-    console.log(AllStarScore);
+    //console.log(AllStarScore);
     AllStarScore.Scoring = new FiveJudgePanelViewModel(Input.Scoring); //assigned the data in the view
     AllStarScore.Scoring.scoreEntryUrl = Input.scoreEntryUrl;
 });
@@ -7,6 +7,7 @@
 var FiveJudgePanelViewModel = function (data) {
     var self = this;
 
+    //sort the scores by judge - results in 1,2,3,D,L - Hackish, might need to keep the sorting in a document
     data.panel.calculator.scores = _.sortBy(data.panel.calculator.scores, function (judge) {
         return judge.judgeId;
     });
@@ -17,7 +18,7 @@ var FiveJudgePanelViewModel = function (data) {
     self.performance.scoringComplete = ko.observable(data.score.isScoringComplete);
     self.performance.didCompete = ko.observable(!data.score.didNotCompete);
 
-    self.panel.calculator = ko.mapping.fromJS(self.panel.calculator);
+    //self.panel.calculator = ko.mapping.fromJS(self.panel.calculator);
 
     self.getTemplate = function () {
         var division = self.performance.divisionIdWithoutCompanyId;
@@ -35,18 +36,18 @@ var FiveJudgePanelViewModel = function (data) {
         var categories = $.map(map, function (category, key) {
             var scores = {};
 
-            _.each(judgeScores(), function (judge) {
+            _.each(judgeScores, function (judge) {
 
-                scores[judge.judgeId()] = judge.scores[key] ? judge.scores[key].total().toFixed(1) : 0;
+                scores[judge.judgeId] = judge.scores[key] ? judge.scores[key].total.toFixed(1) : 0;
             });
 
             return { key: key, display: category.display, scores: scores };
         });
 
         var grandTotal = {};
-        _.each(judgeScores(), function (judge) {
+        _.each(judgeScores, function (judge) {
             
-            grandTotal[judge.judgeId()] = judge.grandTotalServer();
+            grandTotal[judge.judgeId] = judge.grandTotalServer;
         });
 
         _.each(panel.judges, function (judge) {

@@ -39,7 +39,7 @@
 	        <tbody>
 	            <tr>
 	                <th>Average</th>
-	                <td data-bind="text: panel.calculator.averagePanelScore().toFixed(3)"></td>
+	                <td data-bind="text: panel.calculator.averagePanelScore.toFixed(3)"></td>
 	            </tr>
 	            <!-- ko with: getScoring(performance, panel) -->
 	            <tr>
@@ -53,12 +53,12 @@
 	            <!-- /ko -->
 	            <tr>
 	                <th>Final Score</th>
-	                <td data-bind="text: panel.calculator.finalScore().toFixed(3)"></td>
+	                <td data-bind="text: panel.calculator.finalScore.toFixed(3)"></td>
 	            </tr>
 	        </tbody>
 	    </table>
 	        
-	    <form action='@Url.Action("MarkTeamDidNotCompete", "Scoring")' method="post" class="did_not_compete" data-bind="visible: panel.calculator.scores().length == 0">
+	    <form action='@Url.Action("MarkTeamDidNotCompete", "Scoring")' method="post" class="did_not_compete" data-bind="visible: panel.calculator.scores.length == 0">
 	        <fieldset>
 	            <legend>Did Not Compete</legend>
 	            <div class="validation-summary-errors"></div>
@@ -66,7 +66,7 @@
 	        </fieldset>
 	    </form>
 	        
-	    <form action='@Url.Action("MarkTeamScoringComplete", "Scoring")' method="post" class="scoring_complete" data-bind="visible: panel.calculator.scores().length == 5 && !performance.scoringComplete()">
+	    <form action='@Url.Action("MarkTeamScoringComplete", "Scoring")' method="post" class="scoring_complete" data-bind="visible: panel.calculator.scores.length == 5 && !performance.scoringComplete()">
 	        <fieldset>
 	            <legend>Scoring Complete</legend>
 	            <div class="validation-summary-errors"></div>
