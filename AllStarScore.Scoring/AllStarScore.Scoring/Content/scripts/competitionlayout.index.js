@@ -29,6 +29,7 @@ AllStarScore.CompetitionData.ViewModel = function (data) {
     self.divisions = utilities.asObject(data.info.divisions);
     self.gyms = utilities.asObject(data.info.gyms);
     self.judges = utilities.asObject(data.judgePanel.judges);
+    self.panelJudges = _.pluck(_.where(self.raw.judges, { "responsibility": "judges-panel" }), "id");
     self.registrations = utilities.asObject(data.info.registrations);
     self.performances = utilities.asObject(data.performances);
 

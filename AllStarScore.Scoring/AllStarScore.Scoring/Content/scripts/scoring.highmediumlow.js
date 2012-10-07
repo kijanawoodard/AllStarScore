@@ -11,7 +11,7 @@
 AllStarScore.HighMediumLow = function (data) {
     var self = this;
 
-    self.panelJudges = _.pluck(data.panel.panelJudges, "id");
+    self.panelJudges = AllStarScore.CompetitionData.panelJudges;
     var performance = AllStarScore.ScoreEntry.performance;
     var judgeScores = data.panel.calculator.scores;
     var division = performance.divisionIdWithoutCompanyId;
@@ -39,7 +39,7 @@ AllStarScore.HighMediumLow = function (data) {
             }
         });
 
-        return { key: key, display: category.display};//, scores: AllStarScore.Utilities.asArray(scores) };
+        return { key: key, display: category.display }; //, scores: AllStarScore.Utilities.asArray(scores) };
     });
 
     $('#scoring_highmediumlow').on('click', 'button', function () {
