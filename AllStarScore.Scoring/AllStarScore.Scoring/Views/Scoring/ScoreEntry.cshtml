@@ -81,7 +81,7 @@
 </div>
 
 <div id="scoring_highmediumlow" data-bind="with: HighMediumLow">
-	<table class="scoring">
+	<table class="scoring" data-bind="visible: judgeScores().length > 0">
 		<thead>
 			<tr>
 				<th>Skills</th>
@@ -93,17 +93,17 @@
 		<tbody data-bind="foreach: categories">
 			<tr>
 				<td data-bind="text: display"></td>
-@*				<!--ko foreach: scores-->*@
-@*				<td data-bind="text: display() + base.toFixed(1), css: {low: isLow, medium: isMedium, high: isHigh }" class="numeric"></td>*@
-@*				<!-- /ko -->*@
+				<!--ko foreach: scores-->
+				<td data-bind="text: display() + base.toFixed(1), css: {low: isLow, medium: isMedium, high: isHigh }" class="numeric"></td>
+				<!-- /ko -->
 			</tr>
 		</tbody>
 	</table>
-    <button>Refresh</button>
+    <button>Refresh Guidance</button>
 </div>
 <script>
     var scoringScoreEntryData = JSON.parse(NormalizeLineEndings('@Html.Raw(Model.ToJson())'));
-    var dataLink = '@Url.Action("HighMediumLow", "Scoring", new { Model.PerformanceId })';
+    AllStarScore.HighMediumLowLink = '@Url.Action("HighMediumLow", "Scoring", new { Model.PerformanceId })';
 </script>
 
 <script type="text/html" id="all_star_template">
