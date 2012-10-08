@@ -60,8 +60,11 @@ namespace AllStarScore.Scoring.Controllers
         [HttpGet]
         public ActionResult ScoreEntry(ScoreEntryRequestModel request)
         {
-            if (!FiveJudgePanel.JudgeIds.Contains(request.JudgeId)) //HACK: pivot if more panel types; move to attribute?; good spot for Fubu
-                return RedirectToAction("Summary", "Scoring", new {request.PerformanceId});
+        	var ok = FiveJudgePanel.JudgeIds.Contains(request.JudgeId); //HACK: pivot if more panel types; move to attribute?; good spot for Fubu
+        	ok = ok && User.CanActAsJudge(request.JudgeId);
+
+            if (!ok)
+				return RedirectToAction("Summary", "Scoring", new { PerformanceId = request.PerformanceId.ForScoringMvc() });
 
             var score =
                 RavenSession
@@ -111,7 +114,7 @@ namespace AllStarScore.Scoring.Controllers
             var judges = FiveJudgePanel.JudgeIds.ToList(); //HACK: pivot if more panel types
 
             var result = "";
-            if (judgeId.Equals(judges.Last(), StringComparison.InvariantCultureIgnoreCase))
+            if (User.IsJudge() || judgeId.Equals(judges.Last(), StringComparison.InvariantCultureIgnoreCase))
             {
 				result = Url.Action("Summary", "Scoring", new { performanceId = performanceId.ForScoringMvc() });
             }

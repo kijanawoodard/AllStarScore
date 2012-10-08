@@ -270,6 +270,7 @@
     <Content Include="Content\scripts\scoring.fivejudgepanel.js" />
     <Content Include="Content\scripts\scoring.highmediumlow.js" />
     <Content Include="Content\scripts\scoring.scoreentry.js" />
+    <Content Include="Content\styles\account.login.css" />
     <Content Include="Content\styles\competitionlayout.index.css" />
     <Content Include="Content\styles\competitionlayout.wrap.css" />
     <Content Include="Content\styles\global.css" />
