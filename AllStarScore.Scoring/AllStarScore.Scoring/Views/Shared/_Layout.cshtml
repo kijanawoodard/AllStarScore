@@ -26,7 +26,8 @@
                 </div>
                 <div class="float-right">
                     <section id="login">
-@*                        @Html.Partial("_LoginPartial")*@
+						@*                        @Html.Partial("_LoginPartial")*@
+@*                        Signed in as @User.Identity.Name*@
                     </section>
                     <nav>
                         <ul id="menu">
@@ -34,7 +35,8 @@
 @*                            <li>@Html.ActionLink("About", "About", "Home")</li>*@
 @*                            <li>@Html.ActionLink("Contact", "Contact", "Home")</li>*@
 @*                            <li>@Html.ActionLink("Competitions", "Index", "Competition")</li>*@
-                            <li>@Html.ActionLink("Import", "Index", "Landing")</li>
+							<li>@Html.ActionLink("Import", "Index", "Landing")</li>
+                            <li>@Html.ActionLink("Sign Out " + User.Identity.Name, "LogOff", "Account")</li>
                         </ul>
                     </nav>
                 </div>

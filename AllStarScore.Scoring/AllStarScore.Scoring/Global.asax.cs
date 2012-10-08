@@ -31,7 +31,7 @@ namespace AllStarScore.Scoring
         public static void RegisterGlobalFilters(GlobalFilterCollection filters)
         {
             filters.Add(new HandleErrorAttribute());
-            //filters.Add(new CustomAuthorizeAttribute());
+            filters.Add(new CustomAuthorizeAttribute());
             filters.Add(new MothAction());
         }
 
@@ -49,6 +49,18 @@ namespace AllStarScore.Scoring
                 routeTemplate: "api/{controller}/{id}",
                 defaults: new { id = RouteParameter.Optional }
             );
+
+			routes.MapRoute(
+				name: null,
+				url: "login",
+				defaults: new { controller = "Account", action = "Login", performanceId = UrlParameter.Optional }
+			);
+
+			routes.MapRoute(
+				name: null,
+				url: "logoff",
+				defaults: new { controller = "Account", action = "LogOff", performanceId = UrlParameter.Optional }
+			);
 
             routes.MapRoute(
                 name: null,

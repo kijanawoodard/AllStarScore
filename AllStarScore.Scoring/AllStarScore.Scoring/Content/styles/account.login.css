@@ -1,0 +1,3 @@
+﻿#account_login section { margin-top: 2em; }
+#account_login form { display: inline; }
+#account_login form input[type="submit"] { padding: 10px 15px; }

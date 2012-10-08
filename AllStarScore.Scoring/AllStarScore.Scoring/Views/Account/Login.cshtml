@@ -1,0 +1,35 @@
+﻿@using AllStarScore.Scoring.Controllers
+@model dynamic
+
+@{
+	ViewBag.Title = "Sign In";
+}
+
+@{ Html.RegisterStylesheet("~/content/styles/account.login.css"); }
+
+<div id="account_login">
+	<h2>Sign In</h2>
+	
+	<section>
+		<form action="@Url.Action("Login")" method="POST">
+			@Html.Hidden("username", @AccountController.Tabulator)
+			@Html.Hidden("returnurl", @Request.QueryString["returnurl"])
+			<input type="submit" value="@AccountController.Tabulator" />
+		</form>
+	</section>
+
+	@foreach(var panel in new[]{"A", "B"})
+	{
+        <section>
+		@foreach (var judge in new []{"1", "2", "3", "D", "L"})
+		{
+			<form action="@Url.Action("Login")" method="POST">
+				@Html.Hidden("username", panel + judge)
+				@Html.Hidden("returnurl", @Request.QueryString["returnurl"])
+				<input type="submit" value="@panel@judge" />
+			</form>
+        }
+	    </section>
+    }
+
+</div>
