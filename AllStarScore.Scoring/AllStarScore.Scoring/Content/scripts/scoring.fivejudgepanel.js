@@ -48,6 +48,19 @@ AllStarScore.FiveJudgePanelViewModel = function (data) {
     self.performance.scoringComplete = ko.observable(data.score.isScoringComplete);
     self.performance.didCompete = ko.observable(!data.score.didNotCompete);
 
+    self.entryLinks = ko.computed(function () {
+        var security = AllStarScore.CompetitionData.securityContext;
+        if (security.isTabulator) {
+            return _.pluck(self.panel.judges, "id");
+        }
+        
+        if (security.panel === self.performance.panel) {
+            return [security.judgeId];
+        }
+
+        return [];
+    }, self);
+
     self.getTemplate = function () {
         var division = self.performance.divisionIdWithoutCompanyId;
         var level = self.performance.levelIdWithoutCompanyId;

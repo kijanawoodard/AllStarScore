@@ -87,10 +87,10 @@
 	</form>
 
 	<nav data-bind="with: performance, visible: !performance.scoringComplete() && performance.didCompete()">
-        <ul data-bind="foreach: $parent.panel.judges">
+        <ul data-bind="foreach: $parent.entryLinks">
             <li>
-                <a data-bind="attr: { href: $root.Scoring.scoreEntryUrl.replace('REPLACE_THIS', $data.id) }">
-                    <span data-bind="text: $root.Scoring.performance.panel"></span><span data-bind="text: $data.id"></span>
+                <a data-bind="attr: { href: $root.Scoring.scoreEntryUrl.replace('REPLACE_THIS', $data) }">
+                    <span data-bind="text: $root.Scoring.performance.panel"></span><span data-bind="text: $data"></span>
                 </a>
             </li>
         </ul>

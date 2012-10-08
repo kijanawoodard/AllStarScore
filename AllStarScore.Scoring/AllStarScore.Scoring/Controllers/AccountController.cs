@@ -52,4 +52,23 @@ namespace AllStarScore.Scoring.Controllers
 			return target.IsTabulator() || target.Identity.Name.EndsWith(judgeid);
 		}
 	}
+
+	public class SecurityContext
+	{
+		public bool IsTabulator { get; private set; }
+		public bool IsJudge { get; private set; }
+
+		public string Id { get; private set; }
+		public string Panel { get; private set; }
+		public string JudgeId { get; private set; }
+		public SecurityContext()
+		{
+			var user = HttpContext.Current.User;
+			IsTabulator = user.IsTabulator();
+			IsJudge = user.IsJudge();
+			Id = user.Identity.Name;
+			Panel = IsJudge ? Id.Substring(0, 1) : "";
+			JudgeId = IsJudge ? Id.Substring(1, 1) : "";
+		}
+	}
 }

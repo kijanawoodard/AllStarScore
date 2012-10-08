@@ -1,6 +1,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using AllStarScore.Models;
+using AllStarScore.Scoring.Controllers;
 using AllStarScore.Scoring.Models;
 
 namespace AllStarScore.Scoring.ViewModels
@@ -12,6 +13,7 @@ namespace AllStarScore.Scoring.ViewModels
         public ScoringMap ScoringMap { get; set; }
 		public ScoreSheetMap ScoreSheetMap { get; set; }
 		public IJudgePanel JudgePanel { get; set; }
+		public SecurityContext SecurityContext { get; set; }
 
         public CompetitionLayoutIndexViewModel(CompetitionInfo info, ScoringMap scoringMap)
         {
@@ -26,6 +28,7 @@ namespace AllStarScore.Scoring.ViewModels
 					.ToList();
 
 			JudgePanel = new FiveJudgePanel(new List<JudgeScore>()); //TODO: If we need a different panel....
+			SecurityContext = new SecurityContext();
         }
     }
 }
