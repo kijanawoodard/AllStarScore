@@ -44,22 +44,14 @@
             </div>
             
             <div class="editor-label">
-                <label>Number of Performances</label>
+                <label>Each team Performs</label>
             </div>
             <div class="editor-field">
-                <label><input type="radio" name="competitionStyle" value="1" data-bind="checked: post.competitionStyle" /> One Performance</label>
-                <label><input type="radio" name="competitionStyle" value="2" data-bind="checked: post.competitionStyle" /> Two Performances</label>
+                <label><input type="radio" name="competitionStyle" value="1" data-bind="checked: post.competitionStyle" /> Once</label>
+                <label><input type="radio" name="competitionStyle" value="2" data-bind="checked: post.competitionStyle" /> Twice</label>
                 <label><input type="radio" name="competitionStyle" value="3" data-bind="checked: post.competitionStyle" /> Worlds Competition - Teams competiting to go to Worlds perform twice</label>
             </div>
             
-            <div class="editor-label">
-                <label>How many panels do you want? <span data-bind="text: post.panels().length"></span></label>
-            </div>
-            <div class="editor-field">
-                <div data-bind="ko_slider: { source: post.numberOfPanels, options: { step: 1, max: 6}}" class="slider"></div>
-                <span data-bind="text: post.panels"></span>
-            </div>
-
             <p>
                 @Html.ActionLink("Cancel", "Index", "Competition")
                 <input type="submit" value="Create Competition" />

@@ -14,7 +14,6 @@ namespace AllStarScore.Models.Commands
 
         public int NumberOfDays { get; set; }
         public int NumberOfPerformances { get; set; }
-        public int NumberOfPanels { get; set; }
         public bool IsWorldsCompetition { get; set; }
         
         public string CommandCompanyId { get; set; }
