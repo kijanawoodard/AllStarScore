@@ -4,6 +4,8 @@
     ViewBag.Title = "Divisions";
 }
 
+@{ Html.RegisterStylesheet("~/content/styles/level.details.css"); }
+
 <h2>Divisions for @Html.ActionLink(Model.Level.Name, "Index", "Level")</h2>
 
 <ul>

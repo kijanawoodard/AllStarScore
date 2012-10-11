@@ -255,6 +255,8 @@
     <Content Include="Content\styles\gym.details.css" />
     <Content Include="Content\styles\jquery-ui-timepicker-addon.css" />
     <Content Include="Content\styles\jquery.notify.css" />
+    <Content Include="Content\styles\level.details.css" />
+    <Content Include="Content\styles\level.index.css" />
     <Content Include="Content\styles\normalize.css" />
     <Content Include="Content\styles\registration.teams.css" />
     <Content Include="Content\styles\scheduling.edit.css" />
