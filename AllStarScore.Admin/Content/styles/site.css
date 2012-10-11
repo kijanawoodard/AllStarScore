@@ -347,6 +347,7 @@ fieldset {
         display: inline;
     }
 
+	input[type="text"],
     fieldset input[type="text"],
     fieldset input[type="password"] {
         border: 1px solid #e2e2e2;

@@ -23,6 +23,13 @@ namespace AllStarScore.Models
             this.RegisterCommand(command);
         }
 
+		public void Update(DivisionEditCommand command)
+        {
+            Name = command.Name;
+            
+            this.RegisterCommand(command);
+        }
+		
         public static string FormatId(string companyId)
         {
             return companyId + "/divisions";

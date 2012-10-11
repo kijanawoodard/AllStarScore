@@ -63,6 +63,8 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="CommandRegistrar.cs" />
+    <Compile Include="Commands\DivisionCreateCommand.cs" />
+    <Compile Include="Commands\DivisionEditCommand.cs" />
     <Compile Include="Commands\UserCreateCommand.cs" />
     <Compile Include="Commands\CompetitionCreateCommand.cs" />
     <Compile Include="Commands\GymCreateCommand.cs" />

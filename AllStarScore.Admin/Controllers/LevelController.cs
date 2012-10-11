@@ -6,6 +6,7 @@ using System.Web.Mvc;
 using AllStarScore.Admin.ViewModels;
 using AllStarScore.Models;
 using AllStarScore.Library.RavenDB;
+using AllStarScore.Models.Commands;
 
 namespace AllStarScore.Admin.Controllers
 {
@@ -37,15 +38,40 @@ namespace AllStarScore.Admin.Controllers
             return View(model);
         }
 
-//        public string All()
-//        {
-//            var divisions =
-//                RavenSession
-//                    .Query<Division>()
-//                    .ToList();
-//
-//            return Json(divisions, JsonRequestBehavior.AllowGet).Data as string;
-//        }
+		[HttpPost]
+		public JsonDotNetResult Details(DivisionCreateCommand command)
+		{
+			return Execute(
+				action: () =>
+				{
+					var division = new Division();
+					division.Update(command);
+					RavenSession.Store(division);
+					RavenSession.SaveChanges();
 
+					return new JsonDotNetResult(division);
+				});
+		}
+
+		
     }
+
+	public class DivisionController : RavenController
+	{
+		public JsonDotNetResult Edit(DivisionEditCommand command)
+		{
+			return Execute(
+				action: () =>
+				{
+					var division =
+						RavenSession.Load<Division>(command.Id);
+
+					division.Update(command);
+					RavenSession.Store(division);
+					RavenSession.SaveChanges();
+
+					return new JsonDotNetResult(division);
+				});
+		}
+	}
 }

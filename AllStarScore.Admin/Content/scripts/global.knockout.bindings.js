@@ -134,3 +134,34 @@ ko.bindingHandlers.fadeVisible = {
         ko.utils.unwrapObservable(value) ? $(element).fadeIn() : $(element).fadeOut();
     }
 };
+
+//wrapper for an observable that protects value until committed
+//http://jsfiddle.net/rniemeyer/xQr79/
+//http://www.knockmeout.net/2011/03/guard-your-model-accept-or-cancel-edits.html
+ko.protectedObservable = function (initialValue) {
+    //private variables
+    var _temp = initialValue;
+    var _actual = ko.observable(initialValue);
+
+    var result = ko.dependentObservable({
+        read: _actual,
+        write: function (newValue) {
+            _temp = newValue;
+        }
+    });
+
+    //commit the temporary value to our observable, if it is different
+    result.commit = function () {
+        if (_temp !== _actual()) {
+            _actual(_temp);
+        }
+    };
+
+    //notify subscribers to update their value with the original
+    result.reset = function () {
+        _actual.valueHasMutated();
+        _temp = _actual();
+    };
+
+    return result;
+};

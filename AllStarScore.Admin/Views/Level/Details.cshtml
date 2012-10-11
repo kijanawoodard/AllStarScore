@@ -5,15 +5,62 @@
 }
 
 @{ Html.RegisterStylesheet("~/content/styles/level.details.css"); }
+@{ Html.RegisterScript("~/content/scripts/level.details.js"); }
 
 <h2>Divisions for @Html.ActionLink(Model.Level.Name, "Index", "Level")</h2>
 
-<ul>
-@foreach(var division in Model.Divisions)
-{
-    <li>
-        @division.Name
-    </li>
-}
-</ul>
+<div id="level_details" data-bind="with: LevelDetails">
+	
+	<form action="@Url.Action("Details", "Level")" method="POST">
+		<fieldset>
+			<legend>Add Division</legend>
+            @Html.Hidden("LevelId", Model.Level.Id)
+			<input name="name" type="text" />
+            <button type="submit">Add Division</button>
+		</fieldset>
+	</form>
+    <table>
+    <thead>
+        <tr>
+            <th></th>
+            <th></th>
+			<th></th>
+        </tr>
+    </thead>
+   <tbody data-bind=" template:{name:templateToUse, foreach: sorted }"></tbody>
+</table>
+	<pre class="ko_output" data-bind="text: ko.toJSON($root, null, 2)"></pre>
+</div>
+
+<script id="itemTmpl" type="text/html">
+	<tr>
+		<td>
+			<span data-bind="text: name"></span>
+		</td>
+        <td>
+			<button data-bind="click: $parent.editItem">Edit</button>
+		</td>
+        <td>
+                @*<button data-bind="click: $parent.deleteItem">Delete</button>*@
+	    </td>
+    </tr>	
+</script>
+<script id="editTmpl" type="text/html">
+	<tr>
+		<td>
+			<input type="text" data-bind="value: name"/>	
+		</td>
+		<td>
+			<button data-bind="click: $parent.acceptItemEdit">Accept</button>
+		</td>
+		<td>
+            <button data-bind="click: $parent.cancelItemEdit">Cancel</button>
+	    </td>
+    </tr>		
+</script>
+
+<script>
+    var levelData = JSON.parse('@Html.Raw(Model.ToJson())');
+    var divisionEditLink = '@Url.Action("Edit", "Division")';
+</script>
 
