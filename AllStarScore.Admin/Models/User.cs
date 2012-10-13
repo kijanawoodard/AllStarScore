@@ -61,6 +61,20 @@ namespace AllStarScore.Admin.Models
             this.RegisterCommand(command);
         }
 
+		public void Update(ChangePasswordModel command)
+		{
+			SetPassword(command.NewPassword);
+	
+			this.RegisterCommand(command);
+		}
+
+		public void Update(SetPasswordModel command)
+		{
+			SetPassword(command.NewPassword);
+
+			this.RegisterCommand(command);
+		}
+
         public bool ValidatePassword(string maybePwd)
 		{
 			return HashedPassword == GetHashedPassword(maybePwd);

@@ -1,10 +1,12 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Net;
 using System.Web;
 using System.Web.Mvc;
 using System.Web.Security;
 using AllStarScore.Admin.Models;
+using AllStarScore.Models.Commands;
 
 namespace AllStarScore.Admin.Controllers
 {
@@ -54,29 +56,37 @@ namespace AllStarScore.Admin.Controllers
         //
         // POST: /Account/Login
 
+		private User GetAdmin()
+		{
+			return GetUser(Administrator, AdministratorCompany);
+		}
+
+		private User GetUser(string name, string company)
+		{
+			if (name == Administrator)
+			{
+				name = Administrator;
+				company = AdministratorCompany;
+			}
+
+			var unique =
+				RavenSession
+					.Include<UniqueUser>(x => x.UserId)
+					.Load<UniqueUser>(UniqueUser.GenerateUniqueName(company, name));
+
+			var user =
+				RavenSession.Load<User>(unique.UserId);
+
+			return user;
+		}
+
         [AllowAnonymous]
         [HttpPost]
         public ActionResult Login(LoginModel model)
         {
             if (ModelState.IsValid)
             {
-                var name = model.UserName;
-                if (name == Administrator)
-                {
-                    name = AllStarScore.Admin.Models.UniqueUser.GenerateUniqueName(AdministratorCompany, Administrator);
-                }
-                else
-                {
-                    //TODO: Load based on company id/username    
-                }
-
-                var unique =
-                    RavenSession
-						.Include<UniqueUser>(x => x.UserId)
-						.Load<AllStarScore.Admin.Models.UniqueUser>(name);
-
-            	var user =
-            		RavenSession.Load<User>(unique.UserId);
+                var user = GetUser(model.UserName, model.CommandCompanyId);
 
                 if (user != null && user.ValidatePassword(model.Password))
                 {
@@ -156,19 +166,23 @@ namespace AllStarScore.Admin.Controllers
         {
             if (ModelState.IsValid)
             {
-                // Attempt to register the user
-                MembershipCreateStatus createStatus;
-                Membership.CreateUser(model.UserName, model.Password, model.Email, passwordQuestion: null, passwordAnswer: null, isApproved: true, providerUserKey: null, status: out createStatus);
+				var command = new UserCreateCommand
+				{
+					Email = model.Email,
+					UserName = model.UserName,
+					Password = model.Password,
+					CommandCompanyId = model.CommandCompanyId,
+					CommandByUser = model.CommandByUser,
+					CommandWhen = model.CommandWhen
+				};
 
-                if (createStatus == MembershipCreateStatus.Success)
-                {
-                    FormsAuthentication.SetAuthCookie(model.UserName, createPersistentCookie: false);
-                    return RedirectToAction("Index", "Home");
-                }
-                else
-                {
-                    ModelState.AddModelError("", ErrorCodeToString(createStatus));
-                }
+				var user = new User();
+				user.Update(command);
+
+				RavenSession.Advanced.UseOptimisticConcurrency = true;
+				RavenSession.Store(user);
+				RavenSession.Store(UniqueUser.FromUser(user));
+				RavenSession.SaveChanges();
             }
 
             // If we got this far, something failed, redisplay form
@@ -191,33 +205,53 @@ namespace AllStarScore.Admin.Controllers
         {
             if (ModelState.IsValid)
             {
+				var user = GetUser(User.Identity.Name, model.CommandCompanyId);
 
-                // ChangePassword will throw an exception rather
-                // than return false in certain failure scenarios.
-                bool changePasswordSucceeded;
-                try
-                {
-                    MembershipUser currentUser = Membership.GetUser(User.Identity.Name, userIsOnline: true);
-                    changePasswordSucceeded = currentUser.ChangePassword(model.OldPassword, model.NewPassword);
-                }
-                catch (Exception)
-                {
-                    changePasswordSucceeded = false;
-                }
-
-                if (changePasswordSucceeded)
-                {
-                    return RedirectToAction("ChangePasswordSuccess");
-                }
-                else
-                {
-                    ModelState.AddModelError("", "The current password is incorrect or the new password is invalid.");
-                }
+				if (user != null && user.ValidatePassword(model.OldPassword))
+				{
+					user.Update(model);
+					RavenSession.SaveChanges();
+					return RedirectToAction("ChangePasswordSuccess");
+				}
+            	
+				ModelState.AddModelError("", "The current password is incorrect or the new password is invalid.");
             }
 
             // If we got this far, something failed, redisplay form
             return View(model);
         }
+
+		public ActionResult SetPassword()
+		{
+			return View();
+		}
+
+		[HttpPost]
+		public ActionResult SetPassword(SetPasswordModel model)
+		{
+			if (ModelState.IsValid)
+			{
+				var admin = GetAdmin();
+				if (admin == null  || User.Identity.Name != Administrator || !admin.ValidatePassword(model.YourPassword))
+				{
+					return new HttpStatusCodeResult(HttpStatusCode.Forbidden);
+				}
+
+				var user = GetUser(model.UserName, model.CommandCompanyId);
+
+				if (user != null)
+				{
+					user.Update(model);
+					RavenSession.SaveChanges();
+					return RedirectToAction("ChangePasswordSuccess");
+				}
+
+				ModelState.AddModelError("", "The user name is incorrect or the new password is invalid.");
+			}
+
+			// If we got this far, something failed, redisplay form
+			return View(model);
+		}
 
         //
         // GET: /Account/ChangePasswordSuccess

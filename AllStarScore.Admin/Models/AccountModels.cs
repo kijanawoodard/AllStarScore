@@ -4,11 +4,39 @@ using System.ComponentModel.DataAnnotations;
 using System.Globalization;
 using System.Web.Mvc;
 using System.Web.Security;
+using AllStarScore.Models.Commands;
 
 namespace AllStarScore.Admin.Models
 {
+	public class SetPasswordModel : ICommand, ICompanyCommand
+	{
+		[Required]
+		[DataType(DataType.Password)]
+		[Display(Name = "Your password")]
+		public string YourPassword { get; set; }
 
-    public class ChangePasswordModel
+		[Required]
+		[Display(Name = "User Name")]
+		public string UserName { get; set; }
+
+		[Required]
+		[StringLength(100, ErrorMessage = "The {0} must be at least {2} characters long.", MinimumLength = 6)]
+		[DataType(DataType.Password)]
+		[Display(Name = "New password")]
+		public string NewPassword { get; set; }
+
+		[DataType(DataType.Password)]
+		[Display(Name = "Confirm new password")]
+		[Compare("NewPassword", ErrorMessage = "The new password and confirmation password do not match.")]
+		public string ConfirmPassword { get; set; }
+
+		public string CommandCompanyId { get; set; }
+		public string CommandByUser { get; set; }
+		public DateTime CommandWhen { get; set; }
+	}
+
+
+	public class ChangePasswordModel : ICommand, ICompanyCommand
     {
         [Required]
         [DataType(DataType.Password)]
@@ -25,9 +53,13 @@ namespace AllStarScore.Admin.Models
         [Display(Name = "Confirm new password")]
         [Compare("NewPassword", ErrorMessage = "The new password and confirmation password do not match.")]
         public string ConfirmPassword { get; set; }
+
+		public string CommandCompanyId { get; set; }
+		public string CommandByUser { get; set; }
+		public DateTime CommandWhen { get; set; }
     }
 
-    public class LoginModel
+	public class LoginModel : ICompanyCommand
     {
         [Required]
         [Display(Name = "User Name")]
@@ -42,9 +74,11 @@ namespace AllStarScore.Admin.Models
         public bool RememberMe { get; set; }
 
         public string ReturnUrl { get; set; }
+
+		public string CommandCompanyId { get; set; }
     }
 
-    public class RegisterModel
+	public class RegisterModel : ICommand, ICompanyCommand
     {
         [Required]
         [Display(Name = "User name")]
@@ -65,5 +99,9 @@ namespace AllStarScore.Admin.Models
         [Display(Name = "Confirm password")]
         [Compare("Password", ErrorMessage = "The password and confirmation password do not match.")]
         public string ConfirmPassword { get; set; }
+
+		public string CommandCompanyId { get; set; }
+		public string CommandByUser { get; set; }
+		public DateTime CommandWhen { get; set; }
     }
 }
