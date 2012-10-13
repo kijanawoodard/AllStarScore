@@ -47,7 +47,14 @@ li .index { left: 0; top: 0; bottom: 0;padding: .4em 0; }
 
 .performances { overflow: hidden;}
 .scheduled { width: 100%;float: left;}
-.unscheduled {width: 50%;position: fixed;right: 0;background-color: #ddd;padding: 12px;border:2px solid #a0a0a0}
+.unscheduled, div.active {width: 50%;position: fixed;right: 0;background-color: #ddd;padding: 12px;border:2px solid #a0a0a0}
+
+div.active { width: 25%; }
+div.active .slider { width: 70% !important; }
+div.active > div { margin-bottom: 1em; }
+.scheduled li:hover .wrap { cursor: pointer;background-color: #ccffcc; }
+.scheduled li.chosen .wrap { cursor: pointer;background-color: #ccccff; }
+
 
 .display { line-height: inherit;}
 .display .group { height: 100%;display: inline-block;vertical-align: top;}

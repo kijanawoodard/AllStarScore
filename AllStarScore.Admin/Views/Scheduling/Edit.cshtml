@@ -60,14 +60,25 @@
                 <span data-bind="dateString: day, datePattern: 'dddd MMM dd, yyyy'"></span>
                 <a href="#" data-bind="click: $root.addBreak">Add Break</a>
                 <a href="#" data-bind="click: $root.addAwards">Add Awards</a>
-                <a href="#" data-bind="click: $root.addOpen">Add Open</a>
-                <ol data-bind="sortable: { template: 'scheduled-template', data: entries, options: { tolerance: 'pointer', placeholder: 'ui-state-highlight', handle: '.handle', containment: '.performances' } }" class="sortable"></ol>
+@*                <a href="#" data-bind="click: $root.addOpen">Add Open</a>*@
+				<ol data-bind="sortable: { template: 'scheduled-template', data: entries, options: { tolerance: 'pointer', placeholder: 'ui-state-highlight', handle: '.handle', containment: '.performances' } }" class="sortable"></ol>
             </div>
         </div>
-        <div class="unscheduled" data-bind="visible: unscheduled().length > 0">
-            <p><span data-bind="text: unscheduled().length"></span> performances haven't been scheduled</p>
-            <ol data-bind="sortable: { template: 'scheduled-template', data: unscheduled, options: { tolerance: 'pointer', placeholder: 'ui-state-highlight', handle: '.handle', containment: '.performances' } }" class="sortable"></ol>
-        </div>
+		<div class="unscheduled" data-bind="visible: unscheduled().length > 0">
+			<p><span data-bind="text: unscheduled().length"></span> performances haven't been scheduled</p>
+			<ol data-bind="sortable: { template: 'scheduled-template', data: unscheduled, options: { tolerance: 'pointer', placeholder: 'ui-state-highlight', handle: '.handle', containment: '.performances' } }" class="sortable"></ol>
+		</div>
+		<div class="active" data-bind="with: active, visible: active">
+			<div><span data-bind="text: type"></span> Duration? <span data-bind="text: duration"></span> minutes</div>
+			<div data-bind="ko_slider: { source: duration, options: { step: 1, max: max}}" class="slider"></div>
+			<div>
+				<button data-bind="click: $root.removeActive, visible: canRemove">Remove from Schedule</button>
+			</div>
+			<div>
+				<button data-bind="click: $root.saveActive">Save</button>
+				<button data-bind="click: $root.closeActive">Close</button>
+			</div>
+		</div>
     </div>
     
 	<form action='@Url.Action("Edit", "Scheduling")' method="post">
@@ -89,7 +100,7 @@
 </div>
 
 <script type="text/html" id="scheduled-template">
-    <li>
+    <li data-bind="click: $root.edit, css: { chosen: $root.chosen() === $data }">
         <div class="index" data-bind="text: $index() + 1 + '.'"></div>
         <div class="wrap ui-corner-all">
             <div class='handle'><span class='ui-icon ui-icon-star'></span></div>

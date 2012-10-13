@@ -33,7 +33,7 @@ AllStarScore.Scheduling.EntryModel = function (data) {
 };
 
 AllStarScore.Scheduling.ScheduleMapping = {
-    'include': [],
+    'include': ['duration'],
     'days': {
         create: function (options) {
             return new AllStarScore.Scheduling.DayModel(options.data);
@@ -56,7 +56,7 @@ AllStarScore.Scheduling.EditViewModel = function () {
 
     var data = AllStarScore.CompetitionData;
     self.performances = data.performances;
-    
+
     _.each(data.raw.divisions, function (division) {
         AllStarScore.Scheduling.ScheduleMapping.include.push(division.id); //skirt this issue: https://groups.google.com/forum/?fromgroups=#!topic/knockoutjs/QoubswdzIxI; this works because we know all the possible keys
     });
@@ -222,6 +222,63 @@ AllStarScore.Scheduling.EditViewModel = function () {
     self.displayOptions = ko.observable(false);
     self.toggleOptions = function () {
         self.displayOptions(!self.displayOptions());
+    };
+
+    self.active = ko.observable();
+    self.chosen = ko.observable();
+    self.activeOptions = function (entry) {
+        var isPerformance = entry.type() == "Performance";
+
+        var result = {
+            type: entry.type(),
+            duration: entry.duration || self.entryTypes[entry.type()].duration,
+            max: isPerformance ? 10 : 60,
+            canRemove: !isPerformance
+        };
+        result.duration = ko.observable(result.duration());
+        return result;
+    };
+
+    self.edit = function (entry) {
+        var edit = self.activeOptions(entry);
+        self.active(edit);
+        self.chosen(entry);
+    };
+
+    self.saveActive = function () {
+        var value = self.active().duration();
+        var duration = self.chosen().duration;
+        if (duration) {
+            duration(value);
+        }
+        else {
+            self.chosen().duration = ko.observable(value);
+        }
+
+        self.schedule.defaultDuration.valueHasMutated(); //hack to force schedule to update
+        //        self.closeActive();
+    };
+
+    self.closeActive = function () {
+        self.active(null);
+        self.chosen(null);
+    };
+
+    self.removeActive = function () {
+        removeEntry(self.chosen());
+        self.active(null);
+        self.chosen(null);
+    };
+
+    var removeEntry = function (target) {
+        target.removeMe = true;
+        _.each(self.schedule.days(), function (day) {
+            _.each(day.entries(), function (entry) {
+                if (entry.removeMe) {
+                    day.entries.remove(entry);
+                }
+            });
+        });
     };
 
     self.justSaved = ko.observable(false);
