@@ -23,7 +23,7 @@
         <header>
             <div class="content-wrapper">
                 <div class="float-left">
-                    <p class="site-title">@Html.Action("Name", "Company")</p>
+                    <p class="site-title">@{ Html.RenderAction("Name", "Company"); }</p>
                 </div>
                 <div class="float-right">
                     <section id="login">

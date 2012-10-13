@@ -182,6 +182,7 @@ namespace AllStarScore.Admin.Controllers
 				RavenSession.Store(user);
 				RavenSession.Store(UniqueUser.FromUser(user));
 				RavenSession.SaveChanges();
+            	return RedirectToAction("Register");
             }
 
             // If we got this far, something failed, redisplay form
