@@ -13,9 +13,9 @@ namespace AllStarScore.Admin.Controllers
 		[HttpGet, ChildActionOnly, AllowAnonymous]
         public ActionResult Name()
 		{
-			var company = new Company() {Name = "Setup Phase"};
+			var company = new Company() {Name = "Setup Phase"}; //This is only here for setting up a new company
 
-			if (CurrentCompanyId != null)
+			if (!string.IsNullOrWhiteSpace(CurrentCompanyId))
         		company = 
 					RavenSession.Load<Company>(CurrentCompanyId);
 
