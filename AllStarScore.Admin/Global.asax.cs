@@ -1,26 +1,11 @@
-﻿using System.Collections.Generic;
-using System.ComponentModel.Composition.Hosting;
-using System.Diagnostics;
-using System.Linq;
-using System.Reflection;
-using System.Web;
+﻿using System.Diagnostics;
 using System.Web.Http;
 using System.Web.Mvc;
 using System.Web.Routing;
-using AllStarScore.Admin.Controllers;
-using AllStarScore.Admin.Infrastructure.Indexes;
-using AllStarScore.Admin.Models;
-using AllStarScore.Library;
 using AllStarScore.Library.ModelBinding;
 using AllStarScore.Library.Moth;
-using AllStarScore.Models;
 using Moth.Core;
-using Raven.Abstractions.Data;
-using Raven.Client;
-using Raven.Client.Document;
-using Raven.Client.Indexes;
 using RouteMagic;
-using StructureMap;
 
 namespace AllStarScore.Admin
 {
