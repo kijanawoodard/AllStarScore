@@ -27,7 +27,12 @@ namespace AllStarScore.Admin.Controllers
             var model = new SuperAdminIndexViewModel();
             model.Domain = _tenants.GetKey(Request.Url);
             model.Company = _tenants.GetCompanyId(Request.Url);
-        	model.Token = RavenSession.Load<Synchronization>(Synchronization.FormatId(CurrentCompanyId)).Token;
+
+        	var sync = 
+				RavenSession.Load<Synchronization>(Synchronization.FormatId(CurrentCompanyId));
+        	
+			if (sync != null)
+				model.Token = sync.Token;
 
             return View(model);
         }
