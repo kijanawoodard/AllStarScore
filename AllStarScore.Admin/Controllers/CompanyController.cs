@@ -12,9 +12,12 @@ namespace AllStarScore.Admin.Controllers
     {
 		[HttpGet, ChildActionOnly, AllowAnonymous]
         public ActionResult Name()
-        {
-        	var company =
-        		RavenSession.Load<Company>(CurrentCompanyId);
+		{
+			var company = new Company() {Name = "Setup Phase"};
+
+			if (CurrentCompanyId != null)
+        		company = 
+					RavenSession.Load<Company>(CurrentCompanyId);
 
         	var model = new CompanyNameViewModel(company);
             return PartialView(model);
