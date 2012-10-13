@@ -10,7 +10,7 @@ namespace AllStarScore.Admin.Controllers
 {
     public class CompanyController : RavenController
     {
-		[HttpGet, ChildActionOnly]
+		[HttpGet, ChildActionOnly, AllowAnonymous]
         public ActionResult Name()
         {
         	var company =

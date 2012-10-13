@@ -17,7 +17,7 @@ namespace AllStarScore.Admin.Controllers
         //
         // GET: /Account/Login
 
-        [AllowAnonymous]
+        [HttpGet, AllowAnonymous]
         public ActionResult Login()
         {
             var model = new LoginModel();
