@@ -15,4 +15,14 @@
 
         return entry;
     };
-} ()); //by self execucting these, function are available without going specifying model
+
+    self.showPerformance = function (entry) {
+        
+        var context = AllStarScore.CompetitionData.securityContext;
+        if (context.isTabulator) {
+            return true;
+        }
+
+        return context.panel == entry.panel;
+    };
+} ());      //by self execucting these, function are available without going specifying model

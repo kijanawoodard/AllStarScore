@@ -14,7 +14,7 @@
 		    
 	    </ol>
     </div>
-	<pre data-bind="text: ko.toJSON($root, null, 2)" class="ko_output"></pre>
+@*	<pre data-bind="text: ko.toJSON($root, null, 2)" class="ko_output"></pre>*@
 </div>
 
 <script type="text/html" id="block-template">
@@ -25,7 +25,7 @@
 </script>
 
 <script type="text/html" id="performance-template">
-	<li data-bind="with: dataToUse($data)">
+	<li data-bind="with: dataToUse($data), visible: showPerformance($data)">
 		<span data-bind="dateString: time, datePattern: 'ddd h:mm tt'" class="when"></span>
 		<span class="name">
 			<a data-bind="attr: {href: $root.scoringUrl + id.replace(/\//g, '-')}">@* not happy with the replace ForMvc*@

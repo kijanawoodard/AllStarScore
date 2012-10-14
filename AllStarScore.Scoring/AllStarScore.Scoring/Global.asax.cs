@@ -132,7 +132,7 @@ namespace AllStarScore.Scoring
             IndexCreation.CreateIndexes(typeof(JudgeScoreIndex).Assembly, RavenController.DocumentStore);
         }
 
-        [Conditional("DEBUG")]
+//        [Conditional("DEBUG")]
         private void InitializeMothForDebugging()
         {
             MothAction.Initialize(new CustomMothProvider());
