@@ -58,11 +58,11 @@ namespace AllStarScore.Admin
             routes.Redirect(r => r.MapRoute("moth_jqueryui_images", "resources/css/images/{file}"))
                 .To(images);
 
-            routes.MapHttpRoute(
-                name: "DefaultApi",
-                routeTemplate: "api/{controller}/{id}",
-                defaults: new { id = RouteParameter.Optional }
-            );
+//            routes.MapHttpRoute(
+//                name: "DefaultApi",
+//                routeTemplate: "api/{controller}/{id}",
+//                defaults: new { id = RouteParameter.Optional }
+//            );
 
             routes.MapRoute(
                 name: null,
