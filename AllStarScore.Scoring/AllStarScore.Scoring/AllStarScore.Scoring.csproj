@@ -104,8 +104,9 @@
     <Reference Include="Raven.Storage.Managed">
       <HintPath>..\packages\RavenDB.Database.1.0.960\lib\net40\Raven.Storage.Managed.dll</HintPath>
     </Reference>
-    <Reference Include="RouteMagic">
-      <HintPath>..\packages\RouteMagic.0.2.2.2\lib\net40\RouteMagic.dll</HintPath>
+    <Reference Include="RouteMagic, Version=1.2.0.0, Culture=neutral, PublicKeyToken=84b59be021aa4cee, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\packages\RouteMagic.1.2\lib\net40\RouteMagic.dll</HintPath>
     </Reference>
     <Reference Include="RouteMagic.Mvc">
       <HintPath>..\packages\RouteMagic.Mvc.1.2\lib\net40\RouteMagic.Mvc.dll</HintPath>
@@ -316,7 +317,6 @@
     <Content Include="Content\themes\base\minified\jquery.ui.theme.min.css" />
     <Content Include="favicon.ico" />
     <Content Include="Global.asax" />
-    <Content Include="license.txt" />
     <Content Include="Raven.Studio.xap" />
     <Content Include="Scripts\jquery-1.6.2.js" />
     <Content Include="Scripts\jquery-1.6.2.min.js" />
