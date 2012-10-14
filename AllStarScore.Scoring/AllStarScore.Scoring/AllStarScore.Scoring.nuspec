@@ -1,0 +1,18 @@
+<?xml version="1.0"?>
+<package >
+  <metadata>
+    <id>$id$</id>
+    <version>$version$</version>
+    <title>$title$</title>
+    <authors>Kijana Woodard</authors>
+    <owners>Kijana Woodard</owners>
+    <licenseUrl>http://license.allstarscore.com</licenseUrl>
+    <projectUrl>http://signup.allstarscore.com</projectUrl>
+    <iconUrl>http://www.allstarscore.com/icon</iconUrl>
+    <requireLicenseAcceptance>false</requireLicenseAcceptance>
+    <description>$description$</description>
+    <releaseNotes>General Uppdates</releaseNotes>
+    <copyright>Copyright 2012</copyright>
+    <tags></tags>
+  </metadata>
+</package>
