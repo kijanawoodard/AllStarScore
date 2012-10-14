@@ -5,8 +5,8 @@ using System.Threading;
 using System.Web;
 using System.Web.Http;
 using System.Web.Mvc;
-using System.Web.Optimization;
 using System.Web.Routing;
+using System.Web.UI.WebControls;
 using AllStarScore.Library.ModelBinding;
 using AllStarScore.Library.Moth;
 using AllStarScore.Models;
@@ -44,11 +44,11 @@ namespace AllStarScore.Scoring
             routes.Redirect(r => r.MapRoute("moth_images", "resources/images/{file}"))
                 .To(images);
 
-            routes.MapHttpRoute(
-                name: "DefaultApi",
-                routeTemplate: "api/{controller}/{id}",
-                defaults: new { id = RouteParameter.Optional }
-            );
+//            routes.MapHttpRoute(
+//                name: "DefaultApi",
+//                routeTemplate: "api/{controller}/{id}",
+//                defaults: new { id = RouteParameter.Optional }
+//            );
 
 			routes.MapRoute(
 				name: null,
