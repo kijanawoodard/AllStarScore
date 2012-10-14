@@ -10,7 +10,7 @@ namespace AllStarScore.Admin.Controllers
 {
     public class CompanyController : RavenController
     {
-		[HttpGet, ChildActionOnly, AllowAnonymous]
+		[ChildActionOnly, AllowAnonymous]
         public ActionResult Name()
 		{
 			var company = new Company() {Name = "Setup Phase"}; //This is only here for setting up a new company

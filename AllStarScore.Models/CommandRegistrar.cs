@@ -6,6 +6,8 @@ namespace AllStarScore.Models
 {
     public static class CommandRegistrar
     {
+		public static readonly string AdministratorCompany = "allstarscore";
+
         public static void RegisterCommand(this ICanBeUpdatedByCommand document, ICommand command)
         {
             document.LastCommand = command.GetType().Name;
@@ -26,7 +28,10 @@ namespace AllStarScore.Models
             if (command.CommandCompanyId == null)
                 throw new ApplicationException(string.Format("Command doesn't have company id. {0}, {1}", command.GetType().Name, command.ToJson()));
 
-            if (document.CompanyId == command.CommandCompanyId)
+			if (document.CompanyId == AdministratorCompany) //HACK: allow updates of admin docs
+				return;
+
+			if (document.CompanyId == command.CommandCompanyId)
                 return;
 
             var msg = string.Format("Attempt to update different company. document: {0}. command {1}",
