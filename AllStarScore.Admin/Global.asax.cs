@@ -103,7 +103,7 @@ namespace AllStarScore.Admin
             ModelBinderProviders.BinderProviders.Insert(0, new RavenIdModelBinderProvider());
         }
 
-        [Conditional("DEBUG")]
+//        [Conditional("DEBUG")]
         private void InitializeMothForDebugging()
         {
             MothAction.Initialize(new CustomMothProvider());
