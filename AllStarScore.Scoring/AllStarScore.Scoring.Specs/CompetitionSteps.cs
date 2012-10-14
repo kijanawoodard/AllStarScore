@@ -46,42 +46,10 @@ namespace AllStarScore.Scoring.Specs
             Assert.AreEqual(date, _competition.LastDay);
         }
 
-        [When(@"I set the Number of Panels to (\d+)")]
-        public void WhenISetTheNumberOfPanelsTo(int numberOfPanels)
-        {
-            _competition.NumberOfPanels = numberOfPanels;
-        }
-
-        [Then(@"there should be (\d+) panels")]
-        public void ThenThereShouldBeNPanels(int numberOfPanels)
-        {
-            Assert.AreEqual(numberOfPanels, _competition.Panels.Count);
-        }
-
-        [Then(@"the panels should be (.*)")]
-        public void ThenThePanelsShouldBe(string panelList)
-        {
-            var panels = panelList.Split(new char[] {','}, StringSplitOptions.RemoveEmptyEntries).ToList();
-            Assert.AreEqual(panels.Count, _competition.Panels.Count);
-
-            for (int i = 0; i < panels.Count; i++)
-            {
-                panels[i] = panels[i].Trim();
-                Assert.AreEqual(panels[i], _competition.Panels[i]);
-            }
-        }
-
         [Then(@"the Number of Days should be (\d+)")]
         public void ThenTheNumberOfDaysShouldBe(int count)
         {
             Assert.AreEqual(count, _competition.NumberOfDays);
-        }
-
-        [Then(@"the Number of Panels should be (\d+)")]
-        public void ThenTheNumberOfPanelsShouldBe(int count)
-        {
-            Assert.AreEqual(count, _competition.NumberOfPanels);
-            Assert.AreEqual(count, _competition.Panels.Count);
         }
 
         [When(@"The Create Command is processed by Update")]
