@@ -45,4 +45,4 @@ table.tablesorter th.headerSortDown {
 
 .ko_output { clear: both;}
 
-pre { displayx: none;}
+.ko_output { display: none;}
