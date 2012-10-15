@@ -1,16 +1,14 @@
 ﻿$(document).ready(function () {
-    console.log(AllStarScore);
-//    console.log(window.detailsScoreSheetsData);
-    AllStarScore.ScoreSheets = new AllStarScore.ScoreSheetViewModel(window.detailsScoreSheetsData);
+//    console.log(AllStarScore);
+    AllStarScore.ScoreSheets = new AllStarScore.ScoreSheets(window.detailsScoreSheetsData);
 });
 
-AllStarScore.ScoreSheetViewModel = function () {
+AllStarScore.ScoreSheets = function () {
     var self = this;
 
     var competitionData = AllStarScore.CompetitionData;
     self.levels = competitionData.raw.levels;
     self.judges = competitionData.raw.judges;
-    var templates = AllStarScore.ScoreSheetMap.all;
 
     self.panels = ko.computed(function () {
         return _.map(_.range(competitionData.schedule.numberOfPanels), function (i) {
@@ -60,13 +58,8 @@ AllStarScore.ScoreSheetViewModel = function () {
     };
 
     self.getTemplate = function (performance, judge) {
-        var division = performance.divisionIdWithoutCompanyId;
-        var level = performance.levelIdWithoutCompanyId;
-        var map = templates[judge.responsibility]
-                        || templates[division]
-                        || templates[level];
-
-        return map;
+        var maps = AllStarScore.ScoringMap.getMaps(performance, judge);
+        return maps.scoreSheet;
     };
 
     return self;

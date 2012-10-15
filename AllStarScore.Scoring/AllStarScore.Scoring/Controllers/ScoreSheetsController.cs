@@ -12,7 +12,7 @@ namespace AllStarScore.Scoring.Controllers
                 RavenSession
                     .Load<CompetitionInfo>(id);
 
-            var model = new ScoreSheetsDetailsViewModel(import);
+            var model = new ScoreSheetsIndexViewModel(import);
             return View(model);
         }
     }

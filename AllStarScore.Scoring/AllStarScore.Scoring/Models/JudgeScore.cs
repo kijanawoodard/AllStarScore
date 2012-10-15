@@ -253,52 +253,49 @@ namespace AllStarScore.Scoring.Models
         }    
     }
 
-    public class ScoreSheetMap
+    public class ScoringMap
     {
-        public Dictionary<string, string> All
-        {
-            get
-            {
-                return new Dictionary<string, string>()
+		public Dictionary<string, string> ScoreSheets
+		{
+			get
+			{
+				return new Dictionary<string, string>()
                        {
-                           {"level/1", "levels-level1-template"},
-                           {"level/2", "levels-level2-template"},
-                           {"level/3", "levels-level3-template"},
-                           {"level/4", "levels-level4-template"},
-                           {"division-42", "division-42-template"},
-                           {"level/5", "levels-level5-template"},
-                           {"level/recreation", "levels-level5-template"},
-                           {"level/worlds", "levels-level5-template"},
-                           {"level/6", "levels-level6-template"},
-                           {"level/school", "levels-school-template"},
-                           {"division-jazz", "division-jazz-template"},
+                           {"scoring-level1", "levels-level1-template"},
+                           {"scoring-level2", "levels-level2-template"},
+                           {"scoring-level3", "levels-level3-template"},
+                           {"scoring-level4", "levels-level4-template"},
+                           {"scoring-division42", "division-42-template"},
+                           {"scoring-level5", "levels-level5-template"},
+                           {"scoring-recreation", "levels-level5-template"},
+                           {"scoring-worlds", "levels-level5-template"},
+                           {"scoring-level6", "levels-level6-template"},
+                           {"scoring-school", "levels-school-template"},
+                           {"scoring-division-jazz", "division-jazz-template"},
                            {"judges-deductions", "judges-deductions-template"},
                            {"judges-legalities", "judges-legalities-template"}
                        };
-            }
-        }
-    }
+			}
+		}
 
-    public class ScoringMap
-    {
         public Dictionary<string, string> Templates
         {
             get
             {
                 return new Dictionary<string, string>()
                        {
-                           {"level/1", "all_star_template"},
-                           {"level/2", "all_star_template"},
-                           {"level/3", "all_star_template"},
-                           {"level/4", "lall_star_template"},
-                           {"division-42", "all_star_template"},
-                           {"level/5", "all_star_template"},
-                           {"level/6", "all_star_template"},
-                           {"level/worlds", "all_star_template"},
-                           {"level/recreation", "all_star_template"},
-                           {"level/school", "single_column_template"},
-                           {"level/dance", "single_column_template"},
-                           {"division-jazz", "single_column_template"},
+                           {"scoring-level1", "all_star_template"},
+                           {"scoring-level2", "all_star_template"},
+                           {"scoring-level3", "all_star_template"},
+                           {"scoring-level4", "lall_star_template"},
+                           {"scoring-division42", "all_star_template"},
+                           {"scoring-level5", "all_star_template"},
+                           {"scoring-level6", "all_star_template"},
+                           {"scoring-worlds", "all_star_template"},
+                           {"scoring-recreation", "all_star_template"},
+                           {"scoring-school", "single_column_template"},
+                           {"scoring-dance", "single_column_template"},
+                           {"scoring-division-jazz", "single_column_template"},
                            {"judges-deductions", "single_value_template"},
                            {"judges-legalities", "single_value_template"}
                        };
@@ -311,9 +308,9 @@ namespace AllStarScore.Scoring.Models
             {
                 return new Dictionary<string, IScoringDefinition>()
                        {
-                           {"level/1", new Level1ScoringDefinition()},
-                           {"level/2", new Level2ScoringDefinition()},
-                           {"level/3", new Level3ScoringDefinition()},
+                           {"scoring-level1", new Level1ScoringDefinition()},
+                           {"scoring-level2", new Level2ScoringDefinition()},
+                           {"scoring-level3", new Level3ScoringDefinition()},
 //                           ,
 //                           {"level/4", "all-star-template"},
 //                           {"division-42", "all-star-template"},

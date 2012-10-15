@@ -11,17 +11,15 @@ AllStarScore.ScoringReports = function () {
 
     self.panelJudges = _.pluck(AllStarScore.Scoring.panel.panelJudges, "id");
     var judgeScores = AllStarScore.Scoring.panel.calculator.scores;
-    var division = AllStarScore.Scoring.performance.divisionIdWithoutCompanyId;
-    var level = AllStarScore.Scoring.performance.levelIdWithoutCompanyId;
-    var map = AllStarScore.ScoringMap.categories[division] || AllStarScore.ScoringMap.categories[level];
+    var maps = AllStarScore.ScoringMap.getMaps(AllStarScore.Scoring.performance);
 
     self.panel = AllStarScore.Scoring.performance.panel;
     self.comments = $.map(judgeScores, function (score) {
         return { judgeId: score.judgeId, comment: score.comments };
     });
 
-    self.categories = $.map(map, function (category, key) {
-        var scores = {};
+    self.categories = $.map(maps.categories, function (category, key) {
+        var scores = {}; //build up an object since; we need to skip some and this seems easier for some reason
 
         _.each(judgeScores, function (judge) {
             var ok = _.contains(self.panelJudges, judge.judgeId);
@@ -29,8 +27,10 @@ AllStarScore.ScoringReports = function () {
                 scores[judge.judgeId] = judge.scores[key] ? judge.scores[key] : { base: 0.0, execution: 0.0, total: 0.0 };
             }
         });
-            
-        return { key: key, display: category.display, scores: AllStarScore.Utilities.asArray(scores) };
+
+        scores = AllStarScore.Utilities.asArray(scores);
+        scores = _.pluck(scores, 'value');
+        return { key: key, display: category.display, scores: scores };
     });
 };
 
@@ -53,7 +53,7 @@ AllStarScore.FiveJudgePanelViewModel = function (data) {
         if (security.isTabulator) {
             return _.pluck(self.panel.judges, "id");
         }
-        
+
         if (security.panel === self.performance.panel) {
             return [security.judgeId];
         }
@@ -61,20 +61,12 @@ AllStarScore.FiveJudgePanelViewModel = function (data) {
         return [];
     }, self);
 
-    self.getTemplate = function () {
-        var division = self.performance.divisionIdWithoutCompanyId;
-        var level = self.performance.levelIdWithoutCompanyId;
-        var map = AllStarScore.ScoringMap.templates[division] || AllStarScore.ScoringMap.templates[level];
-        return map;
-    };
+    self.maps = AllStarScore.ScoringMap.getMaps(self.performance);
 
     self.getScoring = function (performance, panel) {
         var judgeScores = panel.calculator.scores;
-        var division = performance.divisionIdWithoutCompanyId;
-        var level = performance.levelIdWithoutCompanyId;
-        var map = AllStarScore.ScoringMap.categories[division] || AllStarScore.ScoringMap.categories[level];
 
-        var categories = $.map(map, function (category, key) {
+        var categories = $.map(self.maps.categories, function (category, key) {
             var scores = {};
 
             _.each(judgeScores, function (judge) {

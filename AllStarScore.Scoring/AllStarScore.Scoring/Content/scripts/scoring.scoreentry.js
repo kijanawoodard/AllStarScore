@@ -8,53 +8,33 @@ AllStarScore.ScoreEntryViewModel = function (data) {
     var self = this;
 
     ko.mapping.fromJS(data, {}, this);
-    
-    self.performance = AllStarScore.CompetitionData.performances[self.performanceId()];
 
-    var getJudgeKey = function (id) {
-        //not sure about this; but move ahead for now; refactor later
-        if (id == 'D')
-            return 'judges-deductions';
-        else if (id == 'L')
-            return 'judges-legalities';
-        else
-            return 'judges-panel';
-    };
+    self.performance = AllStarScore.CompetitionData.performances[self.performanceId()];
+    var judge = AllStarScore.CompetitionData.judges[self.score.judgeId()];
+    var maps = AllStarScore.ScoringMap.getMaps(self.performance, judge);
 
     self.getScorePanelCookieName = function () {
-        var judge = getJudgeKey(self.score.judgeId());
-        var division = getJudgeKey(self.performance.divisionId);
+        var division = 'nonsense'; // getJudgeKey(self.performance.divisionId);
         var level = self.performance.levelId;
-        var result = AllStarScore.ScoringMap.templates[judge] ? judge :
+        var result = AllStarScore.ScoringMap.templates[judge.responsibility] ? judge.responsibility :
                      AllStarScore.ScoringMap.templates[division] ? division :
                      level;
         return result;
     };
 
     self.getTemplate = function () {
-        var judge = getJudgeKey(self.score.judgeId());
-        var division = self.performance.divisionIdWithoutCompanyId;
-        var level = self.performance.levelIdWithoutCompanyId;
-        var map = AllStarScore.ScoringMap.templates[judge] || AllStarScore.ScoringMap.templates[division] || AllStarScore.ScoringMap.templates[level];
-        return map;
+        return maps.template;
     };
 
     //take parms to prepare for multiple renderings
     self.getScoring = function (performance, score) {
-        var judge = getJudgeKey(score.judgeId());
-        var division = performance.divisionIdWithoutCompanyId;
-        var level = performance.levelIdWithoutCompanyId;
-        var map = AllStarScore.ScoringMap.categories[judge] || AllStarScore.ScoringMap.categories[division] || AllStarScore.ScoringMap.categories[level];
-        //        console.log(judge);
-        //        console.log(division);
-        //        console.log(level);
-        //        console.log(map);
+
         //an array version for knockout foreach
-        var categories = $.map(map, function (category, key) {
+        var categories = $.map(maps.categories, function (category, key) {
             return { key: key, category: category };
         });
 
-        return { score: score, map: map, categories: categories };
+        return { score: score, categories: categories };
     };
 
     self.save = function () {
@@ -66,9 +46,7 @@ AllStarScore.ScoreEntryViewModel = function (data) {
                 //console.log(ko.toJSON(result));
                 //                console.log('saved');
                 //                $('.validation-summary-errors').empty();
-                console.log(result);
                 window.location = result;
-                console.log('hi');
             }
         });
     };
@@ -83,7 +61,10 @@ AllStarScore.ScoreEntryViewModel = function (data) {
         var input = self.getScoring(self.performance, self.score);
         var scores = input.score.scores;
 
-        $.each(input.map, function (key, category) {
+        _.each(input.categories, function (category) {
+            var key = category.key;
+            category = category.category;
+
             scores[key] = scores[key] || {};
             scores[key].base = scores[key].base || ko.observable();
             scores[key].execution = scores[key].execution || ko.observable();
@@ -147,18 +128,18 @@ AllStarScore.ScoreEntryViewModel = function (data) {
             var result = parseFloat(input.score.totalBase()) + parseFloat(input.score.totalExecution());
             return formatNumber(result);
         });
-        
+
 
         input.score.minTotal = ko.computed(function () {
-            var result = _.reduce(input.map, function (memo, category) {
-                return memo + category.min;
+            var result = _.reduce(input.categories, function (memo, value) {
+                return memo + value.category.min;
             }, 0);
             return result;
         });
 
         input.score.maxTotal = ko.computed(function () {
-            var result = _.reduce(input.map, function (memo, category) {
-                return memo + category.max;
+            var result = _.reduce(input.categories, function (memo, value) {
+                return memo + value.category.max;
             }, 0);
             return result;
         });
@@ -168,9 +149,9 @@ AllStarScore.ScoreEntryViewModel = function (data) {
         });
 
         input.score.isGrandTotalAboveMax = ko.computed(function () {
-            return input.score.allBaseScoresInputted() > 0 && input.score.grandTotal() > input.score.maxTotal();
+            return input.score.allBaseScoresInputted() && input.score.grandTotal() > input.score.maxTotal();
         });
-        
+
         //we will save scorepad settings in a cookie; establish the cookie name
         scorepad_cookie_name += self.getScorePanelCookieName();
 
@@ -238,7 +219,7 @@ var setupScorePad = function () {
     $(textboxes).keydown(function (evt) {
         var event = evt || window.event;
         var key = event.keyCode || event.which;
-        console.log(key);
+//        console.log(key);
         //move next on enter
         if (key == 13) {
             moveNext(this);

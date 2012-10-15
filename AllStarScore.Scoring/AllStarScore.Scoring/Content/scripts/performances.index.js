@@ -1,4 +1,8 @@
-﻿AllStarScore.PerformanceViewModel = (function () {
+﻿$(document).ready(function () {
+    AllStarScore.PerformanceViewModel = new AllStarScore.PerformanceViewModel();
+});
+
+AllStarScore.PerformanceViewModel = function () {
     var self = this;
 
     self.templateToUse = function (entry) {
@@ -17,7 +21,7 @@
     };
 
     self.showPerformance = function (entry) {
-        
+
         var context = AllStarScore.CompetitionData.securityContext;
         if (context.isTabulator) {
             return true;
@@ -25,4 +29,6 @@
 
         return context.panel == entry.panel;
     };
-} ());      //by self execucting these, function are available without going specifying model
+
+    return self;
+}; 

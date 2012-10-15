@@ -10,7 +10,7 @@
 
 <div id="performance_index" data-bind="with: CompetitionData">
 	<div data-bind="foreach: schedule.days">
-	    <ol data-bind="template: { name: templateToUse, foreach: entries }" class="performances">
+	    <ol data-bind="template: { name: $root.PerformanceViewModel.templateToUse, foreach: entries }" class="performances">
 		    
 	    </ol>
     </div>
@@ -18,14 +18,14 @@
 </div>
 
 <script type="text/html" id="block-template">
-	<li data-bind="with: dataToUse($data)">
+	<li data-bind="with: $root.PerformanceViewModel.dataToUse($data)">
 		<span data-bind="dateString: time, datePattern: 'ddd h:mm tt'" class="when"></span>
         <span data-bind="text: display"></span>
     </li>
 </script>
 
 <script type="text/html" id="performance-template">
-	<li data-bind="with: dataToUse($data), visible: showPerformance($data)">
+	<li data-bind="with: $root.PerformanceViewModel.dataToUse($data), visible: $root.PerformanceViewModel.showPerformance($data)">
 		<span data-bind="dateString: time, datePattern: 'ddd h:mm tt'" class="when"></span>
 		<span class="name">
 			<a data-bind="attr: {href: $root.scoringUrl + id.replace(/\//g, '-')}">@* not happy with the replace ForMvc*@

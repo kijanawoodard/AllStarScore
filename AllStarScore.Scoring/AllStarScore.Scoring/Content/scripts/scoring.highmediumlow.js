@@ -6,17 +6,16 @@
 AllStarScore.HighMediumLow = function () {
     var self = this;
 
-    self.panelJudges = AllStarScore.CompetitionData.panelJudges;
-    var performance = AllStarScore.ScoreEntry.performance;
     self.judgeScores = ko.observableArray();
-    var division = performance.divisionIdWithoutCompanyId;
-    var level = performance.levelIdWithoutCompanyId;
-    var map = AllStarScore.ScoringMap.categories[division] || AllStarScore.ScoringMap.categories[level];
+    self.panelJudges = AllStarScore.CompetitionData.panelJudges;
+
+    var performance = AllStarScore.ScoreEntry.performance;
+    var maps = AllStarScore.ScoringMap.getMaps(performance);
 
     self.panel = performance.panel;
 
     self.categories = ko.computed(function () {
-        var result = $.map(map, function (category, key) {
+        var result = $.map(maps.categories, function (category, key) {
             var scores = {};
 
             _.each(self.judgeScores(), function (judge) {
@@ -26,7 +25,7 @@ AllStarScore.HighMediumLow = function () {
                     var score = scores[judge.judgeId];
                     var base = score.base % 1; //http://stackoverflow.com/a/4512317/214073
                     base = base.toFixed(1);
-                    if (base > 0) console.log(base);
+                    
                     score.isLow = base > 0 && base < 0.4;
                     score.isMedium = base >= 0.4 && base < 0.7;
                     score.isHigh = base >= 0.7;
@@ -34,7 +33,10 @@ AllStarScore.HighMediumLow = function () {
                 }
             });
 
-            return { key: key, display: category.display, scores: AllStarScore.Utilities.asArray(scores) };
+            scores = AllStarScore.Utilities.asArray(scores);
+            scores = _.pluck(scores, 'value');
+
+            return { key: key, display: category.display, scores: scores };
         });
 
         return result;

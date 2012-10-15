@@ -182,7 +182,7 @@
     <Compile Include="ViewModels\LandingIndexViewModel.cs" />
     <Compile Include="ViewModels\PerformanceIndexViewModel.cs" />
     <Compile Include="ViewModels\ReportingIndexViewModel.cs" />
-    <Compile Include="ViewModels\ScoreSheetsDetailsViewModel.cs" />
+    <Compile Include="ViewModels\ScoreSheetsIndexViewModel.cs" />
     <Compile Include="ViewModels\ScoringFiveJudgePanelSummaryViewModel.cs" />
     <Compile Include="ViewModels\ScoringScoreEntryViewModel.cs" />
   </ItemGroup>

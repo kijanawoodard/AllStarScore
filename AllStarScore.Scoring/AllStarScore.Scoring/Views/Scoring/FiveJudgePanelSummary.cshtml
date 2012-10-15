@@ -21,7 +21,7 @@
 	    <div data-bind="dateString: time, datePattern: 'ddd h:mm tt'" class="when"></div>     
 	</div>
 	        
-	<!-- ko template: { name: getTemplate, data: getScoring(performance, panel) } --><!-- /ko -->
+	<!-- ko template: { name: maps.template, data: getScoring(performance, panel) } --><!-- /ko -->
 	    
 	<form action='@Url.Action("MarkTeamDidCompete", "Scoring")' method="post" class="did_compete"  data-bind="visible: !performance.didCompete()">
 	    <fieldset>

@@ -5,10 +5,10 @@ AllStarScore.Utilities = {
     asArray: function (obj) {
         var result = [];
         for (var key in obj) {
-            var node = _.extend({ key: key }, obj[key]);
+            var node = { key: key, value: obj[key] };
             result.push(node);
         }
-        
+
         return result;
     },
     asObject: function (array, keyFunc) {

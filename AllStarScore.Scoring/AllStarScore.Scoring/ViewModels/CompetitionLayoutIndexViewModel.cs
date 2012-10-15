@@ -11,7 +11,6 @@ namespace AllStarScore.Scoring.ViewModels
         public CompetitionInfo Info { get; set; }
 		public List<Performance> Performances { get; set; }
         public ScoringMap ScoringMap { get; set; }
-		public ScoreSheetMap ScoreSheetMap { get; set; }
 		public IJudgePanel JudgePanel { get; set; }
 		public SecurityContext SecurityContext { get; set; }
 
@@ -19,7 +18,6 @@ namespace AllStarScore.Scoring.ViewModels
         {
             Info = info;
 			ScoringMap = scoringMap;
-			ScoreSheetMap = new ScoreSheetMap();
 
 			Performances = 
 				info
