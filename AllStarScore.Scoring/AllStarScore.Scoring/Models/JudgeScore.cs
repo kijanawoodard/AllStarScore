@@ -400,7 +400,10 @@ namespace AllStarScore.Scoring.Models
 	{
 		public Level42ScoringDefinition() : base(6, 8)
 		{
+			StandardTumbling.Min = 4;
 			StandardTumbling.Max = 6;
+
+			RunningTumbling.Min = 4; 
 			RunningTumbling.Max = 6;
 		}
 	}
