@@ -70,7 +70,7 @@
                 <span data-bind="text: division"></span>
             </div>
             <div data-bind="dateString: time, datePattern: 'ddd h:mm tt'" class="when"></div>     
-            <div class="judge">Judge <span><span data-bind="text: $parents[3]"></span><span data-bind="text: $parents[3].id"></span></span></div>
+            <div class="judge">Judge <span><span data-bind="text: $parents[3]"></span><span data-bind="text: $parents[2].id"></span></span></div>
         </div>
         <!-- ko template: { name: $root.ScoreSheets.getTemplate($data, $parents[2]) } --><!-- /ko -->  
         <div class="footer">
@@ -619,93 +619,6 @@
     </table>
 </script>
 
-<script type="text/html" id="levels-level5-template">
-    <table class="scoresheet">
-        <thead>
-            <tr>
-                <th class="skills">Skills</th>
-                <th class="base">Base<br />Score</th>
-                <th class="execution">Execution/<br />Technique<br />0 - 1.0</th>
-                <th class="max">Max<br />Score</th>
-                <th class="comments">Comments</th>
-            </tr>
-        </thead>
-        <tbody>
-            <tr>
-                <td>Stunts</td>
-                <td></td>
-                <td></td>
-                <td>10</td>
-                <td class="comments" rowspan="12"></td>
-            </tr>
-            <tr>
-                <td>Pyramids</td>
-                <td></td>
-                <td></td>
-                <td>10</td>
-            </tr>
-            <tr>
-                <td>Tosses</td>
-                <td></td>
-                <td></td>
-                <td>10</td>
-            </tr>
-            <tr>
-                <td>Standing Tumbling</td>
-                <td></td>
-                <td></td>
-                <td>10</td>
-            </tr>
-            <tr>
-                <td>Running Tumbling</td>
-                <td></td>
-                <td></td>
-                <td>10</td>
-            </tr>
-            <tr>
-                <td>Jumps</td>
-                <td></td>
-                <td></td>
-                <td>10</td>
-            </tr>
-            <tr>
-                <td>Motions / Dance</td>
-                <td></td>
-                <td></td>
-                <td>10</td>
-            </tr>
-            <tr>
-                <td>Formations / Transitions</td>
-                <td></td>
-                <td></td>
-                <td>10</td>
-            </tr>
-            <tr>
-                <td>Performance</td>
-                <td></td>
-                <td class="void"></td>
-                <td>10</td>
-            </tr>
-            <tr>
-                <td>Skills Creativity</td>
-                <td></td>
-                <td class="void"></td>
-                <td>5</td>
-            </tr>
-            <tr>
-                <td>Routine Creativity</td>
-                <td></td>
-                <td class="void"></td>
-                <td>5</td>
-            </tr>
-            <tr>
-                <th colspan="2">Total</th>
-                <th></th>
-                <th>100</th>
-            </tr>
-        </tbody>
-    </table>
-</script>
 
 <script type="text/html" id="levels-school-template">
     <table class="scoresheet">
@@ -742,42 +655,35 @@
             <tr>
                 <td>Motion / Dance</td>
                 <td></td>
-                <td></td>
                 <td>10</td>
             </tr>
             <tr>
                 <td>Timing</td>
-                <td></td>
                 <td></td>
                 <td>10</td>
             </tr>
             <tr>
                 <td>Transitions</td>
                 <td></td>
-                <td></td>
                 <td>10</td>
             </tr>
             <tr>
                 <td>Performance</td>
                 <td></td>
-                <td class="void"></td>
                 <td>10</td>
             </tr>
             <tr>
                 <td>School Representation</td>
                 <td></td>
-                <td class="void"></td>
-                <td>5</td>
+                <td>10</td>
             </tr>
             <tr>
                 <td>>Overall Impression</td>
                 <td></td>
-                <td class="void"></td>
-                <td>5</td>
+                <td>10</td>
             </tr>
             <tr>
                 <th colspan="2">Total</th>
-                <th></th>
                 <th>100</th>
             </tr>
         </tbody>

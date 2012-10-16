@@ -271,7 +271,8 @@ namespace AllStarScore.Scoring.Models
                            {"scoring-worlds", "levels-level5-template"},
                            {"scoring-level6", "levels-level6-template"},
                            {"scoring-school", "levels-school-template"},
-                           {"scoring-division-jazz", "division-jazz-template"},
+                           {"scoring-dance", "levels-dance-template"},
+						   {"scoring-jazz", "division-jazz-template"},
                            {"judges-deductions", "judges-deductions-template"},
                            {"judges-legalities", "judges-legalities-template"}
                        };
@@ -295,7 +296,7 @@ namespace AllStarScore.Scoring.Models
                            {"scoring-recreation", "all_star_template"},
                            {"scoring-school", "single_column_template"},
                            {"scoring-dance", "single_column_template"},
-                           {"scoring-division-jazz", "single_column_template"},
+                           {"scoring-jazz", "single_column_template"},
                            {"judges-deductions", "single_value_template"},
                            {"judges-legalities", "single_value_template"}
                        };
@@ -311,15 +312,14 @@ namespace AllStarScore.Scoring.Models
                            {"scoring-level1", new Level1ScoringDefinition()},
                            {"scoring-level2", new Level2ScoringDefinition()},
                            {"scoring-level3", new Level3ScoringDefinition()},
-//                           ,
-//                           {"level/4", "all-star-template"},
-//                           {"division-42", "all-star-template"},
-//                           {"level/5", "all-star-template"},
-//                           {"level/recreation", "all-star-template"},
-//                           {"level/worlds", "all-star-template"},
-//                           {"level/6", "all-star-template"},
-//                           {"level/school", "levels-school-template"},
-//                           {"division-jazz", "division-jazz-template"},
+                           {"scoring-level4", new Level4ScoringDefinition()},
+                           {"scoring-division42", new Level42ScoringDefinition()},
+                           {"scoring-level5", new Level5ScoringDefinition()},
+                           {"scoring-recreation", new Level5ScoringDefinition()},
+                           {"scoring-worlds", new Level5ScoringDefinition()},
+                           {"scoring-level6", new Level6ScoringDefinition()},
+                           {"scoring-school", new SchoolScoringDefinition()},
+//                           {"scoring-jazz", "division-jazz-template"},
                            {"judges-deductions", new DeductionsScoringDefinition()},
                            {"judges-legalities", new LegalitiesScoringDefinition()}
                        };
@@ -391,6 +391,35 @@ namespace AllStarScore.Scoring.Models
         public Level3ScoringDefinition() : base(5, 7) { }
     }
 
+	public class Level4ScoringDefinition : AllStarScoringDefinition
+	{
+		public Level4ScoringDefinition() : base(6, 8) { }
+	}
+
+	public class Level42ScoringDefinition : AllStarScoringDefinition
+	{
+		public Level42ScoringDefinition() : base(6, 8)
+		{
+			StandardTumbling.Max = 6;
+			RunningTumbling.Max = 6;
+		}
+	}
+
+	public class Level5ScoringDefinition : AllStarScoringDefinition
+	{
+		public Level5ScoringDefinition() : base(8, 10) { }
+	}
+
+	public class Level6ScoringDefinition : AllStarScoringDefinition
+	{
+		public Level6ScoringDefinition() : base(8, 10)
+		{
+			Stunts.Max = 11;
+			Pyramids.Max = 11;
+			Tosses.Max = 11;
+		}
+	}
+
     public class DeductionsScoringDefinition : IScoringDefinition
     {
         public ScoringCategory Deductions { get; set; }
@@ -410,4 +439,32 @@ namespace AllStarScore.Scoring.Models
             Legalities = new ScoringCategory() { Display = "Legalities", Min = 0, Max = 20, IncludeExectionScore = false };
         }
     }
+
+	public class SchoolScoringDefinition : IScoringDefinition
+	{
+		public ScoringCategory Stunts { get; set; }
+		public ScoringCategory PyramidsTosses { get; set; }
+		public ScoringCategory Tumbling { get; set; }
+		public ScoringCategory Jumps { get; set; }
+		public ScoringCategory MotionsDance { get; set; }
+		public ScoringCategory Timing { get; set; }
+		public ScoringCategory Transitions { get; set; }
+		public ScoringCategory PerformanceCategory { get; set; }
+		public ScoringCategory SchoolRepresentation { get; set; }
+		public ScoringCategory OverallImpression { get; set; }
+
+		public SchoolScoringDefinition()
+		{
+			Stunts = new ScoringCategory { Display = "Stunts", Min = 0, Max = 10, IncludeExectionScore = false };
+			PyramidsTosses = new ScoringCategory { Display = "Pyramids / Tosses", Min = 0, Max = 10, IncludeExectionScore = false };
+			Tumbling = new ScoringCategory { Display = "Tumbling", Min = 0, Max = 10, IncludeExectionScore = false };
+			Timing = new ScoringCategory { Display = "Timing", Min = 0, Max = 10, IncludeExectionScore = false };
+			Jumps = new ScoringCategory { Display = "Jumps", Min = 0, Max = 10, IncludeExectionScore = false };
+			MotionsDance = new ScoringCategory { Display = "Motions / Dance", Min = 0, Max = 10, IncludeExectionScore = false };
+			Transitions = new ScoringCategory { Display = "Transitions", Min = 0, Max = 10, IncludeExectionScore = false };
+			PerformanceCategory = new ScoringCategory { Display = "Performance", Min = 0, Max = 10, IncludeExectionScore = false };
+			SchoolRepresentation = new ScoringCategory { Display = "School Representation", Min = 0, Max = 10, IncludeExectionScore = false };
+			OverallImpression = new ScoringCategory { Display = "Overall Impression", Min = 0, Max = 10, IncludeExectionScore = false };
+		}
+	}
 }
