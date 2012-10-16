@@ -164,6 +164,12 @@ namespace AllStarScore.Admin.Controllers
                                  Id = "individual",
                                  Name = "Individual",
                                  ScoringDefinition = "scoring-individual"
+                             },
+                             new Level
+                             {
+                                 Id = "specialneeds",
+                                 Name = "Special Needs",
+                                 ScoringDefinition = "scoring-level6"
                              }
                          };
 
