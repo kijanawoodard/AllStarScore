@@ -4,7 +4,8 @@
     var editForm = $('#team_registration form.edit');
 
     self.data = data;
-    self.divisions = data.divisions;
+    self.divisions = _(data.divisions).sortBy(function (division) { return division.label; });
+
     self.teams = ko.observableArray();
 
     self.getDivisionId = function (name) {
@@ -50,11 +51,8 @@
     });
 
     self.sortedTeams = ko.computed(function () {
-        return self.teams.slice().sort(function (a, b) {
-            return a.divisionName().toLowerCase() > b.divisionName().toLowerCase() ? 1 :
-                   a.divisionName().toLowerCase() < b.divisionName().toLowerCase() ? -1 :
-                   a.teamName().toLowerCase() > b.teamName().toLowerCase() ? 1 :
-                   a.teamName().toLowerCase() < b.teamName().toLowerCase() ? -1 : 0;
+        return _(self.teams.slice()).sortBy(function(team) {
+            return team.divisionName() + "\u0000" + team.teamName(); //https://github.com/documentcloud/underscore/issues/283
         });
     }, self);
 
