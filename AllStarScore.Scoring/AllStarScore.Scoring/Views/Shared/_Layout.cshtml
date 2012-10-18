@@ -18,67 +18,68 @@
         @Html.RenderCss()
         <meta name="viewport" content="initial-scale=1, maximum-scale=1">
     </head>
-    <body>
-        <header>
-            <div class="content-wrapper">
-                <div class="float-left">
-                    <p class="site-title">@Html.ActionLink("All Star Score", "Index", "Landing")</p>
-                </div>
-                <div class="float-right">
-                    <section id="login">
+	<body>
+@*		<img class="logo" src="~/Content/images/NuGetGallery.png" alt="logo" />*@
+		<header>
+			<div class="content-wrapper">
+				<div class="float-left">
+					<p class="site-title">@Html.ActionLink("All Star Score", "Index", "Landing")</p>
+				</div>
+				<div class="float-right">
+					<section id="login">
 						@*                        @Html.Partial("_LoginPartial")*@
-@*                        Signed in as @User.Identity.Name*@
-                    </section>
-                    <nav>
-                        <ul id="menu">
-@*                            <li>@Html.ActionLink("Home", "Index", "Home")</li>*@
-@*                            <li>@Html.ActionLink("About", "About", "Home")</li>*@
-@*                            <li>@Html.ActionLink("Contact", "Contact", "Home")</li>*@
-@*                            <li>@Html.ActionLink("Competitions", "Index", "Competition")</li>*@
+						@*                        Signed in as @User.Identity.Name*@
+					</section>
+					<nav>
+						<ul id="menu">
+							@*                            <li>@Html.ActionLink("Home", "Index", "Home")</li>*@
+							@*                            <li>@Html.ActionLink("About", "About", "Home")</li>*@
+							@*                            <li>@Html.ActionLink("Contact", "Contact", "Home")</li>*@
+							@*                            <li>@Html.ActionLink("Competitions", "Index", "Competition")</li>*@
 							<li>@Html.ActionLink("Import", "Index", "Landing")</li>
-                            <li>@Html.ActionLink("Sign Out " + User.Identity.Name, "LogOff", "Account")</li>
-                        </ul>
-                    </nav>
-                </div>
-            </div>
-        </header>
-        <div id="body">
-            @RenderSection("featured", required: false)
-            <section class="content-wrapper main-content clear-fix">
-                @RenderBody()
-            </section>
-        </div>
-        <footer>
-            <div class="content-wrapper">
-                <div class="float-left">
-                    <p>&copy; @DateTime.Now.Year - Executive Closing, Inc.</p>
-                </div>
-            </div>
-        </footer>
-@*        @Raven.Client.MvcIntegration.RavenProfiler.CurrentRequestSessions()*@
+							<li>@Html.ActionLink("Sign Out " + User.Identity.Name, "LogOff", "Account")</li>
+						</ul>
+					</nav>
+				</div>
+			</div>
+		</header>
+		<div id="body">
+			@RenderSection("featured", required: false)
+			<section class="content-wrapper main-content clear-fix">
+				@RenderBody()
+			</section>
+		</div>
+		<footer>
+			<div class="content-wrapper">
+				<div class="float-left">
+					<p>&copy; @DateTime.Now.Year - Executive Closing, Inc.</p>
+				</div>
+			</div>
+		</footer>
+		@*        @Raven.Client.MvcIntegration.RavenProfiler.CurrentRequestSessions()*@
 
-@*        <script src="//ajax.googleapis.com/ajax/libs/jquery/1.7.2/jquery.min.js"></script>*@
-@*        <script src="//ajax.googleapis.com/ajax/libs/jqueryui/1.8.21/jquery-ui.min.js"></script>*@
-        @{ Html.RegisterScript("~/content/scripts/lib/jquery-1.8.2.min.js", "global"); }
-        @{ Html.RegisterScript("~/content/scripts/lib/jquery-ui-1.8.20.min.js", "global"); }
+		@*        <script src="//ajax.googleapis.com/ajax/libs/jquery/1.7.2/jquery.min.js"></script>*@
+		@*        <script src="//ajax.googleapis.com/ajax/libs/jqueryui/1.8.21/jquery-ui.min.js"></script>*@
+		@{ Html.RegisterScript("~/content/scripts/lib/jquery-1.8.2.min.js", "global"); }
+		@{ Html.RegisterScript("~/content/scripts/lib/jquery-ui-1.8.20.min.js", "global"); }
         
-        @{ Html.RegisterScript("~/content/scripts/lib/jquery.validate.min.js", "global"); }
-        @{ Html.RegisterScript("~/content/scripts/lib/knockout-2.1.0.js", "global"); }
-        @{ Html.RegisterScript("~/content/scripts/lib/knockout.mapping-latest.js", "global"); }
-        @{ Html.RegisterScript("~/content/scripts/lib/knockout-sortable.js", "global"); }
-        @{ Html.RegisterScript("~/content/scripts/lib/jquery.tablesorter.min.js", "global"); }
-        @{ Html.RegisterScript("~/content/scripts/lib/date.js", "global"); }
-        @{ Html.RegisterScript("~/content/scripts/lib/jquery-ui-timepicker-addon.js", "global"); }
-        @{ Html.RegisterScript("~/content/scripts/lib/underscore-min.js", "global"); }
-        @{ Html.RegisterScript("~/content/scripts/lib/jquery.cookie.js", "global"); }
+		@{ Html.RegisterScript("~/content/scripts/lib/jquery.validate.min.js", "global"); }
+		@{ Html.RegisterScript("~/content/scripts/lib/knockout-2.1.0.js", "global"); }
+		@{ Html.RegisterScript("~/content/scripts/lib/knockout.mapping-latest.js", "global"); }
+		@{ Html.RegisterScript("~/content/scripts/lib/knockout-sortable.js", "global"); }
+		@{ Html.RegisterScript("~/content/scripts/lib/jquery.tablesorter.min.js", "global"); }
+		@{ Html.RegisterScript("~/content/scripts/lib/date.js", "global"); }
+		@{ Html.RegisterScript("~/content/scripts/lib/jquery-ui-timepicker-addon.js", "global"); }
+		@{ Html.RegisterScript("~/content/scripts/lib/underscore-min.js", "global"); }
+		@{ Html.RegisterScript("~/content/scripts/lib/jquery.cookie.js", "global"); }
         
-        @*my stuff below*@
-        @{ Html.RegisterScript("~/content/scripts/global.knockout.bindings.js", "global"); }
-        @{ Html.RegisterScript("~/content/scripts/global.tinypubsub.js", "global"); }
-        @{ Html.RegisterScript("~/content/scripts/global.ajax.js", "global"); }
-        @{ Html.RegisterScript("~/content/scripts/global.datepicker.js", "global"); }
+		@*my stuff below*@
+		@{ Html.RegisterScript("~/content/scripts/global.knockout.bindings.js", "global"); }
+		@{ Html.RegisterScript("~/content/scripts/global.tinypubsub.js", "global"); }
+		@{ Html.RegisterScript("~/content/scripts/global.ajax.js", "global"); }
+		@{ Html.RegisterScript("~/content/scripts/global.datepicker.js", "global"); }
 		@{ Html.RegisterScript("~/content/scripts/allstarscore.js", "global"); }
 
-        @Html.RenderScripts()
-    </body>
+		@Html.RenderScripts()
+	</body>
 </html>

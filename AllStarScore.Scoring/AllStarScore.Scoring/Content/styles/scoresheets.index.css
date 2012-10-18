@@ -119,4 +119,4 @@ fieldset.legalities             input {width:100px;margin: 0;padding: 0;}
 
 #competitionlayout_index { display: none; }
 
-@page {sizex: landscape; margin:0mm;}
+@page {size: landscape; margin:0mm;}

@@ -35,8 +35,12 @@ table.tablesorter th.headerSortDown {
 @media print 
 {
 	body  { border: none;-webkit-print-color-adjust:exact;}
-	#body { background-color: #fff;}
-	#body .main-content { background: none;}
+	#body { background-color: #fff; }
+	#body .main-content {
+		background: none; 
+		backgroundx: url(../images/NuGetGallery.png) repeat;
+	}
+	
 	body > header { display: none; }  
 	footer { display: none; background-color: #fff;background: none;}
 	
@@ -46,3 +50,11 @@ table.tablesorter th.headerSortDown {
 .ko_output { clear: both;}
 
 .ko_output { display: none;}
+
+.logo { position: fixed;top: 84px;left: 455px;}
+
+#body .main-content {
+	backgrounds: none;
+	backgrounds: url(../images / NuGetGallery.png);
+	background-repeats: repeat;
+}
