@@ -49,6 +49,6 @@ table.tablesorter th.headerSortDown {
 
 .ko_output { clear: both;}
 
-.ko_output { displayx: none;}
+.ko_output { display: none;}
 
 .logo { position: fixed;top: 84px;left: 455px;}
