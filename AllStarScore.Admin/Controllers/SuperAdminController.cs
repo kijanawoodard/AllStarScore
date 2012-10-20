@@ -342,9 +342,12 @@ namespace AllStarScore.Admin.Controllers
 
 			names = new[] { "Tiny", "Mini", "Youth", "Junior", "Senior" };
 			var levels = new[] { "clubcheerbeginner", "clubcheerintermediate", "clubcheeradvanced",
-								 "gamerecbeginner", "gamerecintermediate", "gamerecadvanced", 
-								 "cheerprep"};
+								 "gamerecbeginner", "gamerecintermediate", "gamerecadvanced"};
 			list = GenerateDivisionCommands(new[] { "" }, names, levels);
+			commands.AddRange(list);
+
+			var prepSuffixes = new[] {"Level 1", "Level 2", "Level 3"};
+			list = GenerateDivisionCommands(prepSuffixes, names, "cheerprep");
 			commands.AddRange(list);
 
 			names = new[] { "Elementary School", "Junior High", "High School Novice", "High School Intermediate", "High School Advanced" };
