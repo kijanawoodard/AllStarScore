@@ -69,6 +69,22 @@ namespace AllStarScore.Admin.Controllers
     	}
 
 		[HttpGet]
+		public ActionResult DeleteLevels(ResetLevelsCommand command)
+		{
+			if (command.CommandByUser != AccountController.Administrator)
+				return Content("Yes");
+
+			var levels =
+				RavenSession
+					.LoadStartingWith<Level>(Level.FormatId(CurrentCompanyId));
+
+			levels.ToList().ForEach(RavenSession.Delete);
+			RavenSession.SaveChanges();
+
+			return Content("Ok");
+		}
+
+		[HttpGet]
 		public ActionResult DeleteDivisions(ResetLevelsCommand command)
 		{
 			if (command.CommandByUser != AccountController.Administrator)
