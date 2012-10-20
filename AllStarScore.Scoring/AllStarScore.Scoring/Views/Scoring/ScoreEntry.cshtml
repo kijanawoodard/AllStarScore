@@ -32,10 +32,10 @@
             
 			<div class="score_entry" data-bind="ko_cssClass: getTemplate">
 				<!-- ko template: { name: getTemplate, data: getScoring(performance, score), afterRender: onAfterRender } --><!-- /ko -->
-                <div class="comments">
-		            <label>Comments</label>
-		            <textarea data-bind="value: score.comments"></textarea>
-	            </div>
+				<div class="comments">
+					<label>Comments</label>
+					<textarea data-bind="value: score.comments"></textarea>
+				</div>
 				<div class="controls">
 					<span class="below_min" data-bind="visible: score.isGrandTotalBelowMin">The total score is below the minimum</span>
 					<span class="above_max" data-bind="visible: score.isGrandTotalAboveMax">The total score is above the maximum</span>
@@ -78,9 +78,11 @@
 			</div>    
 		</fieldset>
 	</form>
+    
+	
 </div>
 
-<div id="scoring_highmediumlow" data-bind="with: HighMediumLow">
+<div id="scoring_highmediumlow" data-bind="with: $root.HighMediumLow">
 	<table class="scoring" data-bind="visible: judgeScores().length > -1">
 		<thead>
 			<tr>
@@ -99,8 +101,9 @@
 			</tr>
 		</tbody>
 	</table>
-    <button>Refresh Guidance</button>
+	<button>Refresh Guidance</button>
 </div>
+
 <script>
     var scoringScoreEntryData = JSON.parse(NormalizeLineEndings('@Html.Raw(Model.ToJson())'));
     AllStarScore.HighMediumLowLink = '@Url.Action("HighMediumLow", "Scoring", new { Model.PerformanceId })';
