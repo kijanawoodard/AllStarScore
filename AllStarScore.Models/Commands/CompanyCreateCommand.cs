@@ -7,4 +7,10 @@ namespace AllStarScore.Models.Commands
         public string CommandByUser { get; set; }
         public DateTime CommandWhen { get; set; }
     }
+
+	public class ResetLevelsCommand : ICommand
+	{
+		public string CommandByUser { get; set; }
+		public DateTime CommandWhen { get; set; }
+	}
 }

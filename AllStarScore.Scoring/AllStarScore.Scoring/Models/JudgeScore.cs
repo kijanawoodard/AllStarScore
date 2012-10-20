@@ -267,13 +267,14 @@ namespace AllStarScore.Scoring.Models
                            {"scoring-level4", "levels-level4-template"},
                            {"scoring-division42", "division-42-template"},
                            {"scoring-level5", "levels-level5-template"},
-                           {"scoring-recreation", "levels-level5-template"},
-                           {"scoring-worlds", "levels-level5-template"},
-                           {"scoring-level6", "levels-level6-template"},
+                           {"scoring-restricted5", "restricted5_template"},
+						   {"scoring-level6", "levels-level6-template"},
                            {"scoring-school", "levels-school-template"},
-                           {"scoring-dance", "levels-dance-template"},
-						   {"scoring-jazz", "division-jazz-template"},
-                           {"judges-deductions", "judges-deductions-template"},
+						   {"scoring-dance", "levels-dance-template"},
+						   
+						   {"scoring-dance-jazz", "division-jazz-template"},
+                           
+						   {"judges-deductions", "judges-deductions-template"},
                            {"judges-legalities", "judges-legalities-template"}
                        };
 			}
@@ -291,13 +292,14 @@ namespace AllStarScore.Scoring.Models
                            {"scoring-level4", "lall_star_template"},
                            {"scoring-division42", "all_star_template"},
                            {"scoring-level5", "all_star_template"},
-                           {"scoring-level6", "all_star_template"},
-                           {"scoring-worlds", "all_star_template"},
-                           {"scoring-recreation", "all_star_template"},
+                           {"scoring-restricted5", "all_star_template"},
+						   {"scoring-level6", "all_star_template"},
                            {"scoring-school", "single_column_template"},
                            {"scoring-dance", "single_column_template"},
-                           {"scoring-jazz", "single_column_template"},
-                           {"judges-deductions", "single_value_template"},
+                           
+						   {"scoring-dance-jazz", "single_column_template"},
+                           
+						   {"judges-deductions", "single_value_template"},
                            {"judges-legalities", "single_value_template"}
                        };
             }
@@ -315,12 +317,25 @@ namespace AllStarScore.Scoring.Models
                            {"scoring-level4", new Level4ScoringDefinition()},
                            {"scoring-division42", new Level42ScoringDefinition()},
                            {"scoring-level5", new Level5ScoringDefinition()},
-                           {"scoring-recreation", new Level5ScoringDefinition()},
-                           {"scoring-worlds", new Level5ScoringDefinition()},
+						   {"scoring-restricted5", new Level5SeniorRestrictedScoringDefinition()},
                            {"scoring-level6", new Level6ScoringDefinition()},
                            {"scoring-school", new SchoolScoringDefinition()},
-//                           {"scoring-jazz", "division-jazz-template"},
-                           {"judges-deductions", new DeductionsScoringDefinition()},
+						   
+						   {"scoring-dance-open", new DanceOpenScoringDefinition()},
+						   
+						   {"scoring-dance-jazz", new DanceJazzScoringDefinition()},
+						   {"scoring-dance-pom", new DancePomScoringDefinition()},
+						   {"scoring-dance-prop", new DanceOpenScoringDefinition()},
+						   {"scoring-dance-novelty", new DanceOpenScoringDefinition()},
+						   {"scoring-dance-ballet", new DanceOpenScoringDefinition()},
+						   {"scoring-dance-lyrical", new DanceOpenScoringDefinition()},
+
+						   {"scoring-dance-hiphop", new DanceHipHopScoringDefinition()},
+						   {"scoring-dance-crew", new DanceHipHopScoringDefinition()},
+						   
+						   {"scoring-dance-variety", new DanceVarietyScoringDefinition()},
+                           
+						   {"judges-deductions", new DeductionsScoringDefinition()},
                            {"judges-legalities", new LegalitiesScoringDefinition()}
                        };
             }
@@ -413,6 +428,14 @@ namespace AllStarScore.Scoring.Models
 		public Level5ScoringDefinition() : base(8, 10) { }
 	}
 
+	public class Level5SeniorRestrictedScoringDefinition : Level5ScoringDefinition
+	{
+		public Level5SeniorRestrictedScoringDefinition()
+		{
+			RunningTumbling.Max = 9;
+		}
+	}
+
 	public class Level6ScoringDefinition : AllStarScoringDefinition
 	{
 		public Level6ScoringDefinition() : base(8, 10)
@@ -468,6 +491,166 @@ namespace AllStarScore.Scoring.Models
 			PerformanceCategory = new ScoringCategory { Display = "Performance", Min = 0, Max = 10, IncludeExectionScore = false };
 			SchoolRepresentation = new ScoringCategory { Display = "School Representation", Min = 0, Max = 10, IncludeExectionScore = false };
 			OverallImpression = new ScoringCategory { Display = "Overall Impression", Min = 0, Max = 10, IncludeExectionScore = false };
+		}
+	}
+
+	public class DanceOpenScoringDefinition : IScoringDefinition
+	{
+		public ScoringCategory RoutineExecution { get; set; }
+		public ScoringCategory TechnicalSkills { get; set; }
+		public ScoringCategory VisualEffects { get; set; }
+		public ScoringCategory Staging { get; set; }
+		public ScoringCategory DegreeOfDifficulty { get; set; }
+		public ScoringCategory Uniformity { get; set; }
+		public ScoringCategory Choreography { get; set; }
+		public ScoringCategory PerformanceImpression { get; set; }
+
+		public DanceOpenScoringDefinition()
+		{
+			RoutineExecution = new ScoringCategory { Display = "Routine Execution", Min = 0, Max = 10, IncludeExectionScore = false };
+			TechnicalSkills = new ScoringCategory { Display = "Technical Skills", Min = 0, Max = 10, IncludeExectionScore = false };
+			VisualEffects = new ScoringCategory { Display = "Visual Effects", Min = 0, Max = 10, IncludeExectionScore = false };
+			Staging = new ScoringCategory { Display = "Staging", Min = 0, Max = 10, IncludeExectionScore = false };
+			DegreeOfDifficulty = new ScoringCategory { Display = "Difficulty", Min = 0, Max = 10, IncludeExectionScore = false };
+			Uniformity = new ScoringCategory { Display = "Uniformity", Min = 0, Max = 10, IncludeExectionScore = false };
+			Choreography = new ScoringCategory { Display = "Choreography", Min = 0, Max = 10, IncludeExectionScore = false };
+			PerformanceImpression = new ScoringCategory { Display = "Performance Impression", Min = 0, Max = 10, IncludeExectionScore = false };
+		}
+	}
+
+	public class DanceJazzScoringDefinition : IScoringDefinition
+	{
+		public ScoringCategory JazzTechnique { get; set; }
+		public ScoringCategory TurnTechnique { get; set; }
+		public ScoringCategory LeapTechnique { get; set; }
+		public ScoringCategory Staging { get; set; }
+		public ScoringCategory DegreeOfDifficulty { get; set; }
+		public ScoringCategory Uniformity { get; set; }
+		public ScoringCategory Choreography { get; set; }
+		public ScoringCategory PerformanceImpression { get; set; }
+
+		public DanceJazzScoringDefinition()
+		{
+			JazzTechnique = new ScoringCategory { Display = "Jazz Technique", Min = 0, Max = 10, IncludeExectionScore = false };
+			TurnTechnique = new ScoringCategory { Display = "Turn Technique", Min = 0, Max = 10, IncludeExectionScore = false };
+			LeapTechnique = new ScoringCategory { Display = "Leap Technique", Min = 0, Max = 10, IncludeExectionScore = false };
+			Staging = new ScoringCategory { Display = "Staging", Min = 0, Max = 10, IncludeExectionScore = false };
+			DegreeOfDifficulty = new ScoringCategory { Display = "Difficulty", Min = 0, Max = 10, IncludeExectionScore = false };
+			Uniformity = new ScoringCategory { Display = "Uniformity", Min = 0, Max = 10, IncludeExectionScore = false };
+			Choreography = new ScoringCategory { Display = "Choreography", Min = 0, Max = 10, IncludeExectionScore = false };
+			PerformanceImpression = new ScoringCategory { Display = "Performance Impression", Min = 0, Max = 10, IncludeExectionScore = false };
+		}
+	}
+
+	public class DancePomScoringDefinition : IScoringDefinition
+	{
+		public ScoringCategory PomTechnique { get; set; }
+		public ScoringCategory TechnicalSkills { get; set; }
+		public ScoringCategory VisualEffects { get; set; }
+		public ScoringCategory Staging { get; set; }
+		public ScoringCategory DegreeOfDifficulty { get; set; }
+		public ScoringCategory Uniformity { get; set; }
+		public ScoringCategory Choreography { get; set; }
+		public ScoringCategory PerformanceImpression { get; set; }
+
+		public DancePomScoringDefinition()
+		{
+			PomTechnique = new ScoringCategory { Display = "Pom Technique", Min = 0, Max = 10, IncludeExectionScore = false };
+			TechnicalSkills = new ScoringCategory { Display = "Technical Skills", Min = 0, Max = 10, IncludeExectionScore = false };
+			VisualEffects = new ScoringCategory { Display = "Visual Effects", Min = 0, Max = 10, IncludeExectionScore = false };
+			Staging = new ScoringCategory { Display = "Staging", Min = 0, Max = 10, IncludeExectionScore = false };
+			DegreeOfDifficulty = new ScoringCategory { Display = "Difficulty", Min = 0, Max = 10, IncludeExectionScore = false };
+			Uniformity = new ScoringCategory { Display = "Uniformity", Min = 0, Max = 10, IncludeExectionScore = false };
+			Choreography = new ScoringCategory { Display = "Choreography", Min = 0, Max = 10, IncludeExectionScore = false };
+			PerformanceImpression = new ScoringCategory { Display = "Performance Impression", Min = 0, Max = 10, IncludeExectionScore = false };
+		}
+	}
+
+	public class DanceHipHopScoringDefinition : IScoringDefinition
+	{
+		public ScoringCategory HipHopTechnique { get; set; }
+		public ScoringCategory TechnicalSkills { get; set; }
+		public ScoringCategory VisualEffects { get; set; }
+		public ScoringCategory Staging { get; set; }
+		public ScoringCategory DegreeOfDifficulty { get; set; }
+		public ScoringCategory Uniformity { get; set; }
+		public ScoringCategory Choreography { get; set; }
+		public ScoringCategory PerformanceImpression { get; set; }
+
+		public DanceHipHopScoringDefinition()
+		{
+			HipHopTechnique = new ScoringCategory { Display = "Hip Hop Technique", Min = 0, Max = 10, IncludeExectionScore = false };
+			TechnicalSkills = new ScoringCategory { Display = "Technical Skills", Min = 0, Max = 10, IncludeExectionScore = false };
+			VisualEffects = new ScoringCategory { Display = "Visual Effects", Min = 0, Max = 10, IncludeExectionScore = false };
+			Staging = new ScoringCategory { Display = "Staging", Min = 0, Max = 10, IncludeExectionScore = false };
+			DegreeOfDifficulty = new ScoringCategory { Display = "Difficulty", Min = 0, Max = 10, IncludeExectionScore = false };
+			Uniformity = new ScoringCategory { Display = "Uniformity", Min = 0, Max = 10, IncludeExectionScore = false };
+			Choreography = new ScoringCategory { Display = "Choreography", Min = 0, Max = 10, IncludeExectionScore = false };
+			PerformanceImpression = new ScoringCategory { Display = "Performance Impression", Min = 0, Max = 10, IncludeExectionScore = false };
+		}
+	}
+
+	public class DanceVarietyScoringDefinition : IScoringDefinition
+	{
+		public ScoringCategory JazzTechnique { get; set; }
+		public ScoringCategory PomTechnique { get; set; }
+		public ScoringCategory HipHopTechnique { get; set; }
+		public ScoringCategory TechnicalSkills { get; set; }
+		public ScoringCategory VisualEffects { get; set; }
+		public ScoringCategory Staging { get; set; }
+		public ScoringCategory DegreeOfDifficulty { get; set; }
+		public ScoringCategory Uniformity { get; set; }
+		public ScoringCategory Choreography { get; set; }
+		public ScoringCategory PerformanceImpression { get; set; }
+
+		public DanceVarietyScoringDefinition()
+		{
+			JazzTechnique = new ScoringCategory { Display = "Jazz Technique", Min = 0, Max = 10, IncludeExectionScore = false };
+			PomTechnique = new ScoringCategory { Display = "Pom Technique", Min = 0, Max = 10, IncludeExectionScore = false };
+			HipHopTechnique = new ScoringCategory { Display = "Hip Hop Technique", Min = 0, Max = 10, IncludeExectionScore = false };
+			TechnicalSkills = new ScoringCategory { Display = "Technical Skills", Min = 0, Max = 10, IncludeExectionScore = false };
+			VisualEffects = new ScoringCategory { Display = "Visual Effects", Min = 0, Max = 10, IncludeExectionScore = false };
+			Staging = new ScoringCategory { Display = "Staging", Min = 0, Max = 10, IncludeExectionScore = false };
+			DegreeOfDifficulty = new ScoringCategory { Display = "Difficulty", Min = 0, Max = 10, IncludeExectionScore = false };
+			Uniformity = new ScoringCategory { Display = "Uniformity", Min = 0, Max = 10, IncludeExectionScore = false };
+			Choreography = new ScoringCategory { Display = "Choreography", Min = 0, Max = 10, IncludeExectionScore = false };
+			PerformanceImpression = new ScoringCategory { Display = "Performance Impression", Min = 0, Max = 10, IncludeExectionScore = false };
+		}
+	}
+
+	public class IndividualBestDancerScoringDefinition : IScoringDefinition
+	{
+		public ScoringCategory Execution { get; set; }
+		public ScoringCategory TechnicalSkills { get; set; }
+		public ScoringCategory DegreeOfDifficulty { get; set; }
+		public ScoringCategory Choreography { get; set; }
+		public ScoringCategory PerformanceImpression { get; set; }
+
+		public IndividualBestDancerScoringDefinition()
+		{
+			Execution = new ScoringCategory { Display = "Execution", Min = 0, Max = 10, IncludeExectionScore = false };
+			TechnicalSkills = new ScoringCategory { Display = "Technical Skills", Min = 0, Max = 10, IncludeExectionScore = false };
+			DegreeOfDifficulty = new ScoringCategory { Display = "Difficulty", Min = 0, Max = 10, IncludeExectionScore = false };
+			Choreography = new ScoringCategory { Display = "Choreography", Min = 0, Max = 10, IncludeExectionScore = false };
+			PerformanceImpression = new ScoringCategory { Display = "Performance Impression", Min = 0, Max = 10, IncludeExectionScore = false };
+		}
+	}
+
+	public class IndividualBestGroupScoringDefinition : IScoringDefinition
+	{
+		public ScoringCategory Execution { get; set; }
+		public ScoringCategory Staging { get; set; }
+		public ScoringCategory DegreeOfDifficulty { get; set; }
+		public ScoringCategory Choreography { get; set; }
+		public ScoringCategory PerformanceImpression { get; set; }
+
+		public IndividualBestGroupScoringDefinition()
+		{
+			Execution = new ScoringCategory { Display = "Execution", Min = 0, Max = 10, IncludeExectionScore = false };
+			Staging = new ScoringCategory { Display = "Staging", Min = 0, Max = 10, IncludeExectionScore = false };
+			DegreeOfDifficulty = new ScoringCategory { Display = "Difficulty", Min = 0, Max = 10, IncludeExectionScore = false };
+			Choreography = new ScoringCategory { Display = "Choreography", Min = 0, Max = 10, IncludeExectionScore = false };
+			PerformanceImpression = new ScoringCategory { Display = "Performance Impression", Min = 0, Max = 10, IncludeExectionScore = false };
 		}
 	}
 }

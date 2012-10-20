@@ -1,4 +1,5 @@
 using System;
+using System.Web;
 using AllStarScore.Models.Commands;
 
 namespace AllStarScore.Models
@@ -19,7 +20,8 @@ namespace AllStarScore.Models
         {
             Name = command.Name;
             LevelId = command.LevelId;
-            
+        	ScoringDefinition = command.ScoringDefinition;
+
             this.RegisterCommand(command);
         }
 
@@ -43,7 +45,9 @@ namespace AllStarScore.Models
 
         public string GenerateId()
         {
-            return FormatId(CompanyId, LevelId);
+			var slug = Name.Replace(" ", "_").Replace("/", "_").ToLower();
+        	slug = HttpUtility.UrlEncode(slug);
+            return FormatId(CompanyId, LevelId) + slug;
         }
 
         public bool Equals(Division other)

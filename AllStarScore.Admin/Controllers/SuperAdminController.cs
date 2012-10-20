@@ -1,11 +1,13 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Net;
 using System.Web.Mvc;
 using AllStarScore.Admin.Models;
 using AllStarScore.Admin.ViewModels;
 using AllStarScore.Extensions;
 using AllStarScore.Library;
+using AllStarScore.Library.RavenDB;
 using AllStarScore.Models;
 using AllStarScore.Models.Commands;
 
@@ -58,6 +60,30 @@ namespace AllStarScore.Admin.Controllers
                 onsuccess: () => RedirectToAction("Index"));
         }
 
+    	[HttpGet]
+    	public ActionResult ResetLevels(ResetLevelsCommand command)
+    	{
+			HackLevels(CurrentCompanyId);
+			HackDivisions(CurrentCompanyId, command);
+    		return Content("Ok");
+    	}
+
+		[HttpGet]
+		public ActionResult DeleteDivisions(ResetLevelsCommand command)
+		{
+			if (command.CommandByUser != AccountController.Administrator)
+				return Content("Yes");
+
+			var divisions =
+				RavenSession
+					.LoadStartingWith<Division>(Division.FormatId(CurrentCompanyId));
+
+			divisions.ToList().ForEach(RavenSession.Delete);
+			RavenSession.SaveChanges();
+
+			return Content("Ok");
+		}
+
         [HttpGet, AllowAnonymous]
         public ActionResult Init()
         {
@@ -109,6 +135,9 @@ namespace AllStarScore.Admin.Controllers
 
         void HackLevels(string companyId)
         {
+        	var ok = RavenSession.Query<Level>().Any();
+			if (ok) return;
+
             var levels = new List<Level>()
                          {
                              new Level
@@ -147,10 +176,58 @@ namespace AllStarScore.Admin.Controllers
                                  Name = "All-Star Level 6",
                                  ScoringDefinition = "scoring-level6"
                              },
+							 new Level
+                             {
+                                 Id = "clubcheerbeginner",
+                                 Name = "Club Cheer Beginner",
+                                 ScoringDefinition = "scoring-level5"
+                             },
+							 new Level
+                             {
+                                 Id = "clubcheerintermediate",
+                                 Name = "Club Cheer Intermediate",
+                                 ScoringDefinition = "scoring-level5"
+                             },
+							 new Level
+                             {
+                                 Id = "clubcheeradvanced",
+                                 Name = "Club Cheer Advanced",
+                                 ScoringDefinition = "scoring-level5"
+                             },
+							 new Level
+                             {
+                                 Id = "gamerecbeginner",
+                                 Name = "Game Rec Beginner",
+                                 ScoringDefinition = "scoring-level5"
+                             },
+							 new Level
+                             {
+                                 Id = "gamerecintermediate",
+                                 Name = "Game Rec Intermediate",
+                                 ScoringDefinition = "scoring-level5"
+                             },
+							 new Level
+                             {
+                                 Id = "gamerecadvanced",
+                                 Name = "Game Rec Advanced",
+                                 ScoringDefinition = "scoring-level5"
+                             },
+							 new Level
+                             {
+                                 Id = "cheerprep",
+                                 Name = "All Star Prep",
+                                 ScoringDefinition = "scoring-level5"
+                             },
                              new Level
                              {
                                  Id = "dance", 
                                  Name = "Dance", 
+                                 ScoringDefinition = "scoring-dance"
+                             },
+							 new Level
+                             {
+                                 Id = "danceprep", 
+                                 Name = "Dance Prep", 
                                  ScoringDefinition = "scoring-dance"
                              },
                              new Level  
@@ -183,19 +260,98 @@ namespace AllStarScore.Admin.Controllers
             RavenSession.SaveChanges();
         }
 
+		IEnumerable<DivisionCreateCommand> GenerateDivisionCommands(IEnumerable<string> sizes, IEnumerable<string> names, IEnumerable<string> levels)
+		{
+			var result = levels.Select(level => GenerateDivisionCommands(sizes, names, level)).SelectMany(x => x);
+			return result;
+		}
+
+    	IEnumerable<DivisionCreateCommand> GenerateDivisionCommands(IEnumerable<string> sizes, IEnumerable<string> names, string levelId, string scoringDefinition = null)
+		{
+			var combos = from n in names
+						 from s in sizes
+						 select n + " " + s;
+
+			var result = combos.Select(name => new DivisionCreateCommand {Name = name.Trim(), LevelId = levelId, ScoringDefinition = scoringDefinition});
+			return result;
+		}
+
         void HackDivisions(string companyId, ICommand src)
         {
-            var commands = new List<DivisionCreateCommand>()
-                            {
-                                new DivisionCreateCommand {Name = "Small Youth", LevelId = "1"},
-                                new DivisionCreateCommand {Name = "Large Youth", LevelId = "2"},
-                                new DivisionCreateCommand {Name = "Small Junior", LevelId = "3"},
-                                new DivisionCreateCommand {Name = "Large Junior", LevelId = "4"},
-                                new DivisionCreateCommand {Name = "Small Senior", LevelId = "5"},
-                                new DivisionCreateCommand {Name = "Large Senior", LevelId = "6"}
-                            };
+			var ok = RavenSession.Query<Division>().Any();
+			if (ok) return;
+			
+        	var commands = new List<DivisionCreateCommand>();
+        	var sizes = new[] {"", "Small", "Large"};
+			
+			var names = new[] {"Tiny", "Mini", "Youth", "Junior", "Senior"};
+        	var list = GenerateDivisionCommands(sizes, names, "1");
+			commands.AddRange(list);
 
-            commands.ForEach(x =>
+			names = new[] { "Mini", "Youth", "Junior", "Senior" };
+			list = GenerateDivisionCommands(sizes, names, "2");
+			commands.AddRange(list);
+
+			names = new[] { "Youth", "Junior", "Senior", "Senior Coed", "Open" };
+			list = GenerateDivisionCommands(sizes, names, "3");
+			commands.AddRange(list);
+
+			names = new[] { "Youth", "Junior", "Senior", "Senior Coed", "Open" };
+			list = GenerateDivisionCommands(sizes, names, "4");
+			commands.AddRange(list);
+
+			names = new[] { "Senior 4.2" };
+			list = GenerateDivisionCommands(sizes, names, "4", "scoring-division42");
+			commands.AddRange(list);
+			
+			names = new[] { "Youth", "Junior", "Senior" };
+			list = GenerateDivisionCommands(sizes, names, "5");
+			commands.AddRange(list);
+
+			names = new[] { "Senior Coed" };
+			list = GenerateDivisionCommands(new[] { "", "Small", "Medium", "Large" }, names, "5");
+			commands.AddRange(list);
+
+			names = new[] { "International Open", "International Open Coed", "Worlds" };
+			list = GenerateDivisionCommands(new[] { "" }, names, "5");
+			commands.AddRange(list);
+
+			names = new[] { "Senior Restricted" };
+			list = GenerateDivisionCommands(new[] { "" }, names, "5", "scoring-restricted5" );
+			commands.AddRange(list);
+
+			names = new[] { "Open", "Open Coed" };
+			list = GenerateDivisionCommands(new[] { "" }, names, "6");
+			commands.AddRange(list);
+
+			names = new[] { "Tiny", "Mini", "Youth", "Junior", "Senior" };
+			var levels = new[] { "clubcheerbeginner", "clubcheerintermediate", "clubcheeradvanced",
+								 "gamerecbeginner", "gamerecintermediate", "gamerecadvanced", 
+								 "cheerprep"};
+			list = GenerateDivisionCommands(new[] { "" }, names, levels);
+			commands.AddRange(list);
+
+			names = new[] { "Elementary School", "Junior High", "High School Novice", "High School Intermediate", "High School Advanced" };
+			list = GenerateDivisionCommands(new[] { "" }, names, "school");
+			commands.AddRange(list);
+
+			var dances = new[] {"Jazz", "Pom", "Prop", "Novelty", "Ballet", "Lyrical", "Open", "Hip Hop", "Crew"};
+			dances.ToList().ForEach(dance =>
+        	{
+				var scoringdef = "scoring-dance-" + dance.ToLower().Replace(" ", "");
+				
+				names = new[] { "Tiny", "Mini", "Youth", "Junior", "Senior", "Open" };
+        		names = names.Select(name => dance + " " + name).ToArray();
+				list = GenerateDivisionCommands(new[] { "", "Coed" }, names, "dance", scoringdef);
+				commands.AddRange(list);
+
+				names = new[] { "Tiny", "Mini", "Youth", "Junior" };
+				names = names.Select(name => dance + " " + name).ToArray();
+				list = GenerateDivisionCommands(new[] { "", "Coed" }, names, "danceprep", scoringdef);
+				commands.AddRange(list);	
+        	});
+
+        	commands.ForEach(x =>
             {
                 x.LevelId = Level.FormatId(companyId) + x.LevelId;
                 x.CommandCompanyId = companyId;
@@ -214,8 +370,12 @@ namespace AllStarScore.Admin.Controllers
                     })
                     .ToList();
 
-            divisions.ForEach(RavenSession.Store);
-            RavenSession.SaveChanges();
+			RavenSession.Advanced.MaxNumberOfRequestsPerSession = 1000; //TODO: Doc key conventions not working as expected; try again with 1.2; then remove this
+        	foreach (var division in divisions)
+        	{
+        		RavenSession.Store(division);
+				RavenSession.SaveChanges();	
+        	}
         }
     }
 }
