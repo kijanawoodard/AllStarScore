@@ -30,5 +30,9 @@ AllStarScore.PerformanceViewModel = function () {
         return context.panel == entry.panel;
     };
 
+    self.isComplete = function (entry) {
+        console.log(entry);
+    };
+
     return self;
 }; 

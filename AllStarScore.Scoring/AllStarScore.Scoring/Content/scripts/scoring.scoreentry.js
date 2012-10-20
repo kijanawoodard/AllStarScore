@@ -7,6 +7,7 @@ $(document).ready(function() {
 AllStarScore.ScoreEntryViewModel = function (data) {
     var self = this;
 
+    console.log(data);
     ko.mapping.fromJS(data, {}, this);
 
     self.performance = AllStarScore.CompetitionData.performances[self.performanceId()];
@@ -74,7 +75,7 @@ AllStarScore.ScoreEntryViewModel = function (data) {
                 var execution = category.includeExectionScore ? scores[key].execution() : 0;
                 var result = (parseFloat(base) + parseFloat(execution)) || 0;
                 return formatNumber(result);
-            });
+            }).extend({ throttle: 2000 });
 
             var executionMax = 1;
 
@@ -82,23 +83,23 @@ AllStarScore.ScoreEntryViewModel = function (data) {
                 var base = scores[key].base();
                 var executionFactor = category.includeExectionScore ? executionMax : 0;
                 return parseFloat(base) != 0 && (parseFloat(base) + executionFactor) < category.min;
-            });
+            }).extend({ throttle: 2000 });
 
             scores[key].isBaseAboveMax = ko.computed(function () {
                 var base = scores[key].base();
                 var executionFactor = category.includeExectionScore ? executionMax : 0;
                 return (parseFloat(base) + executionFactor) > category.max;
-            });
+            }).extend({ throttle: 2000 });
 
             scores[key].isExecutionBelowMin = ko.computed(function () {
                 var execution = category.includeExectionScore ? scores[key].execution() : 0;
                 return parseFloat(execution) < 0;
-            });
+            }).extend({ throttle: 2000 });
 
             scores[key].isExecutionAboveMax = ko.computed(function () {
                 var execution = category.includeExectionScore ? scores[key].execution() : 0;
                 return parseFloat(execution) > executionMax;
-            });
+            }).extend({ throttle: 2000 });
         });
 
         input.score.totalBase = ko.computed(function () {
@@ -107,7 +108,7 @@ AllStarScore.ScoreEntryViewModel = function (data) {
                 memo += parseFloat(scores[key].base() || 0);
             }
             return formatNumber(memo);
-        });
+        }).extend({ throttle: 2000 });
 
         input.score.totalExecution = ko.computed(function () {
             var memo = 0.0;
@@ -116,18 +117,18 @@ AllStarScore.ScoreEntryViewModel = function (data) {
                 memo += parseFloat(execution) || 0;
             }
             return formatNumber(memo);
-        });
+        }).extend({ throttle: 2000 });
 
         input.score.allBaseScoresInputted = ko.computed(function () {
             return _.all(scores, function (score) {
                 return score.base();
             });
-        });
+        }).extend({ throttle: 2000 });
 
         input.score.grandTotal = ko.computed(function () {
             var result = parseFloat(input.score.totalBase()) + parseFloat(input.score.totalExecution());
             return formatNumber(result);
-        });
+        }).extend({ throttle: 2000 });
 
 
         input.score.minTotal = ko.computed(function () {
@@ -135,22 +136,22 @@ AllStarScore.ScoreEntryViewModel = function (data) {
                 return memo + value.category.min;
             }, 0);
             return result;
-        });
+        }).extend({ throttle: 2000 });
 
         input.score.maxTotal = ko.computed(function () {
             var result = _.reduce(input.categories, function (memo, value) {
                 return memo + value.category.max;
             }, 0);
             return result;
-        });
+        }).extend({ throttle: 2000 });
 
         input.score.isGrandTotalBelowMin = ko.computed(function () {
             return input.score.allBaseScoresInputted() && input.score.grandTotal() < input.score.minTotal();
-        });
+        }).extend({ throttle: 2000 });
 
         input.score.isGrandTotalAboveMax = ko.computed(function () {
             return input.score.allBaseScoresInputted() && input.score.grandTotal() > input.score.maxTotal();
-        });
+        }).extend({ throttle: 2000 });
 
         //we will save scorepad settings in a cookie; establish the cookie name
         scorepad_cookie_name += self.getScorePanelCookieName();

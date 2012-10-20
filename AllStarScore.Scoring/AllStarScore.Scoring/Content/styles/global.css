@@ -49,12 +49,6 @@ table.tablesorter th.headerSortDown {
 
 .ko_output { clear: both;}
 
-.ko_output { display: none;}
+.ko_output { displayx: none;}
 
 .logo { position: fixed;top: 84px;left: 455px;}
-
-#body .main-content {
-	backgrounds: none;
-	backgrounds: url(../images / NuGetGallery.png);
-	background-repeats: repeat;
-}
