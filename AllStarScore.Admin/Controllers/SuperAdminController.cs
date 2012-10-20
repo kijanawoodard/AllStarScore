@@ -386,12 +386,8 @@ namespace AllStarScore.Admin.Controllers
                     })
                     .ToList();
 
-			RavenSession.Advanced.MaxNumberOfRequestsPerSession = 1000; //TODO: Doc key conventions not working as expected; try again with 1.2; then remove this
-        	foreach (var division in divisions)
-        	{
-        		RavenSession.Store(division);
-				RavenSession.SaveChanges();	
-        	}
+			divisions.ForEach(RavenSession.Store);
+			RavenSession.SaveChanges();	
         }
     }
 }
