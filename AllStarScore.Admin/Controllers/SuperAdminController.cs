@@ -231,7 +231,7 @@ namespace AllStarScore.Admin.Controllers
 							 new Level
                              {
                                  Id = "cheerprep",
-                                 Name = "All Star Prep",
+                                 Name = "All-Star Prep",
                                  ScoringDefinition = "scoring-level5"
                              },
                              new Level
@@ -369,6 +369,10 @@ namespace AllStarScore.Admin.Controllers
 				list = GenerateDivisionCommands(new[] { "", "Coed" }, names, "danceprep", scoringdef);
 				commands.AddRange(list);	
         	});
+
+			names = new[] { "Special Needs" };
+			list = GenerateDivisionCommands(new[] { "" }, names, "specialneeds");
+			commands.AddRange(list);
 
         	commands.ForEach(x =>
             {
