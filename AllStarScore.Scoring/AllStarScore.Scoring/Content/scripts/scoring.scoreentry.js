@@ -7,7 +7,6 @@ $(document).ready(function() {
 AllStarScore.ScoreEntryViewModel = function (data) {
     var self = this;
 
-    console.log(data);
     ko.mapping.fromJS(data, {}, this);
 
     self.performance = AllStarScore.CompetitionData.performances[self.performanceId()];
@@ -56,7 +55,7 @@ AllStarScore.ScoreEntryViewModel = function (data) {
         setupScorePad();
     };
 
-//    var throttleMilliseconds = 2000;
+    var throttleMilliseconds = 500;
     /* occurs on object creation */
     //set default scores if they don't exist
     (function () {
@@ -71,13 +70,13 @@ AllStarScore.ScoreEntryViewModel = function (data) {
             scores[key].base = scores[key].base || ko.observable();
             scores[key].execution = scores[key].execution || ko.observable();
 
-            scores[key].total = 0;
-            //            scores[key].total = ko.computed(function () {
-            //                var base = scores[key].base();
-            //                var execution = category.includeExectionScore ? scores[key].execution() : 0;
-            //                var result = (parseFloat(base) + parseFloat(execution)) || 0;
-            //                return formatNumber(result);
-            //            });
+            //scores[key].total = 0;
+            scores[key].total = ko.computed(function () {
+                var base = scores[key].base();
+                var execution = category.includeExectionScore ? scores[key].execution() : 0;
+                var result = (parseFloat(base) + parseFloat(execution)) || 0;
+                return formatNumber(result);
+            });
 
             var executionMax = 1;
 
@@ -87,84 +86,80 @@ AllStarScore.ScoreEntryViewModel = function (data) {
             scores[key].isExecutionAboveMax = false;
 
 
-            //            scores[key].isBaseBelowMin = ko.computed(function () {
-            //                return false;
-            //                //                var base = scores[key].base();
-            //                //                var executionFactor = category.includeExectionScore ? executionMax : 0;
-            //                //                return parseFloat(base) != 0 && (parseFloat(base) + executionFactor) < category.min;
-            //            }).extend({ throttle: 2000 });
-            //
-            //            scores[key].isBaseAboveMax = ko.computed(function () {
-            //                return false;
-            //                //                var base = scores[key].base();
-            //                //                var executionFactor = category.includeExectionScore ? executionMax : 0;
-            //                //                return (parseFloat(base) + executionFactor) > category.max;
-            //            }).extend({ throttle: 2000 });
-            //
-            //            scores[key].isExecutionBelowMin = ko.computed(function () {
-            //                return false;
-            //                //                var execution = category.includeExectionScore ? scores[key].execution() : 0;
-            //                //                return parseFloat(execution) < 0;
-            //            }).extend({ throttle: 2000 });
-            //
-            //            scores[key].isExecutionAboveMax = ko.computed(function () {
-            //                return false;
-            //                //                var execution = category.includeExectionScore ? scores[key].execution() : 0;
-            //                //                return parseFloat(execution) > executionMax;
-            //            }).extend({ throttle: 2000 });
+            scores[key].isBaseBelowMin = ko.computed(function () {
+                var base = scores[key].base();
+                var executionFactor = category.includeExectionScore ? executionMax : 0;
+                return parseFloat(base) != 0 && (parseFloat(base) + executionFactor) < category.min;
+            }).extend({ throttle: throttleMilliseconds });
+
+            scores[key].isBaseAboveMax = ko.computed(function () {
+                var base = scores[key].base();
+                var executionFactor = category.includeExectionScore ? executionMax : 0;
+                return (parseFloat(base) + executionFactor) > category.max;
+            }).extend({ throttle: throttleMilliseconds });
+
+            scores[key].isExecutionBelowMin = ko.computed(function () {
+                var execution = category.includeExectionScore ? scores[key].execution() : 0;
+                return parseFloat(execution) < 0;
+            }).extend({ throttle: throttleMilliseconds });
+
+            scores[key].isExecutionAboveMax = ko.computed(function () {
+                var execution = category.includeExectionScore ? scores[key].execution() : 0;
+                return parseFloat(execution) > executionMax;
+            }).extend({ throttle: throttleMilliseconds });
         });
 
-        //        input.score.totalBase = ko.computed(function () {
-        //            var memo = 0.0;
-        //            for (var key in scores) {
-        //                memo += parseFloat(scores[key].base() || 0);
-        //            }
-        //            return formatNumber(memo);
-        //        }).extend({ throttle: 2000 });
-        //
-        //        input.score.totalExecution = ko.computed(function () {
-        //            var memo = 0.0;
-        //            for (var key in scores) {
-        //                var execution = scores[key].execution ? scores[key].execution() : 0.0;
-        //                memo += parseFloat(execution) || 0;
-        //            }
-        //            return formatNumber(memo);
-        //        }).extend({ throttle: 2000 });
-        //
-        //        input.score.allBaseScoresInputted = ko.computed(function () {
-        //            return _.all(scores, function (score) {
-        //                return score.base();
-        //            });
-        //        }).extend({ throttle: 2000 });
-        //
-        //        input.score.grandTotal = ko.computed(function () {
-        //            var result = parseFloat(input.score.totalBase()) + parseFloat(input.score.totalExecution());
-        //            return formatNumber(result);
-        //        }).extend({ throttle: 2000 });
-        //
-        //
-        //        input.score.minTotal = ko.computed(function () {
-        //            var result = _.reduce(input.categories, function (memo, value) {
-        //                return memo + value.category.min;
-        //            }, 0);
-        //            return result;
-        //        }).extend({ throttle: 2000 });
+        input.score.totalBase = ko.computed(function () {
+            var memo = 0.0;
+            for (var key in scores) {
+                memo += parseFloat(scores[key].base() || 0);
+            }
+            return formatNumber(memo);
+        }).extend({ throttle: throttleMilliseconds });
+
+        input.score.totalExecution = ko.computed(function () {
+            var memo = 0.0;
+            for (var key in scores) {
+                var execution = scores[key].execution ? scores[key].execution() : 0.0;
+                memo += parseFloat(execution) || 0;
+            }
+            return formatNumber(memo);
+        }).extend({ throttle: throttleMilliseconds });
+
+        input.score.allBaseScoresInputted = ko.computed(function () {
+            return _.all(scores, function (score) {
+                return score.base();
+            });
+        }).extend({ throttle: throttleMilliseconds });
+
+        input.score.grandTotal = ko.computed(function () {
+            var result = parseFloat(input.score.totalBase()) + parseFloat(input.score.totalExecution());
+            return formatNumber(result);
+        }).extend({ throttle: throttleMilliseconds });
+
+
+        input.score.minTotal = ko.computed(function() {
+            var result = _.reduce(input.categories, function(memo, value) {
+                return memo + value.category.min;
+            }, 0);
+            return result;
+        }).extend({ throttle: throttleMilliseconds });
 
         input.score.maxTotal = 0;
-//        input.score.maxTotal = ko.computed(function () {
-//            var result = _.reduce(input.categories, function (memo, value) {
-//                return memo + value.category.max;
-//            }, 0);
-//            return result;
-//        });
-
-        //        input.score.isGrandTotalBelowMin = ko.computed(function () {
-        //            return input.score.allBaseScoresInputted() && input.score.grandTotal() < input.score.minTotal();
-        //        }).extend({ throttle: 2000 });
-        //
-        //        input.score.isGrandTotalAboveMax = ko.computed(function () {
-        //            return input.score.allBaseScoresInputted() && input.score.grandTotal() > input.score.maxTotal();
-        //        }).extend({ throttle: 2000 });
+        input.score.maxTotal = ko.computed(function () {
+            var result = _.reduce(input.categories, function (memo, value) {
+                return memo + value.category.max;
+            }, 0);
+            return result;
+        });
+        
+        input.score.isGrandTotalBelowMin = ko.computed(function () {
+            return input.score.allBaseScoresInputted() && input.score.grandTotal() < input.score.minTotal();
+        }).extend({ throttle: throttleMilliseconds });
+                
+        input.score.isGrandTotalAboveMax = ko.computed(function () {
+            return input.score.allBaseScoresInputted() && input.score.grandTotal() > input.score.maxTotal();
+        }).extend({ throttle: throttleMilliseconds });
 
         //we will save scorepad settings in a cookie; establish the cookie name
         scorepad_cookie_name += self.getScorePanelCookieName();
@@ -233,7 +228,7 @@ var setupScorePad = function () {
     $(textboxes).keydown(function (evt) {
         var event = evt || window.event;
         var key = event.keyCode || event.which;
-//        console.log(key);
+        //        console.log(key);
         //move next on enter
         if (key == 13) {
             moveNext(this);
