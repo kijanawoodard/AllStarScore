@@ -63,7 +63,8 @@
             <div class="description" data-bind="text: $root.CompetitionData.competition.display">CGA National Championship Feb 12-13, 2011</div>
             <div class="name">
                 <span data-bind="text: gym"></span>
-                <span data-bind="text: team"></span>
+				<span data-bind="text: team"></span>
+                <span data-bind="visible: isShowTeam" class="show">Show</span>
             </div>
             <div class="division">
                 <span data-bind="text: level"></span>
