@@ -56,7 +56,7 @@ AllStarScore.ScoreEntryViewModel = function (data) {
         setupScorePad();
     };
 
-    var throttle = 500;
+//    var throttleMilliseconds = 2000;
     /* occurs on object creation */
     //set default scores if they don't exist
     (function () {
@@ -71,88 +71,100 @@ AllStarScore.ScoreEntryViewModel = function (data) {
             scores[key].base = scores[key].base || ko.observable();
             scores[key].execution = scores[key].execution || ko.observable();
 
-            scores[key].total = ko.computed(function () {
-                var base = scores[key].base();
-                var execution = category.includeExectionScore ? scores[key].execution() : 0;
-                var result = (parseFloat(base) + parseFloat(execution)) || 0;
-                return formatNumber(result);
-            }).extend({ throttle: throttle });
+            scores[key].total = 0;
+            //            scores[key].total = ko.computed(function () {
+            //                var base = scores[key].base();
+            //                var execution = category.includeExectionScore ? scores[key].execution() : 0;
+            //                var result = (parseFloat(base) + parseFloat(execution)) || 0;
+            //                return formatNumber(result);
+            //            });
 
             var executionMax = 1;
 
-            scores[key].isBaseBelowMin = ko.computed(function () {
-                var base = scores[key].base();
-                var executionFactor = category.includeExectionScore ? executionMax : 0;
-                return parseFloat(base) != 0 && (parseFloat(base) + executionFactor) < category.min;
-            }).extend({ throttle: throttle });
+            scores[key].isBaseBelowMin = false;
+            scores[key].isBaseAboveMax = false;
+            scores[key].isExecutionBelowMin = false;
+            scores[key].isExecutionAboveMax = false;
 
-            scores[key].isBaseAboveMax = ko.computed(function () {
-                var base = scores[key].base();
-                var executionFactor = category.includeExectionScore ? executionMax : 0;
-                return (parseFloat(base) + executionFactor) > category.max;
-            }).extend({ throttle: throttle });
 
-            scores[key].isExecutionBelowMin = ko.computed(function () {
-                var execution = category.includeExectionScore ? scores[key].execution() : 0;
-                return parseFloat(execution) < 0;
-            }).extend({ throttle: throttle });
-
-            scores[key].isExecutionAboveMax = ko.computed(function () {
-                var execution = category.includeExectionScore ? scores[key].execution() : 0;
-                return parseFloat(execution) > executionMax;
-            }).extend({ throttle: throttle });
+            //            scores[key].isBaseBelowMin = ko.computed(function () {
+            //                return false;
+            //                //                var base = scores[key].base();
+            //                //                var executionFactor = category.includeExectionScore ? executionMax : 0;
+            //                //                return parseFloat(base) != 0 && (parseFloat(base) + executionFactor) < category.min;
+            //            }).extend({ throttle: 2000 });
+            //
+            //            scores[key].isBaseAboveMax = ko.computed(function () {
+            //                return false;
+            //                //                var base = scores[key].base();
+            //                //                var executionFactor = category.includeExectionScore ? executionMax : 0;
+            //                //                return (parseFloat(base) + executionFactor) > category.max;
+            //            }).extend({ throttle: 2000 });
+            //
+            //            scores[key].isExecutionBelowMin = ko.computed(function () {
+            //                return false;
+            //                //                var execution = category.includeExectionScore ? scores[key].execution() : 0;
+            //                //                return parseFloat(execution) < 0;
+            //            }).extend({ throttle: 2000 });
+            //
+            //            scores[key].isExecutionAboveMax = ko.computed(function () {
+            //                return false;
+            //                //                var execution = category.includeExectionScore ? scores[key].execution() : 0;
+            //                //                return parseFloat(execution) > executionMax;
+            //            }).extend({ throttle: 2000 });
         });
 
-        input.score.totalBase = ko.computed(function () {
-            var memo = 0.0;
-            for (var key in scores) {
-                memo += parseFloat(scores[key].base() || 0);
-            }
-            return formatNumber(memo);
-        }).extend({ throttle: throttle });
+        //        input.score.totalBase = ko.computed(function () {
+        //            var memo = 0.0;
+        //            for (var key in scores) {
+        //                memo += parseFloat(scores[key].base() || 0);
+        //            }
+        //            return formatNumber(memo);
+        //        }).extend({ throttle: 2000 });
+        //
+        //        input.score.totalExecution = ko.computed(function () {
+        //            var memo = 0.0;
+        //            for (var key in scores) {
+        //                var execution = scores[key].execution ? scores[key].execution() : 0.0;
+        //                memo += parseFloat(execution) || 0;
+        //            }
+        //            return formatNumber(memo);
+        //        }).extend({ throttle: 2000 });
+        //
+        //        input.score.allBaseScoresInputted = ko.computed(function () {
+        //            return _.all(scores, function (score) {
+        //                return score.base();
+        //            });
+        //        }).extend({ throttle: 2000 });
+        //
+        //        input.score.grandTotal = ko.computed(function () {
+        //            var result = parseFloat(input.score.totalBase()) + parseFloat(input.score.totalExecution());
+        //            return formatNumber(result);
+        //        }).extend({ throttle: 2000 });
+        //
+        //
+        //        input.score.minTotal = ko.computed(function () {
+        //            var result = _.reduce(input.categories, function (memo, value) {
+        //                return memo + value.category.min;
+        //            }, 0);
+        //            return result;
+        //        }).extend({ throttle: 2000 });
 
-        input.score.totalExecution = ko.computed(function () {
-            var memo = 0.0;
-            for (var key in scores) {
-                var execution = scores[key].execution ? scores[key].execution() : 0.0;
-                memo += parseFloat(execution) || 0;
-            }
-            return formatNumber(memo);
-        }).extend({ throttle: throttle });
+        input.score.maxTotal = 0;
+//        input.score.maxTotal = ko.computed(function () {
+//            var result = _.reduce(input.categories, function (memo, value) {
+//                return memo + value.category.max;
+//            }, 0);
+//            return result;
+//        });
 
-        input.score.allBaseScoresInputted = ko.computed(function () {
-            return _.all(scores, function (score) {
-                return score.base();
-            });
-        }).extend({ throttle: throttle });
-
-        input.score.grandTotal = ko.computed(function () {
-            var result = parseFloat(input.score.totalBase()) + parseFloat(input.score.totalExecution());
-            return formatNumber(result);
-        }).extend({ throttle: throttle });
-
-
-        input.score.minTotal = ko.computed(function () {
-            var result = _.reduce(input.categories, function (memo, value) {
-                return memo + value.category.min;
-            }, 0);
-            return result;
-        }).extend({ throttle: throttle });
-
-        input.score.maxTotal = ko.computed(function () {
-            var result = _.reduce(input.categories, function (memo, value) {
-                return memo + value.category.max;
-            }, 0);
-            return result;
-        }).extend({ throttle: throttle });
-
-        input.score.isGrandTotalBelowMin = ko.computed(function () {
-            return input.score.allBaseScoresInputted() && input.score.grandTotal() < input.score.minTotal();
-        }).extend({ throttle: throttle });
-
-        input.score.isGrandTotalAboveMax = ko.computed(function () {
-            return input.score.allBaseScoresInputted() && input.score.grandTotal() > input.score.maxTotal();
-        }).extend({ throttle: throttle });
+        //        input.score.isGrandTotalBelowMin = ko.computed(function () {
+        //            return input.score.allBaseScoresInputted() && input.score.grandTotal() < input.score.minTotal();
+        //        }).extend({ throttle: 2000 });
+        //
+        //        input.score.isGrandTotalAboveMax = ko.computed(function () {
+        //            return input.score.allBaseScoresInputted() && input.score.grandTotal() > input.score.maxTotal();
+        //        }).extend({ throttle: 2000 });
 
         //we will save scorepad settings in a cookie; establish the cookie name
         scorepad_cookie_name += self.getScorePanelCookieName();

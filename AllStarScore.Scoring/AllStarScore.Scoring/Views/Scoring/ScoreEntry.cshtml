@@ -134,10 +134,14 @@
 			<!-- /ko -->
 			<tr>
 				<th>Total</th>
-				<th data-bind="text: $data.score.totalBase"></th>
-				<th data-bind="text: $data.score.totalExecution"></th>
-				<th data-bind="text: $data.score.grandTotal"></th>
-				<th data-bind="text: $data.score.minTotal"></th>
+				@*				<th data-bind="text: $data.score.totalBase"></th>*@
+				@*				<th data-bind="text: $data.score.totalExecution"></th>*@
+				@*				<th data-bind="text: $data.score.grandTotal"></th>*@
+				@*				<th data-bind="text: $data.score.minTotal"></th>*@
+				<th></th>
+				<th></th>
+				<th></th>
+                <th></th>
 				<th data-bind="text: $data.score.maxTotal"></th>
 			</tr>
 		</tbody>
@@ -145,25 +149,26 @@
 </script>
 
 <script type="text/html" id="single_column_template">
-    <table>
-        <thead>
-            <tr>
-                <th class="skills">Skills</th>
-                <th class="base">Base<br />Score</th>
-                <th class="max">Max<br />Score</th>
-            </tr>
-        </thead>
-        <tbody>
-            <!-- ko foreach: $data.categories -->
-            <tr>
-                <td data-bind="text: $data.category.display"></td>
-                <td><input type="text" data-bind="value: $parent.score.scores[$data.key].base, css: { below_min:  $parent.score.scores[$data.key].isBaseBelowMin,  above_max:  $parent.score.scores[$data.key].isBaseAboveMax}" /></td>
-                <td data-bind="text: $data.category.max"></td>
-            </tr>
-            <!-- /ko -->
-            <tr>
-                <th>Total</th>
-                <th data-bind="text: $data.score.totalBase"></th>
+	<table>
+		<thead>
+			<tr>
+				<th class="skills">Skills</th>
+				<th class="base">Base<br />Score</th>
+				<th class="max">Max<br />Score</th>
+			</tr>
+		</thead>
+		<tbody>
+			<!-- ko foreach: $data.categories -->
+			<tr>
+				<td data-bind="text: $data.category.display"></td>
+				<td><input type="text" data-bind="value: $parent.score.scores[$data.key].base, css: { below_min:  $parent.score.scores[$data.key].isBaseBelowMin,  above_max:  $parent.score.scores[$data.key].isBaseAboveMax}" /></td>
+				<td data-bind="text: $data.category.max"></td>
+			</tr>
+			<!-- /ko -->
+			<tr>
+				<th>Total</th>
+				@*                <th data-bind="text: $data.score.totalBase"></th>*@
+                <th></th>
                 <th data-bind="text: $data.score.maxTotal"></th>
             </tr>
         </tbody>
