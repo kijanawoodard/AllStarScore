@@ -24,8 +24,6 @@ th.max { width: 50px; }
 th.comments, td.comments { width: 670px; }
 table.schooldance th.comments, table.schooldance td.comments { width: 790px; }
 
-.show { font-style: italic; }
-
 .deductions_scoresheet { overflow: hidden; }
 .deductions_scoresheet div.inner { margin: auto; border: 0px solid #000; width: 100%;overflow: auto;}
 .deductions_scoresheet table.deduction td, table.deduction th { height: 10px; width: 14px; }

@@ -31,6 +31,7 @@ table.tablesorter th.headerSortDown {
 	background-repeat: no-repeat;
 }
 
+.show { font-style: italic; }
 
 @media print 
 {

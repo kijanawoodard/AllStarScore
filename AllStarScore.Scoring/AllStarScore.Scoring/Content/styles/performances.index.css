@@ -1,3 +1,5 @@
-﻿#performance_index .performances .when { min-width: 100px;display: inline-block; }
+﻿#performance_index { font-size: 1.3em; }
+#performance_index .performances .when { min-width: 100px;display: inline-block; }
 #performance_index .performances .name { min-width: 350px;display: inline-block; }
 #performance_index .performances .division { min-width: 300px;display: inline-block; }
+#performance_index .performances li:nth-child(even) { background-color: #fff; }
