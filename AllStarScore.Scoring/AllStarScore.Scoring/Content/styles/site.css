@@ -96,9 +96,9 @@ h5, h6 {
 }
 
     .main-content {
-        background: url("../Images/accent.png") no-repeat;
+        backgroundx: url("../Images/accent.png") no-repeat;
         padding-left: 10px;
-        padding-top: 30px;
+        padding-top: 5px;
     }
 
     .featured + .main-content {
@@ -118,8 +118,8 @@ footer {
 .site-title {
     color: #c8c8c8;
     font-family: Rockwell, Consolas, "Courier New", Courier, monospace;
-    font-size: 2.3em;
-    margin: 20px 0;
+    font-size: 1.3em;
+    margin: 0px 0;
 }
 
 .site-title a, .site-title a:hover, .site-title a:active {
@@ -135,7 +135,7 @@ footer {
 #login {
     display: block;
     font-size: .85em;
-    margin: 20px 0 12px;
+    margin: 0px 0 0px;
     text-align: right;
 }
 

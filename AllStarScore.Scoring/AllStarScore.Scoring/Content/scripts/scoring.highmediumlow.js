@@ -29,7 +29,7 @@ AllStarScore.HighMediumLow = function () {
                     score.isLow = base > 0 && base < 0.4;
                     score.isMedium = base >= 0.4 && base < 0.7;
                     score.isHigh = base >= 0.7;
-                    score.display = ko.observable(score.isLow ? "Low " : score.isMedium ? "Medium " : score.isHigh ? "High " : "");
+                    score.display = ko.observable(score.isLow ? "Low " : score.isMedium ? "Med " : score.isHigh ? "High " : "");
                 }
             });
 

@@ -1,5 +1,5 @@
 ﻿#scoring_highmediumlow { position: fixed;right: 140px; top: 240px }
-#scoring_highmediumlow table tr td:nth-child(n+2) { padding: 0 2em; }
+#scoring_highmediumlow table tr td:nth-child(n+2) { padding: 0 .2em; }
 #scoring_highmediumlow .low { background-color: #ffa0a0; }
 #scoring_highmediumlow .medium { background-color: #ffffa0; }
 #scoring_highmediumlow .high { background-color: #a0ffa0; }
