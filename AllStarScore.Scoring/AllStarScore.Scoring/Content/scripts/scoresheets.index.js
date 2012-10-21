@@ -26,11 +26,14 @@ AllStarScore.ScoreSheets = function () {
         });
     });
 
-    _.each(competitionData.competition.days, function (day) {
+//    self.visibilityMatrix.push('A1');
+//    self.visibilityMatrix.push('B1');
+
+    _.each(competitionData.schedule.days, function (day) {
         //what are we doing here? normalizing the date to a string for the checkbox compare; 
         //the value of the checkbox has to be a string not a date object;
         //we're also divorcing what gets attached the checkbox so the formmatted value doesn't change our real day object
-        var formatted = day.toString('ddd MM/dd/yyyy');
+        var formatted = day.day.toString('ddd MM/dd/yyyy');
         self.visibilityMatrix.push(formatted);
         self.competitionDays.push(formatted);
     });
@@ -48,12 +51,12 @@ AllStarScore.ScoreSheets = function () {
         var day = parents[1].day.toString('ddd MM/dd/yyyy');
         var judge = panel + parents[2].id;
         var level = performance.levelId;
-
+        //console.log(panel + " " + day);
         var result = _.indexOf(self.visibilityMatrix(), panel) > -1 &&
                      _.indexOf(self.visibilityMatrix(), day) > -1 &&
                      _.indexOf(self.visibilityMatrix(), judge) > -1 &&
                     _.indexOf(self.visibilityMatrix(), level) > -1;
-        
+
         return result;
     };
 

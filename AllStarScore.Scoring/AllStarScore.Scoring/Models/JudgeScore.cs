@@ -267,13 +267,16 @@ namespace AllStarScore.Scoring.Models
                            {"scoring-level4", "levels-level4-template"},
                            {"scoring-division42", "division-42-template"},
                            {"scoring-level5", "levels-level5-template"},
-                           {"scoring-restricted5", "restricted5_template"},
+                           {"scoring-restricted5", "restricted5-template"},
 						   {"scoring-level6", "levels-level6-template"},
+						   {"scoring-alternative-all-star", "levels-alternative-all-star-template"},
+
                            {"scoring-school", "levels-school-template"},
 						   {"scoring-dance", "levels-dance-template"},
 						   
 						   {"scoring-dance-jazz", "division-jazz-template"},
-                           
+                           {"scoring-dance-hiphop", "division-hiphop-template"},
+
 						   {"judges-deductions", "judges-deductions-template"},
                            {"judges-legalities", "judges-legalities-template"}
                        };
@@ -294,6 +297,7 @@ namespace AllStarScore.Scoring.Models
                            {"scoring-level5", "all_star_template"},
                            {"scoring-restricted5", "all_star_template"},
 						   {"scoring-level6", "all_star_template"},
+						   {"scoring-alternative-all-star", "all_star_template"},
                            {"scoring-school", "single_column_template"},
                            {"scoring-dance", "single_column_template"},
                            
@@ -319,6 +323,7 @@ namespace AllStarScore.Scoring.Models
                            {"scoring-level5", new Level5ScoringDefinition()},
 						   {"scoring-restricted5", new Level5SeniorRestrictedScoringDefinition()},
                            {"scoring-level6", new Level6ScoringDefinition()},
+						   {"scoring-alternative-all-star", new AlternativeAllStarScoringDefinition()},
                            {"scoring-school", new SchoolScoringDefinition()},
 						   
 						   {"scoring-dance-open", new DanceOpenScoringDefinition()},
@@ -444,6 +449,11 @@ namespace AllStarScore.Scoring.Models
 			Pyramids.Max = 11;
 			Tosses.Max = 11;
 		}
+	}
+
+	public class AlternativeAllStarScoringDefinition : AllStarScoringDefinition
+	{
+		public AlternativeAllStarScoringDefinition() : base(5, 10) { }
 	}
 
     public class DeductionsScoringDefinition : IScoringDefinition
