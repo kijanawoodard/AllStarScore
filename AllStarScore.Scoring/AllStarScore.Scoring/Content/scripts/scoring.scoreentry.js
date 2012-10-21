@@ -61,7 +61,7 @@ AllStarScore.ScoreEntryViewModel = function (data) {
     (function () {
         var input = self.getScoring(self.performance, self.score);
         var scores = input.score.scores;
-
+        console.log(input);
         _.each(input.categories, function (category) {
             var key = category.key;
             category = category.category;
@@ -138,8 +138,8 @@ AllStarScore.ScoreEntryViewModel = function (data) {
         }).extend({ throttle: throttleMilliseconds });
 
 
-        input.score.minTotal = ko.computed(function() {
-            var result = _.reduce(input.categories, function(memo, value) {
+        input.score.minTotal = ko.computed(function () {
+            var result = _.reduce(input.categories, function (memo, value) {
                 return memo + value.category.min;
             }, 0);
             return result;
@@ -152,11 +152,11 @@ AllStarScore.ScoreEntryViewModel = function (data) {
             }, 0);
             return result;
         });
-        
+
         input.score.isGrandTotalBelowMin = ko.computed(function () {
             return input.score.allBaseScoresInputted() && input.score.grandTotal() < input.score.minTotal();
         }).extend({ throttle: throttleMilliseconds });
-                
+
         input.score.isGrandTotalAboveMax = ko.computed(function () {
             return input.score.allBaseScoresInputted() && input.score.grandTotal() > input.score.maxTotal();
         }).extend({ throttle: throttleMilliseconds });
@@ -174,7 +174,7 @@ var formatNumber = function (num) {
     return num;
 };
 
-//score pad and textbox entry stuff ported from old code. convert to knockout? maybe, if we add a 2nd visible score pad;
+//score pad and textbox entry stuff ported from old code. convert to knockout?
 var setupScorePad = function () {
     var textboxes = $("input[type=text]:visible");
     var scorepad = $(".scorepad");
