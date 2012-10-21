@@ -27,30 +27,31 @@
 </script>
 
 <script type="text/html" id="group_template">
-    <ul data-bind="foreach: $data">
-        <li>
-            <h4>
-                <span data-bind="text: scores()[0].levelName()"></span>
-                <span data-bind="text: scores()[0].divisionName()" class="division_name"></span>
-            </h4>
-            <table>
-                <thead>
-                    <tr>
-                        <th>Rank</th>
-                        <th>First</th>
-                        <th>Second</th>
-                        <th>Final</th>
-                    </tr>
-                </thead>
-                <tbody data-bind="foreach: scores">
-                    <tr>
-                        <td data-bind="text: rank" class="numeric"></td>
-                        <td data-bind="text: performanceScores()[0].toFixed(3)" class="numeric"></td>
-                        <td data-bind="text: performanceScores()[1].toFixed(3)" class="numeric"></td>
-                        <td data-bind="text: totalScore().toFixed(3)" class="numeric"></td>
-                        <td>
-                            <span data-bind="text: gymName"></span>
-                            <span data-bind="text: teamName"></span>
+	<ul data-bind="foreach: $data">
+		<li>
+			<h4>
+				<span data-bind="text: scores()[0].levelName()"></span>
+				<span data-bind="text: scores()[0].divisionName()" class="division_name"></span>
+			</h4>
+			<table>
+				<thead>
+					<tr>
+						<th>Rank</th>
+						<th>First</th>
+						<th>Second</th>
+						<th>Final</th>
+					</tr>
+				</thead>
+				<tbody data-bind="foreach: scores">
+					<tr>
+						<td data-bind="text: rank" class="numeric"></td>
+						<td data-bind="text: performanceScores()[0].toFixed(3)" class="numeric"></td>
+						<td data-bind="text: performanceScores()[1].toFixed(3)" class="numeric"></td>
+						<td data-bind="text: totalScore().toFixed(3)" class="numeric"></td>
+						<td>
+							<span data-bind="text: gymName"></span>
+							<span data-bind="text: teamName"></span>
+                            <span data-bind="visible: isShowTeam()" class="show">SHOW</span>
                             <span data-bind="text: isSmallGym() ? 'Small Gym' : 'Large Gym'" class="gym_size"></span>
                         </td>
                     </tr>

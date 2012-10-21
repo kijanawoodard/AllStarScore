@@ -19,7 +19,7 @@ namespace AllStarScore.Scoring.Models
         {
             var rank = 1;
             var result = scores
-                            .OrderByDescending(x => x.TotalScore)
+							.OrderByDescending(x => x.IsShowTeam ? 0 : x.TotalScore)
                             .ThenBy(x => x.GymName)
                             .Select(x =>
                             {
