@@ -292,7 +292,7 @@ namespace AllStarScore.Scoring.Models
                            {"scoring-level1", "all_star_template"},
                            {"scoring-level2", "all_star_template"},
                            {"scoring-level3", "all_star_template"},
-                           {"scoring-level4", "lall_star_template"},
+                           {"scoring-level4", "all_star_template"},
                            {"scoring-division42", "all_star_template"},
                            {"scoring-level5", "all_star_template"},
                            {"scoring-restricted5", "all_star_template"},
