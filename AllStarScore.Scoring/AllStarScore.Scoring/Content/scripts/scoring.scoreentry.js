@@ -26,26 +26,22 @@ AllStarScore.ScoreEntryViewModel = function (data) {
         return maps.template;
     };
 
+    //an array version for knockout foreach
+    var categories = $.map(maps.categories, function (category, key) {
+        return { key: key, category: category };
+    });
+    
     //take parms to prepare for multiple renderings
     self.getScoring = function (performance, score) {
-
-        //an array version for knockout foreach
-        var categories = $.map(maps.categories, function (category, key) {
-            return { key: key, category: category };
-        });
-
         return { score: score, categories: categories };
     };
 
     self.save = function () {
         var form = $('#scoring_scoreentry form');
-
+//        console.log(ko.mapping.toJSON(self.score));
         form.ajaxPost({
             data: ko.mapping.toJSON(self.score),
             success: function (result) {
-                //console.log(ko.toJSON(result));
-                //                console.log('saved');
-                //                $('.validation-summary-errors').empty();
                 window.location = result;
             }
         });
@@ -53,6 +49,15 @@ AllStarScore.ScoreEntryViewModel = function (data) {
 
     self.onAfterRender = function () {
         setupScorePad();
+    };
+
+    var getPrecision = function () {
+        var judgeid = self.score.judgeId();
+        if (judgeid == 'D' || judgeid == 'L') {
+            return 3;
+        }
+
+        return 1;
     };
 
     var throttleMilliseconds = 500;
@@ -67,15 +72,15 @@ AllStarScore.ScoreEntryViewModel = function (data) {
             category = category.category;
 
             scores[key] = scores[key] || {};
-            scores[key].base = scores[key].base || ko.observable();
-            scores[key].execution = scores[key].execution || ko.observable();
+            scores[key].base = (scores[key].base || ko.observable()).extend({ numeric: getPrecision() });
+            scores[key].execution = (scores[key].execution || ko.observable()).extend({ numeric: getPrecision() });
 
             //scores[key].total = 0;
             scores[key].total = ko.computed(function () {
                 var base = scores[key].base();
                 var execution = category.includeExectionScore ? scores[key].execution() : 0;
                 var result = (parseFloat(base) + parseFloat(execution)) || 0;
-                return formatNumber(result);
+                return result;
             });
 
             var executionMax = 1;
@@ -114,7 +119,7 @@ AllStarScore.ScoreEntryViewModel = function (data) {
             for (var key in scores) {
                 memo += parseFloat(scores[key].base() || 0);
             }
-            return formatNumber(memo);
+            return memo;
         }).extend({ throttle: throttleMilliseconds });
 
         input.score.totalExecution = ko.computed(function () {
@@ -123,7 +128,7 @@ AllStarScore.ScoreEntryViewModel = function (data) {
                 var execution = scores[key].execution ? scores[key].execution() : 0.0;
                 memo += parseFloat(execution) || 0;
             }
-            return formatNumber(memo);
+            return memo;
         }).extend({ throttle: throttleMilliseconds });
 
         input.score.allBaseScoresInputted = ko.computed(function () {
@@ -134,7 +139,8 @@ AllStarScore.ScoreEntryViewModel = function (data) {
 
         input.score.grandTotal = ko.computed(function () {
             var result = parseFloat(input.score.totalBase()) + parseFloat(input.score.totalExecution());
-            return formatNumber(result);
+            console.log(result);
+            return result;
         }).extend({ throttle: throttleMilliseconds });
 
 
@@ -167,12 +173,12 @@ AllStarScore.ScoreEntryViewModel = function (data) {
     } ()); //define it and run it; a startup script
 };
 
-var formatNumber = function (num) {
-    num *= 10;
-    num = Math.round(num) / 10;
-    num = num.toFixed(1);
-    return num;
-};
+//var formatNumber = function (num) {
+//    num *= 10;
+//    num = Math.round(num) / 10;
+//    num = num.toFixed(1);
+//    return num;
+//};
 
 //score pad and textbox entry stuff ported from old code. convert to knockout?
 var setupScorePad = function () {
@@ -185,7 +191,7 @@ var setupScorePad = function () {
     var lowOnly = false;
 
     textboxes.focus(function () {
-        scorepad.show();
+        //scorepad.show();
 
         if (active) {
             active.removeClass(selectedClass);
@@ -209,21 +215,21 @@ var setupScorePad = function () {
 
     });
 
-    textboxes.change(function () {
-        var val = $(this).val();
-        var f = formatNumber(parseFloat(val));
-
-        if (isNaN(f)) {
-            f = 0;
-        }
-        else if (f == val) {
-            return true;
-        }
-
-        $(this).val(f);
-        $(this).change();
-        return false;
-    });
+//    textboxes.change(function () {
+//        var val = $(this).val();
+//        var f = formatNumber(parseFloat(val));
+//
+//        if (isNaN(f)) {
+//            f = 0;
+//        }
+//        else if (f == val) {
+//            return true;
+//        }
+//
+//        $(this).val(f);
+//        $(this).change();
+//        return false;
+//    });
 
     $(textboxes).keydown(function (evt) {
         var event = evt || window.event;

@@ -40,8 +40,9 @@
 					<span class="below_min" data-bind="visible: score.isGrandTotalBelowMin">The total score is below the minimum</span>
 					<span class="above_max" data-bind="visible: score.isGrandTotalAboveMax">The total score is above the maximum</span>
 					<br/>
-					@Html.ActionLink("Cancel", "Summary", "Scoring", new { performanceId = @Model.PerformanceId.ForScoringMvc() }, new { })
-					<button data-bind="click: save">Save</button>
+					@Html.ActionLink("Back", "Summary", "Scoring", new { performanceId = @Model.PerformanceId.ForScoringMvc() }, new { })
+@*					<button data-bind="click: save">Save and Stay</button>*@
+                    <button data-bind="click: save">Save and Back</button>
 				</div>        
 			</div>
 
@@ -127,22 +128,18 @@
 				<td data-bind="text: $data.category.display"></td>
 				<td><input type="text" data-bind="value: $parent.score.scores[$data.key].base, css: { below_min:  $parent.score.scores[$data.key].isBaseBelowMin,  above_max:  $parent.score.scores[$data.key].isBaseAboveMax}" /></td>
 				<td><input type="text" data-bind="value: $parent.score.scores[$data.key].execution, visible: $data.category.includeExectionScore, css: { below_min:  $parent.score.scores[$data.key].isExecutionBelowMin,  above_max:  $parent.score.scores[$data.key].isExecutionAboveMax}" /></td>
-				<td data-bind="text: $parent.score.scores[$data.key].total"></td>
+				<td data-bind="text: $parent.score.scores[$data.key].total().toFixed(1)"></td>
 				<td data-bind="text: $data.category.min"></td>
 				<td data-bind="text: $data.category.max"></td>
 			</tr>
 			<!-- /ko -->
 			<tr>
 				<th>Total</th>
-				@*				<th data-bind="text: $data.score.totalBase"></th>*@
-				@*				<th data-bind="text: $data.score.totalExecution"></th>*@
-				@*				<th data-bind="text: $data.score.grandTotal"></th>*@
-				@*				<th data-bind="text: $data.score.minTotal"></th>*@
-				<th></th>
-				<th></th>
-				<th></th>
-                <th></th>
-				<th data-bind="text: $data.score.maxTotal"></th>
+				<th data-bind="text: $data.score.totalBase().toFixed(1)"></th>
+				<th data-bind="text: $data.score.totalExecution().toFixed(1)"></th>
+				<th data-bind="text: $data.score.grandTotal().toFixed(1)"></th>
+				<th data-bind="text: $data.score.minTotal().toFixed(1)"></th>
+				<th data-bind="text: $data.score.maxTotal().toFixed(1)"></th>
 			</tr>
 		</tbody>
 	</table>
@@ -167,7 +164,7 @@
 			<!-- /ko -->
 			<tr>
 				<th>Total</th>
-				@*                <th data-bind="text: $data.score.totalBase"></th>*@
+				<th data-bind="text: $data.score.totalBase"></th>
                 <th></th>
                 <th data-bind="text: $data.score.maxTotal"></th>
             </tr>

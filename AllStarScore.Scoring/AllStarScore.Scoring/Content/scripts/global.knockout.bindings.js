@@ -134,3 +134,39 @@ ko.bindingHandlers.ko_cssClass = {
         element['__ko__previousClassValue__'] = value;
     }
 };
+
+//http://knockoutjs.com/documentation/extenders.html
+ko.extenders.numeric = function (target, precision) {
+    //create a writeable computed observable to intercept writes to our observable
+    var result = ko.computed({
+        read: target,  //always return the original observables value
+        write: function (newValue) {
+            var current = target(),
+                roundingMultiplier = Math.pow(10, precision),
+                newValueAsNum = isNaN(newValue) ? 0 : parseFloat(+newValue);
+
+            //THIS BIT ONLY APPLIES TO A SPECIFIC USE CASE - SPEED ENTRY OF NUMBERS
+            if (newValueAsNum != 10 && newValue && newValue.toString().indexOf(".") == -1)
+                newValueAsNum = newValueAsNum / 10;
+
+            var valueToWrite = Math.round(newValueAsNum * roundingMultiplier) / roundingMultiplier;
+            valueToWrite = valueToWrite.toFixed(precision);
+
+            //only write if it changed
+            if (valueToWrite !== current) {
+                target(valueToWrite);
+            } else {
+                //if the rounded value is the same, but a different value was written, force a notification for the current field
+                if (newValue !== current) {
+                    target.notifySubscribers(valueToWrite);
+                }
+            }
+        }
+    });
+
+    //initialize with current value to make sure it is rounded appropriately
+    result(target());
+
+    //return the new computed observable
+    return result;
+};

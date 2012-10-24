@@ -353,7 +353,7 @@ namespace AllStarScore.Scoring.Models
         public decimal Base { get; set; }
         public decimal Execution { get; set; }
 
-        public decimal Total { get { return (Base + Execution).RoundUp(1); } }
+        public decimal Total { get { return (Base + Execution); } }
     }
 
     public class ScoringCategory
