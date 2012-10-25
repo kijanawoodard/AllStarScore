@@ -17,7 +17,7 @@ namespace AllStarScore.Models
 		public Schedule Schedule { get; set; }
 		public List<Registration> Registrations { get; set; }
 
-    	public CompetitionInfo()
+		public CompetitionInfo()
     	{
     		FirstPerformancePercentage = 0.5M;
     	}
