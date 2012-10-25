@@ -90,8 +90,9 @@ namespace AllStarScore.Admin.Controllers
                     .Customize(x => x.Include<TeamRegistrationStatsByGym.Results>(y => y.CompetitionId))
                     .Where(x => x.CompetitionId == id)
                     .As<TeamRegistrationStatsByGym.Results>()
+					.ToList()
 					.OrderBy(x => x.GymName)
-                    .ToList();
+					.ToList();
 
             var competition = 
                 RavenSession
