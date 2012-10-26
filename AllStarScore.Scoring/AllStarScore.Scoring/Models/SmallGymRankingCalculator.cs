@@ -131,6 +131,8 @@ namespace AllStarScore.Scoring.Models
         public bool IsLargeGym { get { return !IsSmallGym; } }
         public bool IsShowTeam { get; set; }
 
+		public int Participants { get; set; }
+
         public bool DidNotCompete { get; set; }
         public bool ScoringComplete { get; set; }
 
@@ -178,6 +180,7 @@ namespace AllStarScore.Scoring.Models
         					GymLocation = gym.Location,
         					IsSmallGym = gym.IsSmallGym,
         					IsShowTeam = registration.IsShowTeam,
+							Participants = registration.ParticipantCount,
         					DidNotCompete = s.DidNotCompete,
         					ScoringComplete = s.IsScoringComplete,
         				};

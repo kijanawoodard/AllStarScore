@@ -4,3 +4,14 @@
 #reporting_singleperformance td .gym_size { color: #a0a0a0;font-size: .7em;font-style: italic;}
 
 #reporting_singleperformance .levels .division_name { display: none;}
+
+@media print 
+{
+	#reporting_singleperformance ul { font-size: 1.7em; }
+	nav { display: none; }
+	ul li { page-break-inside: avoid; }
+	ul { page-break-after: always; }
+	
+	h3 { display: none; }
+	#reporting_averages { display: none; }
+}
