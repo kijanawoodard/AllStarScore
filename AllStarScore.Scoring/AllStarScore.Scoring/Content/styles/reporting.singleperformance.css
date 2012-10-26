@@ -1,17 +1,18 @@
-﻿#reporting_singleperformance ul { font-size: 2em;}
+﻿#reporting_singleperformance ul { font-size: 1.8em;}
 #reporting_singleperformance td.numeric { padding-right: 2em;}
 
 #reporting_singleperformance td .gym_size { color: #a0a0a0;font-size: .7em;font-style: italic;}
 
 #reporting_singleperformance .levels .division_name { display: none;}
 
+.show { font-size: .6em; }
 @media print 
 {
-	#reporting_singleperformance ul { font-size: 1.7em; }
-	nav { display: none; }
+	#reporting_singleperformance ul { font-size: 1.5em; }
+	.competition_header { display: none; }
 	ul li { page-break-inside: avoid; }
-	ul { page-break-after: always; }
+	div.divisions ul { page-break-after: always; }
 	
-	h3 { display: none; }
+	h3 { displayx: none; }
 	#reporting_averages { display: none; }
 }

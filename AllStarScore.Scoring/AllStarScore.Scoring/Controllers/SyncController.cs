@@ -7,6 +7,7 @@ using System.Web.Mvc;
 using AllStarScore.Extensions;
 using AllStarScore.Models;
 using AllStarScore.Scoring.Models;
+using AllStarScore.Scoring.ViewModels;
 using Newtonsoft.Json;
 
 namespace AllStarScore.Scoring.Controllers
@@ -27,11 +28,44 @@ namespace AllStarScore.Scoring.Controllers
             var data = client.DownloadString(url);
             var model = JsonConvert.DeserializeObject<CompetitionInfo>(data);
 
-            RavenSession.Store(model); 
-            //UpdatePerformances(model);
+            RavenSession.Store(model);
+        	Populate(model);
 
 			return RedirectToAction("Index", "Performance", new { id = model.Id.ForScoringMvc() });
         }
+
+		void Populate(CompetitionInfo info)
+		{
+			var performances =
+				info.Registrations
+					.Select(x => x.GetPerformances(info.Competition))
+					.SelectMany(x => x)
+					.ToList();
+		
+			var panel = new FiveJudgePanel(new List<JudgeScore>());
+			performances.ForEach(performance =>
+			{
+				var scores = panel.Judges.Select(judge => new JudgeScore(performance.Id, judge.Id)).ToList();
+				var calculator = new FiveJudgePanelPerformanceScoreCalculator(scores);
+		
+				var score = new PerformanceScore {PerformanceId = performance.Id};
+				var command = new MarkTeamScoringCompleteCommand
+				{
+					PerformanceId = performance.Id,
+					RegistrationId = performance.RegistrationId,
+					DivisionId = performance.DivisionId,
+					CommandByUser = "system",
+					CommandWhen = DateTime.UtcNow
+				};
+		
+				score.Update(calculator);
+				score.Update(command);
+				score.IsScoringComplete = false;
+
+				scores.ForEach(RavenSession.Store);
+				RavenSession.Store(score);
+			});
+		}
 
 //        public void UpdatePerformances(CompetitionInfo model)
 //        {

@@ -28,7 +28,7 @@
 	<li data-bind="with: $root.PerformanceViewModel.dataToUse($data), visible: $root.PerformanceViewModel.showPerformance($data)">
 		<span data-bind="dateString: time, datePattern: 'ddd h:mm tt'" class="when"></span>
 		<span class="name">
-			<a data-bind="attr: {href: $root.scoringUrl + id.replace(/\//g, '-')}">@* not happy with the replace ForMvc*@
+			<a data-bind="attr: {href: $root.scoringUrl + id.replace(/\//g, '-')}" target="_blank">@* not happy with the replace ForMvc*@
 				<span data-bind="text: gym"></span>
 				<span data-bind="text: team"></span>
 			</a>
@@ -38,7 +38,7 @@
 			<span data-bind="text: division"></span>
 		</span>
 		<span class="status">
-			<span data-bind="visible: isShowTeam" class="show">Show Team</span>
+			<span data-bind="visible: isShowTeam" class="show">Show</span>
 @*			<span data-bind="visible: didNotCompete">Did Not Compete</span>*@
 @*			<span data-bind="visible: $root.PerformanceViewModel.isComplete($data)" class="complete">Complete</span>*@
 		</span>

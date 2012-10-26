@@ -146,8 +146,8 @@ ko.extenders.numeric = function (target, precision) {
                 newValueAsNum = isNaN(newValue) ? 0 : parseFloat(+newValue);
 
             //THIS BIT ONLY APPLIES TO A SPECIFIC USE CASE - SPEED ENTRY OF NUMBERS
-            if (newValueAsNum != 10 && newValue && newValue.toString().indexOf(".") == -1)
-                newValueAsNum = newValueAsNum / 10;
+//            if (newValueAsNum != 10 && newValue && newValue.toString().indexOf(".") == -1)
+//                newValueAsNum = newValueAsNum / 10;
 
             var valueToWrite = Math.round(newValueAsNum * roundingMultiplier) / roundingMultiplier;
             valueToWrite = valueToWrite.toFixed(precision);
