@@ -12,6 +12,8 @@ namespace AllStarScore.Models
         public string Name { get; set; }
         public string Description { get; set; }
         public DateTime FirstDay { get; set; }
+		public DateTimeOffset Offset { get; set; }
+
         public int NumberOfDays { get; set; }
         public DateTime LastDay { get { return FirstDay.AddDays(NumberOfDays - 1); } }
 
@@ -35,6 +37,7 @@ namespace AllStarScore.Models
         {
             Name = command.CompetitionName;
             FirstDay = command.FirstDay;
+        	Offset = command.FirstDay;
             NumberOfDays = command.NumberOfDays;
             NumberOfPerformances = command.NumberOfPerformances;
 

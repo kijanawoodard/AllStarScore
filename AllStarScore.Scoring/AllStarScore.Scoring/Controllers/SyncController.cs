@@ -29,7 +29,7 @@ namespace AllStarScore.Scoring.Controllers
             var model = JsonConvert.DeserializeObject<CompetitionInfo>(data);
 
             RavenSession.Store(model);
-        	Populate(model);
+        	//Populate(model);
 
 			return RedirectToAction("Index", "Performance", new { id = model.Id.ForScoringMvc() });
         }
