@@ -194,45 +194,45 @@ namespace AllStarScore.Admin.Controllers
                              },
 							 new Level
                              {
-                                 Id = "clubcheerbeginner",
-                                 Name = "Club Cheer Beginner",
-                                 ScoringDefinition = "scoring-level5"
+                                 Id = "clubcheernovice",
+                                 Name = "Club Cheer Novice",
+                                 ScoringDefinition = "scoring-alternative-all-star"
                              },
 							 new Level
                              {
                                  Id = "clubcheerintermediate",
                                  Name = "Club Cheer Intermediate",
-                                 ScoringDefinition = "scoring-level5"
+                                 ScoringDefinition = "scoring-alternative-all-star"
                              },
 							 new Level
                              {
                                  Id = "clubcheeradvanced",
                                  Name = "Club Cheer Advanced",
-                                 ScoringDefinition = "scoring-level5"
+                                 ScoringDefinition = "scoring-alternative-all-star"
                              },
 							 new Level
                              {
-                                 Id = "gamerecbeginner",
-                                 Name = "Game Rec Beginner",
-                                 ScoringDefinition = "scoring-level5"
+                                 Id = "gamerecnovice",
+                                 Name = "Game Rec Novice",
+                                 ScoringDefinition = "scoring-alternative-all-star"
                              },
 							 new Level
                              {
                                  Id = "gamerecintermediate",
                                  Name = "Game Rec Intermediate",
-                                 ScoringDefinition = "scoring-level5"
+                                 ScoringDefinition = "scoring-alternative-all-star"
                              },
 							 new Level
                              {
                                  Id = "gamerecadvanced",
                                  Name = "Game Rec Advanced",
-                                 ScoringDefinition = "scoring-level5"
+                                 ScoringDefinition = "scoring-alternative-all-star"
                              },
 							 new Level
                              {
                                  Id = "cheerprep",
                                  Name = "All-Star Prep",
-                                 ScoringDefinition = "scoring-level5"
+                                 ScoringDefinition = "scoring-alternative-all-star"
                              },
                              new Level
                              {
