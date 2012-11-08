@@ -341,8 +341,8 @@ namespace AllStarScore.Admin.Controllers
 			commands.AddRange(list);
 
 			names = new[] { "Tiny", "Mini", "Youth", "Junior", "Senior" };
-			var levels = new[] { "clubcheerbeginner", "clubcheerintermediate", "clubcheeradvanced",
-								 "gamerecbeginner", "gamerecintermediate", "gamerecadvanced"};
+			var levels = new[] { "clubcheernovice", "clubcheerintermediate", "clubcheeradvanced",
+								 "gamerecnovice", "gamerecintermediate", "gamerecadvanced"};
 			list = GenerateDivisionCommands(new[] { "" }, names, levels);
 			commands.AddRange(list);
 
