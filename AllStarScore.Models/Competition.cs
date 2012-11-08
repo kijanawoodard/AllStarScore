@@ -11,16 +11,15 @@ namespace AllStarScore.Models
         public string Id { get; set; }
         public string Name { get; set; }
         public string Description { get; set; }
-        public DateTime FirstDay { get; set; }
-		public DateTimeOffset Offset { get; set; }
+		public DateTimeOffset FirstDay { get; set; }
 
         public int NumberOfDays { get; set; }
-        public DateTime LastDay { get { return FirstDay.AddDays(NumberOfDays - 1); } }
+		public DateTimeOffset LastDay { get { return FirstDay.AddDays(NumberOfDays - 1); } }
 
         public int NumberOfPerformances { get; set; }
         public bool IsWorldsCompetition { get; set; }
 
-        public IEnumerable<DateTime> Days { get { return FirstDay.GetDateRange(LastDay); } }
+		public IEnumerable<DateTime> Days { get { return FirstDay.GetDateRange(LastDay); } }
         public string Display { get { return string.Format("{0} {1: MMM dd, yyyy}", Name, FirstDay); } }
 
         public string CompanyId { get; set; }
@@ -37,7 +36,6 @@ namespace AllStarScore.Models
         {
             Name = command.CompetitionName;
             FirstDay = command.FirstDay;
-        	Offset = command.FirstDay;
             NumberOfDays = command.NumberOfDays;
             NumberOfPerformances = command.NumberOfPerformances;
 

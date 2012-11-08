@@ -34,7 +34,7 @@ namespace AllStarScore.Admin.Controllers
                                                {
                                                    CompetitionId = competition.Id,
                                                    CompetitionName = competition.Name,
-                                                   CompetitionFirstDay = competition.FirstDay,
+                                                   CompetitionFirstDay = competition.FirstDay.DateTime,
                                                    GymCount = 0,
                                                    TeamCount = 0,
                                                    ParticipantCount = 0

@@ -232,7 +232,7 @@ AllStarScore.Scheduling.EditViewModel = function () {
         var result = {
             type: entry.type(),
             duration: entry.duration || self.entryTypes[entry.type()].duration,
-            max: isPerformance ? 10 : 60,
+            max: isPerformance ? 30 : 60,
             canRemove: !isPerformance
         };
         result.duration = ko.observable(result.duration());
