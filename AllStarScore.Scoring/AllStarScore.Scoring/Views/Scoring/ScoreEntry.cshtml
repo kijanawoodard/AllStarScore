@@ -34,7 +34,7 @@
 				<!-- ko template: { name: getTemplate, data: getScoring(performance, score), afterRender: onAfterRender } --><!-- /ko -->
 				<div class="comments">
 					<label>Comments</label>
-					<textarea data-bind="value: score.comments"></textarea>
+					<textarea data-bind="value: score.comments, visible: false"></textarea>
 				</div>
 				<div class="controls">
 					<span class="below_min" data-bind="visible: score.isGrandTotalBelowMin">The total score is below the minimum</span>
@@ -83,7 +83,7 @@
 	
 </div>
 
-<div id="scoring_highmediumlow" data-bind="with: $root.HighMediumLow">
+<div id="scoring_highmediumlow" data-bind="with: $root.HighMediumLow, visible: false">
 	<table class="scoring" data-bind="visible: judgeScores().length > -1">
 		<thead>
 			<tr>
