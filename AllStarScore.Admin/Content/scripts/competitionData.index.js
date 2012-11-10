@@ -15,6 +15,9 @@ AllStarScore.CompetitionData.ViewModel = function (data) {
 
     _.each(self.performances, function (performance) {
         var division = self.divisions[performance.divisionId];
+        if (!division) {
+            console.log("Division is null: " + performance);
+        }
         performance.division = division.name;
         performance.level = self.levels[division.levelId].name;
 
@@ -33,7 +36,7 @@ AllStarScore.CompetitionData.ViewModel = function (data) {
 
     _.each(self.schedule.days, function (day) {
         day.day = new Date(day.day);
-        _.each(day.entries, function(entry) {
+        _.each(day.entries, function (entry) {
             entry.time = new Date(entry.time);
         });
     });
