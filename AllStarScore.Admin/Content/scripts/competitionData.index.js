@@ -16,7 +16,8 @@ AllStarScore.CompetitionData.ViewModel = function (data) {
     _.each(self.performances, function (performance) {
         var division = self.divisions[performance.divisionId];
         if (!division) {
-            console.log("Division is null: " + performance);
+            console.log("Division is null!");
+            console.log(performance);
         }
         performance.division = division.name;
         performance.level = self.levels[division.levelId].name;
