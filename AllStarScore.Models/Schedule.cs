@@ -51,7 +51,7 @@ namespace AllStarScore.Models
             CompetitionId = command.CompetitionId;
             Days = command
                         .Days
-                        .Select(x => new ScheduleDay(x.AddHours(8))) //start at 8 am
+                        .Select(x => new ScheduleDay(x.AddHours(14))) //start at 8 am - HACK: add an additional 6 hours for UTC - total, ugly hack
                         .ToList();   
 
             this.RegisterCommand(command);

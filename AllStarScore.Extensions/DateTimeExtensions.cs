@@ -12,7 +12,7 @@ namespace AllStarScore.Extensions
 
             while (startDate <= endDate)
             {
-                yield return startDate.DateTime;
+                yield return startDate.Date;
                 startDate = startDate.AddDays(1);
             }
         }
