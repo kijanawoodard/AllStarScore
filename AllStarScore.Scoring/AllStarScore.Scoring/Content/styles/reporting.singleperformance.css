@@ -7,6 +7,9 @@
 
 tr.show { text-decoration: line-through; }
 span.show { font-sizex: .6em; }
+
+.special_award { font-weight: bolder; }
+
 @media print 
 {
 	#reporting_singleperformance ul { font-size: 1.5em; }

@@ -45,7 +45,9 @@
 							<span data-bind="text: teamName"></span>
 							<span data-bind="visible: isShowTeam()" class="show">SHOW</span>
 							<span data-bind="text: isSmallGym() ? 'Small' : 'Large'" class="gym_size"></span>
-                            <span data-bind="text: participants" class="show gym_size"></span>
+							<span data-bind="text: participants" class="show gym_size"></span>
+							<span data-bind="visible: isLevelChampion()" class="special_award">LC</span>
+                            <span data-bind="visible: isHighPoint()" class="special_award">HP</span>
                         </td>
                     </tr>
                 </tbody>

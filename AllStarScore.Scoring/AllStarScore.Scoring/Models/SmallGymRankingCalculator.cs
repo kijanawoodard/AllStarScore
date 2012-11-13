@@ -110,11 +110,12 @@ namespace AllStarScore.Scoring.Models
 				if (PerformanceScores.Count == 0)
 					return 0.0M;
 
-				var first = PerformanceScores[0]*FirstScorePercentage;
+				var first = PerformanceScores[0];
 
 				if (PerformanceScores.Count == 1)
 					return first;
 
+				first = first*FirstScorePercentage;
 				var second = PerformanceScores[1] * SecondScorePercentage;
 				return first + second;
 			} 
@@ -135,6 +136,10 @@ namespace AllStarScore.Scoring.Models
 
         public bool DidNotCompete { get; set; }
         public bool ScoringComplete { get; set; }
+
+		public bool IsLevelChampion { get; set; }
+		public bool IsHighPoint { get; set; }
+		public bool IsGrandChampion { get; set; }
 
 		public decimal FirstScorePercentage { get; set; }
 		private decimal SecondScorePercentage {get { return 1.0M - FirstScorePercentage; }}
@@ -218,7 +223,8 @@ namespace AllStarScore.Scoring.Models
                     .Select(g => new TeamScoreGroup(g))
                     .ToList();
 
-            Overall = new TeamScoreGroup("overall", list);
+
+			Overall = new TeamScoreGroup("overall", list);	
         }
 
         public void Rank(IRankingCalculator calculator)
@@ -227,6 +233,18 @@ namespace AllStarScore.Scoring.Models
             {
                 x.Scores = calculator.Rank(x.Scores).ToList();
             });
+
+			Divisions
+				.ForEach(g => g.Scores
+					.ForEach(score =>
+					{
+						var level = Levels.First(x => x.Key == score.LevelId);
+						var high = level.Scores.First().TotalScore;
+						score.IsLevelChampion = score.TotalScore > 0 && score.TotalScore == high;
+
+						high = Overall.Scores.First().TotalScore;
+						score.IsHighPoint = score.TotalScore > 0 && score.TotalScore == high;
+					}));
         }
     }
 
