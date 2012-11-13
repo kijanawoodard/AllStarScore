@@ -38,6 +38,7 @@ namespace AllStarScore.Models
             FirstDay = command.FirstDay;
             NumberOfDays = command.NumberOfDays;
             NumberOfPerformances = command.NumberOfPerformances;
+        	IsWorldsCompetition = command.IsWorldsCompetition;
 
             this.RegisterCommand(command);
         }

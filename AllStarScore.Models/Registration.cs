@@ -13,7 +13,7 @@ namespace AllStarScore.Models
         public int ParticipantCount { get; set; }
         public string DivisionId { get; set; }
         public bool IsShowTeam { get; set; }
-        public bool IsWorldsTeam { get; set; }
+		public bool IsWorldsTeam { get { return DivisionId.ToLower().EndsWith("worlds"); } }
 
         public DateTime CreatedAt { get; set; }
 
@@ -34,27 +34,10 @@ namespace AllStarScore.Models
             var performance = GeneratePerformance("1");
             yield return performance;
 
-//            if (competition.NumberOfDays == 1)
-//                yield break;
+			performance = GeneratePerformance("2");
 
-            performance = GeneratePerformance("2");
-//            if (IsWorldsTeam)
-//            {
-//                performance.DivisionId = performance.DivisionId; //TODO: get Worlds Division Id onto competition
-//            }
-
-            yield return performance;
-
-
-			performance = GeneratePerformance("3");
-			yield return performance;
-
-			performance = GeneratePerformance("4");
-			yield return performance;
-
-			performance = GeneratePerformance("5");
-			yield return performance;
-
+            if (competition.NumberOfPerformances == 2 || IsWorldsTeam)
+                yield return performance;
         }
 
         private Performance GeneratePerformance(string performanceId)
@@ -85,7 +68,6 @@ namespace AllStarScore.Models
             ParticipantCount = command.ParticipantCount;
             DivisionId = command.DivisionId;
             IsShowTeam = command.IsShowTeam;
-            IsWorldsTeam = command.IsWorldsTeam;
 
             this.RegisterCommand(command);
         }
@@ -96,7 +78,6 @@ namespace AllStarScore.Models
             ParticipantCount = command.ParticipantCount;
             DivisionId = command.DivisionId;
             IsShowTeam = command.IsShowTeam;
-            IsWorldsTeam = command.IsWorldsTeam;
 
             this.RegisterCommand(command);
         }

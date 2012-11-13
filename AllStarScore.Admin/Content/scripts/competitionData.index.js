@@ -32,7 +32,8 @@ AllStarScore.CompetitionData.ViewModel = function (data) {
         performance.isSmallGym = gym.isSmallGym;
         performance.location = gym.location;
 
-        performance.order = [, '1st', '2nd', '3rd', '4th', '5th'][performance.id.substr(performance.id.length - 1)];
+        performance.orderId = performance.id.substr(performance.id.length - 1);
+        performance.order = [, '1st', '2nd', '3rd', '4th', '5th'][performance.orderId];
     });
 
     _.each(self.schedule.days, function (day) {

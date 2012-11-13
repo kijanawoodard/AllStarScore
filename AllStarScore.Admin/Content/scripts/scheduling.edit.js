@@ -117,7 +117,18 @@ AllStarScore.Scheduling.EditViewModel = function () {
         };
 
         model = new AllStarScore.Scheduling.EntryModel(model);
-        self.unscheduled.push(model);
+
+        var days = self.schedule.days();
+
+        if (days.length == 1 || performance.orderId == 1) {
+            days[0].entries.push(model);
+        }
+        else if (performance.orderId == 2) {
+            days[1].entries.push(model);
+        }
+        else {
+            self.unscheduled.push(model);
+        }
     };
 
     (function () {
@@ -212,6 +223,8 @@ AllStarScore.Scheduling.EditViewModel = function () {
                 }
             }
         }, day.entries);
+
+        day.entries.valueHasMutated(); //force recalc now; may have new unscheduled items
     });
 
     self.calculateWarmup = function (entry) {
