@@ -1,11 +1,12 @@
 ﻿#reporting_singleperformance ul { font-size: 1.8em;}
 #reporting_singleperformance td.numeric { padding-right: 2em;}
 
-#reporting_singleperformance td .gym_size { color: #a0a0a0;font-size: .7em;font-style: italic;}
+#reporting_singleperformance td .gym_size { color: #a0a0a0;font-sizex: .7em;font-style: italic;}
 
 #reporting_singleperformance .levels .division_name { display: none;}
 
-.show { font-size: .6em; }
+tr.show { text-decoration: line-through; }
+span.show { font-sizex: .6em; }
 @media print 
 {
 	#reporting_singleperformance ul { font-size: 1.5em; }

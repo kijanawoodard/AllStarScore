@@ -2,6 +2,8 @@
 #reporting_twoperformance td.numeric,
 #reporting_twoperformance th { padding-right: 2em;}
 
-#reporting_twoperformance td .gym_size { color: #a0a0a0;font-size: .7em;font-style: italic;}
+#reporting_twoperformance td .gym_size { color: #a0a0a0;font-sizex: .7em;font-style: italic;}
 
 #reporting_twoperformance .levels .division_name { display: none;}
+
+tr.show { text-decoration: line-through; }

@@ -166,6 +166,7 @@ namespace AllStarScore.Scoring.Models
 
         				var level =
         					info.Levels.First(x => x.Id == division.LevelId);
+
         				return new TeamScore
         				{
         					CompetitionId = info.Competition.Id,

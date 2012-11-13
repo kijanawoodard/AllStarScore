@@ -36,7 +36,7 @@
 			</h4>
 			<table>
 				<tbody data-bind="foreach: scores">
-					<tr>
+					<tr data-bind="css: {show: isShowTeam() }">
 						@*                        <td data-bind="text: $index() + 1"></td>*@
 						<td data-bind="text: rank" class="numeric"></td>
 						<td data-bind="text: performanceScores()[0].toFixed(3)" class="numeric"></td>
