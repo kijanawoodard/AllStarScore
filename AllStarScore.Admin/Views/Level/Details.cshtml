@@ -60,7 +60,7 @@
 </script>
 
 <script>
-    var levelData = JSON.parse('@Html.Raw(Model.ToJson())');
+    var levelData = JSON.parse(NormalizeLineEndings('@Html.Raw(Model.ToJson())'));
     var divisionEditLink = '@Url.Action("Edit", "Division")';
 </script>
 

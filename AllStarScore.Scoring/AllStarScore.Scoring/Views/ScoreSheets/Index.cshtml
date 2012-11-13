@@ -89,7 +89,7 @@
 </div>
 
 <script>
-    var detailsScoreSheetsData = JSON.parse('@Html.Raw(Model.ToJson())');
+    var detailsScoreSheetsData = JSON.parse(NormalizeLineEndings('@Html.Raw(Model.ToJson())'));
 </script>
 
 <script type="text/html" id="levels-level1-template">
@@ -1019,7 +1019,7 @@
 	</table>
 </script>
 
-<script type="text/html" id="division-hiphop-template">
+<script type="text/html" id="levels-hiphop-template">
 	<table class="scoresheet">
 		<thead>
 			<tr>
@@ -1035,11 +1035,6 @@
                 <td></td>
                 <td>10</td>
                 <td class="comments" rowspan="9"></td>
-            </tr>
-            <tr>
-                <td>Technical Skills</td>
-                <td></td>
-                <td>10</td>
             </tr>
             <tr>
                 <td>Visual Effects</td>
@@ -1073,7 +1068,7 @@
             </tr>
             <tr>
                 <th colspan="2">Total</th>
-                <th>80</th>
+                <th>70</th>
             </tr>
         </tbody>
     </table>

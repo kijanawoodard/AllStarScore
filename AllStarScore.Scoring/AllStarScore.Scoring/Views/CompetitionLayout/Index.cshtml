@@ -13,5 +13,5 @@
 </div>
 
 <script>
-    Input.CompetitionData = JSON.parse('@Html.Raw(Model.ToJson())');
+    Input.CompetitionData = JSON.parse(NormalizeLineEndings('@Html.Raw(Model.ToJson())'));
 </script>

@@ -49,7 +49,7 @@
 	<text>
 		$(document).ready(function () { 
 		    AllStarScore.scoringUrl = '@Url.Action("Summary", "Scoring")/';
-            var data = JSON.parse('@Html.Raw(Model.ToJson())');
+            var data = JSON.parse(NormalizeLineEndings('@Html.Raw(Model.ToJson())'));
 		});
 	</text>
 }

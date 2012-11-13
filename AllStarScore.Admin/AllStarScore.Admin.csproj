@@ -121,7 +121,7 @@
     <Compile Include="Controllers\AccountController.cs" />
     <Compile Include="Controllers\CompanyController.cs" />
     <Compile Include="Controllers\CompetitionController.cs" />
-    <Compile Include="Controllers\CompetitionData.cs" />
+    <Compile Include="Controllers\CompetitionDataController.cs" />
     <Compile Include="Controllers\LevelController.cs" />
     <Compile Include="Controllers\GymController.cs" />
     <Compile Include="Controllers\HomeController.cs" />

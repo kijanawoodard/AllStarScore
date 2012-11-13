@@ -17,6 +17,16 @@
         <link rel="stylesheet" href="~/content/styles/site.mobile.css" media="all" />
 
         @Html.RenderCss()
+		<script>
+		    function NormalizeLineEndings(data) {
+		        //http://stackoverflow.com/questions/395379/problem-when-retrieving-text-in-json-format-containing-line-breaks-with-jquery
+		        data = data.replace(/\r\n/g, '\\n');
+		        data = data.replace(/\r/g, '\\n');
+		        data = data.replace(/\n/g, '\\n');
+
+		        return data;
+		    }
+		</script>
         <meta name="viewport" content="initial-scale=1, maximum-scale=1">
     </head>
     <body>

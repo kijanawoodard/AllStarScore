@@ -51,7 +51,7 @@ AllStarScore.ScoreSheets = function () {
         var day = parents[1].day.toString('ddd MM/dd/yyyy');
         var judge = panel + parents[2].id;
         var level = performance.levelId;
-        //console.log(panel + " " + day);
+        console.log(panel + " " + day + " " + judge + " " + level);
         var result = _.indexOf(self.visibilityMatrix(), panel) > -1 &&
                      _.indexOf(self.visibilityMatrix(), day) > -1 &&
                      _.indexOf(self.visibilityMatrix(), judge) > -1 &&

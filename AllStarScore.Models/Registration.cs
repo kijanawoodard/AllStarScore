@@ -34,16 +34,27 @@ namespace AllStarScore.Models
             var performance = GeneratePerformance("1");
             yield return performance;
 
-            if (competition.NumberOfDays == 1)
-                yield break;
+//            if (competition.NumberOfDays == 1)
+//                yield break;
 
             performance = GeneratePerformance("2");
-            if (IsWorldsTeam)
-            {
-                performance.DivisionId = performance.DivisionId; //TODO: get Worlds Division Id onto competition
-            }
+//            if (IsWorldsTeam)
+//            {
+//                performance.DivisionId = performance.DivisionId; //TODO: get Worlds Division Id onto competition
+//            }
 
             yield return performance;
+
+
+			performance = GeneratePerformance("3");
+			yield return performance;
+
+			performance = GeneratePerformance("4");
+			yield return performance;
+
+			performance = GeneratePerformance("5");
+			yield return performance;
+
         }
 
         private Performance GeneratePerformance(string performanceId)

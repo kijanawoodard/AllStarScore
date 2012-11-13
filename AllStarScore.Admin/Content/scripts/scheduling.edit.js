@@ -136,6 +136,11 @@ AllStarScore.Scheduling.EditViewModel = function () {
                 .value();
 
         var unscheduled = _.difference(_.keys(self.performances), scheduled);
+        unscheduled = _.sortBy(unscheduled, function (key) {
+            //console.log(self.performances[key]);
+            var performance = self.performances[key];
+            return [performance.gym, performance.team, performance.order, performance.level, performance.division]; //order will only work as long as there are less 10 performances - never heard of more than 2
+        });
 
         _.each(unscheduled, function (id) {
             var performance = self.performances[id];

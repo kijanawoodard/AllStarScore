@@ -79,7 +79,7 @@
     var registrationTeamsData = {
         competitionId: '@Model.CompetitionId',
         gymId: '@Model.GymId',
-        teams: JSON.parse('@Html.Raw(Model.Teams.ToJson())'),
-        divisions: JSON.parse('@Html.Raw(Model.Divisions.ToJson())')
+        teams: JSON.parse(NormalizeLineEndings('@Html.Raw(Model.Teams.ToJson())')),
+        divisions: JSON.parse(NormalizeLineEndings('@Html.Raw(Model.Divisions.ToJson())'))
     };
 </script>

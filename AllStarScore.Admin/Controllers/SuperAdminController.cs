@@ -242,9 +242,21 @@ namespace AllStarScore.Admin.Controllers
                              },
 							 new Level
                              {
+                                 Id = "hiphop", 
+                                 Name = "Hip Hop / Crew", 
+                                 ScoringDefinition = "scoring-hiphop"
+                             },
+							 new Level
+                             {
                                  Id = "danceprep", 
                                  Name = "Dance Prep", 
                                  ScoringDefinition = "scoring-dance"
+                             },
+							 new Level
+                             {
+                                 Id = "hiphopprep", 
+                                 Name = "Hip Hop / Crew Prep", 
+                                 ScoringDefinition = "scoring-hiphop"
                              },
                              new Level  
                              {
@@ -333,17 +345,17 @@ namespace AllStarScore.Admin.Controllers
 			commands.AddRange(list);
 
 			names = new[] { "Senior Restricted" };
-			list = GenerateDivisionCommands(new[] { "" }, names, "5", "scoring-restricted5" );
+			list = GenerateDivisionCommands(sizes, names, "5", "scoring-restricted5" );
 			commands.AddRange(list);
 
 			names = new[] { "Open", "Open Coed" };
-			list = GenerateDivisionCommands(new[] { "" }, names, "6");
+			list = GenerateDivisionCommands(sizes, names, "6");
 			commands.AddRange(list);
 
 			names = new[] { "Tiny", "Mini", "Youth", "Junior", "Senior" };
 			var levels = new[] { "clubcheernovice", "clubcheerintermediate", "clubcheeradvanced",
 								 "gamerecnovice", "gamerecintermediate", "gamerecadvanced"};
-			list = GenerateDivisionCommands(new[] { "" }, names, levels);
+			list = GenerateDivisionCommands(sizes, names, levels);
 			commands.AddRange(list);
 
 			var prepSuffixes = new[] {"Level 1", "Level 2", "Level 3"};
@@ -354,21 +366,20 @@ namespace AllStarScore.Admin.Controllers
 			list = GenerateDivisionCommands(new[] { "" }, names, "school");
 			commands.AddRange(list);
 
-			var dances = new[] {"Jazz", "Pom", "Prop", "Novelty", "Ballet", "Lyrical", "Open", "Hip Hop", "Crew"};
-			dances.ToList().ForEach(dance =>
-        	{
-				var scoringdef = "scoring-dance-" + dance.ToLower().Replace(" ", "");
-				
-				names = new[] { "Tiny", "Mini", "Youth", "Junior", "Senior", "Open" };
-        		names = names.Select(name => dance + " " + name).ToArray();
-				list = GenerateDivisionCommands(new[] { "", "Coed" }, names, "dance", scoringdef);
-				commands.AddRange(list);
+			names = new[] { "Tiny", "Mini", "Youth", "Junior", "Senior", "Open" };
+			list = GenerateDivisionCommands(new[] { "", "Coed" }, names, "dance");
+			commands.AddRange(list);
 
-				names = new[] { "Tiny", "Mini", "Youth", "Junior" };
-				names = names.Select(name => dance + " " + name).ToArray();
-				list = GenerateDivisionCommands(new[] { "", "Coed" }, names, "danceprep", scoringdef);
-				commands.AddRange(list);	
-        	});
+			list = GenerateDivisionCommands(new[] { "", "Coed" }, names, "hiphop");
+			commands.AddRange(list);
+
+			names = new[] { "Tiny", "Mini", "Youth", "Junior" };
+			list = GenerateDivisionCommands(new[] { "", "Coed" }, names, "danceprep");
+			commands.AddRange(list);
+
+			names = new[] { "Tiny", "Mini", "Youth", "Junior" };
+			list = GenerateDivisionCommands(new[] { "", "Coed" }, names, "hiphopprep");
+			commands.AddRange(list);	
 
 			names = new[] { "Special Needs" };
 			list = GenerateDivisionCommands(new[] { "" }, names, "specialneeds");
