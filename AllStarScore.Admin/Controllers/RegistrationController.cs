@@ -44,7 +44,8 @@ namespace AllStarScore.Admin.Controllers
                         DivisionId = t.DivisionId,
                         TeamName = t.TeamName,
                         ParticipantCount = t.ParticipantCount,
-                        IsShowTeam = t.IsShowTeam
+                        IsShowTeam = t.IsShowTeam,
+						IsWorldsTeam = t.IsWorldsTeam
                     })
                     .Take(int.MaxValue) //there shouldn't be very many of these in practice
                     .ToList();
