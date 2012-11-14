@@ -1,1 +1,2 @@
 ﻿form.create input[type="submit"] { float: right; }
+fieldset input[name="participantCount"] { width: 200px; }

@@ -13,7 +13,7 @@ namespace AllStarScore.Models
         public int ParticipantCount { get; set; }
         public string DivisionId { get; set; }
         public bool IsShowTeam { get; set; }
-		public bool IsWorldsTeam { get { return DivisionId.ToLower().EndsWith("worlds"); } }
+		public bool IsWorldsTeam { get; set; }
 
         public DateTime CreatedAt { get; set; }
 
@@ -68,6 +68,7 @@ namespace AllStarScore.Models
             ParticipantCount = command.ParticipantCount;
             DivisionId = command.DivisionId;
             IsShowTeam = command.IsShowTeam;
+			IsWorldsTeam = command.IsWorldsTeam;
 
             this.RegisterCommand(command);
         }
@@ -78,6 +79,7 @@ namespace AllStarScore.Models
             ParticipantCount = command.ParticipantCount;
             DivisionId = command.DivisionId;
             IsShowTeam = command.IsShowTeam;
+        	IsWorldsTeam = command.IsWorldsTeam;
 
             this.RegisterCommand(command);
         }

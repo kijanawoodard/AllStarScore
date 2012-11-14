@@ -38,6 +38,7 @@
     self.addTeam = function (team) {
         //add any new properties to team before mapping
         team.divisionName = self.getDivisionName(team.divisionId);
+        team.isWorldsTeam = team.isWorldsTeam || false;
         team.editing = false;
 
         team = ko.mapping.fromJS(team);
@@ -51,7 +52,7 @@
     });
 
     self.sortedTeams = ko.computed(function () {
-        return _(self.teams.slice()).sortBy(function(team) {
+        return _(self.teams.slice()).sortBy(function (team) {
             return team.divisionName() + "\u0000" + team.teamName(); //https://github.com/documentcloud/underscore/issues/283
         });
     }, self);
@@ -91,7 +92,8 @@
         divisionName: ko.observable(),
         teamName: ko.observable(),
         participantCount: ko.observable(),
-        isShowTeam: ko.observable()
+        isShowTeam: ko.observable(),
+        isWorldsTeam: ko.observable()
     };
 
     self.resetCreateForm = function () {
@@ -99,6 +101,7 @@
         self.createNew.teamName('');
         self.createNew.participantCount('');
         self.createNew.isShowTeam(false);
+        self.createNew.isWorldsTeam(false);
         form.data('validator').resetForm(); //http://stackoverflow.com/a/2060530/214073
         form.find('input').first().focus();
     };
