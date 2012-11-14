@@ -108,7 +108,7 @@ AllStarScore.Scheduling.EditViewModel = function () {
     };
 
     self.unscheduled = ko.observableArray();
-    console.log(data.competition);
+    //console.log(data.competition);
 
     var autoSchedulingStrategy;
 
@@ -165,7 +165,7 @@ AllStarScore.Scheduling.EditViewModel = function () {
         };
 
         model = new AllStarScore.Scheduling.EntryModel(model);
-        console.log(performance);
+        //console.log(performance);
         var days = self.schedule.days();
 
         autoSchedulingStrategy(days, performance, model);
