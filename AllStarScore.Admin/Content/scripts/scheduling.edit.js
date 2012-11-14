@@ -108,6 +108,54 @@ AllStarScore.Scheduling.EditViewModel = function () {
     };
 
     self.unscheduled = ko.observableArray();
+    console.log(data.competition);
+
+    var autoSchedulingStrategy;
+
+    var oneDayAutoSchedulingStrategy = function (days, performance, model) {
+        days[0].entries.push(model);
+    };
+
+    var twoDayOnePerformanceAutoSchedulingStrategy = function (days, performance, model) {
+        var dayTwoLevels = ["level/school/", "level/2/", "level/4/", "level/5/", "level/6/"];
+        var putOnDayTwo = _.any(dayTwoLevels, function (level) {
+            return performance.divisionId.indexOf(level) > -1;
+        });
+
+        if (days.length == 1) {
+            days[0].entries.push(model);
+        }
+        else if (!putOnDayTwo) {
+            days[0].entries.push(model);
+        }
+        else {
+            days[1].entries.push(model);
+        }
+    };
+
+    var twoDayTwoPerformanceAutoSchedulingStrategy = function (days, performance, model) {
+        if (days.length == 1 || performance.orderId == 1) { //making sure days is the length we expect
+            days[0].entries.push(model);
+        }
+        else if (performance.orderId == 2) {
+            days[1].entries.push(model);
+        }
+        else {
+            self.unscheduled.push(model);
+        }
+    };
+
+    if (self.schedule.days().length == 1) {
+        autoSchedulingStrategy = oneDayAutoSchedulingStrategy;
+    }
+    else if (data.competition.numberOfPerformances == 1) {
+        autoSchedulingStrategy = twoDayOnePerformanceAutoSchedulingStrategy;
+    }
+    else if (data.competition.numberOfPerformances == 2) {
+        autoSchedulingStrategy = twoDayTwoPerformanceAutoSchedulingStrategy;
+    } else { //safety
+        autoSchedulingStrategy = oneDayAutoSchedulingStrategy;
+    }
 
     var addPerformance = function (performance) {
         var model = {
@@ -117,18 +165,10 @@ AllStarScore.Scheduling.EditViewModel = function () {
         };
 
         model = new AllStarScore.Scheduling.EntryModel(model);
-
+        console.log(performance);
         var days = self.schedule.days();
 
-        if (days.length == 1 || performance.orderId == 1) {
-            days[0].entries.push(model);
-        }
-        else if (performance.orderId == 2) {
-            days[1].entries.push(model);
-        }
-        else {
-            self.unscheduled.push(model);
-        }
+        autoSchedulingStrategy(days, performance, model);
     };
 
     (function () {
