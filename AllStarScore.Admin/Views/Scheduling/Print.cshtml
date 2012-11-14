@@ -20,14 +20,11 @@
 					<th>Warmup</th>
 					<th>Perform</th>
 					<th>Panel</th>
-					<th>Gym</th>
 					<th>Team</th>
-					<th>Level</th>
 					<th>Division</th>
 					<th>Location</th>
 					<th>Gym Size</th>
-					<th></th>
-                    <th>Partipants</th>
+                    <th>#</th>
 				</tr>
 			</thead>
 			<tbody data-bind="foreach: entries">
@@ -45,14 +42,10 @@
 	<td data-bind="dateString: $root.calculateWarmup($data), datePattern : 'h:mm tt'" class="warmup"></td>
 	<td data-bind="dateString: time, datePattern: 'h:mm tt'"></td>
 	<td data-bind="text: $root.schedule.divisionPanels[divisionId]" class="nice"></td>
-	<td data-bind="text: gym"></td>
-	<td data-bind="text: team"></td>
-	<td data-bind="text: level"></td>
-	<td data-bind="text: division"></td>
-	@*	    <td data-bind="text: order" class="order"></td>*@
+	<td><span data-bind="text: gym"></span> <span data-bind="text: team"></span> <span data-bind="text: isShowTeam ? 'Show' : ''" class="show"></span></td>
+	<td><span data-bind="text: level"></span> <span data-bind="text: division"></span></td>
 	<td data-bind="text: location"></td>
 	<td data-bind="text: isSmallGym ? 'Small' : 'Large'" class="nice"></td>
-    <td data-bind="text: isShowTeam ? 'Show' : ''" class="show"></td>
 	<td data-bind="text: participants" class="numeric"></td>
 </script>
 
