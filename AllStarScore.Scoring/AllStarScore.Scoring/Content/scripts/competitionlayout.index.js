@@ -390,21 +390,24 @@ AllStarScore.ReportOrder = function (data) {
         "company/1/divisions/level/4/division/open_small",
         "company/1/divisions/level/5/division/worlds",
         "company/1/divisions/level/5/division/youth",
-        "company/1/divisions/level/5/division/youth_large",
         "company/1/divisions/level/5/division/youth_small",
+        "company/1/divisions/level/5/division/youth_large",
         "company/1/divisions/level/5/division/junior",
-        "company/1/divisions/level/5/division/junior_large",
         "company/1/divisions/level/5/division/junior_small",
+        "company/1/divisions/level/5/division/junior_large",
+        "company/1/divisions/level/5/division/senior_restricted",
+        "company/1/divisions/level/5/division/senior_restricted_large",
         "company/1/divisions/level/5/division/senior",
+        "company/1/divisions/level/5/division/senior_small",
+        "company/1/divisions/level/5/division/senior_medium",
+        "company/1/divisions/level/5/division/senior_large",
         "company/1/divisions/level/5/division/senior_coed",
         "company/1/divisions/level/5/division/senior_coed_small",
         "company/1/divisions/level/5/division/senior_coed_medium",
         "company/1/divisions/level/5/division/senior_coed_large",
-        "company/1/divisions/level/5/division/senior_large",
-        "company/1/divisions/level/5/division/senior_restricted",
-        "company/1/divisions/level/5/division/senior_small",
         "company/1/divisions/level/5/division/international_open",
         "company/1/divisions/level/5/division/international_open_coed",
+        "company/1/divisions/level/5/division/open_coed",
         "company/1/divisions/level/6/division/open",
         "company/1/divisions/level/6/division/open_coed",
         "company/1/divisions/level/specialneeds/division/special_needs"
@@ -488,8 +491,9 @@ AllStarScore.CompetitionData = function (data) {
         day.day = new Date(day.day);
         _.each(day.entries, function (entry) {
             entry.time = new Date(entry.time);
-            
+
             if (entry.performanceId) {
+                //console.log(entry);
                 self.performances[entry.performanceId].time = entry.time;
             }
         });

@@ -13,6 +13,6 @@ AllStarScore.ReportingViewModel = function (data) {
     data.reporting.divisions = _.sortBy(data.reporting.divisions, function (division) {
         return _.indexOf(AllStarScore.ReportOrder.divisions, division.key);
     });
-    console.log(data);
+    //console.log(data);
     ko.mapping.fromJS(data, {}, self);
 };

@@ -26,9 +26,10 @@ AllStarScore.ScoreSheets = function () {
         });
     });
 
-//    self.visibilityMatrix.push('A1');
-//    self.visibilityMatrix.push('B1');
-
+    //    self.visibilityMatrix.push('A1');
+    //    self.visibilityMatrix.push('B1');
+    //console.log(_.keys(competitionData.performances).length);
+    
     _.each(competitionData.schedule.days, function (day) {
         //what are we doing here? normalizing the date to a string for the checkbox compare; 
         //the value of the checkbox has to be a string not a date object;
@@ -36,10 +37,11 @@ AllStarScore.ScoreSheets = function () {
         var formatted = day.day.toString('ddd MM/dd/yyyy');
         self.visibilityMatrix.push(formatted);
         self.competitionDays.push(formatted);
+        //console.log(day.entries.length);
     });
 
     _.each(self.levels, function (level) {
-        self.visibilityMatrix.push(level.id);
+        //self.visibilityMatrix.push(level.id);
     });
 
     self.toPerformance = function (performanceId) {
@@ -51,17 +53,24 @@ AllStarScore.ScoreSheets = function () {
         var day = parents[1].day.toString('ddd MM/dd/yyyy');
         var judge = panel + parents[2].id;
         var level = performance.levelId;
-        console.log(panel + " " + day + " " + judge + " " + level);
+        //console.log(panel + " " + day + " " + judge + " " + level);
         var result = _.indexOf(self.visibilityMatrix(), panel) > -1 &&
                      _.indexOf(self.visibilityMatrix(), day) > -1 &&
                      _.indexOf(self.visibilityMatrix(), judge) > -1 &&
                     _.indexOf(self.visibilityMatrix(), level) > -1;
 
+        if (!result) {
+            //console.log(panel + " " + day + " " + judge + " " + level);
+        }
         return result;
     };
 
     self.getTemplate = function (performance, judge) {
         var maps = AllStarScore.ScoringMap.getMaps(performance, judge);
+        if (performance.levelId == "company/1/level/4" && performance.gym == "Express Cheer") {
+            console.log(performance);
+            console.log(maps);
+        }
         return maps.scoreSheet;
     };
 
@@ -99,7 +108,7 @@ var ScheduleModel = function (data) {
         //we're also divorcing what gets attached the checkbox so the formmatted value doesn't change our real day object
         var formatted = node.day.toString('ddd MM/dd/yyyy');
         self.visibilityMatrix.push(formatted);
-        self.competitionDays.push(formatted);   
+        self.competitionDays.push(formatted);
 
         _.each(node.entries, function (entry) {
             var registration = entry.registration();
@@ -122,6 +131,10 @@ var ScheduleModel = function (data) {
                      _.indexOf(self.visibilityMatrix(), day) > -1 &&
                      _.indexOf(self.visibilityMatrix(), judge) > -1 &&
                     _.indexOf(self.visibilityMatrix(), level) > -1;
+
+        if (!result) {
+            //console.log(panel + " " + day + " " + judge + " " + level);
+        }
         return result;
     };
 };

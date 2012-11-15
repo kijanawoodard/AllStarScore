@@ -25,6 +25,9 @@ namespace AllStarScore.Scoring.ViewModels
 					.SelectMany(x => x.GetPerformances(info.Competition))
 					.ToList();
 
+        	var go =
+        		Performances.Where(x => x.RegistrationId == "company/1/competitions/5/registrations/gyms/41/team/12").ToList();
+
 			JudgePanel = new FiveJudgePanel(new List<JudgeScore>()); //TODO: If we need a different panel....
 			SecurityContext = new SecurityContext();
         }
