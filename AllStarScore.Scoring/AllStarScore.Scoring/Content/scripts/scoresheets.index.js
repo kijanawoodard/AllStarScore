@@ -41,7 +41,7 @@ AllStarScore.ScoreSheets = function () {
     });
 
     _.each(self.levels, function (level) {
-        //self.visibilityMatrix.push(level.id);
+        self.visibilityMatrix.push(level.id);
     });
 
     self.toPerformance = function (performanceId) {
@@ -67,10 +67,6 @@ AllStarScore.ScoreSheets = function () {
 
     self.getTemplate = function (performance, judge) {
         var maps = AllStarScore.ScoringMap.getMaps(performance, judge);
-        if (performance.levelId == "company/1/level/4" && performance.gym == "Express Cheer") {
-            console.log(performance);
-            console.log(maps);
-        }
         return maps.scoreSheet;
     };
 
