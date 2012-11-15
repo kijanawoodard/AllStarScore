@@ -332,8 +332,12 @@ namespace AllStarScore.Admin.Controllers
 			list = GenerateDivisionCommands(sizes, names, "4", "scoring-division42");
 			commands.AddRange(list);
 			
-			names = new[] { "Youth", "Junior", "Senior" };
+			names = new[] { "Youth", "Junior" };
 			list = GenerateDivisionCommands(sizes, names, "5");
+			commands.AddRange(list);
+
+			names = new[] { "Senior", "Open", "Open Coed" };
+			list = GenerateDivisionCommands(new[] { "", "Small", "Medium", "Large" }, names, "5");
 			commands.AddRange(list);
 
 			names = new[] { "Senior Coed" };

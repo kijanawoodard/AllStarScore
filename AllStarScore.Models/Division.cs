@@ -45,7 +45,7 @@ namespace AllStarScore.Models
 
         public string GenerateId()
         {
-			var slug = Name.Replace(" ", "_").Replace("/", "_").ToLower();
+			var slug = Name.Replace(" ", "_").Replace("/", "_").Replace(".", "_").ToLower();
         	slug = HttpUtility.UrlEncode(slug);
             return FormatId(CompanyId, LevelId) + slug;
         }
