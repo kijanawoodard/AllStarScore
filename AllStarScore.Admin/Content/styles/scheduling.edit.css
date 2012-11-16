@@ -47,7 +47,7 @@ li .index { left: 0; top: 0; bottom: 0;padding: .4em 0; }
 
 .performances { overflow: hidden;}
 .scheduled { width: 100%;float: left;}
-.unscheduled, div.active {width: 50%;position: absolute;right: 0;background-color: #ddd;padding: 12px;border: 2px solid #a0a0a0;overflowx: auto;}
+.unscheduled, div.active {width: 50%;position: fixed;right: 0;background-color: #ddd;padding: 12px;border: 2px solid #a0a0a0;overflowx: auto;}
 
 div.active { width: 25%; }
 div.active .slider { width: 70% !important; }
