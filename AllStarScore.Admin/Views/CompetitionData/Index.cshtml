@@ -5,7 +5,7 @@
 @using(Html.BeginScript(ScriptPositionEnum.EndOfPage)) { 
 	<text>
 		$(document).ready(function () { 
-		    var competitionData = JSON.parse(NormalizeLineEndings('@Html.Raw(Model.ToJson())'));
+		    var competitionData = JSON.parse(@(Html.EncodeAsJson(Model)));
             window.AllStarScore.CompetitionData = new window.AllStarScore.CompetitionData.ViewModel(competitionData);
 		});
 	</text>

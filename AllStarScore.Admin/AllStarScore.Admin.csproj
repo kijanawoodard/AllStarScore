@@ -139,6 +139,7 @@
     <Compile Include="Infrastructure\Indexes\CompetitionSearch.cs" />
     <Compile Include="Infrastructure\Indexes\DivisionsWithLevels.cs" />
     <Compile Include="Infrastructure\Indexes\GymsByName.cs" />
+    <Compile Include="Infrastructure\Extensions\HtmlHelperExtensions.cs" />
     <Compile Include="Infrastructure\Indexes\ScheduleByCompetition.cs" />
     <Compile Include="Infrastructure\Indexes\TeamRegistrationByCompetition.cs" />
     <Compile Include="Infrastructure\Indexes\TeamRegistrationStatsByCompetition.cs" />

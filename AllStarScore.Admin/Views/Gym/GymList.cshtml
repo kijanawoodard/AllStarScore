@@ -2,6 +2,6 @@
 
 <script>
     var gymCreateData = {
-        gyms: JSON.parse(NormalizeLineEndings('@Html.Raw(Model.Gyms.ToJson())'))
+        gyms: JSON.parse(@(Html.EncodeAsJson(Model.Gyms)))
     };
 </script>
