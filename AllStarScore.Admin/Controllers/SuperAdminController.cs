@@ -362,7 +362,9 @@ namespace AllStarScore.Admin.Controllers
 			list = GenerateDivisionCommands(sizes, names, levels);
 			commands.AddRange(list);
 
-			var prepSuffixes = new[] {"Level 1", "Level 2", "Level 3"};
+			var prepSuffixes = new[] {"Level 1", "Level 1 Small", "Level 1 Large",
+									  "Level 2", "Level 2 Small", "Level 2 Large",
+									  "Level 3", "Level 3 Small", "Level 3 Large"};
 			list = GenerateDivisionCommands(prepSuffixes, names, "cheerprep");
 			commands.AddRange(list);
 
