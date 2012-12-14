@@ -89,7 +89,7 @@
 </div>
 
 <script>
-    var detailsScoreSheetsData = JSON.parse(NormalizeLineEndings('@Html.Raw(Model.ToJson())'));
+    var detailsScoreSheetsData = JSON.parse(@(Html.EncodeAsJson(Model)));
 </script>
 
 <script type="text/html" id="levels-level1-template">

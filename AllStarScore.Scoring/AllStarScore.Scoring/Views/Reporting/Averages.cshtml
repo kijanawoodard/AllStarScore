@@ -12,7 +12,7 @@
 </div>
 
 <script>
-    var averagesData = JSON.parse(NormalizeLineEndings('@Html.Raw(Model.ToJson())'));
+    var averagesData = JSON.parse(@(Html.EncodeAsJson(Model)));
 </script>
 
 <script type="text/html" id="average_template">

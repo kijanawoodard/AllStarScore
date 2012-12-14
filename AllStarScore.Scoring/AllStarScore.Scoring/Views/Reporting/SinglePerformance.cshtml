@@ -24,7 +24,7 @@
 @{ Html.RenderAction("Averages", "Reporting"); }
 
 <script>
-    var reportingData = JSON.parse(NormalizeLineEndings('@Html.Raw(Model.ToJson())'));
+    var reportingData = JSON.parse(@(Html.EncodeAsJson(Model)));
 </script>
 
 <script type="text/html" id="group_template">

@@ -151,7 +151,7 @@
 </div>
 <script>
     Input.scoreEntryUrl = '@Url.Action("ScoreEntry", "Scoring", new { performanceId = @Model.PerformanceId.ForScoringMvc(), judgeId = "REPLACE_THIS"})';
-    Input.Scoring = JSON.parse(NormalizeLineEndings('@Html.Raw(Model.ToJson())'));
+    Input.Scoring = JSON.parse(@(Html.EncodeAsJson(Model)));
 </script>
 
 <script type="text/html" id="all_star_template">

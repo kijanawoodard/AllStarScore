@@ -2,5 +2,5 @@
 
 
 <script>
-    var highMediumLowData = JSON.parse(NormalizeLineEndings('@Html.Raw(Model.ToJson())'));
+    var highMediumLowData = JSON.parse(@(Html.EncodeAsJson(Model)));
 </script>

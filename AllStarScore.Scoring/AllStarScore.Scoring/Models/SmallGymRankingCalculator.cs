@@ -64,7 +64,7 @@ namespace AllStarScore.Scoring.Models
         public override IEnumerable<TeamScore> Rank(IEnumerable<TeamScore> scores)
         {
             var result = base.Rank(scores).ToList();
-
+			
             SetFirstPlace(result, x => x.IsLargeGym);
             SetFirstPlace(result, x => x.IsSmallGym);
 

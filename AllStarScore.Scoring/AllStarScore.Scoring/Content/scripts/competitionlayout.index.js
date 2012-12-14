@@ -34,7 +34,9 @@ AllStarScore.ReportOrder = function (data) {
     var self = this;
     self.levels = [
         "company/1/level/individual",
+        "company/1/level/hiphopprep",
         "company/1/level/danceprep",
+        "company/1/level/hiphop",
         "company/1/level/dance",
         "company/1/level/school",
         "company/1/level/cheerprep",
@@ -216,6 +218,7 @@ AllStarScore.ReportOrder = function (data) {
         "company/1/divisions/level/5/division/junior_small",
         "company/1/divisions/level/5/division/junior_large",
         "company/1/divisions/level/5/division/senior_restricted",
+        "company/1/divisions/level/5/division/senior_restricted_small",
         "company/1/divisions/level/5/division/senior_restricted_large",
         "company/1/divisions/level/5/division/senior",
         "company/1/divisions/level/5/division/senior_small",

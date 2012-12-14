@@ -106,7 +106,7 @@
 </div>
 
 <script>
-    var scoringScoreEntryData = JSON.parse(NormalizeLineEndings('@Html.Raw(Model.ToJson())'));
+    var scoringScoreEntryData = JSON.parse(@(Html.EncodeAsJson(Model)));
     AllStarScore.HighMediumLowLink = '@Url.Action("HighMediumLow", "Scoring", new { Model.PerformanceId })';
 </script>
 
