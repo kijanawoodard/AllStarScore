@@ -85,5 +85,16 @@ namespace AllStarScore.Admin.Controllers
                     return new JsonDotNetResult(true); 
                 });
         }
+
+		[HttpPost]
+		public JsonDotNetResult Delete(RegistrationDeleteCommand command)
+		{
+			return Execute(
+				action: () =>
+				{
+					RavenSession.Advanced.DocumentStore.DatabaseCommands.Delete(command.Id, null);
+					return new JsonDotNetResult(true);
+				});
+		}
     }
 }

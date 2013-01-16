@@ -40,6 +40,13 @@ AllStarScore.CompetitionData.ViewModel = function (data) {
         day.day = new Date(day.day);
         _.each(day.entries, function (entry) {
             entry.time = new Date(entry.time);
+            var ok = !entry.performanceId || self.performances[entry.performanceId];
+            if (!ok) {
+                entry.remove = true;
+            }
+        });
+        day.entries = _.reject(day.entries, function(entry) {
+            return entry.remove;
         });
     });
 

@@ -54,8 +54,8 @@
                         <th>Division</th>
                         <th>Team name</th>
                         <th># of Participants</th>
-						<th>Show?</th>
-@*                        <th>Worlds?</th>*@
+                        <th>Show?</th>
+                        @*                        <th>Worlds?</th>*@
                         <th />
                     </tr>
                 </thead>
@@ -64,11 +64,12 @@
                         <td><input data-bind='value: divisionName, ko_autocomplete: { source: $root.divisions }, enable: $data.editing' name="division" class='required' type="text"/></td>
                         <td><input data-bind='value: teamName, enable: $data.editing, hasfocus: true' type="text" /></td>
                         <td><input data-bind='value: participantCount, enable: $data.editing' name="participantCount" class="required number" type="text" /></td>
-						<td><input data-bind='checked: isShowTeam, enable: $data.editing' type="checkbox" /></td>
-@*                        <td><input data-bind='checked: isWorldsTeam, enable: $data.editing' type="checkbox" /></td>*@
+                        <td><input data-bind='checked: isShowTeam, enable: $data.editing' type="checkbox" /></td>
+                        @*                        <td><input data-bind='checked: isWorldsTeam, enable: $data.editing' type="checkbox" /></td>*@
                         <td>
                             
                             <a href='#' data-bind='click: $root.editTeam, visible: !$root.editing()'>Edit</a>
+                            <a href='#' data-bind='click: $root.deleteTeam, visible: !$root.editing()'>Delete</a>
                             <a href='#' data-bind='click: $root.cancelEdit, visible: $data.editing'>Cancel</a>
                             <input type="submit" value="Save" data-bind='click: $root.save, visible: $data.editing' />
                         </td>
@@ -77,6 +78,8 @@
             </table>
         </fieldset>
     </form>
+    
+    <form action='@Url.Action("Delete", "Registration")' method="POST" class="delete" style="display:none;"></form>
 </div>
 
 <script>

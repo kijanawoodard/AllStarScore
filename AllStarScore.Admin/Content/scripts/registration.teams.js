@@ -2,6 +2,7 @@
     var self = this;
     var form = $('#team_registration form.create');
     var editForm = $('#team_registration form.edit');
+    var deleteForm = $('#team_registration form.delete');
 
     self.data = data;
     self.divisions = _(data.divisions).sortBy(function (division) { return division.label; });
@@ -118,6 +119,21 @@
             success: function (result) {
                 //console.log(ko.toJSON(result));
                 team.editing(false);
+                self.editing(false); //compute?
+            }
+        });
+    };
+
+    self.deleteTeam = function (team) {
+        var ok = confirm("Delete Team. Are you sure?");
+        if (!ok) {
+            return;
+        }
+
+        deleteForm.ajaxPost({
+            data: ko.toJSON(team),
+            success: function (result) {
+                self.teams.remove(team);
                 self.editing(false); //compute?
             }
         });
