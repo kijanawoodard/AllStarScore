@@ -19,7 +19,7 @@ namespace AllStarScore.Models
 
 		public CompetitionInfo()
     	{
-    		FirstPerformancePercentage = 0.5M;
+    		FirstPerformancePercentage = 0.3M;
     	}
     }
 }
