@@ -149,6 +149,13 @@ namespace AllStarScore.Admin.Controllers
             RavenSession.SaveChanges();
         }
 
+		void HackAll(string companyId)
+		{
+			var document = new CompetitionDivisions(companyId);
+
+
+		}
+
         void HackLevels(string companyId)
         {
         	var ok = RavenSession.Query<Level>().Any();
@@ -263,12 +270,6 @@ namespace AllStarScore.Admin.Controllers
                                  Id = "school", 
                                  Name = "School", 
                                  ScoringDefinition = "scoring-school"
-                             },
-                             new Level
-                             {
-                                 Id = "individual",
-                                 Name = "Individual",
-                                 ScoringDefinition = "scoring-individual"
                              },
                              new Level
                              {

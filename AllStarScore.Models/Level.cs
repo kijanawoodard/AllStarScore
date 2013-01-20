@@ -1,4 +1,5 @@
 using System;
+using System.Collections.Generic;
 
 namespace AllStarScore.Models
 {
@@ -41,4 +42,35 @@ namespace AllStarScore.Models
             return Id.GetHashCode();
         }
     }
+
+	public class AwardsLevel
+	{
+		
+	}
+
+	public class AwardsDivision
+	{
+
+	}
+
+	public class CompetitionDivisions : IBelongToCompany
+	{
+		public string Id { get; set; }
+		public string CompanyId { get; set; }
+
+		public CompetitionDivisions(string companyId)
+		{
+			CompanyId = companyId;
+		}
+
+		public ICollection<AwardsLevel> AwardsLevels { get; set; }
+		public ICollection<Level> Levels { get; set; }
+		public ICollection<AwardsDivision> AwardsDivisions { get; set; }
+		public ICollection<Division> Divisions { get; set; }
+
+		public void AddLevel()
+		{
+			
+		}
+	}
 }
