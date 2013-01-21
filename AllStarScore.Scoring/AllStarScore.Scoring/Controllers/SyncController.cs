@@ -18,23 +18,29 @@ namespace AllStarScore.Scoring.Controllers
 
         public ActionResult Import(string id)
         {
-			var security =
-				RavenSession
-					.Load<Synchronization>(Synchronization.FormatId(TenantName));
+			var model = GetCompetitionInfoFromServer(id);
 
-			var url = string.Format("{0}{1}/competitions_{2}", security.Url, security.Token, id);
-
-            var client = new WebClient();
-            var data = client.DownloadString(url);
-            var model = JsonConvert.DeserializeObject<CompetitionInfo>(data);
-
-            RavenSession.Store(model);
+	        RavenSession.Store(model);
         	Populate(model);
 
 			return RedirectToAction("Index", "Performance", new { id = model.Id.ForScoringMvc() });
         }
 
-		void Populate(CompetitionInfo info)
+	    private CompetitionInfo GetCompetitionInfoFromServer(string id)
+	    {
+		    var security =
+			    RavenSession
+				    .Load<Synchronization>(Synchronization.FormatId(TenantName));
+
+		    var url = string.Format("{0}{1}/competitions_{2}", security.Url, security.Token, id);
+
+		    var client = new WebClient();
+		    var data = client.DownloadString(url);
+		    var model = JsonConvert.DeserializeObject<CompetitionInfo>(data);
+		    return model;
+	    }
+
+	    void Populate(CompetitionInfo info)
 		{
 			var performances =
 				info.Registrations
@@ -116,6 +122,20 @@ namespace AllStarScore.Scoring.Controllers
 			}
 
 			return new JsonDotNetResult("ok");
+		}
+
+		public ActionResult Schedule(string id)
+		{
+			var queryid = id.Substring(id.LastIndexOf("/", System.StringComparison.Ordinal) + 1);
+			var model = GetCompetitionInfoFromServer(queryid);
+
+			var info =
+			   RavenSession
+				   .Load<CompetitionInfo>(id);
+
+			info.Schedule = model.Schedule;
+
+			return RedirectToAction("Index", "Performance", new { id = id.ForScoringMvc() });
 		}
     }
 }
