@@ -37,5 +37,10 @@ AllStarScore.Scheduling.PrintViewModel = function () {
         return result;
     };
 
+    $('#scheduling_print').on('submit', '.excel form', function (e) {
+        var html = $('#scheduling_print .main').html();
+        $('#excel-data').attr('value', html);
+    });
+
     return self;
 };

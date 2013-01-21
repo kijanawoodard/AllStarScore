@@ -10,33 +10,45 @@
 @{ Html.RegisterScript("~/content/scripts/scheduling.print.js"); }
 
 <div id="scheduling_print">
-	<h2>Schedule for @Html.ActionLink(Model.Competition.Display, "Details", "Competition", new { id = Model.Competition.Id.ForMvc() }, new { })</h2>
+    <div class="excel">
+        <form action="@Url.Action("Index", "Excel")" method="POST">
+            <input type="hidden" name="filename" value="hello"/>
+            <input type="hidden" id="excel-data" name="data" />
+            <input type="submit" class="export" value="Export to Excel" />
+        </form>
+    </div>
+    <div class="main">
+        <h2>Schedule for @Html.ActionLink(Model.Competition.Display, "Details", "Competition", new { id = Model.Competition.Id.ForMvc() }, new { })</h2>
     
-	<div data-bind="foreach: schedule.days">
-		<span data-bind="dateString: day, datePattern: 'dddd MMM dd, yyyy'"></span>
-		<table>
-			<thead>
-				<tr>
-					<th>Warmup</th>
-					<th>Perform</th>
-					<th>Panel</th>
-					<th>Team</th>
-					<th>Division</th>
-					<th>Location</th>
-					<th>Gym Size</th>
-                    <th>#</th>
-				</tr>
-			</thead>
-			<tbody data-bind="foreach: entries">
-				<tr data-bind="template: { name: $root.entryTypes[type].template, data: $root.toPerformance($data) }">
-				</tr>
-			</tbody>
-		</table>
+        <div data-bind="foreach: schedule.days">
+            <span data-bind="dateString: day, datePattern: 'dddd MMM dd, yyyy'"></span>
+            <table>
+                <thead>
+                    <tr>
+                        <th>Warmup</th>
+                        <th>Perform</th>
+                        <th>Panel</th>
+                        <th>Team</th>
+                        <th>Division</th>
+                        <th>Location</th>
+                        <th>Gym Size</th>
+                        <th>#</th>
+                    </tr>
+                </thead>
+                <tbody data-bind="foreach: entries">
+                    <tr data-bind="template: { name: $root.entryTypes[type].template, data: $root.toPerformance($data) }">
+                    </tr>
+                </tbody>
+            </table>
         
-	</div>
+        </div>
+    </div>
+    @*	<pre class="ko_output" data-bind="text: ko.toJSON($root, null, 2)"></pre>*@
     
-	<pre class="ko_output" data-bind="text: ko.toJSON($root, null, 2)"></pre>
 </div>
+<script type="text/plain" id="export-url">
+    @Url.Action("Index", "Excel")
+</script>
 
 <script type="text/html" id="performance-template">
 	<td data-bind="dateString: $root.calculateWarmup($data), datePattern : 'h:mm tt'" class="warmup"></td>
