@@ -75,4 +75,4 @@ div.active > div { margin-bottom: 1em; }
 .save button { }
 .save .notification {display: none; background-color: #a0ffa0;color: #3a3a3a; font-size: 1.2em;padding: 8px;}
 
-.divisionSheet { font-size: 1.4em; }
+.divisionSheet, .blockSchedule { font-size: 1.4em; }

@@ -69,9 +69,11 @@ AllStarScore.Scheduling.EditViewModel = function () {
             return performance.gym + ' ' + performance.team + ' ' + performance.location;
         });
 
-        division.value = _.uniq(division.value, false, function(performance) { return performance.registrationId; });
+        division.value = _.uniq(division.value, false, function (performance) { return performance.registrationId; });
     });
-    console.log(self.divisionSheet);
+
+    self.blockSchedule = utilities.asArray(_.groupBy(self.performances, 'level'));
+    self.blockSchedule = _.sortBy(self.blockSchedule, 'key');
 
     self.schedule = ko.mapping.fromJS(data.schedule, AllStarScore.Scheduling.ScheduleMapping);
 

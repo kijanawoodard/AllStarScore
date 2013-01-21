@@ -96,6 +96,14 @@
     
     @*    <p>@Html.ActionLink("Printable Schedule", "Print", "Scheduling", new { id = Model.Competition.Id.ForMvc() }, new { })</p>*@
     
+    <div class="blockSchedule">
+        <h2>Level Counts</h2>
+        <ul data-bind="foreach: blockSchedule">
+            <li>
+                <span data-bind="text: value[0].level"></span> - <span data-bind="text: value.length"></span> Teams
+            </li>
+        </ul>
+    </div>
     <div class="divisionSheet">
         <h2>Division Sheet</h2>
     
