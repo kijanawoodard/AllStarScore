@@ -20,6 +20,11 @@ namespace AllStarScore.Admin.Controllers
 					.Advanced.Lazily
 					.Load<Schedule>(Schedule.FormatId(id));
 
+			var competitionDivisions =
+				RavenSession
+					.Advanced.Lazily
+					.Load<CompetitionDivisions>(CompetitionDivisions.FormatId(CurrentCompanyId));
+
 			var levels =
 				RavenSession
 					.LoadStartingWith<Level>(Level.FormatId(CurrentCompanyId));

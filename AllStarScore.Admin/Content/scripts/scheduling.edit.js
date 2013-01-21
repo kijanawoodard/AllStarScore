@@ -54,12 +54,24 @@ AllStarScore.Scheduling.EditViewModel = function () {
     var hook = $('#scheduling_edit');
     var form = hook.find('form');
 
+    var utilities = window.AllStarScore.Utilities;
     var data = AllStarScore.CompetitionData;
     self.performances = data.performances;
 
     _.each(data.raw.divisions, function (division) {
         AllStarScore.Scheduling.ScheduleMapping.include.push(division.id); //skirt this issue: https://groups.google.com/forum/?fromgroups=#!topic/knockoutjs/QoubswdzIxI; this works because we know all the possible keys
     });
+
+    self.divisionSheet = utilities.asArray(_.groupBy(self.performances, 'divisionId'));
+    self.divisionSheet = _.sortBy(self.divisionSheet, function (item) { return item.value[0].level + ' ' + item.value[0].division; });
+    _.each(self.divisionSheet, function (division) {
+        division.value = _.sortBy(division.value, function (performance) {
+            return performance.gym + ' ' + performance.team + ' ' + performance.location;
+        });
+
+        division.value = _.uniq(division.value, false, function(performance) { return performance.registrationId; });
+    });
+    console.log(self.divisionSheet);
 
     self.schedule = ko.mapping.fromJS(data.schedule, AllStarScore.Scheduling.ScheduleMapping);
 

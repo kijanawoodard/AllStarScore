@@ -94,9 +94,27 @@
 		</fieldset>
 	</form>
     
-@*    <p>@Html.ActionLink("Printable Schedule", "Print", "Scheduling", new { id = Model.Competition.Id.ForMvc() }, new { })</p>*@
-
-@*	<pre class="ko_output" data-bind="text: ko.toJSON($root, null, 2)"></pre>*@
+    @*    <p>@Html.ActionLink("Printable Schedule", "Print", "Scheduling", new { id = Model.Competition.Id.ForMvc() }, new { })</p>*@
+    
+    <div class="divisionSheet">
+        <h2>Division Sheet</h2>
+    
+        <!-- ko foreach: divisionSheet -->
+        <div>
+            <h3>
+                <span data-bind="text: value[0].level"></span> <span data-bind="text: value[0].division"></span> - <span data-bind="text: value.length"></span> Team(s)
+            </h3>
+            <ul data-bind="foreach: value">
+                <li>
+                    <span data-bind="text: gym"></span>
+                    <span data-bind="text: team"></span>
+                    <span data-bind="text: location"></span>
+                </li>
+            </ul>
+        </div>
+        <!-- /ko --> 
+    </div>
+    @*	<pre class="ko_output" data-bind="text: ko.toJSON($root, null, 2)"></pre>*@
 </div>
 
 <script type="text/html" id="scheduled-template">
