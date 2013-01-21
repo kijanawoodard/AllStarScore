@@ -14,64 +14,63 @@ namespace AllStarScore.Admin.Controllers
     {
         public ActionResult Index()
         {
-            var levels =
+            var competitionDivisions =
                 RavenSession
-                    .LoadStartingWith<Level>(Level.FormatId(CurrentCompanyId))
-                    .ToList();
+					.Load<CompetitionDivisions>(CompetitionDivisions.FormatId(CurrentCompanyId));
 
-            var model = new LevelIndexViewModel(levels);
+            var model = new LevelIndexViewModel(competitionDivisions);
             return View(model);
         }
 
-        public ActionResult Details(string id)
-        {
-            var level =
-                RavenSession
-                    .Load<Level>(id);
-
-            var divisions =
-                RavenSession
-                    .LoadStartingWith<Division>(Division.FormatId(CurrentCompanyId, id))
-                    .ToList();
-
-            var model = new LevelDetailsViewModel(level, divisions);
-            return View(model);
-        }
-
-		[HttpPost]
-		public JsonDotNetResult Details(DivisionCreateCommand command)
-		{
-			return Execute(
-				action: () =>
-				{
-					var division = new Division();
-					division.Update(command);
-					RavenSession.Store(division);
-					RavenSession.SaveChanges();
-
-					return new JsonDotNetResult(division);
-				});
-		}
-
-		
-    }
-
-	public class DivisionController : RavenController
-	{
-		public JsonDotNetResult Edit(DivisionEditCommand command)
-		{
-			return Execute(
-				action: () =>
-				{
-					var division =
-						RavenSession.Load<Division>(command.Id);
-
-					division.Update(command);
-					RavenSession.Store(division);
-					RavenSession.SaveChanges();
-
-					return new JsonDotNetResult(division);
-				});
-		}
+//        public ActionResult Details(string id)
+//        {
+//            var level =
+//                RavenSession
+//                    .Load<Level>(id);
+//
+//            var divisions =
+//                RavenSession
+//                    .LoadStartingWith<Division>(Division.FormatId(CurrentCompanyId, id))
+//                    .ToList();
+//
+//            var model = new LevelDetailsViewModel(level, divisions);
+//            return View(model);
+//        }
+//
+//		[HttpPost]
+//		public JsonDotNetResult Details(DivisionCreateCommand command)
+//		{
+//			return Execute(
+//				action: () =>
+//				{
+//					var division = new Division();
+//					division.Update(command);
+//					RavenSession.Store(division);
+//					RavenSession.SaveChanges();
+//
+//					return new JsonDotNetResult(division);
+//				});
+//		}
+//
+//		
+//    }
+//
+//	public class DivisionController : RavenController
+//	{
+//		public JsonDotNetResult Edit(DivisionEditCommand command)
+//		{
+//			return Execute(
+//				action: () =>
+//				{
+//					var division =
+//						RavenSession.Load<Division>(command.Id);
+//
+//					division.Update(command);
+//					RavenSession.Store(division);
+//					RavenSession.SaveChanges();
+//
+//					return new JsonDotNetResult(division);
+//				});
+//		}
 	}
 }

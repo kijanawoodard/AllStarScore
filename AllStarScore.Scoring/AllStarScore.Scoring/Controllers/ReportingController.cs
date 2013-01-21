@@ -29,11 +29,10 @@ namespace AllStarScore.Scoring.Controllers
 				RavenSession
 					.Load<CompetitionInfo>(id);
 
-            var calculator = new SmallGymRankingCalculator(); //TODO: indirect
             var generator = new TeamScoreGenerator();
             var scores = generator.From(performances, info);
             var reporting = new TeamScoreReporting(scores);
-            reporting.Rank(calculator);
+            reporting.Rank();
 
             var model = new ReportingSinglePerformanceViewModel(id, reporting);
             return View(model);
@@ -60,7 +59,6 @@ namespace AllStarScore.Scoring.Controllers
         	var firsts = performances.Where(x => x.IsFirstPerformance);
         	var seconds = performances.Where(x => x.IsSecondPerformance);
 
-            var calculator = new SmallGymRankingCalculator(); //TODO: indirect
             var generator = new TeamScoreGenerator();
         	var scores = generator.From(firsts, info).ToList();
 			scores.ForEach(x =>
@@ -79,7 +77,7 @@ namespace AllStarScore.Scoring.Controllers
 			});
 
             var reporting = new TeamScoreReporting(scores);
-            reporting.Rank(calculator);
+            reporting.Rank();
 
             var model = new ReportingTwoPerformanceViewModel(id, reporting);
             return View(model);

@@ -49,6 +49,11 @@ namespace AllStarScore.Admin.Controllers
 					.Advanced.Lazily
 					.Load<Schedule>(Schedule.FormatId(request.CompetitionId));
 
+			var competitionDivisions =
+				RavenSession
+					.Advanced.Lazily
+					.Load<CompetitionDivisions>(CompetitionDivisions.FormatId(CurrentCompanyId));
+
 			var levels =
 				RavenSession
 					.LoadStartingWith<Level>(Level.FormatId(CurrentCompanyId));
@@ -71,6 +76,7 @@ namespace AllStarScore.Admin.Controllers
             var model = new CompetitionInfo
                         {
                             Company = company.Value,
+							CompetitionDivisions = competitionDivisions.Value,
                             Levels = levels.ToList(),
 							Divisions = divisions.ToList(),
 							Gyms = gyms.ToList(),

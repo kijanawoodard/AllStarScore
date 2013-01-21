@@ -57,7 +57,7 @@ namespace AllStarScore.Scoring.Specs
         [When(@"the TeamScores are ranked")]
         public void WhenTheTeamScoresAreRanked()
         {
-            _reporting.Rank(_calculator);
+            _reporting.Rank();
         }
 
         [Then(@"(.*) should be (\d+)st")]
@@ -87,7 +87,7 @@ namespace AllStarScore.Scoring.Specs
         [Then(@"(.*) should be ranked (\d+)")]
         public void ThenTigerCheerShouldBeRanked(string gym, int rank)
         {
-            var score = _reporting.All.SelectMany(x => x.Scores).First(x => x.GymName == gym);
+            var score = _reporting.Divisions.SelectMany(x => x.Scores).First(x => x.GymName == gym);
             Assert.AreEqual(rank, score.Rank);
         }
 
@@ -105,7 +105,7 @@ namespace AllStarScore.Scoring.Specs
         [Then(@"the count of (.*) will be (\d+)")]
         public void ThenTheCountOfKeyWillBeExpected(string key, int expected)
         {
-            var count = _reporting.All.First(x => x.Key == key).Scores.Count;
+            var count = _reporting.Divisions.First(x => x.Key == key).Scores.Count;
             Assert.AreEqual(expected, count);
         }
     }

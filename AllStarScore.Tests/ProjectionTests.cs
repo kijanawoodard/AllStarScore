@@ -120,4 +120,20 @@ namespace AllStarScore.Tests
             public int Data { set; get; }
         }
     }
+
+	public class RandomTests
+	{
+		[Fact]
+		public void TestHashSet()
+		{
+			var hash = new HashSet<string>();
+
+			hash.Add("foo");
+			hash.Add("bar");
+			hash.Add("foo");
+
+			Assert.Equal(2, hash.Count);
+
+		}
+	}
 }

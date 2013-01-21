@@ -22,14 +22,17 @@ AllStarScore.ScoreSheets = function () {
     _.each(self.panels(), function (panel) {
         self.visibilityMatrix.push(panel);
         _.each(self.judges, function (judge) {
-            self.visibilityMatrix.push(panel + judge.id);
+            //http://stackoverflow.com/a/175787/214073
+            if (!isNaN(+judge.id)) {
+                self.visibilityMatrix.push(panel + judge.id);
+            }
         });
     });
 
     //    self.visibilityMatrix.push('A1');
     //    self.visibilityMatrix.push('B1');
     //console.log(_.keys(competitionData.performances).length);
-    
+
     _.each(competitionData.schedule.days, function (day) {
         //what are we doing here? normalizing the date to a string for the checkbox compare; 
         //the value of the checkbox has to be a string not a date object;

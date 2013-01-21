@@ -22,7 +22,7 @@ namespace AllStarScore.Scoring.Controllers
 				RavenSession
 					.Load<Synchronization>(Synchronization.FormatId(TenantName));
 
-			var url = string.Format("{0}{1}/competitions-{2}", security.Url, security.Token, id);
+			var url = string.Format("{0}{1}/competitions_{2}", security.Url, security.Token, id);
 
             var client = new WebClient();
             var data = client.DownloadString(url);

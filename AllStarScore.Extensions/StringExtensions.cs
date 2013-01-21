@@ -1,3 +1,5 @@
+using System.Text.RegularExpressions;
+
 namespace AllStarScore.Extensions
 {
     public static class StringExtensions
@@ -43,17 +45,32 @@ namespace AllStarScore.Extensions
 		public static string ForScoringMvc(this string target)
 		{
 			return target
-					.Replace("/", "-");
+					.Replace("/", "_");
 		}
 
         public static string FromMvc(this string target)
         {
-            return target.TrimSafely().Replace("-", "/");
+            return target.TrimSafely().Replace("_", "/");
         }
 
         public static string FromMvc<T>(this T target)
         {
             return (target as string).FromMvc();
         }
+
+		/// <summary>
+		/// Generates a permalink slug for passed string
+		/// </summary>
+		/// <param name="phrase"></param>
+		/// <returns>clean slug string (ex. "some-cool-topic")</returns>
+		public static string GenerateSlug(this string phrase)
+		{
+			var s = phrase.ToLower();
+			s = Regex.Replace(s, @"[^a-z0-9\s-]", "");                      // remove invalid characters
+			s = Regex.Replace(s, @"\s+", " ").Trim();                       // single space
+			//s = s.Substring(0, s.Length <= 45 ? s.Length : 45).Trim();      // cut and trim
+			s = Regex.Replace(s, @"\s", "-");                               // insert hyphens
+			return s.ToLower();
+		}
     }
 }

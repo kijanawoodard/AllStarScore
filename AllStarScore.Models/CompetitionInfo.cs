@@ -12,6 +12,7 @@ namespace AllStarScore.Models
 		public Competition Competition { get; set; }
 		public Schedule Schedule { get; set; }
 		public Company Company { get; set; }
+		public CompetitionDivisions CompetitionDivisions { get; set; }
 		public List<Level> Levels { get; set; }
 		public List<Division> Divisions { get; set; }
 		public List<Gym> Gyms { get; set; }

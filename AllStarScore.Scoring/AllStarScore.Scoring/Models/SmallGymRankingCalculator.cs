@@ -100,6 +100,7 @@ namespace AllStarScore.Scoring.Models
         public string CompetitionId { get; set; }
         public string RegistrationId { get; set; }
         public string LevelId { get; set; }
+		public string AwardsLevelId { get; set; }
         public string DivisionId { get; set; }
 
         public List<decimal> PerformanceScores { get; set; }
@@ -127,6 +128,7 @@ namespace AllStarScore.Scoring.Models
 
         public string DivisionName { get; set; }
         public string LevelName { get; set; }
+		public string AwardsLevelName { get; set; }
 
         public bool IsSmallGym { get; set; }
         public bool IsLargeGym { get { return !IsSmallGym; } }
@@ -143,6 +145,9 @@ namespace AllStarScore.Scoring.Models
 
 		public decimal FirstScorePercentage { get; set; }
 		private decimal SecondScorePercentage {get { return 1.0M - FirstScorePercentage; }}
+		
+		public bool UseSmallGymCalculator { get; set; } //HACK: a hack until I think of something better
+		public bool SuppressLevelChampion { get; set; }
 
         public TeamScore()
         {
@@ -169,19 +174,24 @@ namespace AllStarScore.Scoring.Models
         				var division =
         					info.Divisions.First(x => x.Id == s.DivisionId);
 
-        				var level =
-        					info.Levels.First(x => x.Id == division.LevelId);
+						var level =
+							info.Levels.First(x => x.Id == division.LevelId);
+
+        				var awardsLevel =
+        					info.CompetitionDivisions.FindAwardsLevel(division.LevelId);
 
         				return new TeamScore
         				{
         					CompetitionId = info.Competition.Id,
 							RegistrationId = registration.Id,
 							LevelId = level.Id,
+							AwardsLevelId = awardsLevel.Id,
 							DivisionId = division.Id,
         					PerformanceScores = new List<decimal>(){s.TotalScore},
         					GymName = gym.Name,
         					DivisionName = division.Name,
-        					LevelName = level.Name,
+							LevelName = level.Name,
+							AwardsLevelName = awardsLevel.Name,
         					TeamName = registration.TeamName,
         					GymLocation = gym.Location,
         					IsSmallGym = gym.IsSmallGym,
@@ -189,6 +199,8 @@ namespace AllStarScore.Scoring.Models
 							Participants = registration.ParticipantCount,
         					DidNotCompete = s.DidNotCompete,
         					ScoringComplete = s.IsScoringComplete,
+							UseSmallGymCalculator = awardsLevel.UseSmallGymRanking,
+							SuppressLevelChampion = awardsLevel.SuppressLevelWinner
         				};
         			}
     );
@@ -203,8 +215,6 @@ namespace AllStarScore.Scoring.Models
         public List<TeamScoreGroup> Levels { get; set; }
         public TeamScoreGroup Overall { get; set; }
 
-        [JsonIgnore]
-        public List<TeamScoreGroup> All { get { return Divisions.Concat(Levels).Concat(new[] {Overall}).ToList(); } } 
         public TeamScoreReporting(IEnumerable<TeamScore> scores)
         {
             var list = scores.ToList();
@@ -216,31 +226,45 @@ namespace AllStarScore.Scoring.Models
                     .Select(g => new TeamScoreGroup(g))
                     .ToList();
 
-            Levels =
-                list
-                    .JsonCopy()
-                    .GroupBy(x => x.LevelId)
-                    .Select(g => new TeamScoreGroup(g))
-                    .ToList();
+			Levels =
+				list
+					.JsonCopy()
+					.Select(s =>
+					{
+						s.LevelName = s.AwardsLevelName;
+						return s;
+					})
+					.GroupBy(x => x.AwardsLevelId)
+					.Select(g => new TeamScoreGroup(g))
+					.ToList();
 
 
 			Overall = new TeamScoreGroup("overall", list);	
         }
 
-        public void Rank(IRankingCalculator calculator)
+        public void Rank()
         {
-            All.ForEach(x =>
-            {
-                x.Scores = calculator.Rank(x.Scores).ToList();
-            });
+	        Levels
+		        .Concat(new[] {Overall}).ToList()
+		        .ForEach(x =>
+		        {
+			        var calculator = new NaturalRankingCalculator();
+			        x.Scores = calculator.Rank(x.Scores).ToList();
+		        });
+
+			Divisions.ForEach(x =>
+			{
+				var calculator = x.Scores.First().UseSmallGymCalculator ? new SmallGymRankingCalculator() as IRankingCalculator : new NaturalRankingCalculator();
+				x.Scores = calculator.Rank(x.Scores).ToList();
+			});
 
 			Divisions
 				.ForEach(g => g.Scores
 					.ForEach(score =>
 					{
-						var level = Levels.First(x => x.Key == score.LevelId);
+						var level = Levels.First(x => x.Key == score.AwardsLevelId);
 						var high = level.Scores.First().TotalScore;
-						score.IsLevelChampion = score.TotalScore > 0 && score.TotalScore == high;
+						score.IsLevelChampion = score.TotalScore > 0 && score.TotalScore == high && !score.SuppressLevelChampion;
 
 						high = Overall.Scores.First().TotalScore;
 						score.IsHighPoint = score.TotalScore > 0 && score.TotalScore == high;

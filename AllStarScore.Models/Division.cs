@@ -1,12 +1,13 @@
 using System;
 using System.Web;
+using AllStarScore.Extensions;
 using AllStarScore.Models.Commands;
 
 namespace AllStarScore.Models
 {
-    public class Division : ICanBeUpdatedByCommand, IBelongToCompany, IGenerateMyId
+    public class Division : ICanBeUpdatedByCommand, IBelongToCompany
     {
-        public string Id { get; set; }
+		public string Id { get { return GenerateId(); } }
         public string Name { get; set; }
         public string LevelId { get; set; }
         public string ScoringDefinition { get; set; }
@@ -45,9 +46,7 @@ namespace AllStarScore.Models
 
         public string GenerateId()
         {
-			var slug = Name.Replace(" ", "_").Replace("/", "_").Replace(".", "_").ToLower();
-        	slug = HttpUtility.UrlEncode(slug);
-            return FormatId(CompanyId, LevelId) + slug;
+			return FormatId(CompanyId, LevelId) + Name.GenerateSlug();
         }
 
         public bool Equals(Division other)

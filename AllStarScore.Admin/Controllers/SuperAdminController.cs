@@ -63,6 +63,7 @@ namespace AllStarScore.Admin.Controllers
     	[HttpGet]
     	public ActionResult ResetLevels(ResetLevelsCommand command)
     	{
+			HackAll(CurrentCompanyId, command);
 			HackLevels(CurrentCompanyId);
 			HackDivisions(CurrentCompanyId, command);
     		return Content("Ok");
@@ -149,11 +150,16 @@ namespace AllStarScore.Admin.Controllers
             RavenSession.SaveChanges();
         }
 
-		void HackAll(string companyId)
+		void HackAll(string companyId, ICommand command)
 		{
 			var document = new CompetitionDivisions(companyId);
+			document.Levels = GenerateLevels(companyId);
+			document.AwardsLevels = GenerateAwardsLevels(companyId);
+			document.Divisions = GenerateDivisions(companyId, command);
+			document.Validate();
 
-
+			RavenSession.Store(document);
+			RavenSession.SaveChanges();
 		}
 
         void HackLevels(string companyId)
@@ -161,133 +167,201 @@ namespace AllStarScore.Admin.Controllers
         	var ok = RavenSession.Query<Level>().Any();
 			if (ok) return;
 
-            var levels = new List<Level>()
-                         {
-                             new Level
-                             {
-                                 Id = "1",
-                                 Name = "All-Star Level 1",
-                                 ScoringDefinition = "scoring-level1"
-                             },
-                             new Level
-                             {
-                                 Id = "2",
-                                 Name = "All-Star Level 2",
-                                 ScoringDefinition = "scoring-level2"
-                             },
-                             new Level
-                             {
-                                 Id = "3",
-                                 Name = "All-Star Level 3",
-                                 ScoringDefinition = "scoring-level3"
-                             },
-                             new Level
-                             {
-                                 Id = "4",
-                                 Name = "All-Star Level 4",
-                                 ScoringDefinition = "scoring-level4"
-                             },
-                             new Level
-                             {
-                                 Id = "5",
-                                 Name = "All-Star Level 5",
-                                 ScoringDefinition = "scoring-level5"
-                             },
-                             new Level
-                             {
-                                 Id = "6",
-                                 Name = "All-Star Level 6",
-                                 ScoringDefinition = "scoring-level6"
-                             },
-							 new Level
-                             {
-                                 Id = "clubcheernovice",
-                                 Name = "Club Cheer Novice",
-                                 ScoringDefinition = "scoring-alternative-all-star"
-                             },
-							 new Level
-                             {
-                                 Id = "clubcheerintermediate",
-                                 Name = "Club Cheer Intermediate",
-                                 ScoringDefinition = "scoring-alternative-all-star"
-                             },
-							 new Level
-                             {
-                                 Id = "clubcheeradvanced",
-                                 Name = "Club Cheer Advanced",
-                                 ScoringDefinition = "scoring-alternative-all-star"
-                             },
-							 new Level
-                             {
-                                 Id = "gamerecnovice",
-                                 Name = "Game Rec Novice",
-                                 ScoringDefinition = "scoring-alternative-all-star"
-                             },
-							 new Level
-                             {
-                                 Id = "gamerecintermediate",
-                                 Name = "Game Rec Intermediate",
-                                 ScoringDefinition = "scoring-alternative-all-star"
-                             },
-							 new Level
-                             {
-                                 Id = "gamerecadvanced",
-                                 Name = "Game Rec Advanced",
-                                 ScoringDefinition = "scoring-alternative-all-star"
-                             },
-							 new Level
-                             {
-                                 Id = "cheerprep",
-                                 Name = "All-Star Prep",
-                                 ScoringDefinition = "scoring-alternative-all-star"
-                             },
-                             new Level
-                             {
-                                 Id = "dance", 
-                                 Name = "Dance", 
-                                 ScoringDefinition = "scoring-dance"
-                             },
-							 new Level
-                             {
-                                 Id = "hiphop", 
-                                 Name = "Hip Hop / Crew", 
-                                 ScoringDefinition = "scoring-hiphop"
-                             },
-							 new Level
-                             {
-                                 Id = "danceprep", 
-                                 Name = "Dance Prep", 
-                                 ScoringDefinition = "scoring-dance"
-                             },
-							 new Level
-                             {
-                                 Id = "hiphopprep", 
-                                 Name = "Hip Hop / Crew Prep", 
-                                 ScoringDefinition = "scoring-hiphop"
-                             },
-                             new Level  
-                             {
-                                 Id = "school", 
-                                 Name = "School", 
-                                 ScoringDefinition = "scoring-school"
-                             },
-                             new Level
-                             {
-                                 Id = "specialneeds",
-                                 Name = "Special Needs",
-                                 ScoringDefinition = "scoring-level6"
-                             }
-                         };
-
-            levels.ForEach(x =>
-            {
-                x.Id = Level.FormatId(companyId) + x.Id;
-                x.CompanyId = companyId;
-            });
-
+	        var levels = GenerateLevels(companyId);
             levels.ForEach(RavenSession.Store);
+
             RavenSession.SaveChanges();
         }
+
+		private List<Level> GenerateLevels(string companyId)
+		{
+			var levels = new List<Level>()
+			{
+				new Level
+				{
+					Id = "hiphopprep",
+					Name = "Hip Hop Prep",
+					ScoringDefinition = "scoring-hiphop"
+				},
+				new Level
+				{
+					Id = "danceprep",
+					Name = "Dance Variety Prep",
+					ScoringDefinition = "scoring-dance"
+				},
+				new Level
+				{
+					Id = "hiphop",
+					Name = "Hip Hop",
+					ScoringDefinition = "scoring-hiphop"
+				},
+				new Level
+				{
+					Id = "crew",
+					Name = "Crew",
+					ScoringDefinition = "scoring-hiphop"
+				},
+				new Level
+				{
+					Id = "dance",
+					Name = "Dance Variety",
+					ScoringDefinition = "scoring-dance"
+				},
+				new Level
+				{
+					Id = "school",
+					Name = "School",
+					ScoringDefinition = "scoring-school"
+				},
+				new Level
+				{
+					Id = "highschool",
+					Name = "High School",
+					ScoringDefinition = "scoring-school"
+				},
+				new Level
+				{
+					Id = "cheerprep1",
+					Name = "All-Star Prep Level 1",
+					ScoringDefinition = "scoring-alternative-all-star"
+				},
+				new Level
+				{
+					Id = "cheerprep2",
+					Name = "All-Star Prep Level 2",
+					ScoringDefinition = "scoring-alternative-all-star"
+				},
+				new Level
+				{
+					Id = "cheerprep3",
+					Name = "All-Star Prep Level 3",
+					ScoringDefinition = "scoring-alternative-all-star"
+				},
+				new Level
+				{
+					Id = "clubcheernovice",
+					Name = "Club Cheer Novice",
+					ScoringDefinition = "scoring-alternative-all-star"
+				},
+				new Level
+				{
+					Id = "clubcheerintermediate",
+					Name = "Club Cheer Intermediate",
+					ScoringDefinition = "scoring-alternative-all-star"
+				},
+				new Level
+				{
+					Id = "clubcheeradvanced",
+					Name = "Club Cheer Advanced",
+					ScoringDefinition = "scoring-alternative-all-star"
+				},
+				new Level
+				{
+					Id = "gamerecnovice",
+					Name = "Game Rec Novice",
+					ScoringDefinition = "scoring-alternative-all-star"
+				},
+				new Level
+				{
+					Id = "gamerecintermediate",
+					Name = "Game Rec Intermediate",
+					ScoringDefinition = "scoring-alternative-all-star"
+				},
+				new Level
+				{
+					Id = "gamerecadvanced",
+					Name = "Game Rec Advanced",
+					ScoringDefinition = "scoring-alternative-all-star"
+				},
+				new Level
+				{
+					Id = "1",
+					Name = "All-Star Level 1",
+					ScoringDefinition = "scoring-level1"
+				},
+				new Level
+				{
+					Id = "2",
+					Name = "All-Star Level 2",
+					ScoringDefinition = "scoring-level2"
+				},
+				new Level
+				{
+					Id = "3",
+					Name = "All-Star Level 3",
+					ScoringDefinition = "scoring-level3"
+				},
+				new Level
+				{
+					Id = "4",
+					Name = "All-Star Level 4",
+					ScoringDefinition = "scoring-level4"
+				},
+				new Level
+				{
+					Id = "5",
+					Name = "All-Star Level 5",
+					ScoringDefinition = "scoring-level5"
+				},
+				new Level
+				{
+					Id = "6",
+					Name = "All-Star Level 6",
+					ScoringDefinition = "scoring-level6"
+				},
+				new Level
+				{
+					Id = "specialneeds",
+					Name = "Special Needs",
+					ScoringDefinition = "scoring-level6"
+				}
+			};
+
+			levels.ForEach(x =>
+			{
+				x.Id = Level.FormatId(companyId) + x.Id;
+				x.CompanyId = companyId;
+			});
+
+			return levels;
+		}
+
+		private List<AwardsLevel> GenerateAwardsLevels(string companyId)
+		{
+			var levels = new List<AwardsLevel>()
+			{
+				AwardsLevel.CreateAwardsLevelWithoutLevelChampion("hiphopprep", "Hip Hop Prep"),
+				AwardsLevel.CreateAwardsLevelWithoutLevelChampion("danceprep", "Dance Variety Prep"),
+				AwardsLevel.CreateAwardsLevel("crew", "Crew"),
+				AwardsLevel.CreateAwardsLevel("hiphop", "Hip Hop"),
+				AwardsLevel.CreateAwardsLevel("dance", "Dance Variety"),
+				AwardsLevel.CreateAwardsLevel("school", "School"),
+				AwardsLevel.CreateAwardsLevel("highschool", "High School"),
+				AwardsLevel.CreateAwardsLevel("cheerprep", "All-Star Prep", "cheerprep1", "cheerprep2", "cheerprep3"),
+				AwardsLevel.CreateAwardsLevel("clubcheernovice", "Club Cheer Novice"),
+				AwardsLevel.CreateAwardsLevel("clubcheerintermediate", "Club Cheer Intermediate"),
+				AwardsLevel.CreateAwardsLevel("clubcheeradvanced", "Club Cheer Advanced"),
+				AwardsLevel.CreateAwardsLevel("gamerec", "Game Rec", "gamerecnovice", "gamerecintermediate", "gamerecadvanced"),
+				AwardsLevel.CreateAwardsLevelForSmallGyms("1", "All-Star Level 1"),
+				AwardsLevel.CreateAwardsLevelForSmallGyms("2", "All-Star Level 2"),
+				AwardsLevel.CreateAwardsLevelForSmallGyms("3", "All-Star Level 3"),
+				AwardsLevel.CreateAwardsLevelForSmallGyms("4", "All-Star Level 4"),
+				AwardsLevel.CreateAwardsLevelForSmallGyms("5", "All-Star Level 5"),
+				AwardsLevel.CreateAwardsLevelForSmallGyms("6", "All-Star Level 6"),
+				AwardsLevel.CreateAwardsLevelWithoutLevelChampion("specialneeds", "Special Needs")
+			};
+
+			//HACK: the level isn't calculable without the companyid
+			//TODO: Make this unneccessary
+			levels.ForEach(awardsLevel =>
+			{
+				for (int i = 0; i < awardsLevel.PerformanceLevels.Count; i++)
+				{
+					awardsLevel.PerformanceLevels[i] = Level.FormatId(companyId) + awardsLevel.PerformanceLevels[i];
+				}
+			});
+			return levels;
+		}
 
 		IEnumerable<DivisionCreateCommand> GenerateDivisionCommands(IEnumerable<string> sizes, IEnumerable<string> names, IEnumerable<string> levels)
 		{
@@ -305,16 +379,63 @@ namespace AllStarScore.Admin.Controllers
 			return result;
 		}
 
-        void HackDivisions(string companyId, ICommand src)
+		void HackDivisions(string companyId, ICommand src)
         {
 			var ok = RavenSession.Query<Division>().Any();
 			if (ok) return;
 			
-        	var commands = new List<DivisionCreateCommand>();
-        	var sizes = new[] {"", "Small", "Large"};
+			var divisions = GenerateDivisions(companyId, src);
+			divisions.ForEach(RavenSession.Store);
+			RavenSession.SaveChanges();	
+        }
+
+		List<Division> GenerateDivisions(string companyId, ICommand src)
+		{
+			var commands = new List<DivisionCreateCommand>();
+			var sizes = new[] { "", "Small", "Large" };
+
+			var names = new[] { "Tiny", "Mini", "Youth", "Junior" };
+			var list = GenerateDivisionCommands(new[] { "", "Coed" }, names, "hiphopprep");
+			commands.AddRange(list);
+
+			names = new[] { "Tiny", "Mini", "Youth", "Junior" };
+			list = GenerateDivisionCommands(new[] { "", "Coed" }, names, "danceprep");
+			commands.AddRange(list);
+
+			list = GenerateDivisionCommands(new[] { "", "Coed" }, names, "crew");
+			commands.AddRange(list);
+
+			list = GenerateDivisionCommands(new[] { "", "Coed" }, names, "hiphop");
+			commands.AddRange(list);
+
+			names = new[] { "Tiny", "Mini", "Youth", "Junior", "Senior", "Open" };
+			list = GenerateDivisionCommands(new[] { "", "Coed" }, names, "dance");
+			commands.AddRange(list);
+
+			names = new[] { "Elementary", "Junior High" };
+			list = GenerateDivisionCommands(new[] { "" }, names, "school");
+			commands.AddRange(list);
+
+			names = new[] { "Novice", "Intermediate", "Advanced" };
+			list = GenerateDivisionCommands(new[] { "" }, names, "highschool");
+			commands.AddRange(list);
+
+			names = new[] { "Tiny", "Mini", "Youth", "Junior", "Senior" };
+			var levels = new[] { "cheerprep1", "cheerprep2", "cheerprep3" };
+			list = GenerateDivisionCommands(sizes, names, levels);
+			commands.AddRange(list);
+
+			levels = new[] { "clubcheernovice", "clubcheerintermediate", "clubcheeradvanced" };
+			list = GenerateDivisionCommands(sizes, names, levels);
+			commands.AddRange(list);
+
+			levels = new[] { "gamerecnovice", "gamerecintermediate", "gamerecadvanced" };
+			list = GenerateDivisionCommands(sizes, names, levels);
+			commands.AddRange(list);
 			
-			var names = new[] {"Tiny", "Mini", "Youth", "Junior", "Senior"};
-        	var list = GenerateDivisionCommands(sizes, names, "1");
+			
+			names = new[] { "Tiny", "Mini", "Youth", "Junior", "Senior" };
+			list = GenerateDivisionCommands(sizes, names, "1");
 			commands.AddRange(list);
 
 			names = new[] { "Mini", "Youth", "Junior", "Senior" };
@@ -332,7 +453,7 @@ namespace AllStarScore.Admin.Controllers
 			names = new[] { "Senior 4.2" };
 			list = GenerateDivisionCommands(sizes, names, "4", "scoring-division42");
 			commands.AddRange(list);
-			
+
 			names = new[] { "Youth", "Junior" };
 			list = GenerateDivisionCommands(sizes, names, "5");
 			commands.AddRange(list);
@@ -350,69 +471,39 @@ namespace AllStarScore.Admin.Controllers
 			commands.AddRange(list);
 
 			names = new[] { "Senior Restricted" };
-			list = GenerateDivisionCommands(sizes, names, "5", "scoring-restricted5" );
+			list = GenerateDivisionCommands(sizes, names, "5", "scoring-restricted5");
 			commands.AddRange(list);
 
 			names = new[] { "Open", "Open Coed" };
 			list = GenerateDivisionCommands(sizes, names, "6");
 			commands.AddRange(list);
 
-			names = new[] { "Tiny", "Mini", "Youth", "Junior", "Senior" };
-			var levels = new[] { "clubcheernovice", "clubcheerintermediate", "clubcheeradvanced",
-								 "gamerecnovice", "gamerecintermediate", "gamerecadvanced"};
-			list = GenerateDivisionCommands(sizes, names, levels);
-			commands.AddRange(list);
-
-			var prepSuffixes = new[] {"Level 1", "Level 1 Small", "Level 1 Large",
-									  "Level 2", "Level 2 Small", "Level 2 Large",
-									  "Level 3", "Level 3 Small", "Level 3 Large"};
-			list = GenerateDivisionCommands(prepSuffixes, names, "cheerprep");
-			commands.AddRange(list);
-
-			names = new[] { "Elementary School", "Junior High", "High School Novice", "High School Intermediate", "High School Advanced" };
-			list = GenerateDivisionCommands(new[] { "" }, names, "school");
-			commands.AddRange(list);
-
-			names = new[] { "Tiny", "Mini", "Youth", "Junior", "Senior", "Open" };
-			list = GenerateDivisionCommands(new[] { "", "Coed" }, names, "dance");
-			commands.AddRange(list);
-
-			list = GenerateDivisionCommands(new[] { "", "Coed" }, names, "hiphop");
-			commands.AddRange(list);
-
-			names = new[] { "Tiny", "Mini", "Youth", "Junior" };
-			list = GenerateDivisionCommands(new[] { "", "Coed" }, names, "danceprep");
-			commands.AddRange(list);
-
-			names = new[] { "Tiny", "Mini", "Youth", "Junior" };
-			list = GenerateDivisionCommands(new[] { "", "Coed" }, names, "hiphopprep");
-			commands.AddRange(list);	
-
+			
 			names = new[] { "Special Needs" };
 			list = GenerateDivisionCommands(new[] { "" }, names, "specialneeds");
 			commands.AddRange(list);
 
-        	commands.ForEach(x =>
-            {
-                x.LevelId = Level.FormatId(companyId) + x.LevelId;
-                x.CommandCompanyId = companyId;
-                x.CommandByUser = src.CommandByUser;
-                x.CommandWhen = src.CommandWhen;
+			commands.ForEach(x =>
+			{
+				x.LevelId = Level.FormatId(companyId) + x.LevelId;
+				x.CommandCompanyId = companyId;
+				x.CommandByUser = src.CommandByUser;
+				x.CommandWhen = src.CommandWhen;
 
-            });
+			});
 
-            var divisions =
-                commands
-                    .Select(command =>
-                    {
-                        var division = new Division();
-                        division.Update(command);
-                        return division;
-                    })
-                    .ToList();
+			var divisions =
+				commands
+					.Select(command =>
+					{
+						var division = new Division();
+						division.Update(command);
+						return division;
+					})
+					.ToList();
 
-			divisions.ForEach(RavenSession.Store);
-			RavenSession.SaveChanges();	
-        }
+			return divisions;
+		}
+        
     }
 }

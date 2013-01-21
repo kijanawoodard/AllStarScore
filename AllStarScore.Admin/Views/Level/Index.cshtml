@@ -5,14 +5,46 @@
 }
 
 @{ Html.RegisterStylesheet("~/content/styles/level.index.css"); }
+@{ var count = 0;}
 
-<h2>@ViewBag.Title</h2>
-
+<h2>Level Champions</h2>
 <ul>
-@foreach(var level in Model.Levels)
+    @foreach(var awardsLevel in Model.Info.AwardsLevels)
+    {
+        <li>
+            @(++count).
+            @awardsLevel.Name @(awardsLevel.SuppressLevelWinner ? "(No Level Champion)" : "") @(awardsLevel.UseSmallGymRanking ? "(Two Division Champions)" : "")
+            <ul>
+                @if (awardsLevel.PerformanceLevels.Count > 1)
+                {
+                    foreach (var level in awardsLevel.PerformanceLevels)
+                    {
+                        <li>
+                            @Model.Levels[level]
+                        </li>
+                    }
+                }
+            </ul>
+        </li>
+    }
+</ul>
+
+@{ count = 0;}
+<h2>Performance Levels & Divisions</h2>
+<ul>
+@foreach(var level in Model.Info.Levels)
 {
     <li>
-        @Html.ActionLink(level.Name, "Details",  "Level", new {id = level.Id.ForMvc()}, new {})
+        @(++count).
+        @level.Name - @Model.Divisions[level.Id].Count Divisions
+        <ul>
+            @foreach (var division in Model.Divisions[level.Id])
+            {
+                <li>
+                    @division
+                </li>
+            }
+        </ul>
     </li>
 }
 </ul>
