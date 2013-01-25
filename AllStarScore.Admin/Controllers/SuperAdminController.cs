@@ -398,7 +398,7 @@ namespace AllStarScore.Admin.Controllers
 			var list = GenerateDivisionCommands(new[] { "", "Coed" }, names, "hiphopprep");
 			commands.AddRange(list);
 
-			names = new[] { "Tiny", "Mini", "Youth", "Junior" };
+			names = new[] { "Tiny", "Mini", "Youth", "Junior", "Senior", "Open" };
 			list = GenerateDivisionCommands(new[] { "", "Coed" }, names, "danceprep");
 			commands.AddRange(list);
 
@@ -408,7 +408,6 @@ namespace AllStarScore.Admin.Controllers
 			list = GenerateDivisionCommands(new[] { "", "Coed" }, names, "hiphop");
 			commands.AddRange(list);
 
-			names = new[] { "Tiny", "Mini", "Youth", "Junior", "Senior", "Open" };
 			list = GenerateDivisionCommands(new[] { "", "Coed" }, names, "dance");
 			commands.AddRange(list);
 
