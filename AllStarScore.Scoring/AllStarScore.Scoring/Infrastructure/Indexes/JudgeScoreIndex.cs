@@ -1,5 +1,6 @@
 using System.Collections.Generic;
 using System.Linq;
+using AllStarScore.Models;
 using AllStarScore.Scoring.Models;
 using Raven.Client.Indexes;
 

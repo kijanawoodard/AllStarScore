@@ -6,7 +6,8 @@
 	<text>
 		$(document).ready(function () { 
 		    var competitionData = JSON.parse(@(Html.EncodeAsJson(Model)));
-            window.AllStarScore.CompetitionData = new window.AllStarScore.CompetitionData.ViewModel(competitionData);
+	        window.AllStarScore.CompetitionData = new window.AllStarScore.CompetitionData.ViewModel(competitionData);
+            window.AllStarScore.ScoringMap = new window.AllStarScore.ScoringMap(competitionData.scoringMap);
 		});
 	</text>
 }

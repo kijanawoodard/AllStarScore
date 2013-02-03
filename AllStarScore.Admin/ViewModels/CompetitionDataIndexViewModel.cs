@@ -13,6 +13,7 @@ namespace AllStarScore.Admin.ViewModels
 		public IEnumerable<Registration> Registrations { get; set; }
 		public IEnumerable<Gym> Gyms { get; set; }
 		public IEnumerable<Performance> Performances { get; set; }
+		public ScoringMap ScoringMap { get; set; }
 
 		public CompetitionDataIndexViewModel(Schedule schedule
 		                                     , Competition competition
@@ -31,6 +32,7 @@ namespace AllStarScore.Admin.ViewModels
 			Gyms = gyms;
 			Registrations = registrations;
 			Performances = performances;
+			ScoringMap = new ScoringMap();
 		}
 	}
 }

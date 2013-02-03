@@ -1,0 +1,123 @@
+﻿#scoresheets_index .controls { overflow: hidden;}
+#scoresheets_index .controls ul { list-style-type: none;padding: 0;margin-right: 1em;}
+#scoresheets_index .controls ul li, 
+#scoresheets_index .controls ul li label { display: inline;}
+#scoresheets_index .controls ul.levels li { display: block;}
+
+#scoresheets_index .entry .header { margin-bottom: 5px;overflow: hidden;}
+#scoresheets_index .entry .header .company { font-size: 2em;float: left;}
+#scoresheets_index .entry .header .description { font-size: 2em;text-align: right;overflow: hidden;}
+#scoresheets_index .entry .header .name,
+#scoresheets_index .entry .header .when { font-size: 1.4em;float: left;}
+#scoresheets_index .entry .header .division,
+#scoresheets_index .entry .header .judge { font-size: 1.4em;text-align: right;overflow: hidden;padding-right: 2px;}
+#scoresheets_index .entry .header .judge > span { background-color: #000;color: #fff;padding: 2px;font-weight: bold; }
+
+table.scoresheet { border: 3px solid #000; }
+table.scoresheet th, table.scoresheet td.void { background-color: #dcdcdc; }
+table.scoresheet th { border: 1px solid #000; }
+
+table.scoresheet td { border: 1px solid #000; height: 45px;text-align: center; }
+th.section, td.section { border-top: 5px solid #000; }
+th.skills { width: 160px; }
+th.base, th.execution { width: 120px; }
+th.max { width: 50px; }
+th.comments, td.comments { width: 670px; }
+table.schooldance th.comments, table.schooldance td.comments { width: 790px; }
+
+.deductions_scoresheet { overflow: hidden; }
+.deductions_scoresheet div.inner { margin: auto; border: 0px solid #000; width: 100%;overflow: auto;}
+.deductions_scoresheet table.deduction td, table.deduction th { height: 10px; width: 14px; }
+.deductions_scoresheet table.deduction th { padding-right: 5px; }
+.deductions_scoresheet tr.first td { border-top: 1px solid #000; border-right: 1px solid #000; }
+.deductions_scoresheet tr.last td { border-bottom: 1px solid #000; border-right: 1px solid #000; }
+.deductions_scoresheet tr.time td { border: 1px solid #000; font-weight: bold; }
+.deductions_scoresheet td.first { border-left: 1px solid #000; }
+.deductions_scoresheet td.last { border-right: 1px solid #000; }
+
+.deductions_scoresheet table.deduction, table.legend, table.score { margin: 0 5px 10px 0; float: left; }
+.deductions_scoresheet table.legend { text-align: left; }
+.deductions_scoresheet table.legend tr td { padding-right: .8em; }
+
+.deductions_scoresheet table.score { text-align: right; margin: 0; }
+.deductions_scoresheet table.score tr td.blank, table.score tr td:empty { border-bottom: 1px solid #000; width: 80px; padding-top: 30px; }
+
+.deductions_scoresheet div.comments { width: 100%; }
+.deductions_scoresheet div.comments div { border: 1px solid #000; height: 125px; }
+
+div.legalities table.score { float: none; }
+div.legalities { border: 2px solid black; }
+table.safety { width: 100%; }
+table.safety td { width: 33%; }
+table.safety td table { width: 100%; }
+
+.legalities{padding:0px;border:solid 1px #EFEEEF;}
+    .legalities ul{margin:0;padding:0;list-style:none none inside;width:100%;}
+        .legalities ul li{display:table; padding:0;margin:0;width:100%;border-collapse:collapse;}
+        .legalities ul li    ul{display:table-row;width:100%;}
+        .legalities ul li    ul li{display:table-cell; border:solid 1px black;padding:6px;}
+        .legalities ul li    ul.light li{border-top:0; border-bottom:0;}
+        .legalities ul li.c2 ul li{} /* 2 columns */
+        .legalities ul li.c2 ul li.left{width:300px;}
+        .legalities ul li.c2 ul li.right{width:auto;}
+        .legalities ul li.c3 ul li{width:33%;} /* 3 columns */
+            .legalities ul li ul li    ul{display:table;width:100%;}
+            .legalities ul li ul li    ul li{display:table-cell; border:none;}
+            .legalities ul li ul li.c2 ul li{width:50%;} /* 2 columns */
+            .legalities ul li ul li.c3 ul li{width:33%;} /* 3 columns */
+    .legalities li.noBorder{border:solid 1px #EFEEEF;border-right:0;}
+    .legalities li.c3 ul li.left{width:300px;min-width: 300px;}
+    .legalities li.c3 ul li.middle{min-width: 150px;}
+    .legalities li.c3 ul li.right{width:300px;}
+fieldset.legalities             input {width:100px;margin: 0;padding: 0;}
+    .legalities li.row3 li.left input {width:100%;}
+    .legalities li.row4         input {width:100%;}
+    .legalities li.row1         input {width:25%;}
+    .legalities li.row3 li.middle input {width:100%;}
+    .legalities li.row3 li.right input {width:32%}
+    .legalities li.specialLeft{width:120px !important;}
+    .legalities li.specialRight{width:auto !important;}
+    .legalities li.specialRight  input{width:85%;}
+    .legalities input[type="text"]{border:none;border-bottom:solid 1px #333;background-color:Transparent;}
+    .legalities .blue{background-color:#ccccff}
+    .legalities .vMiddle{vertical-align:middle;}
+    .legalities table{width:100%;}
+    .legalities table tr td, .legalities table tr th{border:solid 1px #333;}
+    .legalities .heading{font-weight:bold;text-align:center;}
+    .legalities ul.solidRow li{border-left:none;border-right:none;}
+    .legalities ul.solidRow li:first-child{border-left:solid 1px black;}
+    .legalities ul.solidRow li:last-child{border-right:solid 1px black;}
+    .legalities ul.specialBorders li{border:none;border-left:solid 1px black;border-right:solid 1px black;text-align:center;}
+    .legalities ul.specialBorders li:first-child{border-left:none !important;border-right:solid 1px black;}
+    .legalities ul.specialBorders li:last-child{border-left:solid 1px black;border-right:none !important}
+    .legalities li.center{text-align:center;}
+	.legalities table.legend {text-align: right;}
+	.legalities table.legend th {border-right: 0;}
+	.legalities table.legend td {border-left: 0;}
+	.legalities table.legend caption { text-align: center;}
+	
+@media print 
+{
+	.competition_header, .scripts { display: none; }
+	#scoresheets_index .controls { display: none;}
+	
+	
+	xmp body * { visibility:hidden; }
+	xmp #section_to_print, #section_to_print * { visibility:visible; }
+	xmp #section_to_print {
+		position:absolute;
+		left:0;
+		top:0;
+		padding: 5px 10px;
+	}
+	  
+	#section_to_print .entry {page-break-after: always}
+	#section_to_print .entry:last-of-type {page-break-after: avoid !important;}
+	
+	#section_to_print .legalities {border:solid 1px #fff;}
+	#section_to_print .legalities li.noBorder{border-left:solid 1px #fff;border-bottom:solid 1px #fff;}	
+}
+
+#competitionlayout_index { display: none; }
+
+@page {size: landscape; margin:0mm;}
