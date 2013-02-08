@@ -48,8 +48,8 @@ AllStarScore.CompetitionData.ViewModel = function (data) {
                 entry.remove = true;
             }
 
-            if (entry.performanceId) {
-                //console.log(entry);
+            if (ok && entry.performanceId) {
+                console.log(entry);
                 self.performances[entry.performanceId].time = entry.time;
             }
         });
