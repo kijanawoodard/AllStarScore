@@ -14,8 +14,8 @@
 }
 
 <div id="scoresheets_index" data-bind="with: $root">
-    <h2>Score Sheets for @Html.ActionLink(Model.Competition.Display, "Details", "Competition", new { id = Model.Competition.Id.ForMvc() }, new { })</h2> 
     <fieldset class="controls">
+        <h2>Score Sheets for @Html.ActionLink(Model.Competition.Display, "Details", "Competition", new { id = Model.Competition.Id.ForMvc() }, new { })</h2> 
         <legend>Controls</legend>
         <ul data-bind="foreach: panels">
             <li>
