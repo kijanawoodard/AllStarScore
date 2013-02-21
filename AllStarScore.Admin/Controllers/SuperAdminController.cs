@@ -221,6 +221,12 @@ namespace AllStarScore.Admin.Controllers
 				},
 				new Level
 				{
+					Id = "college",
+					Name = "College",
+					ScoringDefinition = "scoring-school"
+				},
+				new Level
+				{
 					Id = "cheerprep1",
 					Name = "All-Star Prep Level 1",
 					ScoringDefinition = "scoring-alternative-all-star"
@@ -337,6 +343,7 @@ namespace AllStarScore.Admin.Controllers
 				AwardsLevel.CreateAwardsLevel("dance", "Dance Variety"),
 				AwardsLevel.CreateAwardsLevel("school", "School"),
 				AwardsLevel.CreateAwardsLevel("highschool", "High School"),
+				AwardsLevel.CreateAwardsLevel("college", "College"),
 				AwardsLevel.CreateAwardsLevel("cheerprep", "All-Star Prep", "cheerprep1", "cheerprep2", "cheerprep3"),
 				AwardsLevel.CreateAwardsLevel("clubcheernovice", "Club Cheer Novice"),
 				AwardsLevel.CreateAwardsLevel("clubcheerintermediate", "Club Cheer Intermediate"),
@@ -417,6 +424,10 @@ namespace AllStarScore.Admin.Controllers
 
 			names = new[] { "Novice", "Intermediate", "Advanced" };
 			list = GenerateDivisionCommands(new[] { "" }, names, "highschool");
+			commands.AddRange(list);
+
+			names = new[] { "Novice", "Intermediate", "Advanced" };
+			list = GenerateDivisionCommands(new[] { "" }, names, "college");
 			commands.AddRange(list);
 
 			names = new[] { "Tiny", "Mini", "Youth", "Junior", "Senior" };
