@@ -44,15 +44,15 @@ namespace AllStarScore.Models
         }
     }
 
-	public sealed class AwardsLevel
+	public class AwardsLevel
 	{
 		public string Id { get; set; }
 		public string Name { get; set; }
-		public bool SuppressLevelWinner { get; private set; }
+		public bool SuppressLevelWinner { get; set; }
 
 		public List<string> PerformanceLevels { get; set; } 
 
-		private string RankingCalculator { get; set; }
+		public string RankingCalculator { get; set; }
 
 		private const string NaturalRanking = "Natural";
 		private void SetNaturalRanking() { RankingCalculator = NaturalRanking; }
