@@ -501,7 +501,11 @@ namespace AllStarScore.Admin.Controllers
 			names = new[] { "Special Needs" };
 			list = GenerateDivisionCommands(new[] { "" }, names, "specialneeds");
 			commands.AddRange(list);
-
+			
+			names = new[] { "Parents" };
+			list = GenerateDivisionCommands(new[] { "" }, names, "parents");
+			commands.AddRange(list);
+			
 			commands.ForEach(x =>
 			{
 				x.LevelId = Level.FormatId(companyId) + x.LevelId;
