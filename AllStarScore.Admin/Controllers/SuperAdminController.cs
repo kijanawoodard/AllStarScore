@@ -321,6 +321,13 @@ namespace AllStarScore.Admin.Controllers
 					Name = "Special Needs",
 					ScoringDefinition = "scoring-level6"
 				}
+				,
+				new Level
+				{
+					Id = "parents",
+					Name = "Parents",
+					ScoringDefinition = "scoring-school"
+				}
 			};
 
 			levels.ForEach(x =>
@@ -355,7 +362,8 @@ namespace AllStarScore.Admin.Controllers
 				AwardsLevel.CreateAwardsLevelForSmallGyms("4", "All-Star Level 4"),
 				AwardsLevel.CreateAwardsLevelForSmallGyms("5", "All-Star Level 5"),
 				AwardsLevel.CreateAwardsLevelForSmallGyms("6", "All-Star Level 6"),
-				AwardsLevel.CreateAwardsLevelWithoutLevelChampion("specialneeds", "Special Needs")
+				AwardsLevel.CreateAwardsLevelWithoutLevelChampion("specialneeds", "Special Needs"),
+				AwardsLevel.CreateAwardsLevelWithoutLevelChampion("Parents", "Parents")
 			};
 
 			//HACK: the level isn't calculable without the companyid
