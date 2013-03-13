@@ -327,6 +327,7 @@ namespace AllStarScore.Admin.Controllers
 					Id = "parents",
 					Name = "Parents",
 					ScoringDefinition = "scoring-school"
+
 				}
 			};
 
