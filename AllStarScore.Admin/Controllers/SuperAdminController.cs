@@ -364,7 +364,7 @@ namespace AllStarScore.Admin.Controllers
 				AwardsLevel.CreateAwardsLevelForSmallGyms("5", "All-Star Level 5"),
 				AwardsLevel.CreateAwardsLevelForSmallGyms("6", "All-Star Level 6"),
 				AwardsLevel.CreateAwardsLevelWithoutLevelChampion("specialneeds", "Special Needs"),
-				AwardsLevel.CreateAwardsLevelWithoutLevelChampion("Parents", "Parents")
+				AwardsLevel.CreateAwardsLevelWithoutLevelChampion("parents", "Parents")
 			};
 
 			//HACK: the level isn't calculable without the companyid
